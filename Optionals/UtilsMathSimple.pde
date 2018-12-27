@@ -1,3 +1,6 @@
+//STAŁE
+final float FLOAT_MAX=3.40282347E+38;
+
 //Do łatwego i CZYTELNEGO podnoszenia do kwadratu
 int sqr(int a)
 {
