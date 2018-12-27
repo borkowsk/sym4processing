@@ -1,0 +1,5 @@
+boolean sketchFullScreen() 
+{
+  return true;
+}
+
