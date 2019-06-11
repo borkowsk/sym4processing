@@ -33,11 +33,11 @@ double RandomXorShift()
 
 //Pareto distribution from flat distribution
 //https://math.stackexchange.com/questions/1777367/how-to-generate-a-random-number-from-a-pareto-distribution
-  double a = 41.4104*(1-0.01); //Kształt- im większe tym ostrzej skośny rozkład
-  double b =  6.82053374;      //Skalowanie - im większe tym większy zakres. 
-			       //Wartość 6.n dobrana do zakresu 0..1
-  double limit = 1;            //Akceptujemy tylko wartości od 0 do limit. 
-			       //Większe powodują ponowne losowanie
+double a = 41.4104*(1-0.01); //Kształt- im większe tym ostrzej skośny rozkład
+double b =  6.82053374;      //Skalowanie - im większe tym większy zakres. 
+			     // Wartość 6.n dobrana do zakresu 0..1
+double limit = 1;            //Akceptujemy tylko wartości od 0 do limit. 
+			     // Większe powodują ponowne losowanie
   
 double RandomPareto()
 {
