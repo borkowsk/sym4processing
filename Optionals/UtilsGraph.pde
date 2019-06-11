@@ -1,3 +1,15 @@
+//Różne pomocne procedury rysujące
+////////////////////////////////////////////////////////////////
+
+void dottedLine(int x1,int y1,int x2,int y2,float dens)
+{
+  for (int i = 0; i <= dens; i++) 
+  {
+    float x = lerp(x1, x2, i/dens);
+    float y = lerp(y1, y2, i/dens);
+    point(x, y);
+  }
+}
 
 void surround(int x1,int y1,int x2,int y2)//Ramka domyslną linią
 {
@@ -29,6 +41,20 @@ void baldhead(int x,int y,int r,float direction)
   ellipse(x,y,D,D);
 }
 
+void regularpoly(float x, float y, float radius, int npoints) 
+{
+  float angle = TWO_PI / npoints;
+  beginShape();
+  for (float a = 0; a < TWO_PI; a += angle) 
+  {
+    float sx = x + cos(a) * radius;
+    float sy = y + sin(a) * radius;
+    vertex(sx, sy);
+  }
+  endShape(CLOSE);
+}
+
+//STRZAŁKA W DOWOLNYM KIERUNKU
 float def_arrow_size=15;
 float def_arrow_theta=PI/6.0+PI;//3.6651914291881
 
@@ -41,7 +67,7 @@ void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)
 
   if(poY==0 && poX==0)
   {
-    //Rzadki b³¹d, ale DOMAIN ERROR!
+    //Rzadki błąd, ale DOMAIN ERROR!
     float cross_width=def_arrow_size/2;
     line(x1-cross_width,y1,x1+cross_width,y1);
     line(x1,y1-cross_width,x1,y1+cross_width);
@@ -64,19 +90,7 @@ void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)
   line(x1,y1,x2,y2);
 }
 
-void regularpoly(float x, float y, float radius, int npoints) 
-{
-  float angle = TWO_PI / npoints;
-  beginShape();
-  for (float a = 0; a < TWO_PI; a += angle) 
-  {
-    float sx = x + cos(a) * radius;
-    float sy = y + sin(a) * radius;
-    vertex(sx, sy);
-  }
-  endShape(CLOSE);
-}
-
+//BAR3D 
 
 class settings_bar3d
 {
