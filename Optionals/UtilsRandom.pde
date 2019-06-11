@@ -1,5 +1,5 @@
 //Randomisations
-float randomGaussPareto(int Dist)// when Dist is negative, it is Pareto, when positive, it is Gauss
+float randomGaussPareto(int Dist)// when Dist is negative, it is Pareto, when positive, it is Gauss like
 {
   if(Dist>0)
   {
@@ -17,7 +17,6 @@ float randomGaussPareto(int Dist)// when Dist is negative, it is Pareto, when po
   }
 }
 
-
 //XOR SHIFT random generator - flat distribution
 //http://www.javamex.com/tutorials/random_numbers/xorshift.shtml#.WT6NEzekKXI
 long xl=123456789L;
@@ -33,6 +32,7 @@ double RandomXorShift()
 
 //Pareto distribution from flat distribution
 //https://math.stackexchange.com/questions/1777367/how-to-generate-a-random-number-from-a-pareto-distribution
+/*
 double a = 41.4104*(1-0.01); //Kształt- im większe tym ostrzej skośny rozkład
 double b =  6.82053374;      //Skalowanie - im większe tym większy zakres. 
 			     // Wartość 6.n dobrana do zakresu 0..1
@@ -44,13 +44,14 @@ double RandomPareto()
   double rndval;
   do 
   { 
-   rndval = MyRandom2();//drand48() ?
+   rndval = ??? ;//random(0,1)?;//MyRandom2();//drand48() ?
    //rndval = 1-rndval;//PO CO?
    double inv_fun_denom = Math.pow(1-rndval , 1/a);
    rndval = (b/inv_fun_denom)-b; //adding the -b did the trick
   }while(rndval>limit);//Akceptujemy tylko wartości od 0 do limit
   return rndval;
 }
+*/
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - HANDY FUNCTIONS & CLASSES
