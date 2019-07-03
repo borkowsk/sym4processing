@@ -1,3 +1,4 @@
+//Append to text file:
 //https://stackoverflow.com/questions/17010222/how-do-i-append-text-to-a-csv-txt-file-in-processing
 
 import java.io.BufferedWriter;
@@ -36,3 +37,8 @@ void createFile(File f){
     e.printStackTrace();
   }
 }    
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - HANDY FUNCTIONS & CLASSES
+///////////////////////////////////////////////////////////////////////////////////////////
