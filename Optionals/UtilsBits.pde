@@ -1,17 +1,19 @@
 //Funkcja do mutowania bitów integera
 int swithbit(int sou,int pos)//flip-flopuje bit na pozycji
 {
-  if(pos>=MASKBITS)
+  if(pos>=MASKBITS)//Define MASKBITS somewhere
   {
     println("!!! Mutation autside BITMASK");
     return sou;
   }
-  //Jest poprawny
+  //Jest poprawna pozycja
   int bit=0x1<<pos;
-  //if(console>3) print(":"+bit+" ");
+  
+  //print(":"+bit+" ");
   return sou^bit;//xor should do the job?
 }
 
+//Funkcja zliczania bitów intigera
 int countbits(int u)
 {
   final int BITSPERINT=32;
@@ -28,4 +30,3 @@ int countbits(int u)
 ///////////////////////////////////////////////////////////////////////////////////////////
 //  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - HANDY FUNCTIONS & CLASSES
 ///////////////////////////////////////////////////////////////////////////////////////////
-
