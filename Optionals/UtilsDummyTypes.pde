@@ -1,5 +1,5 @@
 //PROSTE TYPY
-class DummyInt//Za cholerę nie mogę znaleźć jak przekazać przez referencje coś innego niż obiekt 
+class DummyInt//Za cholerę :-) nie mogę znaleźć jak przekazać przez referencje coś innego niż obiekt 
 {int val=0;}
 
 class DummyFloat//Do robienia obiektu z prostej zmiennej - np. żeby przekazać do funkcji przez referencje 
