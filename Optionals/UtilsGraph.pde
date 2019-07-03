@@ -19,6 +19,12 @@ void surround(int x1,int y1,int x2,int y2)//Ramka domyslną linią
   line(x1,y1,x1,y2);//^^^
 }
 
+void cross(float x,float y,float cross_width)//Krzyzyk domyslną linią
+{
+  line(x-cross_width,y,x+cross_width,y);
+  line(x,y-cross_width,x,y+cross_width);
+}
+
 void cross(int x,int y,int cross_width)//Krzyzyk domyslną linią
 {
   line(x-cross_width,y,x+cross_width,y);
@@ -91,7 +97,6 @@ void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)
 }
 
 //BAR3D 
-
 class settings_bar3d
 {
 int a=10;
