@@ -1,4 +1,4 @@
-// Pole elektrostatyczne   v 1.
+// Pole elektrostatyczne   v 1.1a
 // Tylko wartości.
 ///////////////////////////////////////////
 //PI - https://processing.org/reference/PI.html
@@ -27,7 +27,7 @@ for(int i=0;i<width;i++)
    
    double D=(E-Min)/(Max-Min);//Jaka to część maksymalnego możliwego natężenia na tej wizualizacji
    
-   stroke((float)D*255,0,0);
+   stroke((float)((D*1000)%255),(float)((D*10000)%255),(float)((D*100000)%255));
    point(i,j);
    print(D,' ');
  }
