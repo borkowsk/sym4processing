@@ -1,4 +1,4 @@
-// Pole elektrostatyczne   v 1.1a
+// Pole elektrostatyczne   v 1.1c
 // Tylko wartości.
 ///////////////////////////////////////////
 //PI - https://processing.org/reference/PI.html
@@ -10,12 +10,12 @@ double Eps0=8.854187817E-12;// F/m  https://pl.wikipedia.org/wiki/Przenikalno%C5
 double Eps0b=1/(36*PI)*1E-9;
 double Scale=0.001;//Ile metrów ma jeden pixel obrazu
 
-size(400,400);
+size(450,400);
 //Wizializacja natężenia pola
 double Min=(1.0/(4*PI*Eps0))*(Q/(2*(x*Scale)*(x*Scale))); //Min wartość nateżenia
 double Max=(1.0/(4*PI*Eps0))*(Q/(1*Scale*Scale));//... i maksymalna
 
-for(int i=0;i<width;i++)
+for(int i=0;i<width-50;i++)
  for(int j=0;j<height;j++)
  {
    if(i==x && j==y) continue;
@@ -29,8 +29,18 @@ for(int i=0;i<width;i++)
    
    stroke((float)((D*1000)%255),(float)((D*10000)%255),(float)((D*100000)%255));
    point(i,j);
-   print(D,' ');
+   //print(D,' ');
  }
+ 
+//Wizualizacja skali
+double Step=1.0/height;
+for(int k=0;k<height;k++)
+{
+   double D=k*Step;
+   stroke((float)((D*1000)%255),(float)((D*10000)%255),(float)((D*100000)%255));
+   line(width-40,k,width,k);
+} 
+ 
 /*
 noStroke();
 fill(255,255,0,64);
