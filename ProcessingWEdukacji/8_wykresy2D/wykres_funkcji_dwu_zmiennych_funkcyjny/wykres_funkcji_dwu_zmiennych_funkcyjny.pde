@@ -1,7 +1,7 @@
 //Wykres funkcji dwu zmiennych w trybie proceduralnym
 /////////////////////////////////////////////////////////
 
-float mojaFunkcja(float x,float y)
+float mojaFunkcja(float x,float y)//TO JEST WIZUALIZOWANA FUNKCJA TRYGONOMETRYCZNA
 {
   return cos(x)*cos(y);
 }
@@ -39,12 +39,11 @@ void draw()//Rysuje wykres kolumna po kolumnie
   {
       uklad();
   }
-  k++;//Tu musimy zadbac po powiększanie
+  k++;//Tu musimy sami zadbac o powiększanie licznika
 }
 
-void uklad()
+void uklad()  //rysunek układu współrzędnych
 {
-  //rysunek układu współrzędnych
   stroke(0,128,0);
   line(0,height/2,width,height/2); //Oś X
   line(width,height/2,width-10,height/2-5);//Grot X

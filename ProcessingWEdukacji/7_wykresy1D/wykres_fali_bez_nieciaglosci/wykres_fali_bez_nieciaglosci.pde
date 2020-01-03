@@ -1,6 +1,5 @@
 //Wykres fali  z własną funkcją definiująca bez nieciągłości wykresu
 /////////////////////////////////////////////////////////////////////
-
 float mojaFunkcja(float x)
 {
   return sin(x);
@@ -9,8 +8,7 @@ float mojaFunkcja(float x)
 //Globalne ustawienia
 void setup()
 {
-  size(1000,500);
-  smooth();
+  size(1000,500); smooth();
 }
 
 float startX=0;
@@ -20,18 +18,6 @@ void draw()
   uklad();
   wykres();
   startX-=PI/100;
-}
-
-//Procedury rysujące
-void uklad()
-{
-  stroke(0,128,0);
-  //Rysunek układu współrzędnych
-  line(0,250,1000,250); //Oś X
-  line(1000,250,990,245);//Grot X
-  line(1000,250,990,255);//Grot X c.d.
-  line(0,0,0,500);       //Oś Y
-  line(0,0,5,10);        //Pół grotu Y
 }
 
 void wykres()
@@ -47,9 +33,17 @@ void wykres()
     float x=k*krokX+startX;   //Przeliczenie kolumny okna na x z uwzględnieniem przesunięcia o startX 
     float y=mojaFunkcja(x);   //Obliczenie wartości funkcji dla danego x
     int  w=250-round(y/krokY);//Przeliczenie x na numer wiesza, 
-                              //pamiętając że wiersze pikseli są numerowane od góry, 
-                              //a funkcja sinus ma wartości z zakresu -1 do 1
     line(oldk,oldw,k,w);      //Nakreślenie lini od punktu poprzedniego do aktualnego
     oldk=k;oldw=w;            //Zapamietanie pozycji punktu
   }
+}
+
+void uklad()  //Rysunek układu współrzędnych
+{
+  stroke(0,128,0);
+  line(0,250,1000,250); //Oś X
+  line(1000,250,990,245);//Grot X
+  line(1000,250,990,255);//Grot X c.d.
+  line(0,0,0,500);       //Oś Y
+  line(0,0,5,10);        //Pół grotu Y
 }
