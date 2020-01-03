@@ -40,9 +40,10 @@ PrintWriter output;//For writing statistics into disk drive
 
 void setup() //Window and model initialization
 {
+  size(600,600);//size(Side*W,Side*W); -> już tak nie działa
   noSmooth(); //Fast visualization
   frameRate(30); //maximize speed
-  size(Side*W,Side*W);
+  
   World[Side/2][Side/2]= new RGB();
   //World[Side/2][Side/2].Set(64,64,64);
   World[Side/2][Side/2].Set(128,128,128);
