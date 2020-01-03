@@ -5,11 +5,12 @@ int N=50;       //array side
 //For visualisation
 int S=20;       //cell width & height
 
-//For writing statistics into disk drive
-PrintWriter output;
 
 //2D "World" of individuals
 int A[][] = new int[N][N];
+
+//For writing statistics into disk drive
+PrintWriter output;
 
 //Initialisation
 void setup()
@@ -29,12 +30,43 @@ void setup()
 
 void exit() //it is called whenever a window is closed. 
 {
-  noLoop();
+  noLoop();delay(200);
   output.flush();  // Writes the remaining data to the file
   output.close();  // Finishes the file
   println("Thank You");
   super.exit(); //What library superclass have to do at exit
 } 
+
+//Running - visualisation and dynamics
+int frame=0;
+void draw()
+{
+ //print((frame++)+" ");//Counting of frames
+ for(int i=0;i<N;i++)//visualisation
+  for(int j=0;j<N;j++)
+  {
+    if(A[i][j]==1)
+    {
+      fill(255,0,0);
+    }
+    else
+    {
+      fill(255);
+    }
+    rect(i*S,j*S,S,S);
+  }  
+  
+  Count();//Statistics
+  println("Step "+Step+" Reds="+Reds+" White="+(N*N-Reds));
+  output.println("Step\t"+Step+"\tReds\t"+Reds+"\tWhite\t"+(N*N-Reds));
+  DoMonteCarloStep();//dynamics
+ /*  
+  if(mousePressed==true)//if something on input
+  {
+      DoMonteCarloStep();//dynamics
+      mousePressed=false;//A jakby to wykomentować?
+  } */
+}
 
 int Reds=0;
 void Count()
@@ -69,35 +101,4 @@ void DoMonteCarloStep()//Implementation of dynamic
        A[i][j]=-1;    
    }
    Step++;//Counting of steps
-}
-
-//Running - visualisation and dynamics
-int frame=0;
-void draw()
-{
- //print((frame++)+" ");//Counting of frames
- for(int i=0;i<N;i++)//visualisation
-  for(int j=0;j<N;j++)
-  {
-    if(A[i][j]==1)
-    {
-      fill(255,0,0);
-    }
-    else
-    {
-      fill(255);
-    }
-    rect(i*S,j*S,S,S);
-  }  
-  
-  Count();//Statistics
-  println("Step "+Step+" Reds="+Reds+" White="+(N*N-Reds));
-  output.println("Step\t"+Step+"\tReds\t"+Reds+"\tWhite\t"+(N*N-Reds));
-  DoMonteCarloStep();//dynamics
- /*  
-  if(mousePressed==true)//if something on input
-  {
-      DoMonteCarloStep();//dynamics
-      mousePressed=false;//A jakby to wykomentować?
-  } */
 }

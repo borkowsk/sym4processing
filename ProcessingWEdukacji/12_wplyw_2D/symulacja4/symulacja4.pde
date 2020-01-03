@@ -22,16 +22,6 @@ void setup()
     A[i][j]=-1;
 }
 
-int Reds=0;
-void Count()
-{
-  Reds=0;
-  for(int i=0;i<N;i++)
-   for(int j=0;j<N;j++)
-     if(A[i][j]==1)
-       Reds++;
-}
-
 int Step=0;
 void DoMonteCarloStep()//Implementation of dynamic
 {
@@ -57,6 +47,16 @@ void DoMonteCarloStep()//Implementation of dynamic
    Step++;//Counting of steps
 }
 
+int Reds=0;
+void Count()
+{
+  Reds=0;
+  for(int i=0;i<N;i++)
+   for(int j=0;j<N;j++)
+     if(A[i][j]==1)
+       Reds++;
+}
+
 //Running - visualisation and dynamics
 int frame=0;
 void draw()
@@ -79,10 +79,4 @@ void draw()
   Count();//Statistics
   println("Step "+Step+" Reds="+Reds+" White="+(N*N-Reds));
   DoMonteCarloStep();//dynamics
- /*  
-  if(mousePressed==true)//if something on input
-  {
-      DoMonteCarloStep();//dynamics
-      mousePressed=false;//A jakby to wykomentować?
-  } */
 }

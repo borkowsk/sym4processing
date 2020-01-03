@@ -40,7 +40,7 @@ void DoMonteCarloStep()//Implementation of dynamic
         impact+=A[p][r];
       }
   
-     if(impact>=0)//Reversed reaction!!!
+     if(impact>=0)//Minority rule -> Reversed reaction!!!
        A[i][j]=-1;
        else
        A[i][j]=1;    
