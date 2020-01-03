@@ -12,8 +12,9 @@ double Scale=0.001;//Ile metrów ma jeden pixel obrazu
 
 size(400,400);
 //Wizializacja natężenia pola
-double Min=(1.0/(4*PI*Eps0))*(Q/(2*(x*Scale)*(x*Scale))); //Min wartość nateżenia
-double Max=(1.0/(4*PI*Eps0))*(Q/(1*Scale*Scale));//... i maksymalna
+double Cns=(1.0/(4*PI*Eps0));
+double Min=Cns*(Q/(2*(x*Scale)*(x*Scale))); //Min wartość nateżenia
+double Max=Cns*(Q/(1*Scale*Scale));//... i maksymalna
 
 for(int i=0;i<width;i++)
  for(int j=0;j<height;j++)
@@ -21,13 +22,14 @@ for(int i=0;i<width;i++)
    if(i==x && j==y) continue;
    double rx=(i-x)*Scale;// odleglość horyzontana w [m]
    double ry=(j-y)*Scale;// odległość wertykalna w [m]
-   double r=Math.sqrt(rx*rx+ry*ry);//Odległość euklidesa   
-   double E=(1.0/(4*PI*Eps0))*(Q/(r*r));//Natężenie ze wzoru
+   //double r=Math.sqrt(rx*rx+ry*ry);//Odległość euklidesa   
+   //double E=Cns*(Q/(r*r));//Natężenie ze wzoru
+   double E=Cns*(Q/(rx*rx+ry*ry));
    //print(rx," ",ry," ",r," ->",E,"->");
    
    double D=(E-Min)/(Max-Min);//Jaka to część maksymalnego możliwego natężenia na tej wizualizacji
    
-   stroke((float)Math.pow(D,1/8.0)*255,0,0);
+   stroke((float)Math.pow(D,1/8.0)*255,(float)D*255,0);
    point(i,j);
    print(D,' ');
  }
