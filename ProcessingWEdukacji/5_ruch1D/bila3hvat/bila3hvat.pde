@@ -1,4 +1,4 @@
-//"BILA" - MODEL RUCHU PUNKTU MATERIALNEGO - kolejne przybliżenia
+//"BILA" - MODEL RUCHU PUNKTU MATERIALNEGO - kolejne przybliżenie
 //////////////////////////////////////////////////////////////////
 //Program Processingu w trybie 2 - z widocznymi funkcjami
 //////////////////////////////////////////////////////////////////
