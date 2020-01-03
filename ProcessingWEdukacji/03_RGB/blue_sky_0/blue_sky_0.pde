@@ -2,6 +2,7 @@ void setup()
 {
   size(600,300);
   background(0,0,50);
+  frameRate(16);
   //STARS
   for(int i=0;i<2000;i+=10) //POWTARZAJ
   {
@@ -13,6 +14,7 @@ void setup()
   }
 }
 
+int SIZE=2;
 void draw()
 {
   //side A
@@ -21,24 +23,36 @@ void draw()
   float fR=random(1);
   float fG=random(1);
   float fB=random(1);
-  for(int i=0;i<100;i++)
+  for(int i=0;i<SIZE;i++)
   {
-    stroke(fR*i,fG*i,fB*i);
-    line(topX,topY,topX-100+i,topY+i/2);
+    stroke(fR*min(i,255),fG*min(i,255),fB*min(i,255));
+    line(topX,topY,topX-SIZE+i,topY+i/2);
   }
-  for(int i=0;i<100;i++)
+  fR=random(1);
+  fG=random(1);
+  fB=random(1);
+  for(int i=0;i<SIZE;i++)
   {
-    stroke(0,0,i);
-    line(topX,topY,topX+100-i,topY+i/2);
+    stroke(fR*min(i,255),fG*min(i,255),fB*min(i,255));
+    line(topX,topY,topX+SIZE-i,topY+i/2);
   }
-  for(int i=0;i<100;i++)
+  fR=random(1);
+  fG=random(1);
+  fB=random(1);
+  for(int i=0;i<SIZE;i++)
   {
-    stroke(100-i,100-i,0);
-    line(topX,topY,topX-100+i,topY-i/2);
+    stroke(100-fR*min(i,255),100-fG*min(i,255),100-fB*min(i,255));
+    line(topX,topY,topX-SIZE+i,topY-i/2);
   }
-  for(int i=0;i<100;i++)
+  fR=random(1);
+  fG=random(1);
+  fB=random(1);
+  for(int i=0;i<SIZE;i++)
   {
-     stroke(100-i,0,100-i);
-    line(topX,topY,topX+100-i,topY-i/2);
+    stroke(100-fR*i,100-fG*i,100-fB*i);
+    line(topX,topY,topX+SIZE-i,topY-i/2);
   }
+  SIZE++;
+  if(SIZE>height) 
+    SIZE=height;
 }
