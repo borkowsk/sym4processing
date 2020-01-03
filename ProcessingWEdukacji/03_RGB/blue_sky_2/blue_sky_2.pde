@@ -1,7 +1,7 @@
 size(500,500);
 background(0,0,50);
 //STARS
-for(int i=0;i<1500;i+=10) //POWTARZAJ
+for(int i=0;i<3500;i+=10) //POWTARZAJ
 {
   float R=random(255);
   float G=random(255);
