@@ -1,4 +1,4 @@
-// Pole elektrostatyczne   v 1.2
+// Pole elektrostatyczne   v 1.2b
 // Tylko wartości.
 ///////////////////////////////////////////
 //PI - https://processing.org/reference/PI.html
@@ -10,12 +10,12 @@ double Eps0=8.854187817E-12;// F/m  https://pl.wikipedia.org/wiki/Przenikalno%C5
 double Eps0b=1/(36*PI)*1E-9;
 double Scale=0.0001;//Ile metrów ma jeden pixel obrazu
 
-size(400,400);
+size(450,400);
 //Wizializacja natężenia pola
 double Min=(1.0/(4*PI*Eps0))*(Q/(2*(x*Scale)*(x*Scale))); //Min wartość nateżenia
 double Max=(1.0/(4*PI*Eps0))*(Q/(1*Scale*Scale));//... i maksymalna
 
-for(int i=0;i<width;i++)
+for(int i=0;i<width-50;i++)
  for(int j=0;j<height;j++)
  {
    if(i==x && j==y) continue;
@@ -26,12 +26,24 @@ for(int i=0;i<width;i++)
    //print(rx," ",ry," ",r," ->",E);
    
    float V=(float)Math.log(E);//logarytm naturalny
+   //float V=(float)Math.log10(E);//logarytm dzisiętny
    print(" ",V," ");
-   stroke(V*6,0,0);
+   stroke(0,V*3,0);
 
    point(i,j);
    //println("->",D*255,' ');
  }
+ 
+//Wizualizacja skali
+double Step=Max/height;
+for(int k=0;k<height;k++)
+{
+   double D=k*Step;
+   double V=(float)Math.log(D);//logarytm naturalny
+   stroke(0,(float)V*3,0);
+   line(width-40,k,width,k);
+}
+ 
 /*
 noStroke();
 fill(255,255,0,64);
