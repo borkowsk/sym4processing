@@ -25,11 +25,10 @@ for(int i=0;i<width-50;i++)
    double E=(1.0/(4*PI*Eps0))*(Q/(r*r));//Natężenie ze wzoru
    //print(rx," ",ry," ",r," ->",E);
    
-   float V=(float)Math.log(E);//logarytm naturalny
-   //float V=(float)Math.log10(E);//logarytm dzisiętny
-   print(" ",V," ");
-   stroke(0,V*3,0);
-
+   float Ve=(float)Math.log(E);//logarytm naturalny
+   float V10=(float)Math.log10(E);//logarytm dziesiętny
+   //print(" ",Ve," ");
+   stroke(0,Ve*3,V10*3);
    point(i,j);
    //println("->",D*255,' ');
  }
@@ -39,8 +38,9 @@ double Step=Max/height;
 for(int k=0;k<height;k++)
 {
    double D=k*Step;
-   double V=(float)Math.log(D);//logarytm naturalny
-   stroke(0,(float)V*3,0);
+   float Ve=(float)Math.log(D);//logarytm naturalny
+   float V10=(float)Math.log10(D);//logarytm dziesiętny
+   stroke(0,Ve*3,V10*3);
    line(width-40,k,width,k);
 }
  
