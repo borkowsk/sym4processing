@@ -1,7 +1,10 @@
 size(500,500);
 background(100,0,0);
-noSmooth();//Zakomentuj jedno albo drugie
-//smooth();
+
+//Zakomentuj jedno albo drugie
+noSmooth();//Z antyaliasingiem
+//smooth();//Tak uruchamiamy antyaliasing
+
 for(int i=0;i<500;i+=10) //POWTARZAJ
 {
   stroke(0,i,i);
