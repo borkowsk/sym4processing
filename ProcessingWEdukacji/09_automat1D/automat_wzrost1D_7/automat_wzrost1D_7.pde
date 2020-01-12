@@ -1,7 +1,7 @@
 //Jednowymiarowy, probabilistyczny automat komórkowy - reguła "nie lubię mieć za dużo sąsiadów". Kroki MC
 //Zasiewanie tablicy na początku z zadaną gęstością
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-float IDens=0.1333;//Początkowa gęstość w tablicy
+float IDens=0.9333;//Początkowa gęstość w tablicy
 
 int WorldSize=500;//Ile chcemy elementów w linii?
 int[] World=new int[WorldSize];//Tworzenie tablicy - w Processingu zawsze za pomocą alokacji

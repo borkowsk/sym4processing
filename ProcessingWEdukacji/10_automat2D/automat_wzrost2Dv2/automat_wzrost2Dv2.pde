@@ -63,7 +63,7 @@ void draw()
                  +WorldOld[right][j]     //w prawo
                  +WorldOld[i][up]        //w górę
                  +WorldOld[i][dw]        //w dół      
-                 ;//suma z pięciu komórek brana potem modulo 3
+                 ;//suma z pięciu komórek brana potem modulo Div
    
          WorldNew[i][j]=ile % Div;//Nowy stan zapisujemy na drugą tablicę
        }

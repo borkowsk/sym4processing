@@ -9,10 +9,13 @@ boolean[][] Changed=new boolean[WorldSize][WorldSize];//Flagi zmiany do rysowani
 float IDens=0.0;//Początkowa gęstość w tablicy
 int Div=6; //Jaki dzielnik w regule automatu
 int S=1; //Bok celki
+
 void setup()
 {
-  size(260,256);    //Okno kwadratowe
+  size(253,266);    //  size(253,270);    //Okno nie do końca kwadratowe - miejsce na napis
+  
   surface.setResizable(true);//https://github.com/processing/processing/wiki/Window-Size-and-Full-Screen
+  
   noSmooth();
   if(IDens>0)
   {
@@ -93,9 +96,8 @@ void draw()
    WorldNew=WorldTmp;
    
    t++;//Kolejne pokolenie/krok/rok
-   //fill(255);
-   //text("ST:"+t+" Fr:"+frameRate,10,WorldSize);
+   fill(128);
+   rect(0,WorldSize,width,height-WorldSize);//Czyszczący prostokąt
+   fill(255);
+   text("ST: "+t+" Fr: "+frameRate,10,height);
 }
-
-//void onResize() ? windowResize() //Jak się nazywa to zdarzenie? Brak w manualu
-//{}

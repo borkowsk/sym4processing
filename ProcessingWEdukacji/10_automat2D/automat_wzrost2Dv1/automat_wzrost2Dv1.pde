@@ -9,7 +9,7 @@ float IDens=0.0;//Początkowa gęstość w tablicy
 
 void setup()
 {
-  size(514,514);    //Okno kwadratowe
+  size(514,524);    //Okno nie kwadratowe bo napis
   noSmooth();
   if(IDens>0)
   {
@@ -74,6 +74,8 @@ void draw()
    WorldNew=WorldTmp;
    
    t++;//Kolejne pokolenie/krok/rok
+   fill(128);
+   rect(0,WorldSize,width,height-WorldSize);//Czyszczący prostokąt
    fill(255);
-   text("ST:"+t+" Fr:"+frameRate,10,30);
+   text("ST: "+t+" Fr: "+frameRate,10,height);
 }

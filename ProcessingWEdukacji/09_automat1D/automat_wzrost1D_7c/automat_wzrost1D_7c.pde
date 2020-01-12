@@ -36,7 +36,7 @@ void draw()
     case 2:stroke(255,0,0);break;
     case 1:stroke(0,0,255);break;
     case 0:stroke(0,0,0);break;
-    default: stroke(0,255,0);//To się pojawiac nie powinno
+    default: stroke(255,255,0);//To się pojawiac nie powinno
     break;
     }
     point(i,t);

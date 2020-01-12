@@ -1,6 +1,6 @@
 //Jednowymiarowy, DETERMINISTYCZNY automat komórkowy 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-float IDens=0.50;//Początkowa gęstość w tablicy
+float IDens=0.950;//Początkowa gęstość w tablicy
 int   WorldSize=500;//Ile chcemy elementów w linii?
 
 int[] WorldOld=new int[WorldSize];//Tworzenie tablic - w Processingu zawsze za pomocą alokacji
@@ -14,7 +14,7 @@ void setup()
   {
    for(int i=0;i<WorldOld.length;i++) //Zasiewanie tablicy
     if(random(1.0)<IDens)
-      WorldOld[i]=int(random(3));
+      WorldOld[i]=1;
   }
   else WorldOld[WorldSize/2]=1; //... lub pojedynczą komórką
   
@@ -38,9 +38,7 @@ void draw()
        //Reguła - "nie lubię mieć za dużo sąsiadów"
        //Zamiast ignorować brzegi można zrobić liczenie indeksów sąsiadów z zawijaniem 
        int right = (i+1) % WorldSize;//...dzięki reszcie z dzielenia      
-          
        int left  = (WorldSize+i-1) % WorldSize;
-       
        int ileich= 0;//Ile żywych sąsiadów?
        
        if(WorldOld[left]>0) //Nie jest zerem czyli jest "żywy"

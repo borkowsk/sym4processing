@@ -5,6 +5,7 @@ int WorldSize=500;//Ile chcemy elementów w linii?
 int[] WorldOld=new int[WorldSize];//Tworzenie tablic - w Processingu zawsze za pomocą alokacji
 int[] WorldNew=new int[WorldSize];
 float IDens=0.0;//Początkowa gęstość w tablicy
+int divider=5; //Przez ile dzielimy
 
 void setup()
 {
@@ -24,7 +25,6 @@ void setup()
   frameRate(100);
 }
 
-int divider=5; //Przez ile dzielimy
 boolean self=true;//Czy wliczamy stan środkowego
 int t=0;
 void draw()
@@ -61,7 +61,7 @@ void draw()
           +WorldOld[right]
           +WorldOld[morel]
           +WorldOld[morer]              
-               ;//suma czterech/pięciu brana potem modulo 3
+               ;//suma czterech/pięciu brana potem modulo DIVIDER
     
        WorldNew[i]=ile % divider;//Nowy stan zapisujemy na drugą tablicę
    }

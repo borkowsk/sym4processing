@@ -1,7 +1,7 @@
 // Jednowymiarowy, probabilistyczny automat komórkowy 
 //  (najprostrza symulacja CA w postaci funkcyjnej) 
 ////////////////////////////////////////////////////////////////////////////////////////////
-float Mutat=0.1; //Poziom mutacji koloru
+float Mutat=0.2; //Poziom mutacji koloru
 int WorldSize=500;//Ile chcemy elementów w linii?
 
 int[] World=new int[WorldSize];//Tworzenie tablicy - w Processingu zawsze za pomocą alokacji
@@ -11,7 +11,7 @@ int[] World=new int[WorldSize];//Tworzenie tablicy - w Processingu zawsze za pom
 void setup()
 {
 size(500,1000);    //Okno bardziej pionowe niż poziome 
-
+noSmooth();
 //for(int i=0;i<World.length;i++) //Zerowanie tablicy - gdyby było potrzebne.
 //    World[i]=0;                 //W tej wersji procesingu nie jest 
 
@@ -27,7 +27,7 @@ void draw()
   for(int i=0;i<World.length;i++)//Wizualizacja czyli "rysowanie na ekranie" 
   {                              //lenght to atrybut aktualnej długości tablicy 
     if(World[i]>0) stroke(255,World[i],0);//Zółtawy
-    else           stroke(0,0,255);//Niebieski
+    else           stroke(0,0,-World[i]);//Niebieski
     point(i,t);                  //Stan automatu w chwili t w t-tej lini okna
   }
   

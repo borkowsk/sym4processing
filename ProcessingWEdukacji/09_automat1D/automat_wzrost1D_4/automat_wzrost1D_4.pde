@@ -10,7 +10,7 @@ int[] World=new int[WorldSize];//Tworzenie tablicy - w Processingu zawsze za pom
 void setup()
 {
 size(500,1000);    //Okno bardziej pionowe niż poziome 
-
+noSmooth();
 //for(int i=0;i<World.length;i++) //Zerowanie tablicy - gdyby było potrzebne.
 //    World[i]=0;                 //W tej wersji procesingu nie jest 
 
