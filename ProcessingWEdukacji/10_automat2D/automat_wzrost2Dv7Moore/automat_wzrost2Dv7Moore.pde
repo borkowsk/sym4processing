@@ -8,7 +8,7 @@ int[][] WorldOld=new int[WorldSize][WorldSize];//Tworzenie tablic - w Processing
 int[][] WorldNew=new int[WorldSize][WorldSize];
 
 float IDens=0.0;//Początkowa gęstość w tablicy
-int Div=5; //Jaki dzielnik w regule automatu
+int Div=6; //Jaki dzielnik w regule automatu
 boolean self=true;//false albo true
 
 void setup()

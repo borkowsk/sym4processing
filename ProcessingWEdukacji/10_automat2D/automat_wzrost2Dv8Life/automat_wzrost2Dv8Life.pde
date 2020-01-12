@@ -63,7 +63,7 @@ void draw()
   
   for(int i=0;i<WorldOld.length;i++)//Zmiana stanu automatu
   {
-       //Reguła - "ZSUMUJ Z SĄSIADAMI I WEŹ MODULO"
+       //Reguła - "LIFE"
        //Zamiast ignorować brzegi można zrobić liczenie indeksów sąsiadów z zawijaniem dzięki reszcie z dzielenia
        int right = (i+1) % WorldSize;         
        int left  = (WorldSize+i-1) % WorldSize;
@@ -99,6 +99,7 @@ void draw()
           //(self?WorldOld[i][j]:0)//Aktualna komórka brana w inny sposób. Ale może się przyda do uogólnienia
        }
    }
+   
    int[][] WorldTmp=WorldOld;//Zamiana tablic
    WorldOld=WorldNew;
    WorldNew=WorldTmp;
