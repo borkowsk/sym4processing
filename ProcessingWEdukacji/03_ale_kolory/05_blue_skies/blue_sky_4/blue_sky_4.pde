@@ -4,7 +4,7 @@ void setup()
   background(0,0,50);
   frameRate(16);
   //STARS
-  for(int i=0;i<2000;i+=10) //POWTARZAJ
+  for(int i=0;i<250;i+=1) //POWTARZAJ
   {
     float R=random(255);
     float G=random(255);

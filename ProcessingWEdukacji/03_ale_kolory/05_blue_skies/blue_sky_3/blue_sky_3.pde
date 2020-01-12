@@ -3,7 +3,7 @@ void setup()
   size(600,300);
   background(0,0,50);
   //STARS
-  for(int i=0;i<2000;i+=10) //POWTARZAJ
+  for(int i=0;i<200;i+=1) //POWTARZAJ
   {
     float R=random(255);
     float G=random(255);
