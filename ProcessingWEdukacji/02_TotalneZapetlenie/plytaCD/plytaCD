@@ -1,0 +1,9 @@
+size(500,500);
+background(0);//Czarne tło (0 jasności)
+noFill();
+stroke(255);
+for(int i=150;i>30;i=i-2) //POWTARZAJ
+{
+ ellipse(100,100,i,i);
+}
+point(499,499);
