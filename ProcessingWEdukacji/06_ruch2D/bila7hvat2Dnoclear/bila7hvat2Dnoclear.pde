@@ -10,7 +10,6 @@ size(500,500);
 //noSmooth();//Bez wygładzania lini? Po prostu odkomentować 
 fill(250,250,0);
 frameRate(FR);
-background(0,0,200);//rgB
 }
 
 float h=0;
@@ -23,7 +22,7 @@ float B=0.90; //Wydajność odbicia sprężystego 1-B = ile energi kinetycznej s
 void draw() //Jest wykonywane w niewidocznej pętli
 {
   //Wizualizacja
-  //background(0,0,200);//rgB
+  background(0,0,200);//rgB
   ellipse(x,height-h,25,25);
   
   //Właściwy model
