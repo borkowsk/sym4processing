@@ -10,7 +10,7 @@ float mojaFunkcja(float x,float y)//TO JEST WIZUALIZOWANA FUNKCJA TRYGONOMETRYCZ
 float krokX,krokY,mnozZ;
 void setup()
 {
-  size(300,300);
+  size(500,500);
   smooth();
   background(255);
   krokX=(PI*2)/width;//Jaki fragment X na jedną kolumnę okna o długości width
