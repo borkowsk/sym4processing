@@ -1,6 +1,7 @@
-size(100,100);
-
-rect(25, 25, 50, 50);  // Draw white rect using default CORNER mode
+size(200,200);
+// Draw white rect using 
+// default CORNER mode
+rect(25, 25, 50, 50);  
 
 stroke(255);
 point(25,25);

@@ -1,6 +1,7 @@
-size(1000,1000);
-for(int i=0;i<256;i++) //POWTARZAJ
-{
+size(500,500);//Potrzebny rozmiar okna
+noSmooth();
+for(int i=0;i<256;i++) //POWTARZAJ/REPEAT 256x
+{ //Instrukcja blokowa/code block
   stroke(i);
-  line(i*3,i*3,0,1000);
-}
+  line(i*2,i*2,0,500);
+} //KONIEC/END
