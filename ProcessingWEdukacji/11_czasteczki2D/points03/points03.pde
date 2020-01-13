@@ -52,11 +52,11 @@ void draw() //Jest wykonywane w niewidocznej pętli
     }
     
     //Zmiana pozycji od razu z wizualizacją
-    stroke(0,0,200);//Tło
+    stroke(0,0,200);//Kolor tła
     point(x[i],height-h[i]);
     x[i]=newx;
     h[i]=newh;
-    stroke(255,255,i%255);//Każdy ma swój odcien
+    stroke(255,255,i%255);//Każda czątka ma swój odcien
     point(x[i],height-h[i]);
   }  
 }
