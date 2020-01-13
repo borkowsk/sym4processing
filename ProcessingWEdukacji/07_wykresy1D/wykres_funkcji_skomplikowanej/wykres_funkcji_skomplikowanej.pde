@@ -8,7 +8,7 @@ background(255);
 stroke(0,128,0);
 
 //Rysunek układu współrzędnych
-line(0,250,1000,250); //Oś X
+line(0,250,1000,250);  //Oś X
 line(1000,250,990,245);//Grot X
 line(1000,250,990,255);//Grot X c.d.
 line(0,0,0,500);       //Oś Y
