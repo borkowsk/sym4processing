@@ -31,7 +31,9 @@ class singiel //typ złożony
 //zdefiniowaliśmy klasę, teraz jej użyjemy, wspólczynnik spięcia, synchronizacji
 final  float DefaultAlfa=0.1;
 int Rozbieg=100;
-singiel First, Second;// uchwyty do obiektow, zwykla liczbe float czy intriger, to ze je zadeklarujemy nie oznacza ze istnieja. obiekty powstana dalej, wiec ten uchwyci ta co powstanie, wiecej niz jeden moze chwytac
+singiel First, Second;// uchwyty do obiektow, jak zwykła liczba float czy integer, 
+                      //to że je zadeklarujemy nie oznacza ze istnieja same obiekty. 
+                      //Obiekty powstana dalej, wiec uchwycą dopiero to co powstanie
 int Ws=300;
 
 void setup()
@@ -42,7 +44,7 @@ void setup()
  First=new singiel(random(1.0), 3.5+random(0.5), DefaultAlfa);// 3,5 do 5 bo patrzymy na synchronnizacje w chaosie, wtedy jest najciekawsza
  Second=new singiel(random(1.0), 3.5+random(0.5), DefaultAlfa);//dwaa systey od siebie niezależne, wpływając na alfa możemy zwiekszac ich wzajmna synchronizacje
  
- println("1st:",First.x1+" "+First.r+" alfa:"+First.alfa);//uchwyt do biektu, robi za nazwe obiektu, kropka i nazwa pola wiec czytamy nazew pola lub mozna z funkcja
+ println("1st:",First.x1+" "+First.r+" alfa:"+First.alfa);//uchwyt do obiektu, robi za nazwe obiektu, kropka i nazwa pola wiec czytamy nazew pola lub mozna z funkcja
  println("2st:",Second.x1+" "+Second.r+" alfa:"+Second.alfa);
 }
 int N=0;
