@@ -1,31 +1,33 @@
+// Majority vs. minority rule in Ising like model
+///////////////////////////////////////////////////////////
 //Control parameters
-float Ones=0.50; //How many "ones" in the array
-int N=50;       //array side
-float Noise=0.04;  //How often change spontanously
-
-//For visualisation
-int S=20;       //cell width & height
-
-//For writing statistics into disk drive
-PrintWriter output;
+int MajorityRule=1;//If 1 then MajorityRule but if -1 then MinorityRule
+int N=50;          //Array side
+float Ones=0.50;   //How many "ones" in the array
+float Noise=0.01;  //How often change spontanously
 
 //2D "World" of individuals
 int A[][] = new int[N][N];
 
-//Initialisation
-void setup()
+//File "handler" for writing statistics into disk drive
+PrintWriter output;
+
+int S=0;       //cell width & height (for visualisation)
+void setup()   //Initialisation
 {
-  size(505,505);
-  S=width/N;
-  frameRate(30);//Nie za szybko
-  // Create a new file in the sketch directory
-  output = createWriter("Statistics.log"); 
+  size(600,600);
+  S=width/N;   //Initilise S depend of window size
+  frameRate(5);//Not to fast
+  
+  //Initialisation of the "World"
   for(int i=0;i<N;i++)
    for(int j=0;j<N;j++)
    if( random(0,1) < Ones )
     A[i][j]=1;
     else
     A[i][j]=-1;
+  
+  output = createWriter("Statistics.log");//Create a new file in the sketch directory 
 }
 
 void exit() //it is called whenever a window is closed. 
@@ -36,6 +38,27 @@ void exit() //it is called whenever a window is closed.
   println("Thank You");
   super.exit(); //What library superclass have to do at exit
 } 
+
+//Running - visualisation and dynamics
+void draw()
+{
+ for(int i=0;i<N;i++)//visualisation
+  for(int j=0;j<N;j++)
+  {
+    if(A[i][j]==1)
+      fill(255,0,0);
+    else
+      fill(255);
+    rect(i*S,j*S,S,S);
+  }  
+  
+  Count();//Do statistics
+  
+  println("Step "+Step+" Reds="+Reds+" White="+(N*N-Reds));//window
+  output.println("Step\t"+Step+"\tReds\t"+Reds+"\tWhite\t"+(N*N-Reds));//log
+  
+  DoMonteCarloStep();//Do model dynamics
+}
 
 int Reds=0;
 void Count()
@@ -50,12 +73,12 @@ void Count()
 int Step=0;
 void DoMonteCarloStep()//Implementation of dynamic
 {
-   for(int a=0;a<N*N;a++) //as many times as number of cells 
+   for(int a=0;a<N*N;a++) //as many times as number of cells (M C step)
    {
      int i=int(random(N));
      int j=int(random(N));
          
-     if(random(1)<Noise)//NOISE USE
+     if(random(1.0)<Noise)//NOISE IN USE
      {
        A[i][j]=-A[i][j];//spontanic swith
      }
@@ -69,42 +92,12 @@ void DoMonteCarloStep()//Implementation of dynamic
           int r=(n+N)%N;
           impact+=A[p][r];
         }
-       if(impact>=0)//Minority rule
-         A[i][j]=-1;
+        
+       if(impact>=0) //Variable MajorityRule is equal 1 or -1,
+         A[i][j]=1*MajorityRule;// so it can change sign of output
          else
-         A[i][j]=1;
+         A[i][j]=-1*MajorityRule;// so it can change sign of output
      }
     }
    Step++;//Counting of steps
-}
-
-//Running - visualisation and dynamics
-int frame=0;
-void draw()
-{
- //print((frame++)+" ");//Counting of frames
- for(int i=0;i<N;i++)//visualisation
-  for(int j=0;j<N;j++)
-  {
-    if(A[i][j]==1)
-    {
-      fill(255,0,0);
-    }
-    else
-    {
-      fill(255);
-    }
-    rect(i*S,j*S,S,S);
-  }  
-  
-  Count();//Statistics
-  println("Step "+Step+" Reds="+Reds+" White="+(N*N-Reds));
-  output.println("Step\t"+Step+"\tReds\t"+Reds+"\tWhite\t"+(N*N-Reds));
-  DoMonteCarloStep();//dynamics
- /*  
-  if(mousePressed==true)//if something on input
-  {
-      DoMonteCarloStep();//dynamics
-      mousePressed=false;//A jakby to wykomentować?
-  } */
 }

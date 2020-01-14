@@ -1,6 +1,8 @@
+//Model dynamicznego wpływu społecznego Nowaka-Latane - wersja "komórkowa" bez zróżnicowania sił
+///////////////////////////////////////////////////////////////////////////////////////////////////
 //Control parameters
-float Ones=0.55; //How many "ones" in the array
-int N=50;       //array side
+float Ones=0.50; //How many "ones" in the array
+int N=200;       //array side
 
 //For visualisation
 int S=20;       //cell width & height
@@ -11,33 +13,19 @@ int A[][] = new int[N][N];
 //Initialisation
 void setup()
 {
-  size(505,505);
-  S=width/N;
-  frameRate(10);//Nie za szybko
+  size(805,805);
+  S=width/N; //Agent side size
+ 
   for(int i=0;i<N;i++)
    for(int j=0;j<N;j++)
    if( random(0,1) < Ones )
     A[i][j]=1;
     else
     A[i][j]=-1;
+    
+   frameRate(10);//Nie za szybko
 }
 
-void exit() //it is called whenever a window is closed. 
-{
-  noLoop();
-  println("Thank You");
-  super.exit(); //What library superclass have to do at exit
-} 
-
-int Reds=0;
-void Count()
-{
-  Reds=0;
-  for(int i=0;i<N;i++)
-   for(int j=0;j<N;j++)
-     if(A[i][j]==1)
-       Reds++;
-}
 
 int Step=0;
 void DoMonteCarloStep()//Implementation of dynamic
@@ -64,6 +52,16 @@ void DoMonteCarloStep()//Implementation of dynamic
    Step++;//Counting of steps
 }
 
+int Reds=0;
+void Count()
+{
+  Reds=0;
+  for(int i=0;i<N;i++)
+   for(int j=0;j<N;j++)
+     if(A[i][j]==1)
+       Reds++;
+}
+
 //Running - visualisation and dynamics
 int frame=0;
 void draw()
@@ -86,10 +84,11 @@ void draw()
   Count();//Statistics
   println("Step "+Step+" Reds="+Reds+" White="+(N*N-Reds));
   DoMonteCarloStep();//dynamics
- /*  
-  if(mousePressed==true)//if something on input
-  {
-      DoMonteCarloStep();//dynamics
-      mousePressed=false;//A jakby to wykomentować?
-  } */
 }
+
+void exit() //it is called whenever a window is closed. 
+{
+  noLoop(); //To be sure / dla pewności ;-)
+  println("Thank You");
+  super.exit(); //What library superclass have to do at exit
+} 

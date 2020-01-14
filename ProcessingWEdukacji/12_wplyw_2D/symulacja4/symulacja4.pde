@@ -1,3 +1,5 @@
+//Model dynamicznego wpływu społecznego Nowaka-Latane - wersja "komórkowa" bez zróżnicowania sił
+////////////////////////////////////////////////////////////////////////////////////////////////////
 //Control parameters
 float Ones=0.55; //How many "ones" in the array
 int N=50;       //array side
