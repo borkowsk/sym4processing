@@ -28,7 +28,6 @@ int radius=50;
 int pos=radius;
 void draw()
 {
-  point(pos,100);
   ellipse(pos,100,round(First.x1*radius),round(First.x2*radius));
   First.next();
   pos+=radius/2;
