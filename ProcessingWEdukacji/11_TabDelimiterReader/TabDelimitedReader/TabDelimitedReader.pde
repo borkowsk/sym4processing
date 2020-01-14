@@ -1,20 +1,21 @@
-//Czytanie danych tekstowych  
-String fileName="positions.txt";
+//Czytanie danych tekstowych
+String FileName="../kooperacja/osoba1.txt";
 BufferedReader reader;
 String line;
  
-void setup() 
+void setup()
 {
+  frameRate(100);
   // Open the file from the createWriter() example
-  reader = createReader(fileName);    
+  reader = createReader(FileName);    
 }
  
 void draw() 
 {
-  try { //Magia łapania wyjątków czyli sytuacji awaryjnych
+  try {
     line = reader.readLine();
   } catch (IOException e) {
-    e.printStackTrace();//Drukujemy informacje co sie stało
+    e.printStackTrace();
     line = null;
   }
   
@@ -22,9 +23,26 @@ void draw()
     // Stop reading because of an error or file is empty
     noLoop();  
   } else {
-    String[] pieces = split(line, TAB);
-    int x = int(pieces[0]);
-    int y = int(pieces[1]);
-    point(x, y);
+    int[] xyz=new int[3];
+    int count=0;
+    String[] pieces = split(line, ' ');
+    for(String s:pieces)
+    {
+      int val=int(s);
+      if(val!=0 || (!s.isEmpty() && s.charAt(0)=='0'))
+      {
+        //print('"'+s+'"',TAB);
+        xyz[count++]=val;
+      }
+    }
+    
+    if(count>0)
+    {
+      print(":"+TAB+xyz[0]+TAB+xyz[1]+TAB+xyz[2]);
+      println();
+    }
+    
+    count=0;//Czytanie linii skończone
+    //point(xyz[0], xyz[1]);
   }
 } 
