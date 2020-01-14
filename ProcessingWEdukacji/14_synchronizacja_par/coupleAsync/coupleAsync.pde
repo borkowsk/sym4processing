@@ -1,18 +1,15 @@
 // Synchronizacja/Desynchronizacja w parze dwu iteracji równania logistycznego 
 /////////////////////////////////////////////////////////////////////
-static float DefaultAlfa=0.050000000000;//Siła symetrycznego związku lub antyzwiązku
+static float DefaultAlfa=0.150000000000;//Siła symetrycznego związku lub antyzwiązku
 static boolean Sync=false;//Czy związek czy "strategiczna desynchronizacja"
 
 //Parametry wizualizacji
-static boolean WithScatter=true; //Czy wyświetlać scatter plot stanów?
+static boolean WithScatter=false; //Czy wyświetlać scatter plot stanów?
 static boolean WithEllipses=true; //Czy w ogóle wyświetlać elipsy stanów?
-static boolean Clean=false; //Czy czyścić poprzedni stan
+static boolean Clean=true; //Czy czyścić poprzedni stan
 static boolean Continuous=true; //Czy morfować pośrednie stany ("oszustwo" dla tego modelu!)
-static int radius=400;
-static int vert=300;
-static int pos=radius;
 
-static int  VISUAL=1*(WithEllipses?10:1); //Co ile klatek liczymy nowy stan?
+static int  VISUAL=2*(WithEllipses?10:1); //Co ile klatek liczymy nowy stan?
 
 class singiel
 {
@@ -60,14 +57,17 @@ int viscounter=0;
 int stecounter=0;
 float xfo,xso;//Przed poprzednie stany - do wizualizacji "continous"
 
+static int radius=400;
+static int vert=300;
+static int pos=radius;
+
 void setup()
 {
-//size(4*pos,2*vert);
-  size(400,200);
-  //surface.setResizable(true);
   frameRate(200);
   //noSmooth();
   background(128);
+  size(1600,600);
+  
   First=new singiel(random(1000)/1000.0,3.5+random(500)/1000.0,DefaultAlfa);
   Second=new singiel(random(1000)/1000.0,3.5+random(500)/1000.0,DefaultAlfa);
   xfo=First.getX1();
@@ -95,14 +95,8 @@ void setup()
   rectMode(CENTER); 
 }
 
-boolean first=true;
 void draw()
 {
-  if(first) 
-  {
-    surface.setSize(4*pos,2*vert);
-    first=false;
-  }
   stroke(0);
   if(Clean)
   {
@@ -140,10 +134,6 @@ void draw()
        fill(0,100+viscounter*10,150+viscounter*5);
 
      ellipse(pos  ,vert,round(First.getX1()*radius),round(First.getX2()*radius));
-     if(stecounter%2==0)
-        fill(0,120,160);
-     else
-        fill(0,160,120);
      ellipse(pos*3,vert,round(Second.getX1()*radius),round(Second.getX2()*radius));
    }
   }
