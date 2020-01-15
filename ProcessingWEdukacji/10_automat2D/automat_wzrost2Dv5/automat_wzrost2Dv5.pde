@@ -1,5 +1,6 @@
-//Jednowymiarowy, DETERMINISTYCZNY automat komórkowy - reguła "ZSUMUJ Z SĄSIADAMI I WEŹ MODULO". Kroki MC
+//Dwuwymiarowy, DETERMINISTYCZNY automat komórkowy - reguła "ZSUMUJ Z SĄSIADAMI I WEŹ MODULO". SYNC.
 //Zasiewanie tablicy na początku z zadaną gęstością lub pojedynczą komórką
+//Wyswietlanie optymalizowane tablicą zmian (Changed)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int WorldSize=252;//Ile chcemy elementów w linii?
 int[][] WorldOld=new int[WorldSize][WorldSize];//Tworzenie tablic - w Processingu zawsze za pomocą alokacji

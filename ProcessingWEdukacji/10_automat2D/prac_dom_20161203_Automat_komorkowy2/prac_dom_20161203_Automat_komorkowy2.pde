@@ -1,5 +1,6 @@
 //Jednowymiarowy, DETERMINISTYCZNY automat komórkowy - reguła zsumuj z sąsiadami i wł
 //zasiewamy tablicę na początku z zadaną gęstością lub pojedynczą komórką
+//Do 16 różnych kolorów
 /////////////////////////////////////////////////////////////////////////////////////
 
 int WorldSize=513; //ile chcemy elementów w linii

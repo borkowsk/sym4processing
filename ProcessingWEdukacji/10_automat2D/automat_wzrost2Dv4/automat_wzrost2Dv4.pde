@@ -1,4 +1,4 @@
-//Jednowymiarowy, DETERMINISTYCZNY automat komórkowy - reguła "ZSUMUJ Z SĄSIADAMI I WEŹ MODULO". Kroki MC
+//Dwuwymiarowy, DETERMINISTYCZNY automat komórkowy - reguła "ZSUMUJ Z SĄSIADAMI I WEŹ MODULO". SYNCHRONUCZNY!
 //Zasiewanie tablicy na początku z zadaną gęstością lub pojedynczą komórką
 //Alternatywny sposób przyśpieszania - z dodatkową tablicą
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

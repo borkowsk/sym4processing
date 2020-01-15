@@ -20,12 +20,13 @@ PrintWriter output;//Strumień podłączony do pliku logu
 
 void setup()
 {
-  size(513,540); //Okno nie do końca kwadratowe - miejsce na napis
+  size(513,530); //Okno nie do końca kwadratowe - miejsce na napis
   noSmooth(); //Usprawnienie 1: tryb noSmooth() jest znacznie szybszy
   frameRate(120);
   println(WorldSize," in ",width,"x",height," window");
   
   output = createWriter("log.txt"); //Nazwa na razie toporna, ale ale pomyślcie na tym
+  output.println("time"+SEPARATOR+"zera"+SEPARATOR+"jedynki");//Tu zapisujemy NAGŁÓWEK do logu.
   
   if(IDens>0)
   {

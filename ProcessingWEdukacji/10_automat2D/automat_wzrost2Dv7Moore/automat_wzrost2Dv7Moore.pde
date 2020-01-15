@@ -1,7 +1,7 @@
 //Dwuwymiarowy, DETERMINISTYCZNY automat komórkowy - reguła "ZSUMUJ Z SĄSIADAMI I WEŹ MODULO". 
 //Kroki synchroniczne, SĄSIEDZTWO MOORE'a !!!
 //Zasiewanie tablicy na początku z zadaną gęstością lub pojedynczą komórką
-//Przyśpieszony poprzez śledzenie zmian
+//Przyśpieszony poprzez śledzenie zmian - porówanie tablicy stanu poprzedniego i aktualnego (wizualizowanego)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int WorldSize=3*171;//Ile chcemy elementów w linii?
 int[][] WorldOld=new int[WorldSize][WorldSize];//Tworzenie tablic - w Processingu zawsze za pomocą alokacji
