@@ -1,0 +1,1 @@
+Szablon aplikacji symulacyjnej 
