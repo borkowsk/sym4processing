@@ -1,5 +1,5 @@
-//Jednowymiarowy, DETERMINISTYCZNY automat komórkowy - reguła "ZSUMUJ Z SĄSIADAMI I WEŹ MODULO". 
-//Kroki synchroniczne i SĄSIEDZTWO MOORE'a !!!
+//Dwuwymiarowy, DETERMINISTYCZNY automat komórkowy - reguła "ZSUMUJ Z SĄSIADAMI I WEŹ MODULO". 
+//Kroki synchroniczne, SĄSIEDZTWO MOORE'a !!!
 //Zasiewanie tablicy na początku z zadaną gęstością lub pojedynczą komórką
 //Przyśpieszony poprzez śledzenie zmian
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
