@@ -11,9 +11,9 @@ int[][] WorldNew=new int[WorldSize][WorldSize];
 
 float IDens=0.33;//Początkowa gęstość w tablicy
 //boolean self=false;//w Life Conwaya niepotrzebne, ale może jeszcze przydać się poźniej
-int     birdt=4;//Ile potrzeba do zrodzenia nowej komórki
-int     minim=1;//Najmniej liczne sąsiedzwtwo pozwalające na przeżycie
-int     maxim=4;//Najbardziej liczne sąsiedztwo pozwalające na przeżycie
+int     birth=3;//Ile potrzeba do zrodzenia nowej komórki
+int     minim=2;//Najmniej liczne sąsiedzwtwo pozwalające na przeżycie
+int     maxim=5;//Najbardziej liczne sąsiedztwo pozwalające na przeżycie
 
 String SEPARATOR="\t";//Tabulator daje format TAB-DELIMITED, a "," lub ";" format CSV (+-)
 PrintWriter output;//Strumień podłączony do pliku logu
@@ -60,12 +60,11 @@ void draw()
   for(int i=0;i<WorldOld.length;i++)//Wizualizacja czyli "rysowanie na ekranie" 
     for(int j=0;j<WorldOld.length;j++) 
     {
-      switch(WorldOld[i][j]){ //Instrukcja wyboru pozwala nam wybrać dowolny kolor w zależności od liczby w komórce
-      //case N:stroke( , , );break; //w Life Conwaya potrzebne tylko dwa kolory, ale może jeszcze przydać się poźniej
+      switch(WorldOld[i][j]){ //Instrukcja wyboru pozwala nam wybrać dowolny kolor w zależności od liczby w komórce     
       case 1:stroke(255,255,0);jedynki++;break;//Normalnie tylko to
       case 0:stroke(0,0,0);zera++;break;//Lub to
       default: stroke(255,0,0);//To się pojawiac nie powinno - jest po to żeby wychwywytywac błędy w implementacji
-      break;
+      break;//case N:stroke( , , );break; /*w Life Conwaya potrzebne tylko dwa kolory, ale schemat może przydać się poźniej*/
       }
       if( (WorldOld[i][j] != WorldNew[i][j]) ) //na WorldNew jest stara zawartość 
         point(i,j);//Rysujemy tylko nową (Usprawnienie 2.)
@@ -101,7 +100,7 @@ void draw()
       
         if(WorldOld[i][j]==0)//Nowourodzenie
         {
-          if(ile==birdt)
+          if(ile==birth)
              WorldNew[i][j]=1;//Nowy stan zapisujemy na drugą tablicę
           else
              WorldNew[i][j]=0;//Stary stan zapisujemy na drugą tablicę
@@ -111,7 +110,6 @@ void draw()
           WorldNew[i][j]=1;//Stary stan zapisujemy na drugą tablicę
           else
           WorldNew[i][j]=0;//Nowy stan zapisujemy na drugą tablicę
-          //(self?WorldOld[i][j]:0)//Aktualna komórka brana w inny sposób. Ale może się przyda do uogólnienia
        }
    }
    

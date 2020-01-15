@@ -8,11 +8,9 @@ int[][] WorldOld=new int[WorldSize][WorldSize];//Tworzenie tablic "świata"
 int[][] WorldNew=new int[WorldSize][WorldSize];
 
 float IDens=0.33;//Początkowa gęstość w tablicy
-//boolean self=false;//w Life Conwaya niepotrzebne, ale może jeszcze przydać się poźniej
 int     birdt=3;//Ile potrzeba do zrodzenia nowej komórki
 int     minim=2;//Najmniej liczne sąsiedzwtwo pozwalające na przeżycie
 int     maxim=3;//Najbardziej liczne sąsiedztwo pozwalające na przeżycie
-
 
 void setup()
 {
@@ -96,7 +94,6 @@ void draw()
           WorldNew[i][j]=1;//Stary stan zapisujemy na drugą tablicę
           else
           WorldNew[i][j]=0;//Nowy stan zapisujemy na drugą tablicę
-          //(self?WorldOld[i][j]:0)//Aktualna komórka brana w inny sposób. Ale może się przyda do uogólnienia
        }
    }
    
