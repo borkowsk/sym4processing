@@ -4,9 +4,11 @@ import java.awt.MenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import processing.awt.PSurfaceAWT;
- 
+
+MenuBar myMenu;//Processig does not see the height of MenuBar added to Window!
+
 void setupMenu() {
-  MenuBar myMenu = new MenuBar();
+  myMenu = new MenuBar();
   
   Menu fileMenu = new Menu("File");
   myMenu.add(fileMenu);

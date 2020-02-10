@@ -10,21 +10,54 @@ void initializeStats()
 float meanStress=0;
 int   liveCount=0;
 
-void doStatistics()
+void doStatistics(World world)
+{
+  doStatisticsOnAgents(world.agents);
+}
+
+void doStatisticsOnAgents(Agent[] agents)
 {  
   Agent curra;
-  for(int a=0;a<World.length;a++)
-   for(int b=0;b<World[a].length;b++)
-    if( (curra=World[a][b]) != null )
+  double summ=0;
+  liveCount=0;
+  
+  for(int a=0;a<agents.length;a++)
+    if( (curra=agents[a]) != null )
     {
-      //.....
+      //Dummy statistic
+      summ+=curra.dummy;
+     
+      //.....THIS PART IS FOR YOU!
+      
       liveCount++;
     }
   
-   outstat.println(StepCounter+"\t"+meanStress+"\t.....");
+   outstat.println(StepCounter+"\t"+meanStress+"\t"+(summ/liveCount));
+   //outstat should be closed in Exit()
+}
+
+void doStatisticsOnAgents(Agent[][] agents)
+{  
+  Agent curra;
+  double summ=0;
+  liveCount=0;
+  
+  for(int a=0;a<agents.length;a++)
+   for(int b=0;b<agents[a].length;b++)
+    if( (curra=agents[a][b]) != null )
+    {
+      //Dummy statistic
+      summ+=curra.dummy;
+     
+      //.....THIS PART IS FOR YOU!
+      
+      liveCount++;
+    }
+  
+   outstat.println(StepCounter+"\t"+meanStress+"\t"+(summ/liveCount));
    //outstat should be closed in Exit()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - STATS LOG TEMPLATE
+//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - STATISTICS LOG TEMPLATE
 ///////////////////////////////////////////////////////////////////////////////////////////

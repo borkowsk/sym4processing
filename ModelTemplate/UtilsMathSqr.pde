@@ -1,9 +1,16 @@
-double sqr(double a)//Do łatwego podnoszenia do kwadratu
+// Do łatwego i CZYTELNEGO w wyrażeniach podnoszenia do kwadratu
+//////////////////////////////////////////////////////////////////////
+int sqr(int a)
 {
   return a*a;
 }
 
-int sqr(int a)
+float sqr(float a)
+{
+  return a*a;
+}
+
+double sqr(double a)
 {
   return a*a;
 }

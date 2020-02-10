@@ -2,7 +2,9 @@
 ///////////////////////////////////////////////////
 int searchedX=-1;
 int searchedY=-1;
-Agent  theSelected=null;
+
+Agent  theSelected=null; 
+
 double minDist2Selec=MAX_INT;
 double maxTransSelec=-MAX_INT;
 boolean Clicked=false;

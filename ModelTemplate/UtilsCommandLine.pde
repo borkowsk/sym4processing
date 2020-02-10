@@ -10,7 +10,7 @@ void checkCommnadLine()
     for(int a=0;a<args.length;a++)
     {
       print(args[a]);
-      //....
+      //... UTILISE PARAMETERS HERE ...
       count++;
     }
 }
