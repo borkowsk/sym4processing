@@ -20,9 +20,32 @@ void initializeAgents(Agent[] agents)
   }
 }
 
-void visualizeAgents(Agent[][] agents)
+void  dummyChangeAgents(Agent[] agents)
 {
   
+}
+
+void  dummyChangeAgents(Agent[][] agents)
+{
+  
+}
+
+void visualizeAgents(Agent[][] agents)
+{
+  Agent curra;
+  for(int a=0;a<agents.length;a++)
+   for(int b=0;b<agents[a].length;b++)
+   {
+    if( (curra=agents[a][b]) != null )
+    {
+      fill(curra.dummy*255,0,curra.dummy*255);
+    }
+    else
+    {
+      fill(0);
+    }
+    rect(a*cwidth,b*cwidth,cwidth,cwidth);
+   }
 }
 //OR
 void visualizeAgents(Agent[] agents)

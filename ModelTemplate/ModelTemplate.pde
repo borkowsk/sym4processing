@@ -6,7 +6,7 @@ int side=50;//side of main table
 int cwidth=15;//size of cell
 int STATUSHEIGH=40;
 int STEPSperVIS=1;
-boolean simulationRun=false;//Start/stop flag
+boolean simulationRun=true;//Start/stop flag
 
 World TheWorld=new World(side);
 

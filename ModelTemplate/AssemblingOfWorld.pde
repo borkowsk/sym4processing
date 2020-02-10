@@ -30,9 +30,15 @@ void visualizeModel(World world)
   visualizeAgents(world.agents);
 }
 
+void dummyChange(World world)
+{
+  dummyChangeAgents(world.agents);
+}
+
 void modelStep(World world)
 {
    //Dummy part
+   dummyChange(world);
    
    //... do simulation on agents ... THIS PART IS FOR YOU!
    
