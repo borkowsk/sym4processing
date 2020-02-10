@@ -4,10 +4,10 @@ void initializeStats()
 {
   String FileName=modelName+="_"+year()+'.'+nf(month(),2)+'.'+nf(day(),2)+'.'+nf(hour(),2)+'.'+nf(minute(),2)+'.'+nf(second(),2)+'.'+millis();
   outstat=createWriter(FileName+".out");
-  outstat.println("$STEP\tmeanStress\t.....");
+  outstat.println("$STEP\tAlive\t.....");//<-- complete the header fields!
 }
 
-float meanStress=0;
+float meanDummy=0;
 int   liveCount=0;
 
 void doStatistics(World world)
@@ -32,8 +32,10 @@ void doStatisticsOnAgents(Agent[] agents)
       liveCount++;
     }
   
-   outstat.println(StepCounter+"\t"+meanStress+"\t"+(summ/liveCount));
-   //outstat should be closed in Exit()
+   outstat.println(StepCounter+"\t"+liveCount+"\t"+(summ/liveCount));
+   meanDummy=(float)(summ/liveCount);
+   
+   //outstat should be closed in exit() --> see Exit.pde
 }
 
 void doStatisticsOnAgents(Agent[][] agents)
@@ -54,8 +56,10 @@ void doStatisticsOnAgents(Agent[][] agents)
       liveCount++;
     }
   
-   outstat.println(StepCounter+"\t"+meanStress+"\t"+(summ/liveCount));
-   //outstat should be closed in Exit()
+   outstat.println(StepCounter+"\t"+liveCount+"\t"+(summ/liveCount));
+   meanDummy=(float)(summ/liveCount);
+   
+   //outstat should be closed in exit() --> see Exit.pde
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

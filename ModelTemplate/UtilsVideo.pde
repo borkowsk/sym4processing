@@ -12,8 +12,6 @@
 //
 import com.hamoid.*;//Oraz importujemy niezbędną biblioteką zawierającą klasę VideoExport
 
-boolean     videoExportEnabled=true;
-
 VideoExport videoExport;//KLASA z biblioteki VideoExport Abe Pazosa - trzeba zainstalować
                         //http://funprogramming.org/VideoExport-for-Processing/examples/basic/basic.pde
                         //Oraz zainstalować program ffmpeg żeby działało
@@ -21,19 +19,18 @@ int videoFramesFreq=0;
 void initVideoExport(processing.core.PApplet parent, String Name,int Frames)
 {
   videoFramesFreq=Frames;
-  if(videoExportEnabled)
-  {
-     videoExport = new VideoExport(parent,Name); //Klasa VideoExport musi mieć dostep do obiektu aplikacji Processingu
-     videoExport.setFrameRate(Frames);//Nie za szybko
-     videoExport.startMovie();
-     text(Name,1,20);
-  }
+  videoExport = new VideoExport(parent,Name); //Klasa VideoExport musi mieć dostep do obiektu aplikacji Processingu
+  videoExport.setFrameRate(Frames);//Nie za szybko
+  videoExport.startMovie();
+  text(Name,1,20);
+  videoExportEnabled=true;
 }
                         
 void FirstVideoFrame()
 {
   if(videoExportEnabled)
   {  
+     fill(0,128,255);
      text("(c) W.Borkowski @ ISS University of Warsaw",1,height); 
      //text(videoExport.VERSION,width/2,height);
      delay(200);
@@ -61,3 +58,9 @@ void CloseVideo() //To wołamy gdy chcemy zamknąć
    videoExport.endMovie();//Koniec filma
   }
 }
+
+static boolean     videoExportEnabled=false;//init will set up it for true
+
+///////////////////////////////////////////////////////////////////////////////////////////
+//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - MOVIE MAKER 
+///////////////////////////////////////////////////////////////////////////////////////////

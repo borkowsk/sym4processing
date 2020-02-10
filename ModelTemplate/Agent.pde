@@ -7,7 +7,7 @@ class Agent
   
   Agent()//Constructor of the Agent
   {
-    dummy=random(1);
+    dummy=0;//random(0.1);
     //... FOR YOUR CODE
   }
 }
