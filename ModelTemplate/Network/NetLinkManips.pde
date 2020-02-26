@@ -1,5 +1,9 @@
 // Diferent filters of links and other link tols for a (social) network
 ///////////////////////////////////////////////////////////////////////////////////////////
+// Available filters: 
+//   AllLinks, AndFilter, OrFilter, TypeFilter,
+//   LowPassFilter,   HighPassFilter,
+//   AbsLowPassFilter, AbsHighPassFilter
 
 class AllLinks extends LinkFilter
 // Simplest link filtering class which accepts all links
@@ -8,6 +12,28 @@ class AllLinks extends LinkFilter
 }
 
 AllLinks allLinks=new AllLinks();//Used very frequently
+
+class AndFilter extends LinkFilter
+{
+   LinkFilter a;
+   LinkFilter b;
+   AndFilter(LinkFilter aa,LinkFilter bb){a=aa;b=bb;}
+   boolean meetsTheAssumptions(Link l) 
+   { 
+     return a.meetsTheAssumptions(l) && b.meetsTheAssumptions(l);
+   }
+}
+
+class OrFilter extends LinkFilter
+{
+   LinkFilter a;
+   LinkFilter b;
+   OrFilter(LinkFilter aa,LinkFilter bb){a=aa;b=bb;}
+   boolean meetsTheAssumptions(Link l) 
+   { 
+     return a.meetsTheAssumptions(l) || b.meetsTheAssumptions(l);
+   }
+}
 
 class TypeFilter extends LinkFilter
 // lowPassFilter filtering class which accepts all links
