@@ -9,6 +9,14 @@ class AllLinks extends LinkFilter
 
 AllLinks allLinks=new AllLinks();//Used very frequently
 
+class TypeFilter extends LinkFilter
+// lowPassFilter filtering class which accepts all links
+{
+  int ltype;
+  TypeFilter(int t) { ltype=t;}
+  boolean meetsTheAssumptions(Link l) { return l.ltype==ltype;}
+}
+
 class LowPassFilter extends LinkFilter
 // lowPassFilter filtering class which accepts all links
 {

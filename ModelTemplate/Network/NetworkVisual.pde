@@ -4,7 +4,7 @@
 //void visualiseLinks(Node[] nodes,float defX,float defY,float cellside);
 //void visualiseLinks(Node[][] nodes,float defX,float defY,float cellside);
 
-void visualiseLinks(Node[] nodes,float defX,float defY,float cellside)
+void visualiseLinks(Node[] nodes,LinkFilter filter,float defX,float defY,float cellside)
 {
   noFill();
   ellipseMode(CENTER);
@@ -16,7 +16,7 @@ void visualiseLinks(Node[] nodes,float defX,float defY,float cellside)
     if(Source!=null)
     {
       float X=Source.posX();
-      Link[] links=Source.getConns(allLinks);
+      Link[] links=Source.getConns(filter);
       int m=links.length;
       for(int j=0;j<m;j++)
       {
@@ -39,7 +39,7 @@ void visualiseLinks(Node[] nodes,float defX,float defY,float cellside)
   }
 }
 
-void visualiseLinks(Node[][] nodes,float defX,float defY,float cellside)
+void visualiseLinks(Node[][] nodes,LinkFilter filter,float defX,float defY,float cellside)
 {
   noFill();
   for(int i=0;i<nodes.length;i++)
@@ -51,7 +51,7 @@ void visualiseLinks(Node[][] nodes,float defX,float defY,float cellside)
     {
       float X=Source.posX();
       float Y=Source.posY();
-      Link[] links=Source.getConns(allLinks);
+      Link[] links=Source.getConns(filter);
       int n=links.length;
       
       for(int k=0;k<n;k++)
