@@ -23,7 +23,7 @@ void setup()
     A[i][j]=-1;
 }
 
-void DoMonteCarloStep()//Implementation of dynamic
+void DoMonteCarloStep()//Implementation of model dynamic
 {
    for(int a=0;a<N*N;a++) //as many times as number of cells 
    {
@@ -39,7 +39,7 @@ void DoMonteCarloStep()//Implementation of dynamic
         impact+=A[p][r];
       }
   
-     if(impact>=0)
+     if(impact>=0)//Never 0 for Moore!
        A[i][j]=1;
        else
        A[i][j]=-1;    
