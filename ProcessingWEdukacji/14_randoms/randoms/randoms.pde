@@ -1,7 +1,7 @@
 //Program dop testowania różnych sposobów losowania
-/////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // https://en.wikipedia.org/wiki/Normal_distribution#Generating_values_from_normal_distribution
-/////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 double MyRandom0()
 {
@@ -65,7 +65,7 @@ void draw()
   //Trochę losowań
   for(int s=0;s<NumOfProbesPerDraw;s++)
   {
-    double rndval=MyRandomM();//MyRandom1();//Powinno być w zakresie 0..1
+    double rndval=MyRandom0();//MyRandomM();//Powinno być w zakresie 0..1
     
     //Testowanie spełnienia założenia. W C++ byłoby może assert()
     if(rndval<0) { println("Niemożliwe!!! rndval=",rndval); continue;}
@@ -77,7 +77,7 @@ void draw()
         i=NumOfBaskets; //Zabezpieczenie
     
     Basket[i]++;    //Doliczenie
-    N++;
+    N++;//https://www.facebook.com/ModelowanieProcesowSpolecznych/posts/1406909939488446
   }
   
   background(255);//Czyszczenie ekranu
@@ -86,6 +86,7 @@ void draw()
 
 void VisualiseBaskets()//Rysowanie słupków
 {
+  MaxBasket=0;print('*');
   for(int i=0;i<=NumOfBaskets;i++)//Aktualizacja maksimum
   if(Basket[i]>MaxBasket)
         MaxBasket=Basket[i];

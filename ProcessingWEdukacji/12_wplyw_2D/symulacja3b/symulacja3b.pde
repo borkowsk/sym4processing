@@ -1,6 +1,6 @@
 //Control parameters
 float Ones=0.5; //How many "ones" in the array
-int N=21;       //array side
+int N=41;       //array side
 
 //For visualisation
 int S=20;       //cell width & height

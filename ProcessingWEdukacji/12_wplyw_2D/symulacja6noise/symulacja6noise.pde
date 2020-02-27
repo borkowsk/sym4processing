@@ -2,6 +2,7 @@
 ///////////////////////////////////////////////////////////
 //Control parameters
 int MajorityRule=1;//If 1 then MajorityRule but if -1 then MinorityRule
+
 int N=50;          //Array side
 float Ones=0.50;   //How many "ones" in the array
 float Noise=0.01;  //How often change spontanously

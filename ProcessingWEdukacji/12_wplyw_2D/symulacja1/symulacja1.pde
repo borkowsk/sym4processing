@@ -1,8 +1,6 @@
 //Control parameters
 float Ones=0.1; //How many "ones" in the array
 int N=10;       //array side
-
-//
 int S=20;       //cell width & height
 boolean ready=true;//help for do one step at a time
 
@@ -12,9 +10,8 @@ int A[][] = new int[N][N];
 //Initialisation
 void setup()
 {
-  //size(N*S,N*S); //NIE DZIAŁA W TRUBIE JavaScript!!!
   size(200,200);
-  S=width/N;
+  S=width/N;//S for real window size
   for(int i=0;i<N;i++)
    for(int j=0;j<N;j++)
    if( random(0,1) < Ones )
@@ -29,7 +26,8 @@ void DoMonteCarloStep()//Implementation of Monte Carlo Dynamics
    {
      int i=int(random(N));
      int j=int(random(N));
-     if(A[i][j]==1)
+     
+     if(A[i][j]==1)//flip-flop state of the agent/cell
        A[i][j]=0;
        else
        A[i][j]=1;    

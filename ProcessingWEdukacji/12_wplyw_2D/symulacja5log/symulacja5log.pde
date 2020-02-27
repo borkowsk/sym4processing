@@ -10,7 +10,7 @@ int S=20;       //cell width & height
 int A[][] = new int[N][N];
 
 //For writing statistics into disk drive
-PrintWriter output;
+PrintWriter output=null;
 
 //Initialisation
 void setup()
@@ -59,13 +59,8 @@ void draw()
   Count();//Statistics
   println("Step "+Step+" Reds="+Reds+" White="+(N*N-Reds));
   output.println("Step\t"+Step+"\tReds\t"+Reds+"\tWhite\t"+(N*N-Reds));
-  DoMonteCarloStep();//dynamics
- /*  
-  if(mousePressed==true)//if something on input
-  {
-      DoMonteCarloStep();//dynamics
-      mousePressed=false;//A jakby to wykomentować?
-  } */
+  
+  DoMonteCarloStep();//model dynamics
 }
 
 int Reds=0;

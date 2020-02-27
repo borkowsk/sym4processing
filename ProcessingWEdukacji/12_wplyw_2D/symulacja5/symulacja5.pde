@@ -1,4 +1,5 @@
 //Model dynamicznego wpływu społecznego Nowaka-Latane - wersja "komórkowa" bez zróżnicowania sił
+// Duża i z funkcją exit()
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //Control parameters
 float Ones=0.50; //How many "ones" in the array

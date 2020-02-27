@@ -1,16 +1,12 @@
-//Program dop testowania różnych sposobów losowania
-/////////////////////////////////////////////////////////
-// https://en.wikipedia.org/wiki/Normal_distribution#Generating_values_from_normal_distribution
-/////////////////////////////////////////////////////////
-
-double MyRandom0()
-{
-  return random(0,1);//Random z Processingu
-  //zamiast można zastosować inne generatory 
-}
+// Program dop testowania różnych sposobów losowania
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// http://www.javamex.com/tutorials/random_numbers/xorshift.shtml#.WT6NEzekKXI
+// https://math.stackexchange.com/questions/1777367/how-to-generate-a-random-number-from-a-pareto-distribution
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// W tym wypadku rozkład pareto ale oparty na generatorze 64 bitowym generatorze XORshift
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //XOR SHIFT random generator - flat distribution
-//http://www.javamex.com/tutorials/random_numbers/xorshift.shtml#.WT6NEzekKXI
 long xl=123456789L;
 double mianownik=(double)9223372036854775807L; //9,223,372,036,854,775,807 <--- max long 
 double MyRandom2() 
@@ -22,10 +18,9 @@ double MyRandom2()
 }
 
 //Pareto distribution from flat distribution
-//https://math.stackexchange.com/questions/1777367/how-to-generate-a-random-number-from-a-pareto-distribution
-  double a = 41.4104*(1-0.01);//Kształt- im większe tym ostrzej skośny rozkład
-  double b =  6.82053374;//Skalowanie - im większe tym większy zakres. Wartość 6.n dobrana do zakresu 0..1
-  double limit = 1;//Akceptujemy tylko wartości od 0 do limit. Większe powodują ponowne losowanie
+double a = 41.4104*(1-0.01);//Kształt- im większe tym ostrzej skośny rozkład
+double b =  6.82053374;//Skalowanie - im większe tym większy zakres. Wartość 6.n dobrana do zakresu 0..1
+double limit = 1;//Akceptujemy tylko wartości od 0 do limit. Większe powodują ponowne losowanie
   
 double MyRandomPareto()
 {
@@ -40,12 +35,7 @@ double MyRandomPareto()
   return rndval;
 }
 
-double MyRandomM()
-{
-  return Math.random()*Math.random()*Math.random()*Math.random()*Math.random()*Math.random();//Mnożenie 6 rozkladów
-}
-
-int NumOfBaskets=7;
+int NumOfBaskets=20;
 int Basket[]=new int[NumOfBaskets+1];
 int N=0; //Licznik losowań
 

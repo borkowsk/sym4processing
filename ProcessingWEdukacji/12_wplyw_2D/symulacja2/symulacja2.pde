@@ -12,9 +12,9 @@ int A[][] = new int[N][N];
 //Initialisation
 void setup()
 {
-  //size(N*S,N*S); //NIE DZIAŁA W TRUBIE JavaScript!!!
   size(200,200);
   S=width/N;
+  
   for(int i=0;i<N;i++)
    for(int j=0;j<N;j++)
    if( random(0,1) < Ones )
