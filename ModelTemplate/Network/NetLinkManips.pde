@@ -4,6 +4,7 @@
 //   AllLinks, AndFilter, OrFilter, TypeFilter,
 //   LowPassFilter,   HighPassFilter,
 //   AbsLowPassFilter, AbsHighPassFilter
+//   TypeAndAbsHighPassFilter - special type for efficient visualisation
 
 class AllLinks extends LinkFilter
 // Simplest link filtering class which accepts all links
@@ -13,7 +14,19 @@ class AllLinks extends LinkFilter
 
 AllLinks allLinks=new AllLinks();//Used very frequently
 
+class TypeAndAbsHighPassFilter  extends LinkFilter
+// Special type for efficient visualisation
+{
+  int ltype;
+  float treshold;
+  TypeAndAbsHighPassFilter(){ ltype=-1;treshold=0;}
+  TypeAndAbsHighPassFilter(int t,float tres) { ltype=t;treshold=tres;}
+  TypeAndAbsHighPassFilter reset(int t,float tres) { ltype=t;treshold=tres;return this;}
+  boolean meetsTheAssumptions(Link l) { return l.ltype==ltype && abs(l.weight)>treshold;}
+}
+
 class AndFilter extends LinkFilter
+// Special class for the assembly of various filters
 {
    LinkFilter a;
    LinkFilter b;
@@ -25,6 +38,7 @@ class AndFilter extends LinkFilter
 }
 
 class OrFilter extends LinkFilter
+// Another filters assembly class
 {
    LinkFilter a;
    LinkFilter b;
@@ -36,7 +50,7 @@ class OrFilter extends LinkFilter
 }
 
 class TypeFilter extends LinkFilter
-// lowPassFilter filtering class which accepts all links
+// TypeFilter filtering links of specific "color"
 {
   int ltype;
   TypeFilter(int t) { ltype=t;}
@@ -44,7 +58,7 @@ class TypeFilter extends LinkFilter
 }
 
 class LowPassFilter extends LinkFilter
-// lowPassFilter filtering class which accepts all links
+// lowPassFilter filtering links with lower weights
 {
   float treshold;
   LowPassFilter(float tres) { treshold=tres;}
@@ -52,7 +66,7 @@ class LowPassFilter extends LinkFilter
 }
 
 class HighPassFilter extends LinkFilter
-// lowPassFilter filtering class which accepts all links
+// lowPassFilter filtering links with higher weights
 {
   float treshold;
   HighPassFilter(float tres) { treshold=tres;}
@@ -60,7 +74,7 @@ class HighPassFilter extends LinkFilter
 }
 
 class AbsLowPassFilter extends LinkFilter
-// lowPassFilter filtering class which accepts all links
+// lowPassFilter filtering links with lower absolute value of weight
 {
   float treshold;
   AbsLowPassFilter(float tres) { treshold=abs(tres);}
@@ -68,7 +82,7 @@ class AbsLowPassFilter extends LinkFilter
 }
 
 class AbsHighPassFilter extends LinkFilter
-// lowPassFilter filtering class which accepts all links
+// lowPassFilter filtering links with higher absolute value of weight
 {
   float treshold;
   AbsHighPassFilter(float tres) { treshold=abs(tres);}
