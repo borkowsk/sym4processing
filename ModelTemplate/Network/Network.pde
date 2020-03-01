@@ -1,10 +1,51 @@
 // Generic (social) network
 //////////////////////////////////////////////////////////////
+// Classes:
+///////////
+// class Link extends Colorable //USER CAN MODIFY FOR THE SAKE OF EFFICIENCY
+// class NodeList extends Node
+// class NodeMap extends Node
+//
+// Abstractions:
+////////////////
+// abstract class Node extends Positioned 
+//
+// abstract class LinkFilter
+// abstract class LinkFactory
+//
+// abstract class Named implements iNamed
+// abstract class Colorable extends Named implements iColorable
+// abstract class Positioned extends Colorable implements iPositioned
+//
+// INTERFACES:
+//////////////
+// interface iLink //Is it really needed?
+// interface iNode //using class Link not interface iLink because of efficiency!
+//
+// Network generators: 
+//////////////////////
+// void makeRingNet(Node[] nodes,LinkFactory links,int neighborhood);
+// void makeTorusNet(Node[] nodes,LinkFactory links,int neighborhood);
+// void makeTorusNet(Node[][] nodes,LinkFactory links,int neighborhood);
+// 
+// void makeFullNet(Node[] nodes,LinkFactory links);
+// void makeFullNet(Node[][] nodes,LinkFactory links);
+// 
+// void makeRandomNet(Node[] nodes,LinkFactory links,float probability);
+// void makeRandomNet(Node[][] nodes,LinkFactory links,float probability);
+// 
+// void makeSmWorldNet(Node[] nodes,LinkFactory links,int neighborhood,float probability);
+// void makeImSmWorldNet(Node[] nodes,LinkFactory links,int neighborhood,float probability);
+// 
+//
 import java.util.Map;
 int debug_level=0;
 float INTENSITY=20;
 
-class Link extends Colorable
+// CLASS FOR MODIFICATION:
+//////////////////////////
+
+class Link extends Colorable implements iLink,iVisLink
 //This class is available for user modifications
 {
   Node  target;
@@ -18,9 +59,11 @@ class Link extends Colorable
   //For visualisation and mapping  
   String name(){ return target.name(); }
   
+  float getWeight() { return weight;}
+  
   void setStroke(/*float modifier=0 ?*/)
   {
-     strokeWeight(abs(weight)>0.5?1:0);
+     strokeWeight(abs(weight)*3);
      switch ( ltype )
      {
      case 0: if(weight>=0) stroke(0,0,weight*255,INTENSITY);else stroke(-weight*255,-weight*255,0,INTENSITY);break;
@@ -33,8 +76,28 @@ class Link extends Colorable
   }
 }
 
-// INTERFACES
+// INTERFACES:
+//////////////
+
+interface iLink //Is it really needed?
+{
+  float getWeight();
+}
+
+interface iNode //using class Link not interface iLink because of efficiency!
+{
+  int     addConn(Link   l);
+  int     delConn(Link   l);
+  int     numOfConn()      ;
+  Link    getConn(int    i);
+  Link    getConn(Node   n);
+  Link    getConn(String k);
+  Link[]  getConns(LinkFilter f);
+}
+
+// ABSTRACT BASE CLASSES
 ///////////////////////////////////
+
 abstract class LinkFilter
 {
   boolean meetsTheAssumptions(Link l)
@@ -47,20 +110,20 @@ abstract class LinkFactory
                   {assert false : "Pure interface make(Node,Node) called"; return null;}
 }
 
-abstract class Named //Forcing name() method
+abstract class Named implements iNamed //Forcing name() method
 {
   //For visualisation and mapping                
   String    name(){assert false : "Pure interface name() called"; return null;}
 }
 
-abstract class Colorable extends Named //Forcing setFill & setStroke methods
+abstract class Colorable extends Named implements iColorable
 {
   //For visualisation
   void setFill(/*float modifier=0 ?*/){assert false : "Pure interface setFill() called";}
   void setStroke(/*float modifier=0 ?*/){assert false : "Pure interface setStroke() called";}
 }
 
-abstract class Positioned extends Colorable //Forcing posX() & posY() & posZ() methods
+abstract class Positioned extends Colorable implements iPositioned //Forcing posX() & posY() & posZ() methods
 {
   //For visualisation and mapping                
   float    posX(){assert false : "Pure interface posX() called"; return 0;}
@@ -68,10 +131,11 @@ abstract class Positioned extends Colorable //Forcing posX() & posY() & posZ() m
   float    posZ(){assert false : "Pure interface posZ() called"; return 0;}
 }
 
-abstract class Node extends Positioned /* derived class are NodeList, NodeMap & ...*/
+abstract class Node extends Positioned implements iNode,iPositioned
 {
   int     addConn(Link   l){assert false : "Pure interface addConn(Link "+l+") called"; return   -1;}
   int     delConn(Link   l){assert false : "Pure interface delConn(Link "+l+") called"; return   -1;}
+  int     numOfConn()      {assert false : "Pure interface numOfConn() called"; return   -1;}
   Link    getConn(int    i){assert false : "Pure interface getConn(int "+i+")  called"; return null;}
   Link    getConn(Node   n){assert false : "Pure interface getConn(Node "+n+") called"; return null;}
   Link    getConn(String k){assert false : "Pure method  getConn(String '"+k+"') called"; return null;}
@@ -79,23 +143,8 @@ abstract class Node extends Positioned /* derived class are NodeList, NodeMap & 
                   {assert false : "Pure interface getConns(LinkFilter "+f+") called"; return null;}
 }
 
-/* Network generators: 
-void makeRingNet(Node[] nodes,LinkFactory links,int neighborhood);
-void makeTorusNet(Node[] nodes,LinkFactory links,int neighborhood);
-void makeTorusNet(Node[][] nodes,LinkFactory links,int neighborhood);
-
-void makeFullNet(Node[] nodes,LinkFactory links);
-void makeFullNet(Node[][] nodes,LinkFactory links);
-
-void makeRandomNet(Node[] nodes,LinkFactory links,float probability);
-void makeRandomNet(Node[][] nodes,LinkFactory links,float probability);
-
-void makeSmWorldNet(Node[] nodes,LinkFactory links,...);
-void makeImSmWorldNet(Node[] nodes,LinkFactory links,...);
-*/
-
-// IMPLEMENTATIONS
-///////////////////////////////////
+// IMPLEMENTATIONS:
+///////////////////
 
 void makeRingNet(Node[] nodes,LinkFactory linkfac,int neighborhood)
 {
@@ -171,6 +220,50 @@ void makeTorusNet(Node[][] nodes,LinkFactory linkfac,int neighborhood)
       }
     }
   }
+}
+
+void rewireLinksRandomly(Node[][] nodes,float probability)
+{
+  for(int i=0;i<nodes.length;i++)
+  for(int g=0;g<nodes[i].length;g++)
+  {
+    Node Source=nodes[i][g];
+    if(Source==null) 
+                  continue;
+                  
+    int j=(int)random(nodes.length);
+    int h=(int)random(nodes[j].length);
+    Node Target=nodes[j][h];
+    if(Target==null || Source==Target)
+                  continue;    
+    
+    if(random(1.0)<probability)
+    {
+       //if(debug_level>2) 
+       print(i,g,j,h);
+       
+       int index=(int)random(Source.numOfConn());
+       assert index<Source.numOfConn();
+       Link l=Source.getConn(index);
+       
+       l.target=Target;//Replacing target!
+          
+       //if(debug_level>2) 
+       println();
+    }  
+  }
+}
+
+void makeSmWorldNet(Node[][] nodes,LinkFactory links,int neighborhood,float probability)
+{
+  makeTorusNet(nodes,links,neighborhood);
+  rewireLinksRandomly(nodes,probability);
+}
+
+void makeImSmWorldNet(Node[][] nodes,LinkFactory links,int neighborhood,float probability)
+{
+  makeTorusNet(nodes,links,neighborhood);
+  makeRandomNet(nodes,links,probability);
 }
 
 void makeFullNet(Node[] nodes,LinkFactory linkfac)
@@ -270,6 +363,8 @@ class NodeList extends Node
     connections=new ArrayList<Link>();
   }
   
+  int     numOfConn()      { return connections.size();}
+  
   int     addConn(Link   l)
   {
     assert l!=null : "Empty link in "+this.getClass().getName()+".addConn(Link)?"; 
@@ -288,7 +383,7 @@ class NodeList extends Node
   
   Link    getConn(int    i)
   {
-    assert i>=connections.size(): "Index out of bound in "+this.getClass().getName()+".getConn(int)"; 
+    assert i<connections.size(): "Index '"+i+"' out of bound '"+connections.size()+"' in "+this.getClass().getName()+".getConn(int)"; 
     return connections.get(i);
   }
   
@@ -339,6 +434,8 @@ class NodeMap extends Node
     connections=new HashMap<String,Link>(); 
   }
   
+  int     numOfConn()      { return connections.size();}
+  
   int     addConn(Link   l)
   {
     assert l!=null : "Empty link in "+this.getClass().getName()+".addConn(Link)?"; 
@@ -358,7 +455,7 @@ class NodeMap extends Node
   
   Link    getConn(int    i)
   {
-    assert i>=connections.size(): "Index out of bound in "+this.getClass().getName()+".getConn(int)"; 
+    assert i>=connections.size():"Index '"+i+"' out of bound '"+connections.size()+"' in "+this.getClass().getName()+".getConn(int)"; 
     assert false: "Non optimal use of NodeMap in getConn(int)";
     int counter=0;
     for(Map.Entry<String,Link> ent:connections.entrySet())
