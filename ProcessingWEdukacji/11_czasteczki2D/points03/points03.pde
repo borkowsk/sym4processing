@@ -2,7 +2,7 @@
 ////////////////////////////////////////////////////////////////////////
 int FR=100; //Ile klatek na sekundę
 int Size=10000;//Ile cząstek
-float maxd=3;//Jaki największy ruch 
+float maxd=1.5;//Jaki największy ruch (pozycje na float'ach!)
 float[] h=new float[Size];//new float;//height/2; //Położenie pionowe
 float[] x=new float[Size];//width/2;  //Położenie poziome
 

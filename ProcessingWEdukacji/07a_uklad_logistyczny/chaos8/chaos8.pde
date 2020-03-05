@@ -4,8 +4,8 @@
 //double R=3.1;//Atraktor okresowy dwupunktowy
 //double R=3;//Punk krytyczny
 //double R=3.5;//4 punkty
-double R=3.55;//8 punktowy
-//double R=3.565;//Jeszcze okresowy, 14? pkt.
+//double R=3.55;//8 punktowy
+double R=3.565;//Jeszcze okresowy, 14? pkt.
 //double R=3.5699;//???
 //double R=3.571;//Tuż za granicą chaosu
 //double R=3.575;//Chaos
@@ -15,7 +15,7 @@ double R=3.55;//8 punktowy
 
 double X=0.9999;//Zmienna stanu, stan układu
 int FM=1000;
-int Rozbieg=100;
+int Rozbieg=500;
 int WvS=600;//Window vertical size
 float G=0;
 float B=255;

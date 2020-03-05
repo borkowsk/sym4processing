@@ -3,19 +3,19 @@
 
 void setup() {
   size(200,200);
-  noiseSeed(10);
+  //noiseSeed(10);
 }
 
 void draw()
 {
-  draw4();
+  draw3();
 }
 
 float xoff = 0.0;
 float yoff = 0.1;   // 2nd dimension of perlin noise
 
 void draw0() {
-  stroke(0, 10);
+  stroke(random(256),0,0);//stroke(frameCount%256,2*frameCount/100,0);//stroke(0, 10);
   xoff = xoff + .01;
   float n = noise(xoff) * width;
   line(n, 0, n, height);
@@ -28,7 +28,7 @@ void draw1() {
   line(n, 0, n, height);
 }
 
-float noiseScale = 0.02;
+float noiseScale = 0.10;
 
 void draw2() {
   background(0);
@@ -43,12 +43,12 @@ void draw3() {
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width/2; x++) {
       
-      noiseDetail(3,0.5);
+      noiseDetail(1,0.5);
       float noiseVal = noise((mouseX+x) * noiseScale, (mouseY+y) * noiseScale);
       stroke(noiseVal*255);
       point(x,y);
       
-      noiseDetail(8,0.65);
+      noiseDetail(4,0.65);
       noiseVal = noise((mouseX + x + width/2) * noiseScale, 
                        (mouseY + y) * noiseScale);
       stroke(noiseVal * 255);

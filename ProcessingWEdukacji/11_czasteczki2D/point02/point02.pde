@@ -23,7 +23,7 @@ void draw() //Jest wykonywane w niewidocznej pętli
   count++; //Zliczanie klatek
   
    //Właściwy model
-  float newh=(h+random(maxd*2)-maxd); //Zmień wysokość o mały losowy składnik
+  float newh=(h+random(maxd*2)-maxd); //h+random(-maxd,maxd);Zmień wysokość o mały losowy składnik
   float newx=(x+random(maxd*2)-maxd); //Analogicznie powiększ położenie poziome
 
   //Odbijamy od ścianek okna! Upraszczamy mechanizm odbicia

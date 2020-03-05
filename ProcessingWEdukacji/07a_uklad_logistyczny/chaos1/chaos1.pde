@@ -1,5 +1,5 @@
 //Najprostszy (prawie) układ chaotyczny
-double R=3.001;//Parametr kontroli
+double R=3.85;//Parametr kontroli
 double X=0.99;//Zmienna stanu, stan układu
 
 double uklad(double x)// Xn --> Xn+1

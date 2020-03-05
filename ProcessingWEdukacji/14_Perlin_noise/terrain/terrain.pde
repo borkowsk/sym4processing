@@ -35,8 +35,8 @@ void draw() {
   }
 
   background(0);
-  stroke(255);
-  noFill();
+  stroke(128,0,0);
+ // noFill();
 
   translate(width/2, height/2+50);
   rotateX(PI/3);

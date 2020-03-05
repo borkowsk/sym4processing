@@ -19,8 +19,10 @@ double MyRandom2()
 
 //Pareto distribution from flat distribution
 double a = 41.4104*(1-0.01);//Kształt- im większe tym ostrzej skośny rozkład
-double b =  6.82053374;//Skalowanie - im większe tym większy zakres. Wartość 6.n dobrana do zakresu 0..1
-double limit = 1;//Akceptujemy tylko wartości od 0 do limit. Większe powodują ponowne losowanie
+double b =  6.82053374;//Skalowanie - im większe tym większy zakres. 
+                       //Wartość 6.n dobrana do zakresu 0..1
+double limit = 1;//Akceptujemy tylko wartości od 0 do limit. 
+                 //Większe powodują ponowne losowanie
   
 double MyRandomPareto()
 {
@@ -28,7 +30,6 @@ double MyRandomPareto()
   do 
   { 
    rndval = MyRandom2();//drand48() ?
-   //rndval = 1-rndval;//PO CO?
    double inv_fun_denom = Math.pow(1-rndval , 1/a);
    rndval = (b/inv_fun_denom)-b; //adding the -b did the trick //<>//
   }while(rndval>limit);//Akceptujemy tylko wartości od 0 do limit

@@ -18,7 +18,8 @@ double MyRandom1()
 }
 
 long xl=123456789L;
-double mianownik=(double)9223372036854775807L; //9,223,372,036,854,775,807 <--- max long 
+double mianownik=(double)9223372036854775807L; // albo Long.MAX_VALUE;
+//9,223,372,036,854,775,807 <--- max long 
 double MyRandom2() //http://www.javamex.com/tutorials/random_numbers/xorshift.shtml#.WT6NEzekKXI
 {
   //XOR SHIFT random generator
