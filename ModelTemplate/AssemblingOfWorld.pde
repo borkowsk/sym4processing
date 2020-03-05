@@ -39,8 +39,8 @@ void modelStep(World world)
 {
    //Dummy part
    dummyChange(world);
-   
-   //... do simulation on agents ... THIS PART IS FOR YOU!
+   //OR
+   //... do real simulation on agents ... THIS PART IS FOR YOU!
    
    StepCounter++;
 }

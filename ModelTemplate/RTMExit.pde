@@ -10,7 +10,7 @@ void exit()          //it is called whenever a window is closed.
   }
   if(WITH_VIDEO) CloseVideo();    //Finalise of Video export
   println("Thank You");
-  super.exit();       //What library superclass have to do at exit
+  super.exit();       //What library superclass have to do at exit()
 } 
 
 ///////////////////////////////////////////////////////////////////////////////////////////

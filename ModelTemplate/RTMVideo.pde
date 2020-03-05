@@ -1,14 +1,16 @@
-//////////////////////////////////////////////////////
-// To musi być w setup() żeby było Video:
+// Tool for made video from simulation
+////////////////////////////////////////////////////////
+// To wywołanie musi być w setup() żeby działało Video:
 //
-//  initVideoExport(this,FileName,int Frames)); //Klasa VideoExport musi mieć dostep do obiektu aplikacji Processingu
-//                         //Najlepiej wywołać na koncu setupu. Okno musi mieć PARZYSTE rozmiary
+//  initVideoExport(this,FileName,int Frames)); // Klasa VideoExport musi mieć dostęp do obiektu aplikacji Processingu
+//                                              // Najlepiej wywołać na koncu setupu. 
+//                                              // UWAGA!!!: Okno musi mieć PARZYSTE rozmiary
 //  
-//a to dla każdej klatki
+// a to wywołujemy dla każdej klatki
 //  NextVideoFrame();//Video frame
 //
-//na koniec zaś:
-//  CloseVideo()
+// a na koniec zaś:
+//  CloseVideo(); //Powinno być w exit()
 //
 import com.hamoid.*;//Oraz importujemy niezbędną biblioteką zawierającą klasę VideoExport
 
