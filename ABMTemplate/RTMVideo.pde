@@ -23,8 +23,6 @@ VideoExport        videoExport;//KLASA z biblioteki VideoExport Abe Pazosa - trz
 static int         videoFramesFreq=0;   
 static boolean     videoExportEnabled=false;//init will set up it for true
 
-
-
 void initVideoExport(processing.core.PApplet parent, String Name,int Frames)
 {
   videoFramesFreq=Frames;
