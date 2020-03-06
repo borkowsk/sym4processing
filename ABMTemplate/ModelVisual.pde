@@ -29,7 +29,7 @@ void visualizeAgents(Agent[] agents)
    Agent curra;
    for(int a=0;a<agents.length;a++)
    {
-    //Colorisation
+    //Colorisation    
     if( (curra=agents[a]) != null )
     {
       if(curra.dummy>=0)
@@ -51,5 +51,5 @@ void visualizeAgents(Agent[] agents)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - BASIC VISUALISATION
+//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM: BASIC VISUALISATION
 ////////////////////////////////////////////////////////////////////////////////////////////////////////

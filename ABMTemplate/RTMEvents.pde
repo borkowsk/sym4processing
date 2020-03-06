@@ -2,23 +2,23 @@
 ///////////////////////////////////////////////////
 int searchedX=-1;
 int searchedY=-1;
-
+boolean Clicked=false;
 Agent  theSelected=null; 
 
 double minDist2Selec=MAX_INT;
 double maxTransSelec=-MAX_INT;
-boolean Clicked=false;
 
 void mouseClicked()
 {
   Clicked=true;
+  theSelected=null;
   searchedX=mouseX;
   searchedY=mouseY; //Searching should be implemented in visialisation!
 }
 
 void keyPressed() 
 {
-  println("RECIVED..........................'",key,'\''); 
+  println("RECIVED:'",key,"\' CODE:",int(key)); 
   switch(key)
   {
   case '1': STEPSperVIS=1;text("StPerV: "+STEPSperVIS,1,16);/*DeltaMC=1;*/StepCounter=int(StepCounter);break;
@@ -54,5 +54,5 @@ void keyPressed()
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - EVENTS TEMPLATE
+//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM EVENTS TEMPLATE
 ///////////////////////////////////////////////////////////////////////////////////////////

@@ -1,9 +1,9 @@
-//   Template for model utilized cell geometry
+//   Template for AGENT BASE MODEL utilized 1D or 2D dicrete geometry
 //   implemented by Wojciech Borkowski
 /////////////////////////////////////////////////////////////////////////////////////////
 
 //Model parameters
-int side=50;//side of main table
+int side=75;//side of main table
 String modelName="ABMTemplate";
 float density=0.75;
 
@@ -14,7 +14,7 @@ int cwidth=15;//size of cell
 int STATUSHEIGH=40;
 int STEPSperVIS=1;
 int FRAMEFREQ=10;
-boolean WITH_VIDEO=false;
+boolean WITH_VIDEO=true;
 boolean simulationRun=true;//Start/stop flag
 
 void setup()
@@ -83,5 +83,5 @@ void writeStatusLine()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - MAIN TEMPLATE
+//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM MAIN TEMPLATE
 ///////////////////////////////////////////////////////////////////////////////////////////
