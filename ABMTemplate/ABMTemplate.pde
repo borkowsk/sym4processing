@@ -14,7 +14,7 @@ int cwidth=15;//size of cell
 int STATUSHEIGH=40;
 int STEPSperVIS=1;
 int FRAMEFREQ=10;
-boolean WITH_VIDEO=true;
+boolean WITH_VIDEO=false;
 boolean simulationRun=true;//Start/stop flag
 
 void setup()
