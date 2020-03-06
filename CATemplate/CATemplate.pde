@@ -6,7 +6,7 @@
 int      side=200;//side of main table
 String   modelName="CATemplate";
 float    density=0.0000;
-boolean  synchronicMode=true;
+boolean  synchronicMode=true;//if false, then Monte Carlo mode is used
 
 World TheWorld=new World(side);//... but also will be initialised inside setup()
 
@@ -14,8 +14,8 @@ World TheWorld=new World(side);//... but also will be initialised inside setup()
 int cwidth=3;//size of cell
 int STATUSHEIGH=40;
 int STEPSperVIS=1;
-int FRAMEFREQ=50;
-boolean WITH_VIDEO=true;
+int FRAMEFREQ=100;
+boolean WITH_VIDEO=false;
 boolean simulationRun=true;//Start/stop flag
 
 void setup()

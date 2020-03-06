@@ -4,27 +4,27 @@ int StepCounter=0;
 
 class World
 {
-  //int cells[];//One dimensional array of agents
-  //int newcells[];//Secondary array for synchronic mode
+  int cells[];//One dimensional array of agents
+  int newcells[];//Secondary array for synchronic mode
   //OR
-  int cells[][];//Two dimensional array of agents
-  int newcells[][];//Secondary array for synchronic mode
+  //int cells[][];//Two dimensional array of agents
+  //int newcells[][];//Secondary array for synchronic mode
   
   World(int side)//Constructor of the World
   {
-    //cells=new int[side];
-    //if(synchronicMode) newcells=new int[side];
+    cells=new int[side];
+    if(synchronicMode) newcells=new int[side];
     //OR
-    cells=new int[side][side];
-    if(synchronicMode) newcells=new int[side][side];
+    //cells=new int[side][side];
+    //if(synchronicMode) newcells=new int[side][side];
   }
   
   //Swap arrays[]
   void   swap()
   {
-    //int[] tmp=cells;
+    int[] tmp=cells;
     //OR
-    int[][] tmp=cells;
+    //int[][] tmp=cells;
     cells=newcells;
     newcells=tmp;
   }
