@@ -1,22 +1,6 @@
 //STAŁE
 final float FLOAT_MAX=3.40282347E+38;
 
-//Do łatwego i CZYTELNEGO w wyrażeniach podnoszenia do kwadratu
-int sqr(int a)
-{
-  return a*a;
-}
-
-float sqr(float a)
-{
-  return a*a;
-}
-
-double sqr(double a)
-{
-  return a*a;
-}
-
 //Do określania znaku liczby
 int sign(int val)
 {

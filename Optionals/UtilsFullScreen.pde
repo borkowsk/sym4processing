@@ -1,4 +1,4 @@
-boolean sketchFullScreen() //W aktualnej wersji już nie działa?
-{
-  return true;
-}
+//boolean sketchFullScreen() //W aktualnej wersji już nie działa?
+//{
+//  return true;
+//}
