@@ -123,6 +123,13 @@ void draw()
    WorldNew=WorldTmp;
    
    t++;//Kolejne pokolenie/krok/rok
+   noStroke();
    fill(128);rect(0,WorldSize,width,height-WorldSize);//Czyszczący prostokąt
    fill(255);text("ST: "+t+" Fr: "+frameRate,10,height);
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+// Autor: Wojciech T. Borkowski
+// Materiały do podręcznika "Processing w edukacji i symulacji
+// https://github.com/borkowsk/sym4processing/tree/master/ProcessingWEdukacji
+//////////////////////////////////////////////////////////////////////////////////

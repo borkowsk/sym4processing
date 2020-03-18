@@ -1,4 +1,4 @@
-//Dwuwymiarowy, DETERMINISTYCZNY automat komórkowy - reguła "ZSUMUJ Z SĄSIADAMI I WEŹ MODULO". Kroki MC
+//Dwuwymiarowy, DETERMINISTYCZNY automat komórkowy - reguła "ZSUMUJ Z SĄSIADAMI I WEŹ MODULO". Kroki synchroniczne
 //Zasiewanie tablicy na początku z zadaną gęstością lub pojedynczą komórką
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int WorldSize=513;//Ile chcemy elementów w linii?
@@ -71,3 +71,9 @@ void draw()
    fill(255);
    text("ST:"+t+" Fr:"+frameRate,10,30);
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+// Autor: Wojciech T. Borkowski
+// Materiały do podręcznika "Processing w edukacji i symulacji
+// https://github.com/borkowsk/sym4processing/tree/master/ProcessingWEdukacji
+//////////////////////////////////////////////////////////////////////////////////

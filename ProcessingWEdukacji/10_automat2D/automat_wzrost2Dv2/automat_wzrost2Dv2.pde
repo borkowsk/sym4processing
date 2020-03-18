@@ -78,3 +78,9 @@ void draw()
    fill(255);//Kolor napisu
    text("ST:"+t+" Fr:"+frameRate,10,WorldSize);//frameRate podaje realną liczbę klatek na sekundę
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+// Autor: Wojciech T. Borkowski
+// Materiały do podręcznika "Processing w edukacji i symulacji
+// https://github.com/borkowsk/sym4processing/tree/master/ProcessingWEdukacji
+//////////////////////////////////////////////////////////////////////////////////

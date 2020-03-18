@@ -9,11 +9,12 @@ int WorldSize=1*3*171;//Ile chcemy elementów w linii? (dobrze jak wielokrotnoś
 int[][] WorldOld=new int[WorldSize][WorldSize];//Tworzenie tablic "świata"
 int[][] WorldNew=new int[WorldSize][WorldSize];
 
-float IDens=0.33;//Początkowa gęstość w tablicy
-//boolean self=false;//w Life Conwaya niepotrzebne, ale może jeszcze przydać się poźniej
+float IDens=0.5;//Początkowa gęstość w tablicy - sprawdź też inne. 
+                 //Poszukaj kiedy aktywność trwa najdłużej, ale oczywiście ignorując trwałe oscylatory.
+
 int     birth=3;//Ile potrzeba do zrodzenia nowej komórki
 int     minim=2;//Najmniej liczne sąsiedzwtwo pozwalające na przeżycie
-int     maxim=5;//Najbardziej liczne sąsiedztwo pozwalające na przeżycie
+int     maxim=3;//Najbardziej liczne sąsiedztwo pozwalające na przeżycie
 
 String SEPARATOR="\t";//Tabulator daje format TAB-DELIMITED, a "," lub ";" format CSV (+-)
 PrintWriter output;//Strumień podłączony do pliku logu
@@ -74,7 +75,6 @@ void draw()
   if(t%100==0) // co sto kroków
      output.flush();//Zrzucamy bufor pliku do systemu
   
-  
   for(int i=0;i<WorldOld.length;i++)//Zmiana stanu automatu
   {
        //Reguła - "LIFE"
@@ -101,15 +101,20 @@ void draw()
         if(WorldOld[i][j]==0)//Nowourodzenie
         {
           if(ile==birth)
+          {  //TODO - dodaj do logu zliczanie narodzin
              WorldNew[i][j]=1;//Nowy stan zapisujemy na drugą tablicę
+          }
           else
              WorldNew[i][j]=0;//Stary stan zapisujemy na drugą tablicę
         }
         else
         if(minim<=ile && ile<=maxim) //Przeżycie
-          WorldNew[i][j]=1;//Stary stan zapisujemy na drugą tablicę
+            WorldNew[i][j]=1;//Stary stan zapisujemy na drugą tablicę
           else
-          WorldNew[i][j]=0;//Nowy stan zapisujemy na drugą tablicę
+          {
+             WorldNew[i][j]=0;//Nowy stan zapisujemy na drugą tablicę
+             //TODO - dodaj do logu zliczanie śmierci
+          }
        }
    }
    
@@ -121,3 +126,9 @@ void draw()
    fill(128);rect(0,WorldSize,width,height-WorldSize);//Czyszczący prostokąt
    fill(255);text("ST: "+t+" Fr: "+frameRate,10,height);
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+// Autor: Wojciech T. Borkowski
+// Materiały do podręcznika "Processing w edukacji i symulacji
+// https://github.com/borkowsk/sym4processing/tree/master/ProcessingWEdukacji
+//////////////////////////////////////////////////////////////////////////////////

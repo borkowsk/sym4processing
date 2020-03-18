@@ -1,7 +1,7 @@
-//Jednowymiarowy, DETERMINISTYCZNY automat komórkowy - reguła zsumuj z sąsiadami i wł
+//Dwuwymiarowy, DETERMINISTYCZNY automat komórkowy - reguła zsumuj z sąsiadami i zrób modulo
 //zasiewamy tablicę na początku z zadaną gęstością lub pojedynczą komórką
 //Do 16 różnych kolorów
-/////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 int WorldSize=513; //ile chcemy elementów w linii
 int[][] WorldOld=new int[WorldSize][WorldSize];//tworzenie tablic w Processingu zawsze
@@ -87,3 +87,9 @@ void draw()
   fill(255);
   text("ST:"+t+" Fr:"+frameRate,10,30);
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+// Autor: Wojciech T. Borkowski
+// Materiały do podręcznika "Processing w edukacji i symulacji
+// https://github.com/borkowsk/sym4processing/tree/master/ProcessingWEdukacji
+//////////////////////////////////////////////////////////////////////////////////

@@ -7,7 +7,7 @@ int WorldSize=2*3*171;//Ile chcemy elementów w linii? (dobrze jak wielokrotnoś
 int[][] WorldOld=new int[WorldSize][WorldSize];//Tworzenie tablic "świata"
 int[][] WorldNew=new int[WorldSize][WorldSize];
 
-float IDens=0.33;//Początkowa gęstość w tablicy
+float IDens=0.025;//Początkowa gęstość w tablicy. Zobacz: 0,05, 0.10, 0.25, 0.33, 0.5
 int     birdt=3;//Ile potrzeba do zrodzenia nowej komórki
 int     minim=2;//Najmniej liczne sąsiedzwtwo pozwalające na przeżycie
 int     maxim=3;//Najbardziej liczne sąsiedztwo pozwalające na przeżycie
@@ -105,3 +105,9 @@ void draw()
    fill(128);rect(0,WorldSize,width,height-WorldSize);//Czyszczący prostokąt
    fill(255);text("ST: "+t+" Fr: "+frameRate,10,height);
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+// Autor: Wojciech T. Borkowski
+// Materiały do podręcznika "Processing w edukacji i symulacji
+// https://github.com/borkowsk/sym4processing/tree/master/ProcessingWEdukacji
+//////////////////////////////////////////////////////////////////////////////////
