@@ -1,10 +1,12 @@
-// Dwuwymiarowy, probalilistyczny (kroki MC) automat komórkowy - reguła "Żyj jesli nie masz za dużo sąsiadów". 
+// Dwuwymiarowy, probalilistyczny (kroki MC) automat komórkowy 
+// - reguła "Żyj jesli nie masz za dużo sąsiadów". 
 // Zasiewanie tablicy na początku z zadaną gęstością lub pojedynczą komórką
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
 
 int WorldSize=400;//Ile chcemy elementów w linii i ile linii (tablica kwadratowa)
 
-int[][] World=new int[WorldSize][WorldSize];//Tworzenie tablicy świata - w Processingu zawsze za pomocą alokacji
+int[][] World=new int[WorldSize][WorldSize];//Tworzenie tablicy świata 
+                                            //- w Processingu zawsze za pomocą alokacji
 
 float IDens=0.0;//Początkowa gęstość w tablicy
 
@@ -32,8 +34,8 @@ void draw()
 {  
   for(int i=0;i<World.length;i++)//Wizualizacja czyli "rysowanie na ekranie" 
     for(int j=0;j<World.length;j++) 
-    {
-      switch(World[i][j]){ //Instrukcja wyboru pozwala nam wybrać dowolny kolor w zależności od liczby w konmórce
+    {                      //W zależności od liczby w komórce
+      switch(World[i][j]){ //instrukcja wyboru pozwala nam wybrać dowolny kolor 
       case 1:stroke(255,0,255);break;
       case 0:stroke(0,0,0);break;
       default: stroke(0,255,0);//To się pojawiac nie powinno
