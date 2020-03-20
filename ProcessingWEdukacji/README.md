@@ -2,7 +2,7 @@
 
 Materiały do podręcznika w przygotowaniu.
 Tekst częściowo dostępny w blogu:
-https://processingwedukacji.blogspot.com/2016/10/
+https://processingwedukacji.blogspot.com
 
 Aktualne wiadomości także na Facebooku:
 https://www.facebook.com/ProcessingWEdukacji/
