@@ -1,3 +1,5 @@
+//Do czego przydaje się zmienna
+
 size(500,500);  //Trochę większe okno
 background(200);//Jasne tło (200/255 jasności)
 
@@ -9,3 +11,5 @@ a=250;  //Przypisanie nr 2.
 line(a-10,a-10,a+10,a+10);
 a=500;  //Przypisanie nr 3.
 line(a-10,a-10,a+10,a+10);
+
+//http://processingwedukacji.blogspot.com
