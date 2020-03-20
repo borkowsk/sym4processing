@@ -1,4 +1,6 @@
+//Zadanie domowe
 size(500,500);
+
 for(int i=0;i<1000;i++)
 {
     fill(random(256),random(256),random(256));
@@ -9,3 +11,5 @@ for(int i=0;i<1000;i++)
     float b=random(a,50);
     ellipse(x,y,a,b);
 }
+
+//http://processingwedukacji.blogspot.com 
