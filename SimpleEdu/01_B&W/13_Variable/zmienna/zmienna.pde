@@ -9,3 +9,5 @@ a=250;  //Przypisanie nr 2.
 line(a-10,a-10,a+10,a+10);
 a=500;  //Przypisanie nr 3.
 line(a-10,a-10,a+10,a+10);
+
+//http://processingwedukacji.blogspot.com

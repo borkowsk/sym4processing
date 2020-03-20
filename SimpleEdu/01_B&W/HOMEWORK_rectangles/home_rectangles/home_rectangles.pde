@@ -32,3 +32,6 @@ rect(250, 250, 30, 30);  // Draw gray rect using CENTER mode
 
 stroke(0);
 point(250,250);
+
+
+//http://processingwedukacji.blogspot.com

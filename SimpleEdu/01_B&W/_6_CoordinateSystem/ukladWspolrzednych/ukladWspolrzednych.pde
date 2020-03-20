@@ -5,3 +5,5 @@ text("100*100",100,100);
 text("000*100",0,100);
 text("100*000",100,0);
 text("250*250",250,250);
+
+//http://processingwedukacji.blogspot.com

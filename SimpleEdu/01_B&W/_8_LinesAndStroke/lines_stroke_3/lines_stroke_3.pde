@@ -4,3 +4,5 @@ stroke(128);//Intensywność odcienia linii
 line( 85, 20, 85, 75);
 stroke(255);
 line( 85, 75, 30, 75);
+
+//http://processingwedukacji.blogspot.com
