@@ -54,7 +54,7 @@ void draw()
   for(int i=0;i<World.length;i++)//Wizualizacja czyli "rysowanie na ekranie" 
     for(int j=0;j<World.length;j++) 
     {
-      switch(World[i][j]){ //Instrukcja wyboru pozwala nam wybrać dowolny kolor w zależności od liczby w konmórce
+      switch(World[i][j]){ //Instrukcja wyboru pozwala nam wybrać dowolny kolor
       case Recovered:  stroke(0,255,0);break;//Wyleczony
       case Infected:   stroke(255,0,0);break;//Zachorował
       case Susceptible:stroke(0,0,255);break;//Podatny
@@ -73,7 +73,7 @@ void draw()
        int i=(int)random(World.length);
        int j=(int)random(World.length);
        
-       //Jesli pusty lub zdrowy to nic nie robi
+       //Jesli pusty lub zdrowy to nic nie robimy
        if(World[i][j]<Infected || Recovered<=World[i][j]) continue;
        
        //Wyliczenie lokalizacji sąsiadów
@@ -109,7 +109,8 @@ void draw()
    }
       
    t++;//Kolejne pokolenie/krok/rok
-   text("ST:"+t+" Zachorowali:"+sumInfected+" Wyzdrowieli:"+sumRecovered+" Umarli:"+sumDeath,0,10);
+   text("ST:"+t+" Zachorowali:"+sumInfected+" Wyzdrowieli:"+sumRecovered+" Umarli:"+sumDeath
+         ,0,10);
    println("ST:"+t+"\tZ\t"+sumInfected+"\tW\t"+sumRecovered+"\tU\t"+sumDeath);
 }
 
