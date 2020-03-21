@@ -31,6 +31,8 @@ class Frequencies
     sizeOfbucket=(upperBound-lowerBound)/numberOfBuckets;
   }
   
+  int  numOfBuckets() { return buckets.length;}
+  
   void reset()
   {
     for(int i=0;i<buckets.length;i++)
@@ -59,6 +61,42 @@ class Frequencies
     
     inside++;
   }
+}
+
+void viewAxis(int startX,int startY,int width,int height)
+{
+  line(startX,startY,startX+width,startY);
+  line(startX+width-5,startY-5,startX+width,startY);
+  line(startX,startY,startX,startY-height);
+  line(startX+5,startY-height+5,startX,startY-height);
+  line(startX-5,startY-height+5,startX,startY-height);
+}
+
+void viewFrame(int startX,int startY,int width,int height)
+{
+  line(startX,startY,startX+width,startY);
+  line(startX,startY,startX,startY-height);
+  line(startX+width,startY,startX+width,startY-height);
+  line(startX,startY-height,startX+width,startY-height);
+}
+
+float viewAsColumns(Frequencies histogram,int startX,int startY,int width,int height)
+{
+  float max=histogram.higherBucket;
+  int wid=width/histogram.buckets.length;
+  if(wid<1) wid=1;
+  
+  for(int i=0;i<histogram.buckets.length;i++)
+  {
+    float hei=map(histogram.buckets[i],0,max,0,height);
+    rect(startX+i*wid,startY,wid,-hei);
+  }
+  
+  textAlign(LEFT,TOP);
+  text(""+max,startX,startY-height);
+  //Real width of histogram
+  float realwidth=(histogram.buckets.length)*wid;//println(realwidth);
+  return realwidth;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
