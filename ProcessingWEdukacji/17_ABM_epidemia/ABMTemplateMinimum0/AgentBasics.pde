@@ -9,6 +9,7 @@ void initializeAgents(Agent[][] agents)
     if(random(1)<density)
     {
       Agent curr=new Agent();
+      //...additional initialisation code...
       agents[a][b]=curr;
     }
 }
@@ -19,6 +20,7 @@ void initializeAgents(Agent[] agents)
   if(random(1)<density)
   {
     Agent curr=new Agent();
+    //...additional initialisation code...
     agents[a]=curr;
   }
 }

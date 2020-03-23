@@ -1,4 +1,4 @@
-//   ABM minimum template - using template for AGENT BASE MODEL in 2D dicrete geometry
+//   ABM minimum template - using template for AGENT BASE MODEL in 2D discrete geometry
 //   >>>>   only necessary modules <<<<
 //   implemented by Wojciech Borkowski
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -8,14 +8,15 @@ int side=75;//side of main table
 String modelName="ABMTemplateMin";
 float density=0.75;
 
-World TheWorld=new World(side);//... but also will be initialised inside setup()
+World TheWorld=new World(side);//... but will be fully initialised inside setup()
 
 //Parameters of visualisation etc...
 int cwidth=15;//size of cell
 int STATUSHEIGH=40;
-int STEPSperVIS=1;
-int FRAMEFREQ=10;
-boolean WITH_VIDEO=false;
+
+int STEPSperVIS=1;//How offten visualise
+int FRAMEFREQ=10; //Less or more frequent update
+//boolean WITH_VIDEO=false;//Make a movie from simulation?
 boolean simulationRun=true;//Start/stop flag
 
 void setup()
@@ -27,7 +28,7 @@ void setup()
   strokeWeight(2);
   
   //Model
-  initializeModel(TheWorld);
+  initializeModel(TheWorld);// Complete initialisation
   //initializeStats();
   //doStatistics(TheWorld);
   
@@ -35,11 +36,7 @@ void setup()
   println("REQUIRED SIZE OF PAINTING AREA IS "+(cwidth*side)+"x"+(cwidth*side+STATUSHEIGH));
   cwidth=width/side;
     
-  if(WITH_VIDEO) 
-  {
-    //initVideoExport(this,modelName+".mp4",FRAMEFREQ);
-    //FirstVideoFrame();
-  }
+  //if(WITH_VIDEO) {initVideoExport(this,modelName+".mp4",FRAMEFREQ);FirstVideoFrame();}
   
   //Finishing setup stage
   println("CURRENT SIZE OF PAINTING AREA IS "+width+"x"+height);//-myMenu.bounds.height???
@@ -62,7 +59,7 @@ void draw()
   writeStatusLine();
   
   if(!simulationRun //When simulation was stopped only visualisation should work
-  || StepCounter % STEPSperVIS == 0 ) //But when model is running, visualisation shoud be done from time to time
+  || StepCounter % STEPSperVIS == 0 ) //But when model is running, visualisation should be done from time to time
   {
     visualizeModel(TheWorld);
     //NextVideoFrame();//It utilise inside variable to check if is enabled
@@ -74,7 +71,7 @@ void writeStatusLine()
 {
   fill(255);rect(0,side*cwidth,width,STATUSHEIGH);
   fill(0);noStroke();
-  textAlign(LEFT, TOP);
+  //textAlign(LEFT, TOP);
   //text(meanDummy+"  "+liveCount,0,side*cwidth);//FROM STATs
   textAlign(LEFT, BOTTOM);
   text(StepCounter+")  Fps:"+ frameRate,0,side*cwidth+STATUSHEIGH-2);

@@ -2,12 +2,12 @@
 ///////////////////////////////////////////////////////////////
 class Agent
 {
-  float dummy;//Dummy field. Only for demonstration.
+  float dummy;//Dummy attribute/field. Only for demonstration.
   //... FOR YOUR CODE
   
   Agent()//Constructor of the Agent
   {
-    dummy=0;//random(0.1);
+    dummy=0;
     //... FOR YOUR CODE
   }
 }
