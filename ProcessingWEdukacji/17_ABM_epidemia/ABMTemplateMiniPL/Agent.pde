@@ -2,13 +2,13 @@
 ///////////////////////////////////////////////////////////////
 class Agent
 {
-  float dummy;//Dummy attribute/field. Only for demonstration.
-  //... FOR YOUR CODE
+  float dummy;//ATRYBUT DEMONSTRACYJNY - POTEM MOŻNA USUNĄĆ
+  //... MIEJSCE NA TWÓJ KOD
   
   Agent()//Constructor of the Agent
   {
     dummy=0;
-    //... FOR YOUR CODE
+    //... MIEJSCE NA TWÓJ KOD
   }
 }
 

@@ -1,14 +1,14 @@
 // World is a one of two central class of each ABM model
 ///////////////////////////////////////////////////////////////
-int StepCounter=0;
+int StepCounter=0;//GLOBALNY LICZNIK KROKÓW SYMULACJI
 
 class World
 {
-  //Agent agents[];//One dimensional array of agents
+  //Agent agents[];//JEDNOWYMIAROWA TABLICA AGENTÓW
   //OR
-  Agent agents[][];//Two dimensional array of agents
+  Agent agents[][];//DWUWYMIAROWA TABLICA AGENTÓW
   
-  World(int side)//Constructor of the World
+  World(int side)//KONSTRUKTOR ŚWIATA
   {
     //agents=new Agent[side];
     //OR
@@ -16,8 +16,8 @@ class World
   }
 }
 
-//More alaborated functionalities are defined as stand-alone functions,
-//not as methods because of not enought flexible syntax of Processing
+//BARDZIEJ ZŁOŻONE FUNKCJONALNOŚCI ZOSTAŁY ZDEFINIOWANE JAKO OSOBNE FUNKCJE
+//A NIE METDY KLASY World ZE WZGLĘDU NA OGRANICZENIA SKŁADNI PROCESSINGU
 ///////////////////////////////////////////////////////////////////////////
 
 void initializeModel(World world)
@@ -30,8 +30,8 @@ void visualizeModel(World world)
   visualizeAgents(world.agents);
 }
 
-void dummyChange(World world)
-{
+void dummyChange(World world) //FUKCJE MOŻNA USUNĄĆ GDY POJAWI SIĘ
+{                             //REALNY KOD MODELU
   dummyChangeAgents(world.agents);
 }
 
@@ -40,7 +40,7 @@ void modelStep(World world)
    //Dummy part
    dummyChange(world);
    //OR
-   //... do real simulation on agents ... THIS PART IS FOR YOU!
+   //... MIEJSCE NA TWÓJ REALNY KOD MODELU np. agentsChange(world);
    
    StepCounter++;
 }
