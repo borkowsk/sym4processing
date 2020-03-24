@@ -7,7 +7,7 @@ void visualizeAgents(Agent[][] agents)
   for(int a=0;a<agents.length;a++)
    for(int b=0;b<agents[a].length;b++)
    {
-    //Colorisation
+    //Colorisation... for example
     if( (curra=agents[a][b]) != null )
     {
       if(curra.dummy>=0)
@@ -29,7 +29,7 @@ void visualizeAgents(Agent[] agents)
    Agent curra;
    for(int a=0;a<agents.length;a++)
    {
-    //Colorisation    
+    //Colorisation... for example
     if( (curra=agents[a]) != null )
     {
       if(curra.dummy>=0)

@@ -29,23 +29,26 @@ void setup()
   
   //Model
   initializeModel(TheWorld);// Complete initialisation
-  //initializeStats();
+  //initializeStats(); //For statistics
   //doStatistics(TheWorld);
   
-  //Window 
+  //Window size calculation
   println("REQUIRED SIZE OF PAINTING AREA IS "+(cwidth*side)+"x"+(cwidth*side+STATUSHEIGH));
   cwidth=width/side;
-    
+  
+  //FOR RTMVideo.pde UNIT
   //if(WITH_VIDEO) {initVideoExport(this,modelName+".mp4",FRAMEFREQ);FirstVideoFrame();}
   
   //Finishing setup stage
   println("CURRENT SIZE OF PAINTING AREA IS "+width+"x"+height);//-myMenu.bounds.height???
-  visualizeModel(TheWorld);//First time visualisation
-  if(!simulationRun)
-    println("PRESS 'r' or 'ESC' to start simulation");
-  else
-    println("PRESS 's' or 'ESC' to pause simulation");
-  //NextVideoFrame();//It utilise inside variable to check if is enabled
+  visualizeModel(TheWorld);//FOR RTMVideo.pde UNIT - First time visualisation
+  
+  //if(!simulationRun) //FOR RTMEvents.pde UNIT
+  //  println("PRESS 'r' or 'ESC' to start simulation");
+  //else
+  //  println("PRESS 's' or 'ESC' to pause simulation");
+  
+  //NextVideoFrame();//FOR RTMVideo.pde - It utilise inside variable to check if is enabled
 }
 
 void draw()
@@ -62,7 +65,7 @@ void draw()
   || StepCounter % STEPSperVIS == 0 ) //But when model is running, visualisation should be done from time to time
   {
     visualizeModel(TheWorld);
-    //NextVideoFrame();//It utilise inside variable to check if is enabled
+    //NextVideoFrame();//FOR RTMVideo.pde UNIT - It utilise inside variable to check if is enabled
   }
 
 }
@@ -72,7 +75,7 @@ void writeStatusLine()
   fill(255);rect(0,side*cwidth,width,STATUSHEIGH);
   fill(0);noStroke();
   //textAlign(LEFT, TOP);
-  //text(meanDummy+"  "+liveCount,0,side*cwidth);//FROM STATs
+  //text(meanDummy+"  "+liveCount,0,side*cwidth);//MOST IMPORTANT STATISTICS
   textAlign(LEFT, BOTTOM);
   text(StepCounter+")  Fps:"+ frameRate,0,side*cwidth+STATUSHEIGH-2);
 }

@@ -30,7 +30,7 @@ void visualizeModel(World world)
   visualizeAgents(world.agents);
 }
 
-void dummyChange(World world)
+void dummyChange(World world) //Delete it, when real SIMULATION will be defined. 
 {
   dummyChangeAgents(world.agents);
 }
