@@ -25,18 +25,18 @@ void initializeAgents(Agent[] agents)
   }
 }
 
-void  dummyChangeAgents(Agent[] agents)
+void  dummyChangeAgents(Agent[] agents)//do zmiany na agentsChange()
 {
   int MC=agents.length;
   for(int i=0;i<MC;i++)
   {
     int a=(int)random(0,agents.length);
     if(agents[a]!= null )
-      agents[a].dummy+=random(-0.1,0.1);
+      agents[a].dummy+=random(-0.1,0.1);//PRZYKŁADOWA ZMIANA
   }  
 }
 //OR
-void  dummyChangeAgents(Agent[][] agents)
+void  dummyChangeAgents(Agent[][] agents)//do zmiany na agentsChange()
 {
   int MC=agents.length*agents[0].length;
   for(int i=0;i<MC;i++)
@@ -44,7 +44,7 @@ void  dummyChangeAgents(Agent[][] agents)
     int a=(int)random(0,agents.length);
     int b=(int)random(0,agents[a].length);
     if(agents[a][b]!= null )
-      agents[a][b].dummy+=random(-0.1,0.1);
+      agents[a][b].dummy+=random(-0.1,0.1);//PRZYKŁADOWA ZMIANA
   }
 }
 

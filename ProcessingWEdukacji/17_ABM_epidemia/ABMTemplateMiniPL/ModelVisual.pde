@@ -21,7 +21,8 @@ void visualizeAgents(Agent[][] agents)
       fill(128);
     }
     
-    rect(a*cwidth,b*cwidth,cwidth,cwidth); 
+    noStroke();
+    rect(a*cwidth,b*cwidth,cwidth,cwidth);//WŁAŚCIWE RYSOWANIE 
    }
 }
 //OR
@@ -46,7 +47,8 @@ void visualizeAgents(Agent[] agents)
     
     int t=StepCounter%side;
     noStroke();
-    rect(a*cwidth,t*cwidth,cwidth,cwidth);
+    rect(a*cwidth,t*cwidth,cwidth,cwidth);//WŁAŚCIWE RYSOWANIE 
+    
     stroke(255);
     line(0,(t+1)*cwidth+1,width,(t+1)*cwidth+1);//LINIA CZASU TERAŹNIEJSZEGO
    }

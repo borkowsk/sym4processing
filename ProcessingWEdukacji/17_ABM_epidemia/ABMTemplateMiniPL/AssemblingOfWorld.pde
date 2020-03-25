@@ -17,30 +17,31 @@ class World
 }
 
 //BARDZIEJ ZŁOŻONE FUNKCJONALNOŚCI ZOSTAŁY ZDEFINIOWANE JAKO OSOBNE FUNKCJE
-//A NIE METDY KLASY World ZE WZGLĘDU NA OGRANICZENIA SKŁADNI PROCESSINGU
+//A NIE METODY KLASY World ZE WZGLĘDU NA OGRANICZENIA SKŁADNI PROCESSINGU
+//NIE POZWALAJĄCEJ SCHOWAĆ GDZIEŚ INDZIEJ MNIEJ ISTOTNYCH METOD KLASY
 ///////////////////////////////////////////////////////////////////////////
 
 void initializeModel(World world)
 {
-  initializeAgents(world.agents);
+  initializeAgents(world.agents);//TU NASTĄPI WYBÓR FUNKCJI PRZECIĄŻONEJ!
 }
 
 void visualizeModel(World world)
 {
-  visualizeAgents(world.agents);
+  visualizeAgents(world.agents);//TU NASTĄPI WYBÓR FUNKCJI PRZECIĄŻONEJ!
 }
 
 void dummyChange(World world) //FUKCJE MOŻNA USUNĄĆ GDY POJAWI SIĘ
 {                             //REALNY KOD MODELU
-  dummyChangeAgents(world.agents);
+  dummyChangeAgents(world.agents);//TU NASTĄPI WYBÓR FUNKCJI PRZECIĄŻONEJ!
 }
 
 void modelStep(World world)
 {
-   //Dummy part
-   dummyChange(world);
+   dummyChange(world);//TYMCZASOWE WYWOŁANIE TRYWIALNEJ DYNAMIKI
    //OR
-   //... MIEJSCE NA TWÓJ REALNY KOD MODELU np. agentsChange(world);
+   //... MIEJSCE NA TWÓJ REALNY KOD MODELU np. 
+   //agentsChange(world.agents);//TU NASTĄPI WYBÓR FUNKCJI PRZECIĄŻONEJ!
    
    StepCounter++;
 }

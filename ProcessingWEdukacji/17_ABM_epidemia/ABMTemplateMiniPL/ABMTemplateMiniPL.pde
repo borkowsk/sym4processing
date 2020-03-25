@@ -1,6 +1,6 @@
-//   ABM minimum template - using template for AGENT BASE MODEL in 2D discrete geometry
+// ABM minimum template - using template for AGENT BASE MODEL in 1D & 2D discrete geometry
 //   >>>>   TYLKO NIEZBĘDNE MODUŁY <<<<
-//   implemented by Wojciech Borkowski
+// implemented by Wojciech Borkowski
 /////////////////////////////////////////////////////////////////////////////////////////
 
 //PARAMETRY MODELU

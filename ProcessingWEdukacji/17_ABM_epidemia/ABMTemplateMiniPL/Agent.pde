@@ -5,7 +5,7 @@ class Agent
   float dummy;//ATRYBUT DEMONSTRACYJNY - POTEM MOŻNA USUNĄĆ
   //... MIEJSCE NA TWÓJ KOD
   
-  Agent()//Constructor of the Agent
+  Agent()//Konstruktor agenta. Inicjuje atrybuty
   {
     dummy=0;
     //... MIEJSCE NA TWÓJ KOD
