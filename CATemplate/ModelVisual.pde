@@ -19,7 +19,7 @@ void visualizeCells(int[][] cells)
       fill(128);break;
     }
     
-    rect(a*cwidth,b*cwidth,cwidth,cwidth);
+    rect(b*cwidth,a*cwidth,cwidth,cwidth);//a is vertical!
    }
 }
 //OR

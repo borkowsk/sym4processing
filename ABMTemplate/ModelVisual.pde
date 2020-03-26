@@ -20,7 +20,7 @@ void visualizeAgents(Agent[][] agents)
       fill(128);
     }
     
-    rect(a*cwidth,b*cwidth,cwidth,cwidth);
+    rect(b*cwidth,a*cwidth,cwidth,cwidth);//a is vertical!
    }
 }
 //OR

@@ -22,7 +22,7 @@ void visualizeAgents(Agent[][] agents)
     }
     
     noStroke();
-    rect(a*cwidth,b*cwidth,cwidth,cwidth);//WŁAŚCIWE RYSOWANIE 
+    rect(b*cwidth,a*cwidth,cwidth,cwidth);//WŁAŚCIWE RYSOWANIE 
    }
 }
 //OR

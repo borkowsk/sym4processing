@@ -32,7 +32,7 @@ void setup()
   
   //Window 
   println("REQUIRED SIZE OF PAINTING AREA IS "+(cwidth*side)+"x"+(cwidth*side+STATUSHEIGH));
-  cwidth=width/side;
+  cwidth=(height-STATUSHEIGH)/side;
     
   //Optionals:
   //setupMenu();//ISSUE: Size of MenuBar is not counted by Processing!

@@ -34,7 +34,7 @@ void setup()
   
   //OBLICZAMY WYMAGANY ROZMIAR OKNA DLA size() 
   println("REQUIRED SIZE OF PAINTING AREA IS "+(cwidth*side)+"x"+(cwidth*side+STATUSHEIGH));
-  cwidth=width/side;//DOPASOWUJEMY ROZMIAR KOMÓREK DO OKNA JAKIE JEST
+  cwidth=(height-STATUSHEIGH)/side;//DOPASOWUJEMY ROZMIAR KOMÓREK DO OKNA JAKIE JEST
   
   //INICJALIZACJA ZAPISU FILMU  (jeśli używamy RTMVideo.pde)
   //if(WITH_VIDEO) {initVideoExport(this,modelName+".mp4",FRAMEFREQ);FirstVideoFrame();}

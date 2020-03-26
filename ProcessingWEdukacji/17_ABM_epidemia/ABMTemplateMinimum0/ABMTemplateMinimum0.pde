@@ -34,7 +34,7 @@ void setup()
   
   //Window size calculation
   println("REQUIRED SIZE OF PAINTING AREA IS "+(cwidth*side)+"x"+(cwidth*side+STATUSHEIGH));
-  cwidth=width/side;
+  cwidth=(height-STATUSHEIGH)/side;
   
   //FOR RTMVideo.pde UNIT
   //if(WITH_VIDEO) {initVideoExport(this,modelName+".mp4",FRAMEFREQ);FirstVideoFrame();}
