@@ -147,7 +147,7 @@ void viewTicsH(int startX,int startY,int width,int height,float space)
      line(x,startY,x,startY-height);
 }
 
-void viewAsPoints(Sample data,int startX,int startY,int width,int height,boolean logaritm,Range commMinMax)
+void viewAsPoints(Sample data,int startX,int startY,int width,int height,boolean logaritm,Range commMinMax,boolean connect)
 {
   float min,max;
   if(commMinMax!=null)
@@ -161,8 +161,8 @@ void viewAsPoints(Sample data,int startX,int startY,int width,int height,boolean
     max=(logaritm?(float)Math.log10(data.max+1):data.max);//+1 wizualnie niewiele zmienia a gwarantuje obliczalność
   }
   int     N=data.numOfElements(); 
-  float wid=float(width)/N;  //println(N,min,max,wid);
-  
+  float wid=float(width)/N;//  println(width,N,wid,min,max);
+  float oldy=-Float.MIN_VALUE;
   for(int t=0;t<N;t++)
   {
     float val=data.data.get(t);
@@ -172,7 +172,14 @@ void viewAsPoints(Sample data,int startX,int startY,int width,int height,boolean
       val=map(val,min,max,0,height);
     
     float x=t*wid;
-    point(startX+x,startY-val); //println(startX+x,startY-val);
+    if(connect && oldy!=-Float.MIN_VALUE)
+    {
+      line (startX+x-wid,startY-oldy,startX+x,startY-val);//println(wid,x-wid,oldy,x,val);
+    }
+    else
+      point(startX+x,startY-val); //println(startX+x,startY-val);
+    
+    if(connect) oldy=val;
     
     if(t==data.whmax || t==data.whmin)
     {
@@ -180,7 +187,6 @@ void viewAsPoints(Sample data,int startX,int startY,int width,int height,boolean
       text(""+data.data.get(t),startX+x,startY-val);
     }
   }
-  
 }
 
 float viewAsColumns(Frequencies hist,int startX,int startY,int width,int height,boolean logaritm)
