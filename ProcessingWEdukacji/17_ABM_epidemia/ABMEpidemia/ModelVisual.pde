@@ -8,13 +8,15 @@ void visualizeAgents(Agent[][] agents)
    for(int b=0;b<agents[a].length;b++)
    {
     //KOLORYZACJA AGENTA
-    //NA WZÓR TEGO KODU ZDEFINIUJ WŁASNE KOLOROWANIE!
     if( (curra=agents[a][b]) != null )
     {
-      if(curra.dummy>=0)
-        fill(curra.dummy*255,0,curra.dummy*255);
-      else
-        fill(-curra.dummy*255,-curra.dummy*255,0);
+      switch(curra.state){ //Instrukcja wyboru pozwala nam wybrać dowolny kolor
+      case Recovered:  fill(0,255,0);break;//Wyleczony
+      case Infected:   fill(255,0,0);break;//Zachorował
+      case Susceptible:fill(0,0,255);break;//Podatny
+      default:         fill(random(255),0,random(255));//Chory
+      break;
+      } 
     }
     else
     {
@@ -22,8 +24,8 @@ void visualizeAgents(Agent[][] agents)
     }
     
     noStroke();
-    rect(b*cwidth,a*cwidth,cwidth,cwidth);//WŁAŚCIWE RYSOWANIE a jest pionowe
-                                          //bo tak leżą w pamięci tablice 2D
+    rect(b*cwidth,a*cwidth,cwidth,cwidth);//WŁAŚCIWE RYSOWANIE. 
+                                          //UWAGA a to współrzędna pionowa bo tak jest ułożona tablica 2D
    }
 }
 //OR
@@ -32,14 +34,16 @@ void visualizeAgents(Agent[] agents)
    Agent curra;
    for(int a=0;a<agents.length;a++)
    {
-    //KOLORYZACJA AGENTA
-    //NA WZÓR TEGO KODU ZDEFINIUJ WŁASNE KOLOROWANIE!   
+    //KOLORYZACJA AGENTA  
     if( (curra=agents[a]) != null )
     {
-      if(curra.dummy>=0)
-        fill(curra.dummy*255,0,curra.dummy*255);
-      else
-        fill(-curra.dummy*255,-curra.dummy*255,0);
+      switch(curra.state){ //Instrukcja wyboru pozwala nam wybrać dowolny kolor
+      case Recovered:  fill(0,255,0);break;//Wyleczony
+      case Infected:   fill(255,0,0);break;//Zachorował
+      case Susceptible:fill(0,0,255);break;//Podatny
+      default:         fill(random(255),0,random(255));//Chory
+      break;
+      } 
     }
     else
     {
