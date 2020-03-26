@@ -2,13 +2,15 @@
 ///////////////////////////////////////////////////////////////
 class Agent
 {
-  float dummy;//ATRYBUT DEMONSTRACYJNY - POTEM MOŻNA USUNĄĆ
-  //... MIEJSCE NA TWÓJ KOD
+  //float dummy;//ATRYBUT DEMONSTRACYJNY - POTEM MOŻNA USUNĄĆ
+  //NOWY KOD
+  int state;
   
   Agent()//Konstruktor agenta. Inicjuje atrybuty
   {
-    dummy=0;
-    //... MIEJSCE NA TWÓJ KOD
+    //dummy=0;
+    //NOWY KOD
+    state=Susceptible;
   }
 }
 
