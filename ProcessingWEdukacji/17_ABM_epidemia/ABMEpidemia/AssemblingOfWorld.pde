@@ -31,17 +31,17 @@ void visualizeModel(World world)
   visualizeAgents(world.agents);//TU NASTĄPI WYBÓR FUNKCJI PRZECIĄŻONEJ!
 }
 
-void dummyChange(World world) //FUKCJE MOŻNA USUNĄĆ GDY POJAWI SIĘ
-{                             //REALNY KOD MODELU
-  dummyChangeAgents(world.agents);//TU NASTĄPI WYBÓR FUNKCJI PRZECIĄŻONEJ!
-}
+//void dummyChange(World world) //FUKCJE MOŻNA USUNĄĆ GDY POJAWI SIĘ
+//{                             //REALNY KOD MODELU
+//  dummyChangeAgents(world.agents);//TU NASTĄPI WYBÓR FUNKCJI PRZECIĄŻONEJ!
+//}
 
 void modelStep(World world)
 {
-   dummyChange(world);//TYMCZASOWE WYWOŁANIE TRYWIALNEJ DYNAMIKI
+   //dummyChange(world);//TYMCZASOWE WYWOŁANIE TRYWIALNEJ DYNAMIKI
    //OR
-   //... MIEJSCE NA TWÓJ REALNY KOD MODELU np. 
-   //agentsChange(world.agents);//TU NASTĄPI WYBÓR FUNKCJI PRZECIĄŻONEJ!
+   //REALNY KOD MODELU
+   agentsChange(world.agents);//TU NASTĄPI WYBÓR FUNKCJI PRZECIĄŻONEJ!
    
    StepCounter++;
 }
