@@ -24,8 +24,8 @@ void visualizeAgents(Agent[][] agents)
     }
     
     noStroke();
-    rect(b*cwidth,a*cwidth,cwidth,cwidth);//WŁAŚCIWE RYSOWANIE. 
-                                          //UWAGA a to współrzędna pionowa bo tak jest ułożona tablica 2D
+    rect(b*cwidth,a*cwidth,cwidth,cwidth);//WŁAŚCIWE RYSOWANIE. UWAGA! a to współrzędna  
+                                          //pionowa bo tak jest ułożona tablica 2D
    }
 }
 //OR

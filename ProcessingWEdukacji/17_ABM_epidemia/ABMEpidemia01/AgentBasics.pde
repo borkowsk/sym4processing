@@ -40,10 +40,17 @@ void initializeAgents(Agent[] agents)
       agents[agents.length/2]=new Agent();
       liveCount++;
    }
+   
+   //Inicjowanie infekcji od środka
+   if(agents[agents.length/2]==null)//Gdyby go nie było
+   {
+      agents[agents.length/2]=new Agent();
+      liveCount++;
+   }
    agents[agents.length/2].state=Infected;
 }
 
-void  agentsChange(Agent[] agents)//do zmiany na agentsChange()
+void  agentsChange(Agent[] agents)//przerobiona z dummyChangeAgents()
 {
   int MC=agents.length;
   for(int i=0;i<MC;i++)
@@ -55,24 +62,27 @@ void  agentsChange(Agent[] agents)//do zmiany na agentsChange()
     }
   }  
 }
+
 //OR
-void  agentsChange(Agent[][] agents)//do zmiany na agentsChange()
+
+void  agentsChange(Agent[][] agents)//przerobiona z dummyChangeAgents()
 {
   int MC=agents.length*agents[0].length;
   for(int i=0;i<MC;i++)
   {
-    int a=(int)random(0,agents.length);//agents[a].lenght na wypadek gdyby nam przyszło do głowy zrobić prostokąt
-    int b=(int)random(0,agents[a].length);//print(a,b,' ');
+    int a=(int)random(0,agents.length);//agents[a].lenght na wypadek gdyby nam przyszło
+    int b=(int)random(0,agents[a].length);// do głowy zrobić prostokąt
     if(agents[a][b]!= null )
     {
        //Jesli pusty lub zdrowy to nic nie robimy
-       if(agents[a][b].state<Infected || Recovered<=agents[a][b].state) continue;
+       if(agents[a][b].state<Infected || Recovered<=agents[a][b].state) 
+          continue;
        
        //Wyliczenie lokalizacji sąsiadów
        int dw=(a+1) % agents.length;   
        int up=(agents.length+a-1) % agents.length;
-       int right = (b+1) % agents[a].length;      
-       int left  = (agents[a].length+b-1) % agents[a].length;
+       int right = (b+1) % agents[a].length;//MOŻE BYĆ INNE NIŻ agents.lenght      
+       int left  = (agents[a].length+b-1) % agents[a].length;//JEŚLI PROSTOKĄT
 
        if(agents[a][left]!=null
        && agents[a][left].state==Susceptible && random(1) < PTransfer) 

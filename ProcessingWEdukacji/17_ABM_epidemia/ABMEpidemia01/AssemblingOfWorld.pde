@@ -31,7 +31,7 @@ void visualizeModel(World world)
   visualizeAgents(world.agents);//TU NASTĄPI WYBÓR FUNKCJI PRZECIĄŻONEJ!
 }
 
-//void dummyChange(World world) //FUKCJE MOŻNA USUNĄĆ GDY POJAWI SIĘ
+//void dummyChange(World world) //FUNKCJE MOŻNA USUNĄĆ GDY POJAWI SIĘ
 //{                             //REALNY KOD MODELU
 //  dummyChangeAgents(world.agents);//TU NASTĄPI WYBÓR FUNKCJI PRZECIĄŻONEJ!
 //}
