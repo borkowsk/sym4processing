@@ -100,6 +100,7 @@ void draw()
        
        if(prob<PDeath) //Albo tego dnia umiera
         {World[i][j]=Empty;sumDeath++;}
+        else
         {
           //Albo jest wyleczony
           if(++World[i][j]==Recovered)
