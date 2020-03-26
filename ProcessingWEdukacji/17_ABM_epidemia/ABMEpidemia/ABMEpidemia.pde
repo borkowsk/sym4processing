@@ -4,15 +4,30 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 //PARAMETRY MODELU
-int side=75;//DŁUGOŚĆ BOKU ŚWIATA
+int side=200;//DŁUGOŚĆ BOKU ŚWIATA
 String modelName="ABMEpidemia";
-float density=0.75;
+float density=0.66;
 
-World TheWorld=new World(side);//... ALE INICJALIZACJA JEST KONCZONA 
+World TheWorld=new World(side);//INICJALIZACJA JEST KONCZONA 
                                //W FUNKCJI setup()
 
+//Coś w rodzaju stałych ;-)
+final int Duration=7;//Czas trwania infekcji!
+//final int Empty=0;//NIEPOTRZEBNE. Zamiast tego jest null w komórce tablicy uchwytów do agetów 
+final int Susceptible=1;
+final int Infected=2;
+final int Recovered=Infected+Duration;
+final float PTransfer=0.330;   //Prawdopodobieństwo zarażenia agenta w pojedynczej interakcji
+final float PDeath=0.05;      //Średnie prawdopodobieństwo śmierci w danym dniu choroby
+
+//STATYSTYKI LICZONE W TRAKCIE SYMULACJI
+int liveCount=0;
+int sumInfected=0;//Zachorowanie
+int sumRecovered=0;//Wyzdrowienia
+int sumDeath=0;//Ci co umarli
+                               
 //PARAMETRY WIZUALIZACJI, STATYSTYKI ITP.
-int cwidth=15;//DŁUGOŚĆ BOKU KOMÓRKI W WIZUALIZACJI
+int cwidth=3;//DŁUGOŚĆ BOKU KOMÓRKI W WIZUALIZACJI
               //WARTOSC NADANA TU JEST TYLKO WSTĘPNA
 int STATUSHEIGH=40;//WYSOKOŚĆ PASKA STATUSU NA DOLE OKNA
 
@@ -25,7 +40,8 @@ boolean simulationRun=true;//FLAGA Start/stop DZIAŁANIA SYMULACJI
 void setup()
 {
   //GRAFIKA
-  size(750,790);//NIESTETY TU MOGĄ BYĆ TYLKO WARTOŚCI PODANE LITERALNIE CZYLI "LITERAŁY"!!!
+  size(600,640);//NIESTETY TU MOGĄ BYĆ TYLKO WARTOŚCI PODANE LITERALNIE CZYLI "LITERAŁY"!!!
+  noSmooth();   //Znacząco przyśpiesza wizualizacje
   frameRate(FRAMEFREQ);
   background(255,255,200);
   strokeWeight(2);
@@ -78,8 +94,9 @@ void writeStatusLine()
 {
   fill(255);rect(0,side*cwidth,width,STATUSHEIGH);
   fill(0);noStroke();
-  //textAlign(LEFT, TOP);
-  //text(meanDummy+"  "+liveCount,0,side*cwidth);//Miejce dla NAJWAŻNIEJSZYCH STATYSTYK
+  textAlign(LEFT, TOP);
+  text(liveCount+" Zachorowali:"+sumInfected+" Wyzdrowieli:"+sumRecovered+" Umarli:"+sumDeath,0,side*cwidth);//Miejce dla NAJWAŻNIEJSZYCH STATYSTYK
+  println("ST:"+StepCounter+"\tZ\t"+sumInfected+"\tW\t"+sumRecovered+"\tU\t"+sumDeath);
   textAlign(LEFT, BOTTOM);
   text(StepCounter+")  Fps:"+ frameRate,0,side*cwidth+STATUSHEIGH-2);
 }
