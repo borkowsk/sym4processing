@@ -1,5 +1,5 @@
 
-void checkCommnadLine()
+void checkCommandLine()
 {
     //Is passing parameters possible?
     if(args==null)
