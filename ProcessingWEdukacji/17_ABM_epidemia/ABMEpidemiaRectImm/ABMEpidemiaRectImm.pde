@@ -46,9 +46,10 @@ void setup()
   frameRate(FRAMEFREQ);
   background(255,255,200);
   strokeWeight(2);
+  //randomSeed(-1013);//Zasianie generatora gdy chcemy mieć powtarzalny przebieg np. 107 albo 1013
   
   //INICJALIZACJA MODELU I (ewentualnie) STATYSTYK
-  initializeModel(TheWorld);//ZAKONCZENIE INICJALIZACJI ŚWIATA
+  initializeModel(TheWorld);//DOKONCZENIE INICJALIZACJI ŚWIATA
   //initializeStats();      //ODKOMENTOWAĆ JEŚLI UŻYWAMY STATYSTYK
   //doStatistics(TheWorld); //J.W.
   
