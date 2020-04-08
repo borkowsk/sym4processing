@@ -1,12 +1,15 @@
 // Aktywne prostokąty - autorski system interfejsu aplikacji w Processingu
 // Wojciech Borkowski
 ///////////////////////////////////////////////////////////////////////////////
-ArrayList<RectArea>   viAreas = new ArrayList<RectArea>();   //Lista obszarów do wyświetlania
-ArrayList<TextButton> buttons = new ArrayList<TextButton>(); //Lista buttonów
+ArrayList<RectArea>   allAreas = new ArrayList<RectArea>();   //Lista obszarów do wyświetlania
+ArrayList<TextButton> allButtons = new ArrayList<TextButton>(); //Lista buttonów
+
+int iniTxButtonSize=16;
+int iniTxButtonCornerRadius=6;//Domyślne zaokrąglenie rogów przycisków
 
 void view_all_areas()
 {
-  for( RectArea area: viAreas)   //Lista obszarów do wyświetlania
+  for( RectArea area: allAreas)   //Lista obszarów do wyświetlania
   {
     area.view();
   }
@@ -15,7 +18,7 @@ void view_all_areas()
 /*void mousePressed() 
 {
   //println("Pressed "+mouseX+" x "+mouseY);
-  for(TextButton button : buttons) 
+  for(TextButton button : allButtons) 
   {
     if(button.hitted(mouseX,mouseY))
     {
@@ -27,7 +30,7 @@ void view_all_areas()
 void mouseReleased() 
 {
   //println("Released "+mouseX+" x "+mouseY);
-  for(TextButton button : buttons) 
+  for(TextButton button : allButtons) 
   {
     if(button.hitted(mouseX,mouseY))
     {
@@ -35,6 +38,7 @@ void mouseReleased()
     } 
   }
 }  
+
 
 class RectArea //Prostokątny obszar ekranu jako postawa pod rożne obszary aktywne
 {
@@ -54,7 +58,7 @@ class RectArea //Prostokątny obszar ekranu jako postawa pod rożne obszary akty
   void view()//Wyświetlanie
   {
         rectMode(CORNERS);
-        fill(red(back),green(back),blue(back));
+        fill(back);
         noStroke();
         rect(x1,y1,x2,y2);
   }
@@ -96,14 +100,19 @@ class PanelOfTextButtons extends RectArea
   
 }
 
-int   default_text_corner_radius=6;//Domyślne zaokrąglenie rogów przycisków
+/* From Interfaces.pde
+interface named //Any object which have name as printable String
+{
+  String getName();
+}
+*/
 
-class TextButton extends RectArea //Prostokątny przycisk z zawartością tekstową
+class TextButton extends RectArea implements named//Prostokątny przycisk z zawartością tekstową
 {
   color  txt,strok;
   int strokW;
   int txtSiz;
-  int corner=default_text_corner_radius;
+  int corner=iniTxButtonCornerRadius;
   
   String title;
   protected int state;
@@ -112,16 +121,18 @@ class TextButton extends RectArea //Prostokątny przycisk z zawartością teksto
   {
     super(iX1,iY1,iX2,iY2);
     state=0; 
-    txt=color(255,255,255); back=color(0,0,0);corner=default_text_corner_radius;
+    txt=color(255,255,255); back=color(0,0,0);corner=iniTxButtonCornerRadius;
     strok=color(100,100,100); strokW=3;
     title=iTitle; 
-    txtSiz=iniTxSize; //Trochę to chmmm...
+    txtSiz=iniTxButtonSize; //Wartość domyślna
     
     //Dopasowywanie rozmiaru fontu żeby się zmieściło title
     textSize(txtSiz);
     while(textWidth(title) > x2-x1) textSize(--txtSiz);
     while(textAscent()+textDescent() > y2-y1) textSize(--txtSiz);
   }
+  
+  String getName() { return title; }
   
   void view()
   {
@@ -271,6 +282,7 @@ class WrTextButton extends TextButton //Button pamiętający kolumnę do jakiej 
 {   
   int column;
   String marker; 
+  
   WrTextButton(String iTitle,float iX1,float iY1,float iX2,float iY2,String iMarker,int iColumn)
   {
     super(iTitle,iX1,iY1,iX2,iY2);
