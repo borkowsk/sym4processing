@@ -51,7 +51,7 @@ int N=0; //Licznik losowań
 //Do sensownej wizualizacji
 int ReqFrames=10;//Ile ramek na sekundę chcemy
 int NumOfProbesPerDraw=100;//Ile losowań w jednej ramce
-int MaxBasket=100;//Do skalowania słypków. Początkowo coś musi być. 
+int MaxBasket=100;//Do skalowania słupków. Początkowo coś musi być. 
 
 void setup()
 {
