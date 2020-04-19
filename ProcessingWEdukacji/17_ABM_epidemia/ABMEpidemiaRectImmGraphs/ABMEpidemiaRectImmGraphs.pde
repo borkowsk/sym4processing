@@ -98,10 +98,17 @@ void draw()
 void writeStatusLine()
 {
   fill(0);rect(0,side*cwidth,width,STATUSHEIGH);fill(128);
-  histogram(TheWorld.agents,0,height-16,STATUSHEIGH-16);//Histogram wg. odporności
-  stroke(255,0,0);fill(255,0,0);timeline(deaths,200,height,STATUSHEIGH-16,false);
-  stroke(0,0,255);fill(0,0,255);timeline(newcas,200,height,STATUSHEIGH-16,false);
-  stroke(0,255,0);fill(0,255,0);timeline(cured, 200,height,STATUSHEIGH-16,false);//Historie trzech zmiennych dziennych
+  histogram(TheWorld.agents,0,height-16,STATUSHEIGH-16);//Histogram wg. odporności  
+  
+  //Historie trzech zmiennych dziennych - każda w swojej skali
+  //stroke(0,0,255);fill(0,0,255);timeline(newcas,200,height,STATUSHEIGH-16,false);
+  //stroke(255,0,0);fill(255,0,0);timeline(deaths,200,height,STATUSHEIGH-16,false);
+  //stroke(0,255,0);fill(0,255,0);timeline(cured, 200,height,STATUSHEIGH-16,false);
+  
+  //Historie trzech zmiennych we wspólnej skali
+  stroke(0,0,255);fill(0,0,255);
+  timeline(newcas,deaths,cured, 200,height,STATUSHEIGH-16,false);
+  
   fill(128);noStroke();
   textAlign(RIGHT, TOP);
   text("Żyją:"+liveCount+" Zachorowali:"+sumInfected+" Wyzdrowieli:"+sumRecovered+" Umarli:"+sumDeath+"     ",width,side*cwidth);//Miejce dla NAJWAŻNIEJSZYCH STATYSTYK
