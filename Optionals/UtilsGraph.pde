@@ -1,7 +1,7 @@
-//Różne pomocne procedury rysujące
+// Różne pomocne procedury rysujące
 ////////////////////////////////////////////////////////////////
 
-void dottedLine(int x1,int y1,int x2,int y2,float dens)
+void dottedline(int x1,int y1,int x2,int y2,float dens)
 {
   for (int i = 0; i <= dens; i++) 
   {
@@ -9,6 +9,11 @@ void dottedLine(int x1,int y1,int x2,int y2,float dens)
     float y = lerp(y1, y2, i/dens);
     point(x, y);
   }
+}
+
+void dashedline(float x0, float y0, float x1, float y1,float dens)
+{
+  dashedline(x0,y0,x1,y1,new float[]{dens,dens});
 }
 
 void surround(int x1,int y1,int x2,int y2)//Ramka domyslną linią
@@ -60,53 +65,7 @@ void regularpoly(float x, float y, float radius, int npoints)
   endShape(CLOSE);
 }
 
-//STRZAŁKA W DOWOLNYM KIERUNKU
-float def_arrow_size=15;
-float def_arrow_theta=PI/6.0+PI;//3.6651914291881
-
-void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)
-{
-  //METODA LICZENIA Z OBRACANIA OSI STRZALKI
-  float A=(size>=1 ? size : size * sqrt( sqr(x1-x2)+sqr(y1-y2) ));
-  float poY=float(y2-y1);
-  float poX=float(x2-x1);
-
-  if(poY==0 && poX==0)
-  {
-    //Rzadki błąd, ale DOMAIN ERROR!
-    float cross_width=def_arrow_size/2;
-    line(x1-cross_width,y1,x1+cross_width,y1);
-    line(x1,y1-cross_width,x1,y1+cross_width);
-    ellipse(x1+def_arrow_size/sqrt(2.0),y1-def_arrow_size/sqrt(2.0)+1,
-            def_arrow_size,def_arrow_size);
-    return;
-  }
-                                           assert(!(poY==0 && poX==0));
-  float alfa=atan2(poY,poX);            if(abs(alfa)>PI+0.0000001)
-                                             println("Alfa=%e\n",alfa);
-                       //assert(fabs(alfa)<=M_PI);//cerr<<alfa<<endl;
-  float xo1=A*cos(theta+alfa);
-  float yo1=A*sin(theta+alfa);
-  float xo2=A*cos(alfa-theta);
-  float yo2=A*sin(alfa-theta);
-  //cross(x2,y2,128);DEBUG
-
-  line(int(x2+xo1),int(y2+yo1),x2,y2);
-  line(int(x2+xo2),int(y2+yo2),x2,y2);
-  line(x1,y1,x2,y2);
-}
-
-//BAR3D 
-class settings_bar3d
-{
-int a=10;
-int b=6;
-int c=6;
-color wire=color(255,255,255); //Kolor ramek
-color back=color(0,0,0); //Informacja o kolorze tla
-}
-
-settings_bar3d bar3dsett=new settings_bar3d();
+//POLYGON
 
 class pointxy
 {
@@ -123,6 +82,18 @@ void polygon(pointxy[] lst/*+1*/,int N)
   }
   endShape(CLOSE);
 }
+
+//BAR3D 
+class settings_bar3d
+{
+int a=10;
+int b=6;
+int c=6;
+color wire=color(255,255,255); //Kolor ramek
+color back=color(0,0,0); //Informacja o kolorze tla
+}
+
+settings_bar3d bar3dsett=new settings_bar3d();
 
 pointxy bar3dromb[]={new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy()};
 
@@ -164,7 +135,96 @@ void bar3dRGB(float x,float y,float h,int R,int G,int B,int Shad)
  // rect(x,y-h,1,h+1,wire_col);       //lewy pion
 }/* end slupek RGB */
 
+/* https://processing.org/discourse/beta/num_1202486379.html 
+ * Draw a dashed line with given set of dashes and gap lengths. 
+ * x0 starting x-coordinate of line. 
+ * y0 starting y-coordinate of line. 
+ * x1 ending x-coordinate of line. 
+ * y1 ending y-coordinate of line. 
+ * spacing array giving lengths of dashes and gaps in pixels; 
+ *  an array with values {5, 3, 9, 4} will draw a line with a 
+ *  5-pixel dash, 3-pixel gap, 9-pixel dash, and 4-pixel gap. 
+ *  if the array has an odd number of entries, the values are 
+ *  recycled, so an array of {5, 3, 2} will draw a line with a 
+ *  5-pixel dash, 3-pixel gap, 2-pixel dash, 5-pixel gap, 
+ *  3-pixel dash, and 2-pixel gap, then repeat. 
+ */ 
+ 
+void dashedline(float x0, float y0, float x1, float y1, float[ ] spacing) 
+{ 
+  float distance = dist(x0, y0, x1, y1); 
+  float [ ] xSpacing = new float[spacing.length]; 
+  float [ ] ySpacing = new float[spacing.length]; 
+  float drawn = 0.0;  // amount of distance drawn 
+ 
+  if (distance > 0) 
+  { 
+    int i; 
+    boolean drawLine = true; // alternate between dashes and gaps 
+ 
+    /* 
+      Figure out x and y distances for each of the spacing values 
+      I decided to trade memory for time; I'd rather allocate 
+      a few dozen bytes than have to do a calculation every time 
+      I draw. 
+    */ 
+    for (i = 0; i < spacing.length; i++) 
+    { 
+      xSpacing[i] = lerp(0, (x1 - x0), spacing[i] / distance); 
+      ySpacing[i] = lerp(0, (y1 - y0), spacing[i] / distance); 
+    } 
+ 
+    i = 0; 
+    while (drawn < distance) 
+    { 
+      if (drawLine) 
+      { 
+        line(x0, y0, x0 + xSpacing[i], y0 + ySpacing[i]); 
+      } 
+      x0 += xSpacing[i]; 
+      y0 += ySpacing[i]; 
+      /* Add distance "drawn" by this line or gap */ 
+      drawn = drawn + mag(xSpacing[i], ySpacing[i]); 
+      i = (i + 1) % spacing.length;  // cycle through array 
+      drawLine = !drawLine;  // switch between dash and gap 
+    } 
+  } 
+} 
+ 
+//STRZAŁKA W DOWOLNYM KIERUNKU
+float def_arrow_size=15;
+float def_arrow_theta=PI/6.0+PI;//3.6651914291881
 
+void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)
+{
+  //METODA LICZENIA Z OBRACANIA OSI STRZALKI
+  float A=(size>=1 ? size : size * sqrt( sqr(x1-x2)+sqr(y1-y2) ));
+  float poY=float(y2-y1);
+  float poX=float(x2-x1);
+
+  if(poY==0 && poX==0)
+  {
+    //Rzadki błąd, ale duży problem
+    float cross_width=def_arrow_size/2;
+    line(x1-cross_width,y1,x1+cross_width,y1);
+    line(x1,y1-cross_width,x1,y1+cross_width);
+    ellipse(x1+def_arrow_size/sqrt(2.0),y1-def_arrow_size/sqrt(2.0)+1,
+            def_arrow_size,def_arrow_size);
+    return;
+  }
+                                        assert(!(poY==0 && poX==0));
+  float alfa=atan2(poY,poX);            if(abs(alfa)>PI+0.0000001)
+                                             println("Alfa=%e\n",alfa);
+                                      //assert(fabs(alfa)<=M_PI);//cerr<<alfa<<endl;
+  float xo1=A*cos(theta+alfa);
+  float yo1=A*sin(theta+alfa);
+  float xo2=A*cos(alfa-theta);
+  float yo2=A*sin(alfa-theta); //cross(x2,y2,128);DEBUG!
+
+  line(int(x2+xo1),int(y2+yo1),x2,y2);
+  line(int(x2+xo2),int(y2+yo2),x2,y2);
+  line(x1,y1,x2,y2);
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - HANDY FUNCTIONS & CLASSES

@@ -12,7 +12,7 @@
  *  5-pixel dash, 3-pixel gap, 2-pixel dash, 5-pixel gap, 
  *  3-pixel dash, and 2-pixel gap, then repeat. 
  */ 
-void dashline(float x0, float y0, float x1, float y1, float[ ] spacing) 
+void dashedLine(float x0, float y0, float x1, float y1, float[ ] spacing) 
 { 
   float distance = dist(x0, y0, x1, y1); 
   float [ ] xSpacing = new float[spacing.length]; 
