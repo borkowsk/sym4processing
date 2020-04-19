@@ -107,7 +107,7 @@ void writeStatusLine()
   
   //Historie trzech zmiennych we wspólnej skali
   stroke(0,0,255);fill(0,0,255);
-  timeline(newcas,deaths,cured, 200,height,STATUSHEIGH-16,false);
+  timeline(newcas,deaths,cured, 200,height,STATUSHEIGH-16,false,color(0,0,255),color(255,0,0),color(0,255,0));
   
   fill(128);noStroke();
   textAlign(RIGHT, TOP);

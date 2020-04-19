@@ -60,7 +60,7 @@ void timeline(FloatList data, float startX, float startY, float height,boolean l
 
 //Wtedy np. tak jak poniżej, co jest wersją bardzo prymitywną, ale będzie działać :-D
 void timeline(FloatList data_a, FloatList data_b, FloatList data_c,
-              float startX, float startY, float height,boolean logaritm)
+              float startX, float startY, float height,boolean logaritm,color color_a,color color_b,color color_c)
 {
   float   max=-Float.MAX_VALUE;//Tu będzie prawdziwa wartość
   float   gmax=0;//A tu przeliczona dla grafiki
@@ -105,6 +105,7 @@ void timeline(FloatList data_a, FloatList data_b, FloatList data_c,
   //Właściwe rysowanie
   float wid=lenght/max(N1,N2,N3);//Najdłuższy decyduje
   float oldy=-Float.MIN_VALUE;
+  stroke(color_a);//fill(color_a);
   for(int t=0;t<N1;t++)
   {
     float val=data_a.get(t);
@@ -124,6 +125,7 @@ void timeline(FloatList data_a, FloatList data_b, FloatList data_c,
   }
 
   oldy=-Float.MIN_VALUE;
+  stroke(color_b);//fill(color_b);
   for(int t=0;t<N2;t++)
   {
     float val=data_b.get(t);
@@ -143,6 +145,7 @@ void timeline(FloatList data_a, FloatList data_b, FloatList data_c,
   }
   
   oldy=-Float.MIN_VALUE;
+  stroke(color_c);//fill(color_c);
   for(int t=0;t<N3;t++)
   {
     float val=data_c.get(t);
@@ -172,9 +175,9 @@ void dottedLine(float x1, float y1, float x2, float y2, float steps)
 //https://processing.org/discourse/beta/num_1219255354.html
 {
  for(int i=0; i<=steps; i++) {
-   float x = lerp(x1, x2, i/steps);
+   float x = lerp(x1, x2, i/steps);//funkcja lerp() jest bardzo uzyteczna :-)
    float y = lerp(y1, y2, i/steps);
-   noStroke();
-   ellipse(x, y,2,2);//???
+   //noStroke();ellipse(x, y,2,2);//Używanie elipsy zamiast punktu nie jest zbyt wydajne ;-)
+   point(x,y);
  }
 } 
