@@ -1,10 +1,18 @@
 // Wykres zmian w czasie
 ///////////////////////////////////////////////////////////////
 
-FloatList deaths=new FloatList();
-
-void timeline(FloatList a,FloatList b,FloatList c,
-              float startx,float starty,float hight)
+void timeline(FloatList a, 
+   float startx, float starty, float height)
 {
-  float x;
+
+}
+
+//A jakby miało być więcej zmiennych?
+//Wtedy np. tak:
+//UWAGA! - wspólna skala!!!
+
+void timeline(FloatList a, FloatList b, FloatList c,
+              float startx, float starty, float height)
+{
+
 }

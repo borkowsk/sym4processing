@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////
 int Max=0;//Max wspólny dla całej symulacji
 
-void Histogram(Agent[][] agents,float startx,float starty,float hight)
+void histogram(Agent[][] agents,float startx,float starty,float hight)
 //Funkcja przechodzi po wszystkich agentach i zlicza wg. klas odpornosci.
 {
   int NumOfBaskets=100;

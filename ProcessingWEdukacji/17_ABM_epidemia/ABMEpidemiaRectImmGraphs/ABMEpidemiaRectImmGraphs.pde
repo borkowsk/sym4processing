@@ -26,7 +26,10 @@ int liveCount=0;
 int sumInfected=0;//Zachorowanie
 int sumRecovered=0;//Wyzdrowienia
 int sumDeath=0;//Ci co umarli
-                               
+FloatList deaths=new FloatList();//Śmierci 
+FloatList newcas=new FloatList();//Nowe zachorowania
+FloatList  cured=new FloatList();//Wyleczeni 
+
 //PARAMETRY WIZUALIZACJI, STATYSTYKI ITP.
 int cwidth=3;//DŁUGOŚĆ BOKU KOMÓRKI W WIZUALIZACJI
               //WARTOSC NADANA TU JEST TYLKO WSTĘPNA
@@ -95,7 +98,8 @@ void draw()
 void writeStatusLine()
 {
   fill(255);rect(0,side*cwidth,width,STATUSHEIGH);
-  Histogram(TheWorld.agents,0,height-16,STATUSHEIGH-32);//Histogram wg. odporności
+  histogram(TheWorld.agents,0,height-16,STATUSHEIGH-32);//Histogram wg. odporności
+  timeline(deaths,newcas,cured,100,height,STATUSHEIGH-32);//Historia trzech zmiennych dziennych
   fill(0);noStroke();
   textAlign(LEFT, TOP);
   text(liveCount+" Zachorowali:"+sumInfected+" Wyzdrowieli:"+sumRecovered+" Umarli:"+sumDeath,0,side*cwidth);//Miejce dla NAJWAŻNIEJSZYCH STATYSTYK

@@ -58,6 +58,11 @@ void  agentsChange(Agent[] agents)//do zmiany na agentsChange()
 //OR
 void  agentsChange(Agent[][] agents)//do zmiany na agentsChange()
 {
+  //Zapamiętujemy stan przed krokiem
+  int befInfected=sumInfected;
+  int befRecovered=sumRecovered;
+  int befDeath=sumDeath;
+  
   int MC=agents.length*agents[0].length;
   for(int i=0;i<MC;i++)
   {
@@ -110,6 +115,10 @@ void  agentsChange(Agent[][] agents)//do zmiany na agentsChange()
         }
     }
   }
+  //Zapamiętujemy zmiane w podstawowych statystykach jaka się dokonała w kroku symulacji
+  deaths.append(sumDeath-befDeath);
+  newcas.append(sumInfected-befInfected);
+  cured.append(sumRecovered-befRecovered);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
