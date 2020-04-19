@@ -97,13 +97,17 @@ void draw()
 
 void writeStatusLine()
 {
-  fill(255);rect(0,side*cwidth,width,STATUSHEIGH);
-  histogram(TheWorld.agents,0,height-16,STATUSHEIGH-32);//Histogram wg. odporności
-  timeline(deaths,newcas,cured,100,height,STATUSHEIGH-32);//Historia trzech zmiennych dziennych
-  fill(0);noStroke();
-  textAlign(LEFT, TOP);
-  text(liveCount+" Zachorowali:"+sumInfected+" Wyzdrowieli:"+sumRecovered+" Umarli:"+sumDeath,0,side*cwidth);//Miejce dla NAJWAŻNIEJSZYCH STATYSTYK
-  println("ST:"+StepCounter+"\tZ\t"+sumInfected+"\tW\t"+sumRecovered+"\tU\t"+sumDeath);
+  fill(0);rect(0,side*cwidth,width,STATUSHEIGH);fill(128);
+  histogram(TheWorld.agents,0,height-16,STATUSHEIGH-16);//Histogram wg. odporności
+  stroke(255,0,0);fill(255,0,0);timeline(deaths,200,height,STATUSHEIGH-16,false);
+  stroke(0,0,255);fill(0,0,255);timeline(newcas,200,height,STATUSHEIGH-16,false);
+  stroke(0,255,0);fill(0,255,0);timeline(cured, 200,height,STATUSHEIGH-16,false);//Historie trzech zmiennych dziennych
+  fill(128);noStroke();
+  textAlign(RIGHT, TOP);
+  text("Żyją:"+liveCount+" Zachorowali:"+sumInfected+" Wyzdrowieli:"+sumRecovered+" Umarli:"+sumDeath+"     ",width,side*cwidth);//Miejce dla NAJWAŻNIEJSZYCH STATYSTYK
+  println("ST:"+StepCounter+"\tZ\t"+sumInfected+"\t"+newcas.get(newcas.size()-1)
+                            +"\tW\t"+sumRecovered+"\t"+cured.get(cured.size()-1)
+                            +"\tU\t"+sumDeath+"\t"+deaths.get(deaths.size()-1)+"\t" );
   textAlign(LEFT, BOTTOM);
   text(StepCounter+")  Fps:"+ frameRate,0,side*cwidth+STATUSHEIGH-2);
 }
