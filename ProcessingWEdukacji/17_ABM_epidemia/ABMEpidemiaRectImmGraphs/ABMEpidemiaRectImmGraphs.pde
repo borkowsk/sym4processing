@@ -33,7 +33,7 @@ FloatList  cured=new FloatList();//Wyleczeni
 //PARAMETRY WIZUALIZACJI, STATYSTYKI ITP.
 int cwidth=3;//DŁUGOŚĆ BOKU KOMÓRKI W WIZUALIZACJI
               //WARTOSC NADANA TU JEST TYLKO WSTĘPNA
-int STATUSHEIGH=100;//WYSOKOŚĆ PASKA STATUSU NA DOLE OKNA
+int STATUSHEIGH=150;//WYSOKOŚĆ PASKA STATUSU NA DOLE OKNA
 
 int STEPSperVIS=1;//JAK CZĘSTO URUCHAMIAMY WIZUALIZACJĘ
 int FRAMEFREQ=30; //ILE RAZY NA SEKUNDĘ URUCHAMIA SIĘ draw()
@@ -44,7 +44,7 @@ boolean simulationRun=true;//FLAGA Start/stop DZIAŁANIA SYMULACJI
 void setup()
 {
   //GRAFIKA
-  size(1200,700);//NIESTETY TU MOGĄ BYĆ TYLKO WARTOŚCI PODANE LITERALNIE CZYLI "LITERAŁY"!!!
+  size(1200,750);//NIESTETY TU MOGĄ BYĆ TYLKO WARTOŚCI PODANE LITERALNIE CZYLI "LITERAŁY"!!!
   noSmooth();   //Znacząco przyśpiesza wizualizacje
   frameRate(FRAMEFREQ);
   background(255,255,200);
@@ -100,10 +100,11 @@ void writeStatusLine()
   fill(0);rect(0,side*cwidth,width,STATUSHEIGH);fill(128);
   histogram(TheWorld.agents,0,height-16,STATUSHEIGH-16);//Histogram wg. odporności  
   
-  //Historie trzech zmiennych dziennych - każda w swojej skali
-  //stroke(0,0,255);fill(0,0,255);timeline(newcas,200,height,STATUSHEIGH-16,false);
-  //stroke(255,0,0);fill(255,0,0);timeline(deaths,200,height,STATUSHEIGH-16,false);
-  //stroke(0,255,0);fill(0,255,0);timeline(cured, 200,height,STATUSHEIGH-16,false);
+                                                                  // Albo historie trzech zmiennych dziennych 
+  //Legenda                                                       // w swojej skali
+  stroke(0,0,255);fill(0,0,200);text("nowi chorzy",300,height-16);//timeline(newcas,200,height,STATUSHEIGH-16,false);
+  stroke(255,0,0);fill(200,0,0);text("nowi zmarli",300,height-32);//timeline(deaths,200,height,STATUSHEIGH-16,false);
+  stroke(0,255,0);fill(0,200,0);text("nowo wyleczeni",300,height-48);//timeline(cured, 200,height,STATUSHEIGH-16,false);
   
   //Historie trzech zmiennych we wspólnej skali
   stroke(0,0,255);fill(0,0,255);
@@ -113,8 +114,9 @@ void writeStatusLine()
   textAlign(RIGHT, TOP);
   text("Żyją:"+liveCount+" Zachorowali:"+sumInfected+" Wyzdrowieli:"+sumRecovered+" Umarli:"+sumDeath+"     ",width,side*cwidth);//Miejce dla NAJWAŻNIEJSZYCH STATYSTYK
   println("ST:"+StepCounter+"\tZ\t"+sumInfected+"\t"+newcas.get(newcas.size()-1)
-                            +"\tW\t"+sumRecovered+"\t"+cured.get(cured.size()-1)
-                            +"\tU\t"+sumDeath+"\t"+deaths.get(deaths.size()-1)+"\t" );
+                           +"\tW\t"+sumRecovered+"\t"+cured.get(cured.size()-1)
+                           +"\tU\t"+sumDeath+"\t"+deaths.get(deaths.size()-1)
+                           +"\t");
   textAlign(LEFT, BOTTOM);
   text(StepCounter+")  Fps:"+ frameRate,0,side*cwidth+STATUSHEIGH-2);
 }
