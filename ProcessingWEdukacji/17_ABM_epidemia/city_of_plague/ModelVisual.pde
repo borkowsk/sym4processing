@@ -38,13 +38,14 @@ void visualizeAgents(Agent[][] agents)
       default:         fill(random(255),green,random(255));//Chory
       break;
       } 
+      ellipse(b*cwidth,a*cwidth,cwidth,cwidth);//WŁAŚCIWE RYSOWANIE 
     }
     else
     {
-      fill(128);
+      //fill(128);//Mamy rysowanie srodowisko, wiec jak agenta nie ma to nie ma
     }
     
-    ellipse(b*cwidth,a*cwidth,cwidth,cwidth);//WŁAŚCIWE RYSOWANIE 
+    
    }
 }
 

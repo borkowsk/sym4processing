@@ -2,14 +2,16 @@
 // Agent need to be initialised & they need logic of change 
 ///////////////////////////////////////////////////////////////
 
-void initializeAgents(Agent[][] agents)
+void initializeAgents(Agent[][] agents,int[][] env)
 {
    for(int a=0;a<agents.length;a++)
     for(int b=0;b<agents[a].length;b++)
-      if(random(1)<density)
+      if(env[a][b]==Env_FLAT && random(1)<density)//Tylko w obszarach mieszkalnych
       {
         Agent curr=new Agent();
         //DODATKOWY KOD INICJALIZACJI AGENTÓW, np. curr.initialise();
+        curr.flatX=b;
+        curr.flatY=a;
         liveCount++;
         agents[a][b]=curr;
       }

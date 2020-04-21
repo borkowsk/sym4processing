@@ -22,13 +22,13 @@ class World
 void initializeModel(World world)
 {
   initializeEnv(world.env);
-  initializeAgents(world.agents);
+  initializeAgents(world.agents,world.env);
 }
 
 void visualizeModel(World world)
 {
   visualizeEnv(world.env);
-  //visualizeAgents(world.agents);//Chwilowo niepotrzebne
+  visualizeAgents(world.agents);//Chwilowo niepotrzebne
 }
 
 void modelStep(World world)
