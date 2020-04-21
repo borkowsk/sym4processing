@@ -41,11 +41,13 @@ void initializeAgents(Agent[][] agents,int[][] env)
       }
       
    //Inicjowanie infekcji z pozycji losowej
-   int a=int(random(agents.length)/3);
-   int b=int(random(agents[0].length)/3);
+   int a=int(random(agents.length/3));
+   int b=int(random(agents[0].length/3));
    if(agents[a][b]==null)//Gdyby go nie było
    {
       agents[a][b]=new Agent();
+      agents[a][b].flatX=agents[a][b].workX=b;
+      agents[a][b].flatY=agents[a][b].workY=a;
       liveCount++;
    }
    agents[a][b].state=Infected;
@@ -59,13 +61,17 @@ void sheduleAgents(Agent[][] agents,int[][] env,int step)
     for(int b=0;b<agents[a].length;b++)
     {
      if( (curra=agents[a][b])!= null //Coś dalej do zrobienia gdy agent jest żywy
+     && curra.state!=Death       //Tego brakowało więc i duchy chodziły do pracy
      && curra.workX!=curra.flatX 
      && curra.workY!=curra.flatY)// i nie pracuje w domu!!!
      {
        
        if(step % 2 == 0 )//Jak 0 to z domu do pracy
        {
-         if(env[a][b]==Env_FLAT+1 && random(1)<dutifulness )//Tylko jak nadal jest w domu i zdecydował się iść
+         float workProbability=(Infected < curra.state && curra.state < Recovered) ? dutifulness * (1-PSLeav): dutifulness;
+         if(env[a][b]==Env_FLAT+1 //Tylko jak nadal jest w domu i zdecydował się iść
+         && random(1)< workProbability 
+         )
          {
            //print("*");
            agents[a][b]=null;//A z domu znika

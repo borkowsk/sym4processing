@@ -11,20 +11,22 @@ float density=0.66;
 World TheWorld=new World(side);//INICJALIZACJA JEST KONCZONA 
                                //W FUNKCJI setup()
 
-//Coś w rodzaju stałych ;-)
-final int Duration=7;//Czas trwania infekcji!
-//final int Empty=0;//NIEPOTRZEBNE. Zamiast tego jest null w komórce tablicy uchwytów do agetów 
+//Coś w rodzaju stałych - zmienne z atrybutem "final"
+//final float PTransfer=???;  //Prawdopodobieństwo zarażenia agenta w pojedynczej interakcji
+                              //teraz zależy od indywidualnej wartości immunity!
+final float PSLeav=0.90;     //Prawdopodobieństwo że danego DNIA nie będzie w stanie iśc do pracy                              
+final float PDeath=0.15;     //Średnie prawdopodobieństwo śmierci w danym kroku(!) choroby.
+                             //Teraz krok to 12 godzin.
+final int Duration=14;      //Czas trwania infekcji! W krokach symulacji. Teraz krok to 12 godzin!!!
+
 final int Susceptible=1;
 final int Infected=2;
 final int Recovered=Infected+Duration;
 final int Death=100;
-//final float PTransfer=???;  //Prawdopodobieństwo zarażenia agenta w pojedynczej interakcji
-                              //teraz zależy od indywidualnej wartości immunity!
-final float PDeath=0.015;     //Średnie prawdopodobieństwo śmierci w danym dniu choroby
 
 //Właściwości nie związane z epidemią
 final int   Nprob=10;//Liczba prób szukania pracy w inichjalizacji
-final float dutifulness=0.75;//Jak często idą do pracy
+final float dutifulness=0.900;//Jak często zdrowi idą do pracy
 
 //STATYSTYKI LICZONE W TRAKCIE SYMULACJI
 int liveCount=0;
