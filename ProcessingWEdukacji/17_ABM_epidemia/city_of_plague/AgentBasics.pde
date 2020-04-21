@@ -4,60 +4,50 @@
 
 void initializeAgents(Agent[][] agents,int[][] env)
 {
+   //Umieszczamy agentow w domach i szukamy im pracy
    for(int a=0;a<agents.length;a++)
     for(int b=0;b<agents[a].length;b++)
       if(env[a][b]==Env_FLAT && random(1)<density)//Tylko w obszarach mieszkalnych
       {
         Agent curr=new Agent();
         //DODATKOWY KOD INICJALIZACJI AGENTÓW, np. curr.initialise();
-        curr.flatX=b;
-        curr.flatY=a;
+        curr.flatX=curr.workX=b;
+        curr.flatY=curr.workY=a;
         liveCount++;
-        agents[a][b]=curr;
+        
+        //Kazdemu agentowi dajemy N szans znalezienia miejsca pracy
+        for(int i=0;i<Nprob;i++)
+        {
+          curr.workX=int(random(agents[0].length));
+          curr.workY=int(random(agents.length));
+          if( env[curr.workY][curr.workX]/100==1 //Wszystkie miejsca pracy mają wartość w zakresie 100-199
+          &&  (env[curr.workY][curr.workX] & 1) !=1 //Jak zajęte to ma na końcu jedynkę. Taka sztuczka   
+          )
+          {
+             env[curr.workY][curr.workX] |= 1;//Zaklepuje sobie top miejsce pracy
+             break;//Mam już miejsce pracy
+          }
+          else //Nadal pracuje w domu
+          {
+            curr.workX=curr.flatX;
+            curr.workY=curr.flatY;
+          }
+          
+          agents[a][b]=curr;
+        }
       }
       
-   //Inicjowanie infekcji od środka
-   if(agents[agents.length/2][agents.length/2]==null)//Gdyby go nie było
+   //Inicjowanie infekcji z pozycji losowej
+   int a=int(random(agents.length));
+   int b=int(random(agents[0].length));
+   if(agents[a][b]==null)//Gdyby go nie było
    {
-      agents[agents.length/2][agents.length/2]=new Agent();
+      agents[a][b]=new Agent();
       liveCount++;
    }
-   agents[agents.length/2][agents.length/2].state=Infected;
-}
-//OR
-void initializeAgents(Agent[] agents)
-{
-  for(int a=0;a<agents.length;a++)
-    if(random(1)<density)
-    {
-      Agent curr=new Agent();
-      //DODATKOWY KOD INICJALIZACJI AGENTÓW, np. curr.initialise();
-      liveCount++;
-      agents[a]=curr;
-    }
-   
-   //Inicjowanie infekcji od środka
-   if(agents[agents.length/2]==null)//Gdyby go nie było
-   {
-      agents[agents.length/2]=new Agent();
-      liveCount++;
-   }
-   agents[agents.length/2].state=Infected;
+   agents[a][b].state=Infected;
 }
 
-void  agentsChange(Agent[] agents)//do zmiany na agentsChange()
-{
-  int MC=agents.length;
-  for(int i=0;i<MC;i++)
-  {
-    int a=(int)random(0,agents.length);
-    if(agents[a]!= null )
-    {
-      //agents[a].dummy+=random(-0.1,0.1);//PRZYKŁADOWA ZMIANA
-    }
-  }  
-}
-//OR
 void  agentsChange(Agent[][] agents)//do zmiany na agentsChange()
 {
   //Zapamiętujemy stan przed krokiem

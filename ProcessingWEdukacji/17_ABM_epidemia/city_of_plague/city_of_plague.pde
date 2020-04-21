@@ -22,6 +22,9 @@ final int Death=100;
                               //teraz zależy od indywidualnej wartości immunity!
 final float PDeath=0.015;     //Średnie prawdopodobieństwo śmierci w danym dniu choroby
 
+//Właściwości nie związane z epidemią
+final int Nprob=10;//Liczba prób szukania pracy w inichjalizacji
+
 //STATYSTYKI LICZONE W TRAKCIE SYMULACJI
 int liveCount=0;
 int sumInfected=0;//Zachorowanie
