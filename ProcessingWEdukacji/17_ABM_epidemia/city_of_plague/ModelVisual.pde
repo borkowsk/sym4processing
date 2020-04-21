@@ -9,6 +9,7 @@ void visualizeEnv(int[][] env)
     //KOLORYZACJA ŚRODOWISKA 
     switch(env[a][b]){
     case Env_FLAT:fill(255);break;
+    case Env_FLAT+1:fill(220);break;//Zajęte mieszkanie
     case Env_WORK:fill(128);break;
     case Env_WORK+1:fill(64);break;//Zajęte miejsca pracy 
     case Env_ROAD:fill(0);break;
@@ -23,6 +24,7 @@ void visualizeEnv(int[][] env)
 void visualizeAgents(Agent[][] agents)
 {
   noStroke();//Nie ma powodu być w pętli!
+  ellipseMode(CORNER);
   Agent curra;
   for(int a=0;a<agents.length;a++)
    for(int b=0;b<agents[a].length;b++)
@@ -40,13 +42,7 @@ void visualizeAgents(Agent[][] agents)
       break;
       } 
       ellipse(b*cwidth,a*cwidth,cwidth,cwidth);//WŁAŚCIWE RYSOWANIE 
-    }
-    else
-    {
-      //fill(128);//Mamy rysowanie srodowisko, wiec jak agenta nie ma to nie ma
-    }
-    
-    
+    }    
    }
 }
 

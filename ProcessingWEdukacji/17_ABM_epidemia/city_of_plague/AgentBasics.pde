@@ -26,6 +26,7 @@ void initializeAgents(Agent[][] agents,int[][] env)
           &&  (env[curr.workY][curr.workX] & 1) !=1 //Jak zajęte to ma na końcu jedynkę. Taka sztuczka   
           )
           {
+                                               assert (env[curr.workY][curr.workX] & 1) == 0;
              env[curr.workY][curr.workX] |= 1;//Zaklepuje sobie top miejsce pracy
              break;//Mam już miejsce pracy
           }
@@ -51,9 +52,9 @@ void initializeAgents(Agent[][] agents,int[][] env)
 }
 
 void sheduleAgents(Agent[][] agents,int[][] env,int step)
-//Przemieszczanie agentów strowane upływem czasu symulacji
+//Njaprostrze przemieszczanie agentów sterowane upływem czasu symulacji
 {
-  
+
 }
 
 void  agentsChange(Agent[][] agents)

@@ -67,7 +67,7 @@ void street(int[][] env,float start,float end)
 void sierpinskiCarpetRect(int[][] env,int val,int x, int y, int sizex, int sizey)
 {
    if (sizey < limit)
-      return; println(sizex,sizey);
+      return; // println(sizex,sizey);
    
    sizex = sizex / 3; 
    sizey = sizey / 3; 
