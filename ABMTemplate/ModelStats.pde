@@ -34,7 +34,9 @@ void doStatisticsOnAgents(Agent[] agents)
       liveCount++;
     }
   
-   outstat.println(StepCounter+"\t"+liveCount+"\t"+(summ/liveCount));
+   if(outstat!=null)
+      outstat.println(StepCounter+"\t"+liveCount+"\t"+(summ/liveCount));
+   
    meanDummy=(float)(summ/liveCount);
    
    //outstat should be closed in exit() --> see Exit.pde
@@ -58,7 +60,9 @@ void doStatisticsOnAgents(Agent[][] agents)
       liveCount++;
     }
   
-   outstat.println(StepCounter+"\t"+liveCount+"\t"+(summ/liveCount));
+   if(outstat!=null)
+      outstat.println(StepCounter+"\t"+liveCount+"\t"+(summ/liveCount));
+   
    meanDummy=(float)(summ/liveCount);
    
    //outstat should be closed in exit() --> see Exit.pde

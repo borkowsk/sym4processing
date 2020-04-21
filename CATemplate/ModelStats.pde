@@ -39,12 +39,14 @@ void doStatisticsOnCells(int[] cells)
    if(liveCount>0)
    {
      meanDummy=summ/liveCount;
-     outstat.println(StepCounter+"\t"+liveCount+"\t"+meanDummy);
+     if(outstat!=null)
+        outstat.println(StepCounter+"\t"+liveCount+"\t"+meanDummy);
    }
    else
    {
      simulationRun=false;
-     outstat.println(StepCounter+"\t"+liveCount+"\tFINISHED");
+     if(outstat!=null)
+        outstat.println(StepCounter+"\t"+liveCount+"\tFINISHED");
    }
    //outstat should be closed in exit() --> see Exit.pde
 }
@@ -72,12 +74,14 @@ void doStatisticsOnCells(int[][] cells)
    if(liveCount>0)
    {
       meanDummy=summ/liveCount;
-      outstat.println(StepCounter+"\t"+liveCount+"\t"+meanDummy);
+      if(outstat!=null)
+         outstat.println(StepCounter+"\t"+liveCount+"\t"+meanDummy);
    }
    else
    {
      simulationRun=false;
-     outstat.println(StepCounter+"\t"+liveCount+"\tFINISHED");
+     if(outstat!=null)
+        outstat.println(StepCounter+"\t"+liveCount+"\tFINISHED");
    }
    //outstat should be closed in exit() --> see Exit.pde
 }
