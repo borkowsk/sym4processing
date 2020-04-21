@@ -10,10 +10,12 @@ void initializeAgents(Agent[][] agents,int[][] env)
       if(env[a][b]==Env_FLAT && random(1)<density)//Tylko w obszarach mieszkalnych
       {
         Agent curr=new Agent();
-        //DODATKOWY KOD INICJALIZACJI AGENTÓW, np. curr.initialise();
+        liveCount++;
+        
+        //DODATKOWY KOD INICJALIZACJI AGENTÓW
         curr.flatX=curr.workX=b;
         curr.flatY=curr.workY=a;
-        liveCount++;
+        env[a][b]|=1;//Zaznaczamy mieszkanie jako zajęte
         
         //Kazdemu agentowi dajemy N szans znalezienia miejsca pracy
         for(int i=0;i<Nprob;i++)
@@ -48,7 +50,13 @@ void initializeAgents(Agent[][] agents,int[][] env)
    agents[a][b].state=Infected;
 }
 
-void  agentsChange(Agent[][] agents)//do zmiany na agentsChange()
+void sheduleAgents(Agent[][] agents,int[][] env,int step)
+//Przemieszczanie agentów strowane upływem czasu symulacji
+{
+  
+}
+
+void  agentsChange(Agent[][] agents)
 {
   //Zapamiętujemy stan przed krokiem
   int befInfected=sumInfected;

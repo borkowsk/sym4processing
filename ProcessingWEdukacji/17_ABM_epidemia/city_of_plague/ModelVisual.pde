@@ -10,6 +10,7 @@ void visualizeEnv(int[][] env)
     switch(env[a][b]){
     case Env_FLAT:fill(255);break;
     case Env_WORK:fill(128);break;
+    case Env_WORK+1:fill(64);break;//Zajęte miejsca pracy 
     case Env_ROAD:fill(0);break;
     case Env_REST:fill(0,255,0);break;  
     default:fill(255,0,0);break;
