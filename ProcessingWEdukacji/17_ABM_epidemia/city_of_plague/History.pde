@@ -25,6 +25,8 @@ void timeline(FloatList data, float startX, float startY, float height,boolean l
     min=(float)Math.log10(min+1);//żeby 0 nie wywalało obliczeń
   }
   
+  if(min==max) max++;
+  
   //Właściwe rysowanie
   float wid=lenght/N;//  println(width,N,wid,min,max);
   float oldy=-Float.MIN_VALUE;
@@ -107,6 +109,8 @@ void timeline(FloatList data_a, FloatList data_b, FloatList data_c,
     gmax=max;
     gmin=min;
   }
+  
+  if(gmin==gmax) gmax++;
   
   //Właściwe rysowanie
   float wid=lenght/max(N1,N2,N3);//Najdłuższy decyduje
