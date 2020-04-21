@@ -5,9 +5,10 @@
 
 //Environment "tiles"
 final int Env_FLAT=0;
-final int Env_WORK=1;
-final int Env_ROAD=2;
-final int Env_REST=3;
+final int Env_WORK=100;
+final int Env_SHOP=120;
+final int Env_ROAD=200;
+final int Env_REST=300;
 
 void initializeEnv(int[][] env)
 {

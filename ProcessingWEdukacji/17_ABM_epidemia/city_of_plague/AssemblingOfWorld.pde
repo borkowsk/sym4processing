@@ -28,7 +28,7 @@ void initializeModel(World world)
 void visualizeModel(World world)
 {
   visualizeEnv(world.env);
-  visualizeAgents(world.agents);
+  //visualizeAgents(world.agents);//Chwilowo niepotrzebne
 }
 
 void modelStep(World world)
