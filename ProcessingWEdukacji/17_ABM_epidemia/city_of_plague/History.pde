@@ -14,6 +14,7 @@ void timeline(FloatList data, float startX, float startY, float height,boolean l
   for(int t=0;t<N;t++)
   {
     float val=data.get(t);
+    if(Float.isNaN(val)) continue;//Pomija nie liczby 
     if(val>max) { max=val; whmax=t;}
     if(val<min) { min=val; whmin=t;}
   }
@@ -30,6 +31,8 @@ void timeline(FloatList data, float startX, float startY, float height,boolean l
   for(int t=0;t<N;t++)
   {
     float val=data.get(t);
+    
+    if(Float.isNaN(val)) continue;//Pomija nie liczby 
     
     if(logaritm)
       val=map((float)Math.log10(val+1),min,max,0,height);    
@@ -73,6 +76,7 @@ void timeline(FloatList data_a, FloatList data_b, FloatList data_c,
   for(int t=0;t<N1;t++)
   {
     float val=data_a.get(t);
+    if(Float.isNaN(val)) continue;//Pomija nie liczby 
     if(val>max) max=val;
     if(val<min) min=val;
   }
@@ -80,6 +84,7 @@ void timeline(FloatList data_a, FloatList data_b, FloatList data_c,
   for(int t=0;t<N2;t++)
   {
     float val=data_b.get(t);
+    if(Float.isNaN(val)) continue;//Pomija nie liczby 
     if(val>max) max=val;
     if(val<min) min=val;
   }
@@ -87,6 +92,7 @@ void timeline(FloatList data_a, FloatList data_b, FloatList data_c,
   for(int t=0;t<N3;t++)
   {
     float val=data_c.get(t);
+    if(Float.isNaN(val)) continue;//Pomija nie liczby 
     if(val>max) max=val; 
     if(val<min) min=val;
   }
@@ -109,6 +115,7 @@ void timeline(FloatList data_a, FloatList data_b, FloatList data_c,
   for(int t=0;t<N1;t++)
   {
     float val=data_a.get(t);
+    if(Float.isNaN(val)) continue;//Pomija nie liczby 
     
     if(logaritm)
       val=map((float)Math.log10(val+1),gmin,gmax,0,height);    
@@ -129,6 +136,7 @@ void timeline(FloatList data_a, FloatList data_b, FloatList data_c,
   for(int t=0;t<N2;t++)
   {
     float val=data_b.get(t);
+    if(Float.isNaN(val)) continue;//Pomija nie liczby 
     
     if(logaritm)
       val=map((float)Math.log10(val+1),gmin,gmax,0,height);    
@@ -149,6 +157,7 @@ void timeline(FloatList data_a, FloatList data_b, FloatList data_c,
   for(int t=0;t<N3;t++)
   {
     float val=data_c.get(t);
+    if(Float.isNaN(val)) continue;//Pomija nie liczby 
     
     if(logaritm)
       val=map((float)Math.log10(val+1),gmin,gmax,0,height);    
