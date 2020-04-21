@@ -35,13 +35,13 @@ void visualizeAgents(Agent[][] agents)
       float green=curra.immunity*200;
       switch(curra.state){ 
       case Recovered:  fill(0,128,0);break;//Wyleczony
-      case Infected:   fill(255,green,255);break;//Zachorował
+      case Infected:   fill(0,255,255);break;//Zachorował
       case Susceptible:fill(0,green,128);break;//Podatny
       case Death:      fill(0);break;//Zmarły
       default:         fill(random(255),green,random(255));//Chory
       break;
       } 
-      ellipse(b*cwidth,a*cwidth,cwidth,cwidth);//WŁAŚCIWE RYSOWANIE 
+      rect(b*cwidth,a*cwidth,cwidth,cwidth);//WŁAŚCIWE RYSOWANIE 
     }    
    }
 }
