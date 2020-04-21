@@ -12,7 +12,7 @@ void visualizeEnv(int[][] env)
     case Env_FLAT+1:fill(220);break;//Zajęte mieszkanie
     case Env_WORK:fill(128);break;
     case Env_WORK+1:fill(64);break;//Zajęte miejsca pracy 
-    case Env_ROAD:fill(0);break;
+    case Env_ROAD:fill(0,0,48);break;
     case Env_REST:fill(0,128,0);break;  
     default:fill(255,0,0);break;
     }
