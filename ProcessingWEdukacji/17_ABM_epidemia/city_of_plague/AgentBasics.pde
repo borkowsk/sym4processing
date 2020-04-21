@@ -54,7 +54,35 @@ void initializeAgents(Agent[][] agents,int[][] env)
 void sheduleAgents(Agent[][] agents,int[][] env,int step)
 //Njaprostrze przemieszczanie agentów sterowane upływem czasu symulacji
 {
-
+   Agent curra; //println("Parzysty: ",step%2==0);
+   for(int a=0;a<agents.length;a++)
+    for(int b=0;b<agents[a].length;b++)
+    {
+     if( (curra=agents[a][b])!= null //Coś dalej do zrobienia gdy agent jest żywy
+     && curra.workX!=curra.flatX 
+     && curra.workY!=curra.flatY)// i nie pracuje w domu!!!
+     {
+       
+       if(step % 2 == 0 )//Jak 0 to z domu do pracy
+       {
+         if(env[a][b]==Env_FLAT+1)//Tylko jak nadal jest w domu!
+         {
+           //print("*");
+           agents[a][b]=null;//A z domu znika
+           agents[curra.workY][curra.workX]=curra;//Agent teleportuje się do pracy
+         }
+       }
+       else// jak 1 to z pracy do domu
+       {
+         if(env[a][b]==Env_WORK+1)//Tylko jak nadal jest w pracy
+         {
+           //print("!");
+           agents[a][b]=null;//A z pracy znika
+           agents[curra.flatY][curra.flatX]=curra;//Agent teleportuje się do domu
+         }
+       }
+     }
+    } 
 }
 
 void  agentsChange(Agent[][] agents)

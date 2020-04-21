@@ -13,7 +13,7 @@ void visualizeEnv(int[][] env)
     case Env_WORK:fill(128);break;
     case Env_WORK+1:fill(64);break;//Zajęte miejsca pracy 
     case Env_ROAD:fill(0);break;
-    case Env_REST:fill(0,255,0);break;  
+    case Env_REST:fill(0,128,0);break;  
     default:fill(255,0,0);break;
     }
     
@@ -32,11 +32,11 @@ void visualizeAgents(Agent[][] agents)
     //KOLORYZACJA AGENTA
     if( (curra=agents[a][b]) != null )
     {
-      float green=curra.immunity*255;
+      float green=curra.immunity*200;
       switch(curra.state){ 
-      case Recovered:  fill(0,255,0);break;//Wyleczony
-      case Infected:   fill(255,green,0);break;//Zachorował
-      case Susceptible:fill(0,green,255);break;//Podatny
+      case Recovered:  fill(0,128,0);break;//Wyleczony
+      case Infected:   fill(255,green,255);break;//Zachorował
+      case Susceptible:fill(0,green,128);break;//Podatny
       case Death:      fill(0);break;//Zmarły
       default:         fill(random(255),green,random(255));//Chory
       break;
