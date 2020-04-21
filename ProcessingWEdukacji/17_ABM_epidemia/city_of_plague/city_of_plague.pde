@@ -23,7 +23,8 @@ final int Death=100;
 final float PDeath=0.015;     //Średnie prawdopodobieństwo śmierci w danym dniu choroby
 
 //Właściwości nie związane z epidemią
-final int Nprob=10;//Liczba prób szukania pracy w inichjalizacji
+final int   Nprob=10;//Liczba prób szukania pracy w inichjalizacji
+final float dutifulness=0.75;//Jak często idą do pracy
 
 //STATYSTYKI LICZONE W TRAKCIE SYMULACJI
 int liveCount=0;

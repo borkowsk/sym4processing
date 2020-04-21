@@ -41,8 +41,8 @@ void initializeAgents(Agent[][] agents,int[][] env)
       }
       
    //Inicjowanie infekcji z pozycji losowej
-   int a=int(random(agents.length));
-   int b=int(random(agents[0].length));
+   int a=int(random(agents.length)/3);
+   int b=int(random(agents[0].length)/3);
    if(agents[a][b]==null)//Gdyby go nie było
    {
       agents[a][b]=new Agent();
@@ -65,7 +65,7 @@ void sheduleAgents(Agent[][] agents,int[][] env,int step)
        
        if(step % 2 == 0 )//Jak 0 to z domu do pracy
        {
-         if(env[a][b]==Env_FLAT+1)//Tylko jak nadal jest w domu!
+         if(env[a][b]==Env_FLAT+1 && random(1)<dutifulness )//Tylko jak nadal jest w domu i zdecydował się iść
          {
            //print("*");
            agents[a][b]=null;//A z domu znika
@@ -74,7 +74,7 @@ void sheduleAgents(Agent[][] agents,int[][] env,int step)
        }
        else// jak 1 to z pracy do domu
        {
-         if(env[a][b]==Env_WORK+1)//Tylko jak nadal jest w pracy
+         if(env[a][b]==Env_WORK+1)//Tylko jak nadal jest w pracy to z niej wraca
          {
            //print("!");
            agents[a][b]=null;//A z pracy znika
