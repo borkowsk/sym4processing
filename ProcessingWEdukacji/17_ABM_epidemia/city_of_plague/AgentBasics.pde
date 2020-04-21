@@ -5,16 +5,14 @@
 void initializeAgents(Agent[][] agents,int[][] env)
 {
    //Umieszczamy agentow w domach i szukamy im pracy
-   for(int a=0;a<agents.length;a++)
-    for(int b=0;b<agents[a].length;b++)
+   for(int a=0;a<agents.length;a++)//po Y
+    for(int b=0;b<agents[a].length;b++)//po X
       if(env[a][b]==Env_FLAT && random(1)<density)//Tylko w obszarach mieszkalnych
       {
-        Agent curr=new Agent();
+        Agent curr=new Agent(b,a);
         liveCount++;
         
         //DODATKOWY KOD INICJALIZACJI AGENTÓW
-        curr.flatX=curr.workX=b;
-        curr.flatY=curr.workY=a;
         env[a][b]|=1;//Zaznaczamy mieszkanie jako zajęte
         
         //Kazdemu agentowi dajemy N szans znalezienia miejsca pracy
@@ -45,9 +43,7 @@ void initializeAgents(Agent[][] agents,int[][] env)
    int b=int(random(agents[0].length/3));
    if(agents[a][b]==null)//Gdyby go nie było
    {
-      agents[a][b]=new Agent();//Trzeba pamiętać o polach położenia!
-      agents[a][b].flatX=agents[a][b].workX=b;
-      agents[a][b].flatY=agents[a][b].workY=a;
+      agents[a][b]=new Agent(b,a);//Wymusza podanie x,y położenia!
       liveCount++;
    }
    println("Pacjent 0 at ",b,a);
