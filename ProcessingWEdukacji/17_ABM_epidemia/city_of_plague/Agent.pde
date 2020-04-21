@@ -11,10 +11,11 @@ class Agent
   int   workX;
   int   workY;
   
-  Agent()//Konstruktor agenta. Inicjuje atrybuty
+  Agent(int initX,int initY)//Konstruktor agenta. Inicjuje atrybuty
   {
     state=Susceptible;
-    flatX=flatY=workX=workY=-1;//Musi zostać sensownie przypisane później
+    flatX=workX=initX;
+    flatY=workY=initY;//"workX|Y" mоże zostać sensowniej przypisane później
     immunity=( random(1.0)+random(1.0)+random(1.0)
               +random(1.0)+random(1.0)+random(1.0) )/6.0;//Średnia 0.5
              //random(1.0);//Srednia taka sama, ale rozkład płaski

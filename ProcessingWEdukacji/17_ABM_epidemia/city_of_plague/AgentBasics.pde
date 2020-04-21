@@ -45,11 +45,12 @@ void initializeAgents(Agent[][] agents,int[][] env)
    int b=int(random(agents[0].length/3));
    if(agents[a][b]==null)//Gdyby go nie było
    {
-      agents[a][b]=new Agent();
+      agents[a][b]=new Agent();//Trzeba pamiętać o polach położenia!
       agents[a][b].flatX=agents[a][b].workX=b;
       agents[a][b].flatY=agents[a][b].workY=a;
       liveCount++;
    }
+   println("Pacjent 0 at ",b,a);
    agents[a][b].state=Infected;
 }
 
