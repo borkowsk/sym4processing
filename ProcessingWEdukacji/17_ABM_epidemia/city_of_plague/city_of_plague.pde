@@ -2,56 +2,64 @@
 // - using template for AGENT BASE MODEL in 2D discrete geometry
 // implemented by Wojciech Borkowski
 /////////////////////////////////////////////////////////////////////////////////////////
+// Generalny pomysł jest taki, że mamy miasto podzielone drogami, złożone z obszarów mieszkalnych (jasne) i miejsc pracy (szare).
+// Ci sami agenci na zmianę są w domu lub w pracy, i wszędzie mogą zarazić się przez kontakt.
+// Stąd jeden krok symulacji to pół dnia - parzyste kroki w pracy, nieparzyste w domu, chyba że agent nie ma pracy.
+//
+// Właściwości danego wirusa są opisane parametrami symulacji.
+// Właściwością agentów poza rozlosowaną z rozkładu Gaussa "immunity" jest tylko wiedza o miejscu zamieszkania i miejscu pracy.
 
 //PARAMETRY MODELU
-int side=200;//DŁUGOŚĆ BOKU ŚWIATA
-String modelName="ABMcity_of_plague";
-float density=0.66;
+String modelName="ABMcity_of_plague";//NAZWA modelu, na razie nie używana.
+int side=200;//DŁUGOŚĆ BOKU ŚWIATA - PIONOWEGO. Poziomy jest x2
+float density=0.66; //Gęstość zaludnienia na "terenach mieszkalnych"
 
-World TheWorld=new World(side);//INICJALIZACJA JEST KONCZONA 
-                               //W FUNKCJI setup()
-
-//Coś w rodzaju stałych - zmienne z atrybutem "final"
 //final float PTransfer=???;  //Prawdopodobieństwo zarażenia agenta w pojedynczej interakcji
                               //teraz zależy od indywidualnej wartości immunity!
-final float PSLeav=0.90;     //Prawdopodobieństwo że danego DNIA nie będzie w stanie iśc do pracy                              
-final float PDeath=0.15;     //Średnie prawdopodobieństwo śmierci w danym kroku(!) choroby.
-                             //Teraz krok to 12 godzin.
-final int Duration=14;      //Czas trwania infekcji! W krokach symulacji. Teraz krok to 12 godzin!!!
 
-final int Susceptible=1;
+final float  PSLeav=0.90;     //Prawdopodobieństwo, że danego DNIA chory agent nie będzie w stanie iść do pracy                             
+final float  PDeath=0.15;     //Średnie prawdopodobieństwo śmierci w danym kroku(!) choroby. Teraz krok to 12 godzin.
+final int    Duration=14;     //Czas trwania infekcji! W krokach symulacji. Teraz krok to 12 godzin!!! Czyli default to 7 dni.
+
+//Właściwości nie związane z epidemią
+final int    Nprob=10;          //Liczba prób szukania pracy w inicjalizacji. Jak się nie uda to agent cały czas siedzi w domu
+final float  dutifulness=0.900; //Jak często zdrowi agenci idą do pracy. Mogą pracować w domu lub mieć ograniczone wychodzenie.
+
+//Stałe używane do określania stanu agentów
+final int Susceptible=1;    
 final int Infected=2;
 final int Recovered=Infected+Duration;
 final int Death=100;
 
-//Właściwości nie związane z epidemią
-final int   Nprob=10;//Liczba prób szukania pracy w inichjalizacji
-final float dutifulness=0.900;//Jak często zdrowi idą do pracy
+World TheWorld=new World(side);//INICJALIZACJA JEST KOŃCZONA 
+                               //W FUNKCJI setup()
 
 //STATYSTYKI LICZONE W TRAKCIE SYMULACJI
 int liveCount=0;
 int sumInfected=0;//Zachorowanie
 int sumRecovered=0;//Wyzdrowienia
 int sumDeath=0;//Ci co umarli
-FloatList deaths=new FloatList();//Śmierci 
-FloatList newcas=new FloatList();//Nowe zachorowania
-FloatList  cured=new FloatList();//Wyleczeni 
+FloatList deaths=new FloatList();//Historia śmierci 
+FloatList newcas=new FloatList();//Historia nowych zachorowań
+FloatList  cured=new FloatList();//Historia wyleczeń 
 
 //PARAMETRY WIZUALIZACJI, STATYSTYKI ITP.
-int cwidth=3;//DŁUGOŚĆ BOKU KOMÓRKI W WIZUALIZACJI
-              //WARTOSC NADANA TU JEST TYLKO WSTĘPNA
+int cwidth=3;  //DŁUGOŚĆ BOKU KOMÓRKI W WIZUALIZACJI
+               //WARTOSC NADANA TU JEST TYLKO WSTĘPNA
 int STATUSHEIGH=150;//WYSOKOŚĆ PASKA STATUSU NA DOLE OKNA
-
 int STEPSperVIS=1;//JAK CZĘSTO URUCHAMIAMY WIZUALIZACJĘ
 int FRAMEFREQ=2; //ILE RAZY NA SEKUNDĘ URUCHAMIA SIĘ draw()
 
 //boolean WITH_VIDEO=false;//CZY CHCEMY ZAPIS DO PLIKU FILMOWEGO (wymagany modu… RTMVideo.pde)
-boolean simulationRun=true;//FLAGA Start/stop DZIAŁANIA SYMULACJI
+boolean simulationRun=true;//FLAGA Start/Stop DZIAŁANIA SYMULACJI
 
 void setup()
 {
   //GRAFIKA
+  pixelDensity(1);//1 or 2, expecially for "Retina" (HERE?)
   size(1200,750);//NIESTETY TU MOGĄ BYĆ TYLKO WARTOŚCI PODANE LITERALNIE CZYLI "LITERAŁY"!!!
+  pixelDensity(1);//1 or 2, expecially for "Retina" (or HERE?)
+  println("Width:",width,"Height:",height,"displayDensity:",displayDensity());
   noSmooth();   //Znacząco przyśpiesza wizualizacje
   frameRate(FRAMEFREQ);
   background(255,255,200);
@@ -65,7 +73,8 @@ void setup()
   
   //OBLICZAMY WYMAGANY ROZMIAR OKNA DLA size() 
   println(modelName+": REQUIRED SIZE OF PAINTING AREA IS "
-          +(cwidth*side)+"x"+(cwidth*side+STATUSHEIGH));
+          +(cwidth*side*2)+"x"+(cwidth*side+STATUSHEIGH));//Tu brakowało 2
+          
   cwidth=(height-STATUSHEIGH)/side;//DOPASOWUJEMY ROZMIAR KOMÓREK DO OKNA JAKIE JEST
   
   //INICJALIZACJA ZAPISU FILMU  (jeśli używamy RTMVideo.pde)
