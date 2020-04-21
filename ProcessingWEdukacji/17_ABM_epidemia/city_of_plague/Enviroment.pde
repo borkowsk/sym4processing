@@ -10,22 +10,27 @@ final int Env_SHOP=120;
 final int Env_ROAD=200;
 final int Env_REST=300;
 
-void initializeEnv(int[][] env)
-{
-  street(env,0,env.length);//Ulice są poziome
-  avenue(env,0,env[0].length);//Aleje są pionowe
-  println(streetcount,avenuecount);
-}
-
-float limit=1;
+float limit=105;
 float fcars=0.05;
 int   streetcount=0;
 int   avenuecount=0;
 
-void fillblock(int[][] env,int val,int a1,int b1,int a2,int b2)
+void initializeEnv(int[][] env)
 {
-  for(int a=a1;a<a2;a++)
-  for(int b=b1;b<b2;b++)
+  limit=10;
+  sierpinskiCarpetRect(env,Env_WORK,0,0,env[0].length,env.length);
+  limit=1;
+  street(env,0,env.length);//Ulice są poziome
+  avenue(env,0,env[0].length);//Aleje są pionowe
+  //println(streetcount,avenuecount);
+}
+
+
+
+void fillblock(int[][] env,int val,int x1,int y1,int x2,int y2)
+{
+  for(int a=x1;a<x2;a++)
+   for(int b=y1;b<y2;b++)
      env[b][a]=val;
 }
 
@@ -38,7 +43,7 @@ void avenue(int[][] env,float start,float end)
   
   float center=(start+end)/2;
   
-  fillblock(env,Env_ROAD,int(center-weight/2),0,int(center+weight/2),env.length);//Aleje są pionowe
+  fillblock(env,Env_ROAD,round(center-weight/2),0,round(center+weight/2),env.length);//Aleje są pionowe
   
   avenue(env,start,center-weight/2);
   avenue(env,center+weight/2,end);
@@ -53,8 +58,31 @@ void street(int[][] env,float start,float end)
   
   float center=(start+end)/2;
   
-  fillblock(env,Env_ROAD,0,int(center-weight/2),env[0].length,int(center+weight/2));//Ulice są poziome
+  fillblock(env,Env_ROAD,0,round(center-weight/2),env[0].length,round(center+weight/2));//Ulice są poziome
   
   street(env,start,center-weight/2);
   street(env,center+weight/2,end);
+}
+
+void sierpinskiCarpetRect(int[][] env,int val,int x, int y, int sizex, int sizey)
+{
+   if (sizey < limit)
+      return; println(sizex,sizey);
+   
+   sizex = sizex / 3; 
+   sizey = sizey / 3; 
+   
+   fillblock(env,val,x+sizex, y+sizey, x+2*sizex, y+2*sizey);//Wycięcie
+
+   //Wywołania rekurencyjne dla 8 kwadratowych sąsiedztw
+   //Po rogach
+   sierpinskiCarpetRect(env,val,x        ,        y,sizex,sizey);
+   sierpinskiCarpetRect(env,val,x+2*sizex,y+2*sizey,sizex,sizey);
+   sierpinskiCarpetRect(env,val,x        ,y+2*sizey,sizex,sizey);
+   sierpinskiCarpetRect(env,val,x+2*sizex,y        ,sizex,sizey);
+   //Po bokach
+   sierpinskiCarpetRect(env,val,x        ,y+sizey  ,sizex,sizey);
+   sierpinskiCarpetRect(env,val,x+sizex  ,y        ,sizex,sizey);
+   sierpinskiCarpetRect(env,val,x+2*sizex,y+sizey  ,sizex,sizey);
+   sierpinskiCarpetRect(env,val,x+sizex  ,y+2*sizey,sizex,sizey);
 }
