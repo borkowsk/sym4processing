@@ -25,7 +25,8 @@ void avenue(float start,float end)
   avenue(start,center-weight/2);
   avenue(center+weight/2,end);
   //Kontrola
-  //strokeWeight(0);stroke(random(255),255,random(255));line(center,0,center,height);
+  //strokeWeight(0);stroke(random(255),255,random(255));
+  //line(center,0,center,height);
 }
 
 void street(float start,float end)
