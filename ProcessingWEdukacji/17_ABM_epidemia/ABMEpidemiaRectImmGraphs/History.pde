@@ -1,7 +1,9 @@
 // Wykres zmian w czasie
 ///////////////////////////////////////////////////////////////
 
-void timeline(FloatList data, float startX, float startY, float height,boolean logaritm)
+void timeline(FloatList data, //dane do wykresu
+              float startX, float startY, float height,//Położenie i wysokość
+              boolean logaritm)//czy logarytmować dane
 {
   float   max=-Float.MAX_VALUE;
   int     whmax=-1;//Gdzie jest maksimum
@@ -25,7 +27,7 @@ void timeline(FloatList data, float startX, float startY, float height,boolean l
   }
   
   //Właściwe rysowanie
-  float wid=lenght/N;//  println(width,N,wid,min,max);
+  float wid=lenght/N; //println(width,N,wid,min,max);DEBUG
   float oldy=-Float.MIN_VALUE;
   for(int t=0;t<N;t++)
   {
@@ -39,10 +41,10 @@ void timeline(FloatList data, float startX, float startY, float height,boolean l
     float x=t*wid;
     if(oldy!=-Float.MIN_VALUE)
     {
-      line (startX+x-wid,startY-oldy,startX+x,startY-val);//println(wid,x-wid,oldy,x,val);
+      line (startX+x-wid,startY-oldy,startX+x,startY-val);
     }
     else
-      point(startX+x,startY-val); //println(startX+x,startY-val);
+      point(startX+x,startY-val);
     
     oldy=val;
     
@@ -57,10 +59,10 @@ void timeline(FloatList data, float startX, float startY, float height,boolean l
 }
 
 //A jakby miało być więcej zmiennych? UWAGA!:  wspólna skala!!!
-
 //Wtedy np. tak jak poniżej, co jest wersją bardzo prymitywną, ale będzie działać :-D
 void timeline(FloatList data_a, FloatList data_b, FloatList data_c,
-              float startX, float startY, float height,boolean logaritm,color color_a,color color_b,color color_c)
+              float startX, float startY, float height,boolean logaritm,
+              color color_a,color color_b,color color_c)
 {
   float   max=-Float.MAX_VALUE;//Tu będzie prawdziwa wartość
   float   gmax=0;//A tu przeliczona dla grafiki

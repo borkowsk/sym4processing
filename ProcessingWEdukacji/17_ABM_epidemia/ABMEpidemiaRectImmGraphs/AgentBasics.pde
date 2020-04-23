@@ -55,8 +55,10 @@ void  agentsChange(Agent[] agents)//do zmiany na agentsChange()
     }
   }  
 }
+
 //OR
-void  agentsChange(Agent[][] agents)//do zmiany na agentsChange()
+
+void  agentsChange(Agent[][] agents)
 {
   //Zapamiętujemy stan przed krokiem
   int befInfected=sumInfected;
@@ -66,8 +68,8 @@ void  agentsChange(Agent[][] agents)//do zmiany na agentsChange()
   int MC=agents.length*agents[0].length;
   for(int i=0;i<MC;i++)
   {
-    int a=(int)random(0,agents.length);//agents[a].lenght na wypadek gdyby nam przyszło do głowy zrobić prostokąt
-    int b=(int)random(0,agents[a].length);//print(a,b,' ');
+    int a=(int)random(0,agents.length);   //agents[a].lenght na wypadek gdyby nam przyszło do głowy zrobić prostokąt
+    int b=(int)random(0,agents[a].length);//print(a,b,' '); DEBUG
     if(agents[a][b]!= null )
     {
        //Jesli pusty lub zdrowy to nic nie robimy
@@ -100,8 +102,7 @@ void  agentsChange(Agent[][] agents)//do zmiany na agentsChange()
        if(prob<PDeath) //Albo tego dnia umiera
         { 
           sumDeath++;liveCount--;
-          //agents[a][b]=null;//Można by dawać mu stan "dead", ale...
-          agents[a][b].state=Death;//Ale to trzeba uwzglednić przy statystyce!
+          agents[a][b].state=Death;//Ale to trzeba też uwzglednić przy statystyce!
         }
         else
         {
@@ -115,7 +116,8 @@ void  agentsChange(Agent[][] agents)//do zmiany na agentsChange()
         }
     }
   }
-  //Zapamiętujemy zmiane w podstawowych statystykach jaka się dokonała w kroku symulacji
+  //Zapamiętujemy zmianę w podstawowych statystykach 
+  //jaka się dokonała w tym kroku symulacji
   deaths.append(sumDeath-befDeath);
   newcas.append(sumInfected-befInfected);
   cured.append(sumRecovered-befRecovered);

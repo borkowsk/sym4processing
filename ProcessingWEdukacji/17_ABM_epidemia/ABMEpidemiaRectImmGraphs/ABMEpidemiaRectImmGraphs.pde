@@ -23,16 +23,18 @@ final float PDeath=0.015;     //Średnie prawdopodobieństwo śmierci w danym dn
 
 //STATYSTYKI LICZONE W TRAKCIE SYMULACJI
 int liveCount=0;
-int sumInfected=0;//Zachorowanie
+
+int  sumInfected=0;//Zachorowanie
 int sumRecovered=0;//Wyzdrowienia
-int sumDeath=0;//Ci co umarli
+int     sumDeath=0;//Ci co umarli
+
 FloatList deaths=new FloatList();//Śmierci 
 FloatList newcas=new FloatList();//Nowe zachorowania
 FloatList  cured=new FloatList();//Wyleczeni 
 
 //PARAMETRY WIZUALIZACJI, STATYSTYKI ITP.
 int cwidth=3;//DŁUGOŚĆ BOKU KOMÓRKI W WIZUALIZACJI
-              //WARTOSC NADANA TU JEST TYLKO WSTĘPNA
+             //WARTOSC NADANA TU JEST TYLKO WSTĘPNA
 int STATUSHEIGH=150;//WYSOKOŚĆ PASKA STATUSU NA DOLE OKNA
 
 int STEPSperVIS=1;//JAK CZĘSTO URUCHAMIAMY WIZUALIZACJĘ
@@ -99,16 +101,19 @@ void writeStatusLine()
 {
   fill(0);rect(0,side*cwidth,width,STATUSHEIGH);fill(128);
   histogram(TheWorld.agents,0,height-16,STATUSHEIGH-16);//Histogram wg. odporności  
-  
-                                                                  // Albo historie trzech zmiennych dziennych 
-  //Legenda                                                       // w swojej skali
-  stroke(0,0,255);fill(0,0,200);text("nowi chorzy",300,height-16);//timeline(newcas,200,height,STATUSHEIGH-16,false);
-  stroke(255,0,0);fill(200,0,0);text("nowi zmarli",300,height-32);//timeline(deaths,200,height,STATUSHEIGH-16,false);
-  stroke(0,255,0);fill(0,200,0);text("nowo wyleczeni",300,height-48);//timeline(cured, 200,height,STATUSHEIGH-16,false);
+   
+  //Legenda i historie trzech zmiennych dziennych każda w swojej skali
+  stroke(0,0,255);fill(0,0,200);text("nowi chorzy",300,height-16);
+  //timeline(newcas,200,height,STATUSHEIGH-16,false);
+  stroke(255,0,0);fill(200,0,0);text("nowi zmarli",300,height-32);
+  //timeline(deaths,200,height,STATUSHEIGH-16,false);
+  stroke(0,255,0);fill(0,200,0);text("nowo wyleczeni",300,height-48);
+  //timeline(cured, 200,height,STATUSHEIGH-16,false);
   
   //Historie trzech zmiennych we wspólnej skali
-  stroke(0,0,255);fill(0,0,255);
-  timeline(newcas,deaths,cured, 200,height,STATUSHEIGH-16,false,color(0,0,255),color(255,0,0),color(0,255,0));
+  fill(0,128,255);//Tylko kolor napisów tu możemy ustalić
+  timeline(newcas,deaths,cured, 200,height,STATUSHEIGH-16,false,
+           color(0,0,255),color(255,0,0),color(0,255,0));
   
   fill(128);noStroke();
   textAlign(RIGHT, TOP);
