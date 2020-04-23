@@ -14,8 +14,10 @@ void timeline(FloatList data, float startX, float startY, float height,boolean l
   for(int t=0;t<N;t++)
   {
     float val=data.get(t);
-    if(Float.isNaN(val)) continue;//Pomija nie liczby 
-    if(val>max) { max=val; whmax=t;}
+    
+    if(Float.isNaN(val)) continue;//Pomija czyli ignoruje "nie liczby" 
+    
+  if(val>max) { max=val; whmax=t;}
     if(val<min) { min=val; whmin=t;}
   }
   
@@ -34,7 +36,7 @@ void timeline(FloatList data, float startX, float startY, float height,boolean l
   {
     float val=data.get(t);
     
-    if(Float.isNaN(val)) continue;//Pomija nie liczby 
+    if(Float.isNaN(val)) continue;//Pomija czyli ignoruje "nie liczby" 
     
     if(logaritm)
       val=map((float)Math.log10(val+1),min,max,0,height);    
@@ -114,6 +116,7 @@ void timeline(FloatList data_a, FloatList data_b, FloatList data_c,
   
   //Właściwe rysowanie
   float wid=lenght/max(N1,N2,N3);//Najdłuższy decyduje
+  
   float oldy=-Float.MIN_VALUE;
   stroke(color_a);//fill(color_a);
   for(int t=0;t<N1;t++)
