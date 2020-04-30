@@ -33,8 +33,8 @@ void visualizeModel(World world)
 
 void modelStep(World world)
 {
-   //environmentChange(world.env);//W tej symulacji niepotrzebne
-   agentsChange(world.agents);//TU NASTĄPI WYBÓR FUNKCJI PRZECIĄŻONEJ!
+   //environmentChange(world.env);//W tej symulacji na razie niepotrzebne
+   agentsChange(world.agents);
    sheduleAgents(world.agents,world.env,StepCounter);
    StepCounter++;
 }

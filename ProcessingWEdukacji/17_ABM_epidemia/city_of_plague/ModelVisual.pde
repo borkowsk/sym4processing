@@ -9,7 +9,7 @@ void visualizeEnv(int[][] env)
     //KOLORYZACJA ŚRODOWISKA 
     switch(env[a][b]){
     case Env_FLAT:fill(255);break;
-    case Env_FLAT+1:fill(220);break;//Zajęte mieszkanie
+    case Env_FLAT+1:fill(220);break;//Zajęte mieszkanie. Sztuczka taka
     case Env_WORK:fill(128);break;
     case Env_WORK+1:fill(64);break;//Zajęte miejsca pracy 
     case Env_ROAD:fill(0,0,48);break;
@@ -42,6 +42,7 @@ void visualizeAgents(Agent[][] agents)
       break;
       } 
       rect(b*cwidth,a*cwidth,cwidth,cwidth);//WŁAŚCIWE RYSOWANIE 
+                             //Zamiast rect mogłoby też ellipse()
     }    
    }
 }

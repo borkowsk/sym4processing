@@ -2,28 +2,36 @@
 // - using template for AGENT BASE MODEL in 2D discrete geometry
 // implemented by Wojciech Borkowski
 /////////////////////////////////////////////////////////////////////////////////////////
-// Generalny pomysł jest taki, że mamy miasto podzielone drogami, złożone z obszarów mieszkalnych (jasne) i miejsc pracy (szare).
-// Ci sami agenci na zmianę są w domu lub w pracy, i wszędzie mogą zarazić się przez kontakt.
-// Stąd jeden krok symulacji to pół dnia - parzyste kroki w pracy, nieparzyste w domu, chyba że agent nie ma pracy.
+// Generalny pomysł jest taki, że mamy miasto podzielone drogami, złożone z obszarów 
+// mieszkalnych (jasne) i miejsc pracy (szare).
+// Ci sami agenci na zmianę są w domu lub w pracy, i wszędzie mogą zarazić się przez 
+// kontakt. Stąd jeden krok symulacji to pół dnia - parzyste kroki w pracy, nieparzyste 
+// w domu, chyba że agent nie ma pracy.
 //
 // Właściwości danego wirusa są opisane parametrami symulacji.
-// Właściwością agentów poza rozlosowaną z rozkładu Gaussa "immunity" jest tylko wiedza o miejscu zamieszkania i miejscu pracy.
+// Właściwością agentów poza rozlosowaną z rozkładu Gaussa "immunity" jest tylko wiedza 
+// o miejscu zamieszkania i miejscu pracy.
+String modelName="ABMcity_of_plague";//NAZWA modelu, na razie nie używana.
 
 //PARAMETRY MODELU
-String modelName="ABMcity_of_plague";//NAZWA modelu, na razie nie używana.
 int side=200;//DŁUGOŚĆ BOKU ŚWIATA - PIONOWEGO. Poziomy jest x2
 float density=0.66; //Gęstość zaludnienia na "terenach mieszkalnych"
-
-//final float PTransfer=???;  //Prawdopodobieństwo zarażenia agenta w pojedynczej interakcji
-                              //teraz zależy od indywidualnej wartości immunity!
-
-final float  PSLeav=0.90;     //Prawdopodobieństwo, że danego DNIA chory agent nie będzie w stanie iść do pracy                             
-final float  PDeath=0.15;     //Średnie prawdopodobieństwo śmierci w danym kroku(!) choroby. Teraz krok to 12 godzin.
-final int    Duration=14;     //Czas trwania infekcji! W krokach symulacji. Teraz krok to 12 godzin!!! Czyli default to 7 dni.
-
+                           
+final float  PDeath=0.15;     //Średnie prawdopodobieństwo śmierci w danym KROKU(12h!) 
+                              //choroby. Teraz krok to 12 godzin.
+final int    Duration=14;     //Czas trwania infekcji! W krokach symulacji. 
+                              //Krok to teraz  12 godzin, czyli default to 7 dni.
+//float PTransfer=???;        //Prawdopodobieństwo zarażenia agenta w pojedynczej
+                              //interakcji zależy od indywidualnej wartości immunity!
+                              //Ale można by go liczyć jako globalną statystykę!
+final float  PSLeav=0.90;     //Prawdopodobieństwo, że danego DNIA chory agent 
+                              //nie będzie w stanie iść do pracy
+                              
 //Właściwości nie związane z epidemią
-final int    Nprob=10;          //Liczba prób szukania pracy w inicjalizacji. Jak się nie uda to agent cały czas siedzi w domu
-final float  dutifulness=0.900; //Jak często zdrowi agenci idą do pracy. Mogą pracować w domu lub mieć ograniczone wychodzenie.
+final int    Nprob=10;          //Liczba prób szukania pracy w inicjalizacji. 
+                                //Jak się nie uda to agent cały czas siedzi w domu
+final float  Dutifulness=0.900; //Jak często zdrowi agenci idą do pracy. 
+                                //Mogą pracować w domu lub mieć ograniczone wyjścia.
 
 //Stałe używane do określania stanu agentów
 final int Susceptible=1;    

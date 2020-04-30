@@ -24,8 +24,6 @@ void initializeEnv(int[][] env)
   //println(streetcount,avenuecount); DEBUG
 }
 
-
-
 void fillblock(int[][] env,int val,int x1,int y1,int x2,int y2)
 {
   for(int a=x1;a<x2;a++)
