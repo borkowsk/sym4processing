@@ -69,8 +69,16 @@ void regularpoly(float x, float y, float radius, int npoints)
 
 class pointxy
 {
-  float x=0;
-  float y=0;
+  float x;
+  float y;
+  pointxy()
+  {
+    x=y=0;
+  }
+  pointxy(float ix,float iy)
+  {
+    x=ix;y=iy;
+  }
 }
 
 void polygon(pointxy[] lst/*+1*/,int N)
@@ -81,6 +89,26 @@ void polygon(pointxy[] lst/*+1*/,int N)
     vertex(lst[a].x,lst[a].y);
   }
   endShape(CLOSE);
+}
+
+Pair<pointxy,pointxy> nearestPoints(final pointxy[] listA,final pointxy[] listB)
+//Najbliższe punkty dwóch wielokątów
+{                                    assert(listA.length>0);assert(listB.length>0);
+  float mindist=MAX_FLOAT;
+  int   minA=-1;
+  int   minB=-1;
+  for(int i=0;i<listA.length;i++)
+    for(int j=0;j<listB.length;j++) //Pętla nadmiarowa
+    {
+      float x2=(listA[i].x-listB[j].x)*(listA[i].x-listB[j].x);
+      float y2=(listA[i].y-listB[j].y)*(listA[i].y-listB[j].y);
+      if(x2+y2 < mindist)
+      {
+        mindist=x2+y2;
+        minA=i; minB=j;
+      }
+    }
+  return new Pair<pointxy,pointxy>(listA[minA],listB[minB]);
 }
 
 //BAR3D 
@@ -194,6 +222,11 @@ void dashedline(float x0, float y0, float x1, float y1, float[ ] spacing)
 //STRZAŁKA W DOWOLNYM KIERUNKU
 float def_arrow_size=15;
 float def_arrow_theta=PI/6.0+PI;//3.6651914291881
+
+void arrow(float x1,float y1,float x2,float y2)
+{
+  arrow_d(int(x1),int(y1),int(x2),int(y2),def_arrow_size,def_arrow_theta);
+}
 
 void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)
 {
