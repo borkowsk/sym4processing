@@ -1,23 +1,15 @@
 // Aktywne prostokąty - autorski system interfejsu aplikacji w Processingu
 // Wojciech Borkowski
 ///////////////////////////////////////////////////////////////////////////////
-ArrayList<RectArea>   allAreas = new ArrayList<RectArea>();   //Lista obszarów do wyświetlania
-ArrayList<TextButton> allButtons = new ArrayList<TextButton>(); //Lista buttonów
+ArrayList<RectArea>   allAreas = new ArrayList<RectArea>();     //Lista obszarów do wyświetlania
+ArrayList<TextButton> allButtons = new ArrayList<TextButton>(); //Lista przycisków
 
 int iniTxButtonSize=16;
 int iniTxButtonCornerRadius=6;//Domyślne zaokrąglenie rogów przycisków
 
-void view_all_areas()
+void mousePressed() 
 {
-  for( RectArea area: allAreas)   //Lista obszarów do wyświetlania
-  {
-    area.view();
-  }
-}
-
-/*void mousePressed() 
-{
-  //println("Pressed "+mouseX+" x "+mouseY);
+  println("Pressed "+mouseX+" x "+mouseY);
   for(TextButton button : allButtons) 
   {
     if(button.hitted(mouseX,mouseY))
@@ -25,11 +17,11 @@ void view_all_areas()
       button.set_state(1,true);
     }
   }
-}*/
+}
 
 void mouseReleased() 
 {
-  //println("Released "+mouseX+" x "+mouseY);
+  println("Released "+mouseX+" x "+mouseY);
   for(TextButton button : allButtons) 
   {
     if(button.hitted(mouseX,mouseY))
@@ -39,6 +31,13 @@ void mouseReleased()
   }
 }  
 
+void view_all_areas()
+{
+  for( RectArea area: allAreas)   //Lista obszarów do wyświetlania
+  {
+    area.view();
+  }
+}
 
 class RectArea //Prostokątny obszar ekranu jako postawa pod rożne obszary aktywne
 {
