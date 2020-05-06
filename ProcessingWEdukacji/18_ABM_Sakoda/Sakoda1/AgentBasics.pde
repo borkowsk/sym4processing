@@ -31,7 +31,15 @@ void  changeAgents(Agent[] agents)
     int a=(int)random(0,agents.length);
     if(agents[a]!= null )
     {
-      //...
+      //Sprawdzenie stresu
+      int strangers=0;
+      if(0<a-1 && agents[a-1]!=null 
+      && agents[a-1].identity!=agents[a].identity)
+        strangers++;
+      if(a+1<agents.length && agents[a+1]!=null 
+      && agents[a+1].identity!=agents[a].identity)
+        strangers++;  
+      agents[a].stress=strangers/2.0;  
     }
   }  
 }
