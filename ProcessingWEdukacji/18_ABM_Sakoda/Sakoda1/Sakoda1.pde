@@ -3,24 +3,24 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 //Model parameters
-int side=75;//side of main table
+int side=100;//side of main table
 String modelName="ABMSakoda";
 float density=0.55;
 
 World TheWorld=new World(side);//... but also will be initialised inside setup()
 
 //Parameters of visualisation etc...
-int cwidth=15;//size of cell
+int cwidth=8;//size of cell
 int STATUSHEIGH=40;
 int STEPSperVIS=1;
-int FRAMEFREQ=50;
+int FRAMEFREQ=20;
 boolean WITH_VIDEO=false;
-boolean simulationRun=true;//Start/stop flag
+boolean simulationRun=false;//Start/stop flag
 
 void setup()
 {
   //Graphics
-  size(750,790);
+  size(800,840);
   frameRate(FRAMEFREQ);
   background(255,255,200);
   strokeWeight(2);
