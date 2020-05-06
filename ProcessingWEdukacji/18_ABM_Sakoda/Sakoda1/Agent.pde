@@ -9,7 +9,7 @@ class Agent
   
   Agent()//Constructor of the Agent
   {
-    identity=random(1,Number_of_identities);
+    identity=round(random(1,Number_of_identities));//Muszą bywać te same
     stress=0;
   }
 }

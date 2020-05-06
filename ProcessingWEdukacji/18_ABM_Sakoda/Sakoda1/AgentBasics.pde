@@ -40,6 +40,18 @@ void  changeAgents(Agent[] agents)
       && agents[a+1].identity!=agents[a].identity)
         strangers++;  
       agents[a].stress=strangers/2.0;  
+      
+      //Próba migracji gdy stres doskwiera
+      if(agents[a].stress>0 
+      && random(1)<agents[a].stress)
+      {
+        int target=(int)random(0,agents.length);
+        if(agents[target]==null)//Jest miejsce
+        {
+          agents[target]=agents[a];//Przeprowadzka
+          agents[a]=null;//Wymeldowanie ze starego miejsca
+        }
+      }
     }
   }  
 }
