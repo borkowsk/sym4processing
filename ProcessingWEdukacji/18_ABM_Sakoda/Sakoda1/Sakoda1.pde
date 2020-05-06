@@ -15,7 +15,7 @@ int STATUSHEIGH=40;
 int STEPSperVIS=1;
 int FRAMEFREQ=20;
 boolean WITH_VIDEO=false;
-boolean simulationRun=false;//Start/stop flag
+boolean simulationRun=true;//Start/stop flag
 
 void setup()
 {
