@@ -8,7 +8,7 @@ void visualizeAgents(Agent[][] agents)
    for(int b=0;b<agents[a].length;b++)
    {
       //Background
-      fill(128);
+      noStroke();fill(200);//Lepiej dopasowa tło
       rect(b*cwidth,a*cwidth,cwidth,cwidth);//a is vertical!
       
       //Colorisation of agent
