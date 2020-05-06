@@ -5,7 +5,7 @@
 //Model parameters
 int side=75;//side of main table
 String modelName="ABMSakoda";
-float density=0.5;
+float density=0.93;
 
 World TheWorld=new World(side);//... but also will be initialised inside setup()
 
@@ -13,7 +13,7 @@ World TheWorld=new World(side);//... but also will be initialised inside setup()
 int cwidth=15;//size of cell
 int STATUSHEIGH=40;
 int STEPSperVIS=1;
-int FRAMEFREQ=10;
+int FRAMEFREQ=50;
 boolean WITH_VIDEO=false;
 boolean simulationRun=true;//Start/stop flag
 
