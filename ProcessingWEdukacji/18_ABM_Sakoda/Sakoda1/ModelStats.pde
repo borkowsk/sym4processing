@@ -4,7 +4,8 @@ PrintWriter outstat;
 
 void initializeStats()
 {
-  String FileName=modelName+="_"+year()+'.'+nf(month(),2)+'.'+nf(day(),2)+'.'+nf(hour(),2)+'.'+nf(minute(),2)+'.'+nf(second(),2)+'.'+millis();
+  String FileName=modelName+="_s"+side+"d"+density+"i"+Number_of_identities
+                           +"_"+year()+'.'+nf(month(),2)+'.'+nf(day(),2)+'.'+nf(hour(),2)+'.'+nf(minute(),2)+'.'+nf(second(),2)+'.'+millis();
   outstat=createWriter(FileName+".out");
   outstat.println("$STEP\tAlive\tStress\t");//<-- complete the header fields!
 }

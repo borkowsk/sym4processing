@@ -5,7 +5,7 @@
 //Model parameters
 int side=75;//side of main table
 String modelName="ABMSakoda";
-float density=0.93;
+float density=0.95;
 
 World TheWorld=new World(side);//... but also will be initialised inside setup()
 
@@ -27,7 +27,7 @@ void setup()
   
   //Model
   initializeModel(TheWorld);
-  //initializeStats();//Wykomentowanie blokuje tworzenie pliku log
+  initializeStats();//Wykomentowanie blokuje tworzenie pliku log
   doStatistics(TheWorld);
   
   //Window 
