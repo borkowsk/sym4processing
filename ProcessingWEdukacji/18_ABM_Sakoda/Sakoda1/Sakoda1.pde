@@ -77,7 +77,7 @@ void writeStatusLine()
   fill(255);rect(0,side*cwidth,width,STATUSHEIGH);
   fill(0);noStroke();
   textAlign(LEFT, TOP);
-  text(meanDummy+"  "+liveCount,0,side*cwidth);
+  text(meanStress+"  "+liveCount,0,side*cwidth);
   textAlign(LEFT, BOTTOM);
   text(StepCounter+")  Fps:"+ frameRate,0,side*cwidth+STATUSHEIGH-2);
 }

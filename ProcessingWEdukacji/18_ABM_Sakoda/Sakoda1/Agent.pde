@@ -1,6 +1,6 @@
 // Agent is a one of two central class of each ABM model
 //////////////////////////////////////////////////////////////////
-int Number_of_identities;//Ile jest wykluczających się tożsamości
+int Number_of_identities=2;//Ile jest wykluczających się tożsamości
 
 class Agent
 {

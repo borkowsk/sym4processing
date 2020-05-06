@@ -30,21 +30,17 @@ void visualizeModel(World world)
   visualizeAgents(world.agents);
 }
 
-void dummyChange(World world)
+void changeState(World world)
 {
-  dummyChangeAgents(world.agents);
+  changeAgents(world.agents);
 }
 
 void modelStep(World world)
 {
-   //Dummy part
-   dummyChange(world);
-   //OR
-   //... do real simulation on agents ... THIS PART IS FOR YOU!
-   
+   changeState(world);   
    StepCounter++;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM: WORLD OF AGENTS FOR FILL UP
+//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM: WORLD OF SAKODA
 ///////////////////////////////////////////////////////////////////////////////////////////////

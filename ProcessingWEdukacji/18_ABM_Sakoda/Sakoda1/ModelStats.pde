@@ -6,10 +6,10 @@ void initializeStats()
 {
   String FileName=modelName+="_"+year()+'.'+nf(month(),2)+'.'+nf(day(),2)+'.'+nf(hour(),2)+'.'+nf(minute(),2)+'.'+nf(second(),2)+'.'+millis();
   outstat=createWriter(FileName+".out");
-  outstat.println("$STEP\tAlive\t.....");//<-- complete the header fields!
+  outstat.println("$STEP\tAlive\tStress\t");//<-- complete the header fields!
 }
 
-float meanDummy=0;
+float meanStress=0;
 int   liveCount=0;
 
 void doStatistics(World world)
@@ -26,18 +26,18 @@ void doStatisticsOnAgents(Agent[] agents)
   for(int a=0;a<agents.length;a++)
     if( (curra=agents[a]) != null )
     {
-      //Dummy statistic
-      summ+=curra.dummy;
+      summ+=curra.stress;
      
-      //.....THIS PART IS FOR YOU!
-      
+      //Inne statystyki
+      //TODO
+       
       liveCount++;
     }
   
    if(outstat!=null)
-      outstat.println(StepCounter+"\t"+liveCount+"\t"+(summ/liveCount));
+      outstat.println(StepCounter+"\t"+liveCount+"\t"+(summ/liveCount)+"\t");
    
-   meanDummy=(float)(summ/liveCount);
+   meanStress=(float)(summ/liveCount);
    
    //outstat should be closed in exit() --> see Exit.pde
 }
@@ -52,18 +52,18 @@ void doStatisticsOnAgents(Agent[][] agents)
    for(int b=0;b<agents[a].length;b++)
     if( (curra=agents[a][b]) != null )
     {
-      //Dummy statistic
-      summ+=curra.dummy;
+      summ+=curra.stress;
      
-      //.....THIS PART IS FOR YOU!
+      //Inne statystyki
+      //TODO
       
       liveCount++;
     }
   
    if(outstat!=null)
-      outstat.println(StepCounter+"\t"+liveCount+"\t"+(summ/liveCount));
+      outstat.println(StepCounter+"\t"+liveCount+"\t"+(summ/liveCount)+"\t");
    
-   meanDummy=(float)(summ/liveCount);
+   meanStress=(float)(summ/liveCount);
    
    //outstat should be closed in exit() --> see Exit.pde
 }
