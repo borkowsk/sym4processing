@@ -27,16 +27,13 @@ void setup()
   
   //Model
   initializeModel(TheWorld);
-  initializeStats();
+  //initializeStats();//Wykomentowanie blokuje tworzenie pliku log
   doStatistics(TheWorld);
   
   //Window 
   println("REQUIRED SIZE OF PAINTING AREA IS "+(cwidth*side)+"x"+(cwidth*side+STATUSHEIGH));
   cwidth=(height-STATUSHEIGH)/side;
     
-  //Optionals:
-  //setupMenu();//ISSUE: Size of MenuBar is not counted by Processing!
-  //...
   if(WITH_VIDEO) 
   {
     initVideoExport(this,modelName+".mp4",FRAMEFREQ);
