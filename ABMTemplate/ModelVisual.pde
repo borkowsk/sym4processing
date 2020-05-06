@@ -42,7 +42,7 @@ void visualizeAgents(Agent[] agents)
       fill(128);
     }
     
-    int t=StepCounter%side;
+    int t=(StepCounter/STEPSperVIS)%side;//Uwzględniamy różne częstości wizualizacji
     noStroke();
     rect(a*cwidth,t*cwidth,cwidth,cwidth);
     stroke(255);

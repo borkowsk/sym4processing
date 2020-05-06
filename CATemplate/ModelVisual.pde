@@ -37,7 +37,7 @@ void visualizeCells(int[] cells)
       fill(128);break;
     }
     
-    int t=StepCounter%side;
+    int t=(StepCounter/STEPSperVIS)%side;//Uwzględniamy różne częstości wizualizacji
     noStroke();
     rect(a*cwidth,t*cwidth,cwidth,cwidth);
     stroke(255);
