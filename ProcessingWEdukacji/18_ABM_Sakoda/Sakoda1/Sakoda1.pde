@@ -5,7 +5,7 @@
 //Model parameters
 int side=75;//side of main table
 String modelName="ABMSakoda";
-float density=0.95;
+float density=0.55;
 
 World TheWorld=new World(side);//... but also will be initialised inside setup()
 
