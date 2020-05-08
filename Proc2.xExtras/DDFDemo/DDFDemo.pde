@@ -8,20 +8,21 @@ AudioRecorder fout;
 PImage img;
 int smallPoint, largePoint;
 
-boolean sketchFullScreen() {
-  return false;//true;
-}
+//boolean sketchFullScreen() { //Nie w Processingu 3.0
+//  return false;//true;
+//}
 
 void setup() {
- size(1024, 1024);
- //size(displayWidth, displayHeight);
+ //size(1024, 1024);
+ fullScreen();
+ //size(displayWidth, displayHeight);//Nie w Processingu 3.0
 
   minim = new Minim(this);
   // use the getLineIn method of the Minim object to get an AudioInput
-  in = minim.getLineIn(Minim.STEREO, 512);
+  in = minim.getLineIn(Minim.STEREO, 256);//512
   // uncomment this line to *hear* what is being monitored, in addition to seeing it
   in.enableMonitoring();
-  //fout = minim.createRecorder(in, "S:/myrecording.wav", true); //NIE DZIAŁA
+  //fout = minim.createRecorder(in, "myrecording.wav", true); //NIE DZIAŁA
   
   img = loadImage("ObazNr110.bmp");
   smallPoint = 4;
@@ -60,4 +61,3 @@ void stop()
  
   super.exit();
 }
-

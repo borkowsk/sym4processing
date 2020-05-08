@@ -9,9 +9,10 @@ int winheigh=500;
  
 void setup()
 {
-  winwidth=displayWidth;
-  winheigh=displayHeight;
-  size(winwidth,winheigh);
+  //winwidth=displayWidth;
+  //winheigh=displayHeight;
+  //size(winwidth,winheigh);//Nie w Processingu 3.0
+  fullScreen();
   frameRate(1);// 1/s
  
   minim = new Minim(this);
@@ -28,9 +29,9 @@ void setup()
 int maxtime=10;
 int curstep=0;
 
-boolean sketchFullScreen() {
-  return true;
-}
+//boolean sketchFullScreen() { //Nie w wersji 3.x
+//  return true;
+//}
 
 
 void draw()

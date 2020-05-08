@@ -1,6 +1,7 @@
-// Free code Movie Maker designed by Wojciech Borkowski
+// Open source "Movie Maker" designed by Wojciech Borkowski
 /////////////////////////////////////////////////////////////////
 import java.nio.file.*;//files.exists();
+
 int    FPS=25;
 String sourdir="/home/borkowsk/data/ZASOBY/FilmyDlaFau/3.66-3.88chyba/";
 //"/home/borkowsk/data/ZASOBY/FilmyDlaFau/alfabet3/";
@@ -30,11 +31,14 @@ void setup() {
   photo = loadImage(name);
   size(768,768);
   frameRate(FPS);
-  println("Picture: ",name," w*h : ",photo.width," x ",photo.height);
-  println("Start video export");
-  initVideoExport(this,sourdir+core+photo.width+"x"+photo.height+"fps"+FPS+"e"+end+"."+step+".mp4",FPS);//Aktywacja zrzutu wideo
-  firstVideoFrame(255,255,1);//Not 0! 
-  println("Setup complete");
+  if(photo!=null)
+  {
+    println("Picture: ",name," w*h : ",photo.width," x ",photo.height);
+    println("Start video export");
+    initVideoExport(this,sourdir+core+photo.width+"x"+photo.height+"fps"+FPS+"e"+end+"."+step+".mp4",FPS);//Aktywacja zrzutu wideo
+    firstVideoFrame(255,255,1);//Not 0! 
+    println("Setup complete");
+  }
 }
 
 int counter=2;
@@ -44,7 +48,7 @@ int end=6500;
 
 void draw() 
 {
-  if(photo!=null) 
+  if(photo!=null) //Pomija niepoprawnie wczytane pliki
   {
     image(photo, 0, 0);
     if(width < photo.width || height < photo.height)
@@ -87,21 +91,6 @@ void draw()
    text("W.Borkowski [wborkowski@uw.edu.pl]",width/2,height-TSize*2);
   }
 }
-    /*
-    try{  //TO NIE CHCE DZIAŁAĆ - I TAK SIĘ ZATRZYMUJE
-      println("TRY READER:");
-      BufferedReader reader=createReader(name);
-      reader.close();
-    }catch(Exception e)
-    {
-      println("Something wrong with ",name);
-      e.clear();
-      photo = null;
-      return; //!!!
-    } */
-    
-
-
 
 void exit() //it is called whenever a window is closed. 
 {
