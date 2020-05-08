@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<config version="1.0">
+  <title>Recorder cofiguration file (JAXB used)</title>
+  <message>
+  Speek rather loudly!
+  Press "q","p" or SPACE to stop.
+  </message>
+  <textsize>18</textsize>
+  <textcolor>77</textcolor>
+  <width>0</width>
+  <height>0</height>
+  <bg>001EBFEF</bg>
+  <target>FF0077FF</target>
+  <outfile>nagranie.wav</outfile>
+  <rate>25</rate>
+  <maxtime>200</maxtime>
+  <breakchars>q p</breakchars>
+  <breakmouse>false</breakmouse>
+  <url name="ISSUW">http://www.iss.uw.edu.pl</url>
+  <url name="Processing">http://processing.org</url>
+  <url name="JAXB">http://jaxb.java.net</url>
+  <url name="PostSpectacular">http://pspctclr.com</url>
+</config>
