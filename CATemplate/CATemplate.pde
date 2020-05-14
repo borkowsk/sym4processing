@@ -30,7 +30,7 @@ void setup()
   
   //Model
   initializeModel(TheWorld);
-  initializeStats();
+  //initializeStats();
   doStatistics(TheWorld);
   
   //Window 
