@@ -4,15 +4,15 @@ int StepCounter=0;
 
 class World
 {
-  Agent agents[];//One dimensional array of agents
+  //Agent agents[];//One dimensional array of agents
   //OR
-  //Agent agents[][];//Two dimensional array of agents
+  Agent agents[][];//Two dimensional array of agents
   
   World(int side)//Constructor of the World
   {
-    agents=new Agent[side];
+    //agents=new Agent[side];
     //OR
-    //agents=new Agent[side][side];
+    agents=new Agent[side][side];
   }
 }
 
