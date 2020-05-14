@@ -9,7 +9,7 @@ int selectedY=-1;
 //double minDist2Selec=MAX_INT;//???
 //double maxTransSelec=-MAX_INT;//???
 
-public class PairOfInt
+class PairOfInt
 //Simple version of Pair returning a pair of Int
 {
     public final int a;
