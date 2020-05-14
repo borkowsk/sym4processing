@@ -1,20 +1,5 @@
 //  Dopasowana do modelu obsługa zdarzeń
 ///////////////////////////////////////////////////
-int searchedX=-1;
-int searchedY=-1;
-boolean Clicked=false;
-Agent  theSelected=null; 
-
-double minDist2Selec=MAX_INT;
-double maxTransSelec=-MAX_INT;
-
-void mouseClicked()
-{
-  Clicked=true;
-  theSelected=null;
-  searchedX=mouseX;
-  searchedY=mouseY; //Searching should be implemented in visialisation!
-}
 
 void keyPressed() 
 {
