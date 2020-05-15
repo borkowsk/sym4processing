@@ -3,7 +3,7 @@
 Do użycia przy geometri dyskretnej 1 lub 2 wymiarowej kwadratowej.
 * Alokuje agentów
 * Organizuje podstawowe wyświetlanie
-* Obsługuje zdarzenia klawiatury i (potencjalnie) myszy 
+* Obsługuje zdarzenia klawiatury i myszy (inspekcja agentów) 
 * Zapisuje plik logu symulacji
 * Opcjonalnie zapisuje film z symulacji w formacie .mp4
 
