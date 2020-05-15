@@ -38,7 +38,7 @@ void mouseClicked()
     if((selected=TheWorld.agents[selectedY][selectedX])!=null)
     {
       println("Cell",selectedX,selectedY,"belong to",selected);
-      //println("\t"+selected.fullInfo("\n\t"));
+      println("\t"+selected.fullInfo("\n\t"));
     }
     else
     {
