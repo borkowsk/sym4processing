@@ -1,0 +1,3 @@
+[submodule "bookProcessingPL"]
+	path = bookProcessingPL
+	url = https://github.com/borkowsk/bookProcessingPL.git
