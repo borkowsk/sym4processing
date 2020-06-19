@@ -1,13 +1,24 @@
 // Functions & classes for chart making
 ///////////////////////////////////////////////////////////////////////////////////////////
+//final float INF_NOT_EXIST=Float.MAX_VALUE;
 
-class Range
+class NamedData implements iNamed
+{
+  String myName;
+  NamedData(String Name){ myName=Name;}
+  String name() {return myName;}
+}
+
+class Range extends NamedData
 {
   float min=+Float.MAX_VALUE;
   float max=-Float.MAX_VALUE;
   
+  Range(String Name){ super(Name);}
+  
   void addValue(float value)
   {
+    if(value==INF_NOT_EXIST) return;
     if(max<value)
     {
       max=value;
@@ -19,22 +30,28 @@ class Range
   }
 }
 
-class Sample
+class Sample  extends NamedData
 // For representing series of numbers
 {
   FloatList data=null;
+  
   float   min=+Float.MAX_VALUE;
   int   whmin=-1;
   float   max=-Float.MAX_VALUE;
   int   whmax=-1;
-  float   sum=0;
+  double   sum=0;
+  int    count=0;//Licznik REALNYCH wartości!
   
-  Sample()
+  Sample(String Name)
   {
+    super(Name);
     data=new FloatList();
   }
   
-  int  numOfElements() { return data.size();}
+  int  numOfElements() 
+  { 
+     return data.size();//Razem z pustymi czyli INF_NOT_EXIST
+  }
   
   void reset()
   {
@@ -43,13 +60,52 @@ class Sample
     whmin=-1;
     max=-Float.MAX_VALUE;
     whmax=-1;
-    sum=0;    
+    sum=0;  
+    count=0;
+  }
+  
+  float getMin()
+  {
+    if(count>0) return min;
+    else return INF_NOT_EXIST;
+  }
+  
+  float getMax()
+  {
+    if(count>0) return max;
+    else return INF_NOT_EXIST;
+  }
+  
+  float getMean()
+  {
+    if(count>0) return (float)(sum/count);
+    else return INF_NOT_EXIST;
+  }
+  
+  float getStdDev() //TODO
+  {
+    if(count==0) return INF_NOT_EXIST;
+    int    N=0;
+    double kwadraty=0;
+    double mean=getMean();
+    for(float val:data)
+    if(val!=INF_NOT_EXIST)
+    {
+      kwadraty+=sqr(val-mean);
+      N++;
+    }
+                              assert N==count;
+    return (float)(kwadraty/N);
   }
   
   void addValue(float value)
-  {         
+  {        
     data.append(value);
+    
+    if(value==INF_NOT_EXIST) return;//Nic więcej do zrobienia
+    
     sum+=value;
+    count++;//Realna wartość a nie pusta!
     
     if(max<value)
     {
@@ -62,11 +118,10 @@ class Sample
       whmin=data.size()-1; //print("v");
     }
   }
-  
 }
 
-class Frequencies
-// For representimg frequencies 
+class Frequencies extends NamedData
+// For representing frequencies 
 {
   private int[]   buckets=null;
   float   sizeOfbucket=0;//(Max-Min)/N;
@@ -78,8 +133,9 @@ class Frequencies
   int     higherBucket=0;
   int     higherBucketIndex=-1;
 
-  Frequencies(int numberOfBuckets,float lowerBound, float upperBound)
+  Frequencies(int numberOfBuckets,float lowerBound, float upperBound,String Name)
   {
+    super(Name);
     buckets=new int[numberOfBuckets];
     lowerb=lowerBound;
     upperb=upperBound;
@@ -101,6 +157,8 @@ class Frequencies
   
   void addValue(float value)
   {
+    if(value==INF_NOT_EXIST) return;
+    
     if(value<lowerb)
       {outsideLow++;return;}
     
@@ -127,7 +185,7 @@ void viewAxis(int startX,int startY,int width,int height)
   line(startX-5,startY-height+5,startX,startY-height);
 }
 
-void viewFrame(int startX,int startY,int width,int height)
+void viewFrame(float startX,float startY,int width,int height)
 {
   line(startX,startY,startX+width,startY);
   line(startX,startY,startX,startY-height);
@@ -141,13 +199,24 @@ void viewTicsV(int startX,int startY,int width,int height,float space)
      line(startX,y,startX+width,y);
 }
 
-void viewTicsH(int startX,int startY,int width,int height,float space)
+void viewTicsH(float startX,float startY,float width,float height,float space)
 {
-  for(int x=startX;x<startX+width;x+=space)
+  for(int x=int(startX);x<startX+width;x+=space)
      line(x,startY,x,startY-height);
 }
 
-void viewAsPoints(Sample data,int startX,int startY,int width,int height,boolean logaritm,Range commMinMax,boolean connect)
+void viewScaleV(Range MinMax,int startX,int startY,int width,int height)//,boolean logaritm)//Na razie tu nie rysujemy kresek (tics)
+{
+   //float min=(logaritm?(float)Math.log10(MinMax.min+1):MinMax.min);//+1 wizualnie niewiele zmienia a gwarantuje obliczalność
+   //float max=(logaritm?(float)Math.log10(MinMax.max+1):MinMax.max);//+1 wizualnie niewiele zmienia a gwarantuje obliczalność
+   textAlign(LEFT,TOP);
+   text(""+MinMax.min,startX+width,startY);
+   text(""+MinMax.max,startX+width,startY-height);
+}
+
+void viewAsPoints(Sample data,//Źródło danych
+                  int startD, //Punkt startowy wyświetlania, albo liczba od końca  - gdy wartość ujemna
+                  float startX,float startY,int width,int height,boolean logaritm,Range commMinMax,boolean connect)
 {
   float min,max;
   if(commMinMax!=null)
@@ -160,24 +229,46 @@ void viewAsPoints(Sample data,int startX,int startY,int width,int height,boolean
     min=(logaritm?(float)Math.log10(data.min+1):data.min);//+1 wizualnie niewiele zmienia a gwarantuje obliczalność
     max=(logaritm?(float)Math.log10(data.max+1):data.max);//+1 wizualnie niewiele zmienia a gwarantuje obliczalność
   }
-  int     N=data.numOfElements(); 
-  float wid=float(width)/N;//  println(width,N,wid,min,max);
+  
+  int     N=data.numOfElements();       assert startD<N-1;
+  if(startD<0)
+  {
+      startD=-startD;//Ujemne było tylko umownie!!!
+      startD=N-startD;//Ileś od końca
+  }
+  if(startD<0) //Nadal ujemne!?
+  {
+      startD=0;//Czyli zabrakło danych
+      //print("?");
+  }
+  float wid=float(width)/(N-startD);  //println(width,N,startD,wid,min,max);
   float oldy=-Float.MIN_VALUE;
-  for(int t=0;t<N;t++)
+  
+  for(int t=startD;t<N;t++)
   {
     float val=data.data.get(t);
+    if(val==INF_NOT_EXIST) 
+    {
+      oldy=-Float.MIN_VALUE;
+      continue;
+    }
+    
     if(logaritm)
       val=map((float)Math.log10(val+1),min,max,0,height);    
     else 
       val=map(val,min,max,0,height);
     
-    float x=t*wid;
+    float x=(t-startD)*wid;
     if(connect && oldy!=-Float.MIN_VALUE)
     {
       line (startX+x-wid,startY-oldy,startX+x,startY-val);//println(wid,x-wid,oldy,x,val);
     }
     else
-      point(startX+x,startY-val); //println(startX+x,startY-val);
+    {
+                                                          //println(startX+x,startY-val);
+      line(startX+x+2,startY-val,startX+x-1,startY-val); 
+      line(startX+x,startY-val+2,startX+x,startY-val-1); 
+    }
     
     if(connect) oldy=val;
     
@@ -189,10 +280,10 @@ void viewAsPoints(Sample data,int startX,int startY,int width,int height,boolean
   }
 }
 
-float viewAsColumns(Frequencies hist,int startX,int startY,int width,int height,boolean logaritm)
+float viewAsColumns(Frequencies hist,float startX,float startY,int width,int height,boolean logaritm)
 {
   float max=(logaritm?(float)Math.log10(hist.higherBucket+1):hist.higherBucket);//+1 wizualnie niewiele zmienia a gwarantuje obliczalność
-  int wid=width/hist.buckets.length;
+  int wid=width/hist.buckets.length; //println(width,wid);
   if(wid<1) wid=1;
   
   for(int i=0;i<hist.buckets.length;i++)
@@ -209,7 +300,7 @@ float viewAsColumns(Frequencies hist,int startX,int startY,int width,int height,
   textAlign(LEFT,BOTTOM);
   text(""+max+(logaritm?"<="+hist.higherBucket+" @ "+hist.higherBucketIndex:" @ "+hist.higherBucketIndex),startX,startY-height);
   //Real width of histogram
-  float realwidth=(hist.buckets.length)*wid;//println(realwidth);
+  float realwidth=(hist.buckets.length)*wid;//println(realwidth);noLoop();
   return realwidth;
 }
 
