@@ -1,7 +1,11 @@
 //Plik wymuszający ładowanie wszystkich "optionali" z tego folderu 
 
 //for swithbit()
-final int MASKBITS=0xffffffff;//Redefine, when smaller width is required
+final int    LINK_INTENSITY=2;///
+final float  MAX_LINK_WEIGHT=1.0;///
+final int    MASKBITS=0xffffffff; /// Redefine, when smaller width is required
+int          FRAMEFREQ=10;/// simulation speed
+//int        debug_level=0; ///
 
 class Agent //Dummy Agent class
 {
