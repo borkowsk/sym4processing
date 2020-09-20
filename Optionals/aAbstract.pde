@@ -1,11 +1,46 @@
 /////////////////////////////////////////////////////////////////////////////////
-// COMMON INTERFACES
+// COMMON INTERFACES AND ABSTRACT CLASSES 
 /////////////////////////////////////////////////////////////////////////////////
 // /* _interfunc */ from interchangeable function
+
+public class Pair<A,B> 
+//Simple version of Pair template useable for returning a pair of values
+{
+    public final A a;
+    public final B b;
+
+    public Pair(A a, B b) 
+    {
+        this.a = a;
+        this.b = b;
+    }
+};
+
+// Teplates
+///////////////////////////////////
+
+// Generally useable interfaces
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+interface named //ABSOLETE: Any object which have name as printable String
+{
+  String getName();
+}
+
+interface describable //ABSOLETE: Any object which have description as (potentially) long, multi line string
+{
+  String getDescription();
+}
 
 interface iNamed {
   ///INFO: Forcing name available as String (planty of usage)
   /*_interfunc*/ String    name()/*_forcbody*/;
+};
+
+interface iDescribable { //Any object which have description as (potentially) long, multi line string
+  ///INFO:
+  /*_interfunc*/ String Description();
 };
 
 // MATH INTERFACES
@@ -20,7 +55,6 @@ interface Function2D {
 
 // VISUALISATION INTERFACES:
 /////////////////////////////////////////////////////////////////////////////////
-
 
 interface iColorable {
   ///INFO: Forcing setFill & setStroke methods for visualisation
@@ -63,6 +97,6 @@ interface  iVisLink extends iLink,iNamed,iColorable {
   ///INFO: visualisable network connection
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - USEFULL INTERFACES
-///////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - USEFULL INTERFACES & ABSTRACT CLASSES
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
