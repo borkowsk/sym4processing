@@ -7,5 +7,5 @@
 
 __KLONOWANIE__
 
-'''git clone --recurse-submodules https://github.com/borkowsk/sym4processing.git'''
+```git clone --recurse-submodules https://github.com/borkowsk/sym4processing.git```
 
