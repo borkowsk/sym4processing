@@ -5,3 +5,7 @@
 * Przykładowe symulacje napisane z użyciem szablonu 
 * Link do repozytorium z materiałami do kursu "Processing w edukacji i symulacji" (**bookProcessingPL**)
 
+__KLONOWANIE__
+
+'''git clone --recurse-submodules https://github.com/borkowsk/sym4processing.git'''
+
