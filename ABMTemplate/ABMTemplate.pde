@@ -1,4 +1,4 @@
-//   Template for AGENT BASE MODEL utilized 1D or 2D dicrete geometry
+//   Template for AGENT BASE MODEL utilized 1D or 2D discrete geometry
 //   implemented by Wojciech Borkowski
 /////////////////////////////////////////////////////////////////////////////////////////
 
