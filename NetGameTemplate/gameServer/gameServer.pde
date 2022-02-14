@@ -1,13 +1,12 @@
-//*  Server for many clients
+//*  Server for gameClients
 //*////////////////////////// 
 // Example code for a server with multiple clients communicating to only one at a time.
 // It will work for any client. 
 // Warning, is just an example, and could probably be improved upon!
 // https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
-
 import processing.net.*;
+//long pid = ProcessHandle.current().pid();//JAVA9 :-(
 
-int    servPORT=5204;
 Server mainServer;
 
 int    val[] = new int[0];
@@ -15,10 +14,16 @@ Client clients[] = new Client[0];//the array of clients
 
 void setup() 
 {
-  size(200, 200);
-  mainServer = new Server(this,servPORT);
+  size(500, 500);  
   noStroke();
-  val = expand(val, val.length+1);
+  mainServer = new Server(this,servPORT,serverIP);
+  if(mainServer.active())
+  {
+    println("Server for '"+gameName+"' started!");
+    println("IP:",serverIP,"PORT:",servPORT);
+    val = expand(val, val.length+1);
+  }
+  else exit();
 }
 
 void draw() 
