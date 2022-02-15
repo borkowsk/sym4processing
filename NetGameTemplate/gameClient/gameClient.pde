@@ -5,6 +5,8 @@
 import processing.net.*;
 //long pid = ProcessHandle.current().pid();//JAVA9 :-(
 
+int DEBUG=3;//Level of debug logging
+
 String  playerName="";
 
 Client  myClient=null;
@@ -19,6 +21,49 @@ void setup()
   println("Expected server IP:",serverIP,"\nExpected server PORT:",servPORT);
   frameRate(1);
 }
+
+void drawStartUpInfo()
+{
+   textAlign(CENTER,CENTER);
+   fill(random(255),random(255),random(255));
+   text("PLAYER: "+playerName,width/2,height/2);   
+}
+
+//Próba połączenia i wstępnej komunikacji
+void drawTryConnect()
+{
+   fill(random(255),random(255),random(255));
+   text("Not connected", width/2., height/2.);
+   
+   myClient = new Client(this,serverIP,servPORT);
+   if(!myClient.active())
+   {
+      if(DEBUG>0) println(playerName," still not connected!");
+      myClient=null;
+   }
+   else
+   {
+      println(myClient,"connected!");
+      
+      if(DEBUG>0) println(playerName,"is SENDING",Opts.HELLO);
+      myClient.write(Opts.HELLO);
+      
+      while(myClient.available() <= 0) delay(10);
+      if(DEBUG>0) print(playerName,"is READING FROM SERVER:");
+      int opt=myClient.read();
+      if(DEBUG>0) println(opt);
+      
+      if(opt==Opts.IAM)
+      {
+        while(myClient.available() == 0) delay(10);
+        if(DEBUG>0) print(playerName,"is READING FROM SERVER:");
+        String protName=myClient.readString();
+        if(DEBUG>0) println("Server protocol is '"+protName+"'");
+      }
+      
+      frameRate(60);//Udało się, zasuwamy!
+   }
+}
     
 void draw() 
 {
@@ -26,42 +71,16 @@ void draw()
  
   if(frameCount<5)
   {
-    textAlign(CENTER,CENTER);
-    fill(random(255),random(255),random(255));
-    text("PLAYER: "+playerName,width/2,height/2);        
+       drawStartUpInfo(); 
   }
   else
   if(myClient==null || !myClient.active() )
   {
-    fill(random(255),random(255),random(255));
-    text("Not connected", width/2., height/2.);
-    
-    //Next attempt
-    myClient = new Client(this,serverIP,servPORT);
-    if(!myClient.active())
-      myClient=null;
-    else
-    {
-      println(myClient,"connected!");
-      frameRate(60);//Udało się, zasuwamy!
-    }
+      drawTryConnect();
   }
   else
   {
-    // you can replace #clientNumber with whatever number you wish
-    text(myClient+"\n recived "+int(dataIn), width/2., height/2.);
-          
-    fill(255,0,0);
-    for(int i = 0; true; i++)
-    {
-      if (myClient.available() > 0) 
-      {
-        dataIn = myClient.read();
-        //println(dataIn);
-      }
-      else
-      break;
-    }
+      clientDraw();
   }
   
   textAlign(CENTER,BOTTOM);

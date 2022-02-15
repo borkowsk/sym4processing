@@ -1,12 +1,17 @@
 //Declaration common for client and server
 //Use link script for make symbolic connections to gameServer & gameClient directories
 //String  serverIP="127.0.0.1";
-String  serverIP="192.168.55.201";
-int     servPORT=5204;
-String  gameName="gameTemplate";
+//String  serverIP="192.168.55.201";
+String  serverIP="10.3.24.216";
+int     servPORT=5205;
 
-public enum Opts { NOPE,
-                   HELLO,//First message
+class Opts { 
+  static final String name="gameTemplate";
+  static final int NOPE=0;
+  static final int HELLO=1;//First message
+  static final int IAM=2;//I am "name of server/name of client"
+};
+/*
                    IAM,//I am "name of server/name of client"
                    //FROM SERVER MESSAGES
                    EUC1D,//Euclidean position float(X) "class name of object or name of player"
@@ -23,6 +28,6 @@ public enum Opts { NOPE,
                    MY_ACT,//Player action "name of action"
                    //FINAL - before clossing connection
                    END 
-                 };
+                 }; */
                    
                    

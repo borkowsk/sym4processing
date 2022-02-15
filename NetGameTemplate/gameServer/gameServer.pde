@@ -7,6 +7,8 @@
 import processing.net.*;
 //long pid = ProcessHandle.current().pid();//JAVA9 :-(
 
+int DEBUG=3;//Level of debug logging
+
 Server mainServer;
 
 int    val[] = new int[0];
@@ -19,7 +21,7 @@ void setup()
   mainServer = new Server(this,servPORT,serverIP);
   if(mainServer.active())
   {
-    println("Server for '"+gameName+"' started!");
+    println("Server for '"+Opts.name+"' started!");
     println("IP:",serverIP,"PORT:",servPORT);
     val = expand(val, val.length+1);
   }
@@ -28,16 +30,9 @@ void setup()
 
 void draw() 
 {
-  background(0);
-  textAlign(CENTER);
-  text(clients.length, width/2., height/2.);//Displays how many clients have connected to the server
-  for (int i = 0; i < clients.length; i++)
-  if(clients[i].active())
-  {
-    val[i] = (val[i]+i+1)%255;//changes the value based on which client number it has (the higher client number, the fast it changes).
-    clients[i].write(byte(val[i]));//writes to the right client (using the byte type is not necessary)
-    text(val[i], width/2., height/2.+15*(i+1));
-  }
+  serverDraw();
+  textAlign(CENTER,BOTTOM);
+  text(nf(frameRate,2,2)+"fps",width/2.,height);
 }
 
 ///this is extra stuff that can be done, when new client connected
@@ -51,7 +46,23 @@ void serverEvent(Server srvr, Client clnt)
 {
   clients = (Client[]) expand(clients,clients.length+1);//expand the array of clients
   clients[clients.length-1] = clnt;//sets the last client to be the newly connected client
-  whenConnected();
+  
+  if(DEBUG>0) print("READING FROM CLIENT:");
+  int opt=clnt.read();
+  if(DEBUG>0) println(opt);
+  
+  if(opt==Opts.HELLO)
+  {
+    clnt.write(Opts.IAM);
+    clnt.write(Opts.name);                    assert clnt.active();
+    while(clnt.available() == 0) delay(10);
+    whenConnected();
+  }
+  else
+  {
+    println("Invalid opt");
+    clnt.stop();
+  }
 }
 
 ///ClientEvent message is generated when a client disconnects.
