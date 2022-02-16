@@ -51,7 +51,7 @@ void drawTryConnect()
       while(myClient.available() <= 0) delay(10);
       
       if(DEBUG>0) print(playerName,"is READING FROM SERVER:");
-      msg=myClient.readString();
+      msg=myClient.readStringUntil(Opts.NOPE);
       if(DEBUG>0) println(msg);
       
       String serverType=decodeHELLO(msg);
@@ -73,7 +73,7 @@ void draw()
 {
   background(128);
  
-  if(frameCount<5)
+  if(frameCount<2)
   {
        drawStartUpInfo(); 
   }

@@ -9,7 +9,8 @@ int     servPORT=5205;
 
 class Opts { 
   static final String name="gameTemplate";//ASCII IDENTIFIER!
-  static final char NOPE='\0';
+  static final char NOPE='@';
+  static final char SPC=' ';
   static final char HELLO='H';//First message
   static final char IAM='I';//I am "name of server/name of client"
 };
@@ -17,12 +18,12 @@ class Opts {
   
 String sayHELLO(String myName)
 {
-    return ""+Opts.HELLO+' '+Opts.IAM+' '+myName;
+    return ""+Opts.HELLO+Opts.SPC+Opts.IAM+Opts.SPC+myName+Opts.SPC+Opts.NOPE;
 }
 
 String decodeHELLO(String msgHello)
 {
-  String[] fields=split(msgHello,' ');
+  String[] fields=split(msgHello,Opts.SPC);
   if(DEBUG>3) println(fields[0],fields[1],fields[2]);
   return fields[2];
 }
