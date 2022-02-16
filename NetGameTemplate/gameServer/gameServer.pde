@@ -12,6 +12,7 @@ int DEBUG=3;//Level of debug logging
 Server mainServer;
 
 int    val[] = new int[0];
+String names[]= new String[0];
 Client clients[] = new Client[0];//the array of clients
 
 void setup() 
@@ -28,6 +29,12 @@ void setup()
   else exit();
 }
 
+///this is extra stuff that can be done, when new client connected
+void whenConnected()
+{//in this case expanding a value array to have a value for each client.
+  val = expand(val, val.length+1);
+}
+
 void draw() 
 {
   serverDraw();
@@ -35,34 +42,28 @@ void draw()
   text(nf(frameRate,2,2)+"fps",width/2.,height);
 }
 
-///this is extra stuff that can be done, when new client connected
-void whenConnected()
-{//in this case expanding a value array to have a value for each client.
-  val = expand(val, val.length+1);
-}
-
 ///Event handler called when a client connects.
-void serverEvent(Server srvr, Client clnt)
+void serverEvent(Server me, Client newClient)
 {
+  noLoop();//CRITICAL SECTION!!!
+  while(newClient.available() <= 0) delay(10);
+  
+  if(DEBUG>0) print("READING FROM CLIENT: ");
+  String msg=newClient.readString();
+  if(DEBUG>0) println(msg);
+  String playerName=decodeHELLO(msg);
+  //...
+  msg=sayHELLO(Opts.name);
+  if(DEBUG>0) println("Server is SENDING: ",msg);
+  newClient.write(msg);
+  
   clients = (Client[]) expand(clients,clients.length+1);//expand the array of clients
-  clients[clients.length-1] = clnt;//sets the last client to be the newly connected client
+  clients[clients.length-1] = newClient;//sets the last client to be the newly connected client
+  names = expand(names, names.length+1);
+  names[names.length-1]=playerName;
   
-  if(DEBUG>0) print("READING FROM CLIENT:");
-  int opt=clnt.read();
-  if(DEBUG>0) println(opt);
-  
-  if(opt==Opts.HELLO)
-  {
-    clnt.write(Opts.IAM);
-    clnt.write(Opts.name);                    assert clnt.active();
-    while(clnt.available() == 0) delay(10);
-    whenConnected();
-  }
-  else
-  {
-    println("Invalid opt");
-    clnt.stop();
-  }
+  whenConnected();
+  loop(); 
 }
 
 ///ClientEvent message is generated when a client disconnects.
@@ -70,4 +71,11 @@ void disconnectEvent(Client someClient)
 {
   println(mainServer,"Disconnect event happened.");
   println(someClient);
+  for(int i=0;i<clients.length;i++)
+  if(clients[i]==someClient)
+  {
+    println(names[i]," disconnected");
+    clients[i]=null;
+    break;
+  }
 }

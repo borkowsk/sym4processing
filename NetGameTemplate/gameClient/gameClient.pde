@@ -7,7 +7,7 @@ import processing.net.*;
 
 int DEBUG=3;//Level of debug logging
 
-String  playerName="";
+String  playerName="";//ASCII IDENTIFIER!
 
 Client  myClient=null;
 
@@ -44,24 +44,28 @@ void drawTryConnect()
    else
    {
       println(myClient,"connected!");
-      
-      if(DEBUG>0) println(playerName,"is SENDING",Opts.HELLO);
-      myClient.write(Opts.HELLO);
+      String msg=sayHELLO(playerName);
+      if(DEBUG>0) println(playerName,"is SENDING",msg);
+      myClient.write(msg);
       
       while(myClient.available() <= 0) delay(10);
+      
       if(DEBUG>0) print(playerName,"is READING FROM SERVER:");
-      int opt=myClient.read();
-      if(DEBUG>0) println(opt);
+      msg=myClient.readString();
+      if(DEBUG>0) println(msg);
       
-      if(opt==Opts.IAM)
+      String serverType=decodeHELLO(msg);
+      if(serverType.equals(Opts.name) )
       {
-        while(myClient.available() == 0) delay(10);
-        if(DEBUG>0) print(playerName,"is READING FROM SERVER:");
-        String protName=myClient.readString();
-        if(DEBUG>0) println("Server protocol is '"+protName+"'");
+        frameRate(60);//Udało się, zasuwamy!
       }
-      
-      frameRate(60);//Udało się, zasuwamy!
+      else
+      {
+        println("Protocol mismatch: '"
+                +serverType+"'<>'"+Opts.name+"'");
+        myClient.stop();
+        exit();
+      }
    }
 }
     
@@ -91,8 +95,8 @@ void draw()
 void disconnectEvent(Client someClient) 
 {
   background(0);
-  print(someClient,"Server disconnected? ");
-  //myClient=null;
+  print(playerName,"Server disconnected? ");
+  myClient=null;
 }
 
 // Loads the player's name from the file "player.txt"
@@ -103,7 +107,7 @@ void loadName()
     playerName = reader.readLine();
   } catch (IOException e) {
     e.printStackTrace();
-    playerName = "Unknown player";
+    playerName = "Unknown_player";
   }
   //reader.close();//Exception?
 }

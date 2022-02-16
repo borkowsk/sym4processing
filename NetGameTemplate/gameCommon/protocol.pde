@@ -1,16 +1,32 @@
 //Declaration common for client and server
 //Use link script for make symbolic connections to gameServer & gameClient directories
-//String  serverIP="127.0.0.1";
+import processing.net.*;
+
+String  serverIP="127.0.0.1";
 //String  serverIP="192.168.55.201";
-String  serverIP="10.3.24.216";
+//String  serverIP="10.3.24.216";
 int     servPORT=5205;
 
 class Opts { 
-  static final String name="gameTemplate";
-  static final int NOPE=0;
-  static final int HELLO=1;//First message
-  static final int IAM=2;//I am "name of server/name of client"
+  static final String name="gameTemplate";//ASCII IDENTIFIER!
+  static final char NOPE='\0';
+  static final char HELLO='H';//First message
+  static final char IAM='I';//I am "name of server/name of client"
 };
+
+  
+String sayHELLO(String myName)
+{
+    return ""+Opts.HELLO+' '+Opts.IAM+' '+myName;
+}
+
+String decodeHELLO(String msgHello)
+{
+  String[] fields=split(msgHello,' ');
+  if(DEBUG>3) println(fields[0],fields[1],fields[2]);
+  return fields[2];
+}
+
 /*
                    IAM,//I am "name of server/name of client"
                    //FROM SERVER MESSAGES
