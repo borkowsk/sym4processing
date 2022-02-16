@@ -48,8 +48,8 @@ void serverEvent(Server me, Client newClient)
   noLoop();//CRITICAL SECTION!!!
   while(newClient.available() <= 0) delay(10);
   
-  if(DEBUG>0) print("READING FROM CLIENT: ");
-  String msg=newClient.readString();
+  if(DEBUG>0) print("Server is READING FROM CLIENT: ");
+  String msg=newClient.readStringUntil(Opts.NOPE);
   if(DEBUG>0) println(msg);
   String playerName=decodeHELLO(msg);
   //...
