@@ -5,13 +5,12 @@
 //https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
 import processing.net.*;
 
-int DEBUG=2;//Level of debug logging
+int DEBUG=2;///Level of debug logging
+int DEF_FRAME_RATE=60;///Frame rate during game
 
 String  playerName="";//ASCII IDENTIFIER!
 
 Client  myClient=null;
-
-int dataIn;//data buffer
     
 void setup() 
 {
@@ -23,9 +22,7 @@ void setup()
 }
 
 void draw() 
-{
-  background(128);
- 
+{ 
   if(frameCount<2)
   {
        drawStartUpInfo(); 
@@ -44,16 +41,51 @@ void draw()
   text(nf(frameRate,2,2)+"fps",width/2.,height);
 }
 
+/// Intro view placeholder ;-)
 void drawStartUpInfo()
 {
+   background(255);
+   //... any picture?
    textAlign(CENTER,CENTER);
-   fill(random(255),random(255),random(255));
+   fill(random(128),random(128),random(128));
    text("PLAYER: "+playerName,width/2,height/2);   
+}
+
+/// Initial courtesy exchange with the server
+void whenConnectedToServer()
+{
+    println(playerName,"connected!");
+    String msg=sayHELLO(playerName);
+    if(DEBUG>0) println(playerName,"is SENDING:",msg);
+    myClient.write(msg);
+    
+    while(myClient.available() <= 0) delay(10);
+    
+    if(DEBUG>0) print(playerName,"is READING FROM SERVER:");
+    msg=myClient.readStringUntil(Opts.NOPE);
+    if(DEBUG>0) println(msg);
+    
+    String serverType=decodeHELLO(msg);
+    if(serverType.equals(Opts.name) )
+    {
+      surface.setTitle(Opts.name+":"+playerName);
+      msg=sayOptCode(Opts.UPD);
+      if(DEBUG>0) println(playerName,"is SENDING:",msg);
+      myClient.write(msg);
+    }
+    else
+    {
+      println("Protocol mismatch: '"
+              +serverType+"'<>'"+Opts.name+"'");
+      myClient.stop();
+      exit();
+    }
 }
 
 ///Attempting to connect and initial communication
 void drawTryConnect()
 {
+   background(128);
    fill(random(255),random(255),random(255));
    text("Not connected", width/2., height/2.);
    
@@ -65,33 +97,10 @@ void drawTryConnect()
    }
    else
    {
-      println(myClient,"connected!");
-      String msg=sayHELLO(playerName);
-      if(DEBUG>0) println(playerName,"is SENDING:",msg);
-      myClient.write(msg);
-      
-      while(myClient.available() <= 0) delay(10);
-      
-      if(DEBUG>0) print(playerName,"is READING FROM SERVER:");
-      msg=myClient.readStringUntil(Opts.NOPE);
-      if(DEBUG>0) println(msg);
-      
-      String serverType=decodeHELLO(msg);
-      if(serverType.equals(Opts.name) )
-      {
-        frameRate(60);//Udało się, zasuwamy!
-        surface.setTitle(Opts.name+":"+playerName);
-        msg=sayOptCode(Opts.SCE);
-        if(DEBUG>0) println(playerName,"is SENDING:",msg);
-        myClient.write(msg);
-      }
-      else
-      {
-        println("Protocol mismatch: '"
-                +serverType+"'<>'"+Opts.name+"'");
-        myClient.stop();
-        exit();
-      }
+      noLoop();//???
+      whenConnectedToServer();//If you can't talk to the server then it doesn't come back from this function!
+      frameRate(DEF_FRAME_RATE);//OK, it work, go fast!
+      loop();
    }
 }
         
@@ -99,8 +108,9 @@ void drawTryConnect()
 void disconnectEvent(Client someClient) 
 {
   background(0);
-  print(playerName,"Server disconnected? ");
+  print(playerName,"disconnected from server.");
   myClient=null;
+  frameRate(1);
 }
 
 /// Loads the player's name from the file "player.txt"

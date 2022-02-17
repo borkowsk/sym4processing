@@ -16,7 +16,7 @@ class Opts {
   static final char IAM='I';//I am "name of server/name of client"
   static final char YOU='Y';//REPLACER OF CORESPONDENT NAME
   static final String sYOU="Y";//REPLACER OF CORESPONDENT NAME as a ready to use String. Character.toString(YOU);<-not for static
-  static final char SCE='S';//Whole scene request
+  static final char UPD='U';//Request for update about whole scene
   static final char EUC='E';//Euclidean position of part object
   static final char POL='P';//Polar position of part object
   //static final char
@@ -132,16 +132,12 @@ String decodePosition(String msgPosition,float[] coordinates)
 
 
 /*
-                   IAM,//I am "name of server/name of client"
-                   //FROM SERVER MESSAGES
-                   //FROM CLIENT MESSAGES
                    TURNL,//Turn left
                    TURNR,//Turn right
                    FORW,//Forward
                    BACK,//Backward
                    MY_ACT,//Player action "name of action"
                    //FINAL - before clossing connection
-                   END 
-                 }; */
+*/
                    
                    

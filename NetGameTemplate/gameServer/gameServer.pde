@@ -40,8 +40,26 @@ void draw()
   text(nf(frameRate,2,2)+"fps",width/2.,height);
 }
 
-///this is extra stuff that can be done, when new client connected
-void whenConnected(Client newClient,String playerName)
+/// Waiting view placeholder ;-)
+void serverWaitingDraw()
+{
+  background(255);fill(0);
+  //... any picture?
+  textAlign(CENTER,CENTER);
+  text("Waiting for clients",width/2,height/2);
+}
+
+/// Confirm client registration and send correct current name
+void confirmClient(Client newClient,String playerName)
+{
+  if(DEBUG>0) print("Server confirms the client's registration: ");
+  String msg=sayOptAndVal(Opts.YOU,playerName);
+  if(DEBUG>0) println(msg);
+  newClient.write(msg);
+}
+
+///This is extra stuff that should be done, when new client was connected
+void whenClientConnected(Client newClient,String playerName)
 {
   for(int i=0;i<names.length;i++)
   if(playerName.equals(names[i]))
@@ -50,15 +68,12 @@ void whenConnected(Client newClient,String playerName)
     {
       println("Player",playerName,"reconnected to server!");
       clients[i]=newClient;
-      if(DEBUG>0) print("Server confirms the client's registration: ");
-      String msg=sayOptAndVal(Opts.YOU,playerName);
-      if(DEBUG>0) println(msg);
-      newClient.write(msg);
+      confirmClient(newClient,playerName);
       return; //Już był taki, ale zdechł!
     }
     else
     {
-      print("New",playerName,"will be ");
+      print("New",playerName,"will be ");//Jest już taki, trzeba jakoś zmienić nazwę
       playerName+='X';
       println(playerName);
     }
@@ -70,28 +85,26 @@ void whenConnected(Client newClient,String playerName)
   names[names.length-1]=playerName;
   val = expand(val, val.length+1);//in this case expanding a value array to have a value for each client.
   
-  if(DEBUG>0) print("Server confirms the client's registration: ");
-  String msg=sayOptAndVal(Opts.YOU,playerName);
-  if(DEBUG>0) println(msg);
-  newClient.write(msg);
+  confirmClient(newClient,playerName);
 }
 
 ///Event handler called when a client connects.
 void serverEvent(Server me,Client newClient)
 {
-  noLoop();//CRITICAL SECTION!!!
+  noLoop();//KIND OF CRITICAL SECTION!!!
+  
   while(newClient.available() <= 0) delay(10);
   
   if(DEBUG>0) print("Server is READING FROM CLIENT: ");
   String msg=newClient.readStringUntil(Opts.NOPE);
   if(DEBUG>0) println(msg);
   String playerName=decodeHELLO(msg);
-  //...
+  
   msg=sayHELLO(Opts.name);
   if(DEBUG>0) println("Server is SENDING: ",msg);
   newClient.write(msg);
     
-  whenConnected(newClient,playerName);
+  whenClientConnected(newClient,playerName);
   
   loop(); 
 }
@@ -99,12 +112,13 @@ void serverEvent(Server me,Client newClient)
 ///ClientEvent message is generated when a client disconnects.
 void disconnectEvent(Client someClient) 
 {
-  println(mainServer,"Disconnect event happened.");
-  println(someClient);
+  println("Disconnect event happened on server.");
+  if(DEBUG>2) println(mainServer,someClient);
+  
   for(int i=0;i<clients.length;i++)
   if(clients[i]==someClient)
   {
-    println(names[i]," disconnected");
+    println(names[i]," disconnected!");
     clients[i]=null;
     break;
   }
