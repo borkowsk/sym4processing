@@ -7,7 +7,7 @@
 // https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
 import processing.net.*;
 
-int DEBUG=3;//Level of debug logging
+int DEBUG=2;//Level of debug logging
 
 Server mainServer;
 
@@ -50,6 +50,10 @@ void whenConnected(Client newClient,String playerName)
     {
       println("Player",playerName,"reconnected to server!");
       clients[i]=newClient;
+      if(DEBUG>0) print("Server confirms the client's registration: ");
+      String msg=sayOptAndVal(Opts.YOU,playerName);
+      if(DEBUG>0) println(msg);
+      newClient.write(msg);
       return; //Już był taki, ale zdechł!
     }
     else
@@ -65,6 +69,7 @@ void whenConnected(Client newClient,String playerName)
   names = expand(names, names.length+1);
   names[names.length-1]=playerName;
   val = expand(val, val.length+1);//in this case expanding a value array to have a value for each client.
+  
   if(DEBUG>0) print("Server confirms the client's registration: ");
   String msg=sayOptAndVal(Opts.YOU,playerName);
   if(DEBUG>0) println(msg);
