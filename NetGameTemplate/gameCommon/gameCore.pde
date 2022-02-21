@@ -2,7 +2,7 @@
 //*///////////////////////////
 boolean VIS_MIN_MAX=true;///Option for visualisation - with min/max value
 boolean KEEP_ASPECT=false;///Option for visualisation - with proportional aspect ratio
-boolean WITH_INFO=true;
+boolean WITH_INFO=true;///Information about objects
 
 abstract class Position
 {
@@ -42,6 +42,18 @@ class Player extends GameObject
 int initialSizeOfMainArray=10;
 GameObject[] mainGameArray=null;
 
+int localiseByName(GameObject[] table,String name)
+{
+  for(int i=0;i<table.length;i++)
+  if(table[i]!=null
+  && name.equals(table[i].name)
+  )
+  {
+    return i;
+  }
+  return -1;
+}
+ //<>//
 void visualise2D(float startX,float startY,float width,float height)///Flat/map visualisation
 {                                                                   assert mainGameArray!=null;
   float minX=MAX_FLOAT;
@@ -92,8 +104,8 @@ void visualise2D(float startX,float startY,float width,float height)///Flat/map 
     {
       float X=startX+(tmp.X-minX)/(maxX-minX)*width;
       float Y=startY+(tmp.Y-minY)/(maxY-minY)*width;
-      text(tmp.visual,X,Y);
-      if(WITH_INFO)
+      text(tmp.visual,X,Y); //<>//
+      if(WITH_INFO) //<>//
       {
         fill(255,0,0,128);textAlign(LEFT,CENTER);
         text(tmp.info(),X+10,Y);

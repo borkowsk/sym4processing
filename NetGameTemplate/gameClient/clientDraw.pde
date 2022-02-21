@@ -13,9 +13,43 @@ void clientGameDraw()
       else
       break;
     }
+    background(0);
+    visualise2D(0,0,width,height);
+}
+
+void visualisationChanged(GameObject[] table,String name,String vtype)
+{
+  if(DEBUG>0) println("Change visualisation for ",name,"into",vtype);
+  int pos=(name.equals(Opts.sYOU)?0:localiseByName(table,name));
+  if(pos==-1)//FIRST TIME
+  {
+    mainGameArray = (GameObject[]) expand(mainGameArray,mainGameArray.length+1);
+    pos=mainGameArray.length-1;
+    mainGameArray[pos]=new GameObject(name,0,0,0);
+  }
+  mainGameArray[pos].visual=vtype;
+}
+
+void positionChanged(GameObject[] table,String name,float[] inparr2)
+{
+  int pos=(name.equals(Opts.sYOU)?0:localiseByName(table,name));
+  if(pos==-1)//FIRST TIME
+  {
+    mainGameArray = (GameObject[]) expand(mainGameArray,mainGameArray.length+1);
+    pos=mainGameArray.length-1;
+    mainGameArray[pos]=new GameObject(name,inparr2[0],inparr2[1],0);
+  }
+  else
+  {
+    mainGameArray[pos].X=inparr2[0];
+    mainGameArray[pos].Y=inparr2[1];
+  }
 }
 
 float[] inparr1=new float[1];
+float[] inparr2=new float[2];
+String[] instr1=new String[1];
+String[] instr2=new String[2];
 
 void interpretMessage(String msg)
 {
@@ -25,24 +59,32 @@ void interpretMessage(String msg)
   case Opts.NOPE: if(DEBUG>0) println(playerName,"recived NOPE");break;
   case Opts.HELLO:
   case Opts.IAM: println(playerName,"recived ENEXPECTED MESSAGE TYPE:",msg.charAt(0));break;
-  //
-  case Opts.YOU: playerName=decodeOptAndVal(msg);
+  //Normal interactions
+  case Opts.YOU: playerName=decodeOptAndInf(msg);
                  if(DEBUG>0) println(playerName,"recived confirmation from the server!");
-                 surface.setTitle(Opts.name+";"+playerName);break;
-  //rest of message types
+                 surface.setTitle(Opts.name+";"+playerName);
+                 break;
+  case Opts.VIS: String objectName=decodeInfos(msg,instr1);
+                 if(DEBUG>1) println(msg);
+                 if(DEBUG>0) println(objectName,"change visualisation into",instr1[0]); 
+                 visualisationChanged(mainGameArray,objectName,instr1[0]);
+                 break;                 
+  //... rest of message types
   case Opts.EUC: if(msg.charAt(1)=='1')
                  {
                    String who=decodePosition(msg,inparr1);//print(who);
-                   background(0);
-                   if(who.equals(Opts.sYOU))
-                   {
-                     stroke(255);
-                     line(inparr1[0],0,inparr1[0],height);
-                   }  
+                   //...
+                   println("Invalid position message:",msg);
+                 }
+                 else
+                 if(msg.charAt(1)=='2')
+                 {
+                   String who=decodePosition(msg,inparr2);//print(who);
+                   positionChanged(mainGameArray,who,inparr2);
                  }
                  else
                  {
-                   println("Invalid dimension of position message");
+                   println("Invalid dimension of position message",msg.charAt(1));
                  }
   }//END OF MESSAGE TYPES SWITCH
 }

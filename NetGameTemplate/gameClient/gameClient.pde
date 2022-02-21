@@ -14,11 +14,14 @@ Client  myClient=null;
     
 void setup() 
 {
-  size(256, 200);
+  size(300,300);
   loadName();
   println("PLAYER:",playerName);
   println("Expected server IP:",serverIP,"\nExpected server PORT:",servPORT);
   frameRate(1);
+  VIS_MIN_MAX=false;///Option for visualisation - with min/max value
+  KEEP_ASPECT=true;///Option for visualisation - with proportional aspect ratio
+  WITH_INFO=false;///Information about objects
 }
 
 void draw() 
@@ -69,6 +72,9 @@ void whenConnectedToServer()
     if(serverType.equals(Opts.name) )
     {
       surface.setTitle(Opts.name+":"+playerName);
+      mainGameArray=new GameObject[1];
+      mainGameArray[0]=new GameObject(playerName,10,10,0);
+      mainGameArray[0].visual="???";
       msg=sayOptCode(Opts.UPD);
       if(DEBUG>0) println(playerName,"is SENDING:",msg);
       myClient.write(msg);

@@ -10,13 +10,14 @@ int     servPORT=5205;
 
 class Opts { 
   static final String name="anyGame";//ASCII IDENTIFIER!
-  static final char NOPE='@';
-  static final char SPC=' ';
+  static final char NOPE='\n';
+  static final char SPC=9;
   static final char HELLO='H';//First message
   static final char IAM='I';//I am "name of server/name of client"
   static final char YOU='Y';//REPLACER OF CORESPONDENT NAME
   static final String sYOU="Y";//REPLACER OF CORESPONDENT NAME as a ready to use String. Character.toString(YOU);<-not for static
   static final char UPD='U';//Request for update about whole scene
+  static final char VIS='V';//Visualisation info for particular object
   static final char EUC='E';//Euclidean position of part object
   static final char POL='P';//Polar position of part object
   //static final char
@@ -45,19 +46,55 @@ String sayOptCode(char optCode)
   return Character.toString(optCode)+Opts.SPC+Opts.NOPE;
 }
 
-///Send simple string info
-String sayOptAndVal(char optCode,String val)
+///Send simple string info - SPC inside 'inf' is allowed.
+String sayOptAndInf(char optCode,String inf)
 {
-  return Character.toString(optCode)+Opts.SPC+val+Opts.SPC+Opts.NOPE;
+  return Character.toString(optCode)+Opts.SPC+inf+Opts.SPC+Opts.NOPE;
 }
 
-String decodeOptAndVal(String msg)
+String decodeOptAndInf(String msg)
 {
   int beg=2;
   int end=msg.length()-2;
   String ret=msg.substring(beg,end);
   return ret;
 }
+
+///Send many(1) string info - SPC inside val is NOT allowed.
+String sayOptAndInfos(char optCode,String objName,String info1)
+{
+  return ""+optCode+"1"+Opts.SPC
+           +objName+Opts.SPC
+           +info1+Opts.SPC
+           +Opts.NOPE;
+}
+
+///Send many(2) string info - SPC inside val is NOT allowed.
+String sayOptAndInfos(char optCode,String objName,String info1,String info2)
+{
+  return ""+optCode+"2"+Opts.SPC
+           +objName+Opts.SPC
+           +info1+Opts.SPC
+           +info2+Opts.SPC
+           +Opts.NOPE;
+}
+
+///Decode 1-9 infos message. Dimension of the array must be proper
+String decodeInfos(String msgInfos,String[] infos)
+{
+  String[] fields=split(msgInfos,Opts.SPC);
+  if(DEBUG>0) println(fields);
+
+  int dimension=fields[0].charAt(1)-'0';
+  
+  if(dimension!=infos.length) 
+        println("Invalid size",dimension,"of infos array!",infos.length);
+        
+  for(int i=0;i<infos.length;i++)
+    infos[i]=fields[i+2];
+  return fields[1];//Nazwa
+}
+
 
 ///Send position of particular object
 ///E1 OName Data @ - Euclidean position float(X)
@@ -112,7 +149,7 @@ String sayPosition(char EUCorPOL,String objName,float[] coordinates)
   return ret;
 }
 
-///Decode any positioning message. Dimension of the array must be proper
+///Decode 1-9 positioning message. Dimension of the array must be proper
 String decodePosition(String msgPosition,float[] coordinates)
 {
   String[] fields=split(msgPosition,Opts.SPC);

@@ -55,10 +55,15 @@ void serverWaitingDraw()
 }
 
 /// Confirm client registration and send correct current name
-void confirmClient(Client newClient,String playerName)
+void confirmClient(Client newClient,Player player)
 {
   if(DEBUG>0) print("Server confirms the client's registration: ");
-  String msg=sayOptAndVal(Opts.YOU,playerName);
+  
+  String msg=sayOptAndInf(Opts.YOU,player.name);
+  if(DEBUG>0) println(msg);
+  newClient.write(msg);
+  
+  msg=sayOptAndInfos(Opts.VIS,Opts.sYOU,player.visual);
   if(DEBUG>0) println(msg);
   newClient.write(msg);
 }
@@ -74,7 +79,7 @@ void whenClientConnected(Client newClient,String playerName)
     {
       println("Player",playerName,"reconnected to server!");
       players[i].netLink=newClient;
-      confirmClient(newClient,playerName);
+      confirmClient(newClient,players[i]);
       return; //Już był taki, ale zdechł!
     }
     else
@@ -84,12 +89,12 @@ void whenClientConnected(Client newClient,String playerName)
       println(playerName);
     }
   }
-  
-  confirmClient(newClient,playerName);
     
-  players = (Player[]) expand(players,players.length+1);//expand the array of clients
   Player tmp=new Player(newClient,playerName,random(initialMaxX),random(initialMaxY),0);
   tmp.visual="@";
+  confirmClient(newClient,tmp);
+  
+  players = (Player[]) expand(players,players.length+1);//expand the array of clients
   players[players.length-1] = tmp;//sets the last player to be the newly connected client
    
   mainGameArray = (GameObject[]) expand(mainGameArray,mainGameArray.length+1);//expand the array of game objects 
