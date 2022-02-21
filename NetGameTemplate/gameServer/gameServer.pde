@@ -69,10 +69,10 @@ void whenClientConnected(Client newClient,String playerName)
   if(players[i]!=null
   && playerName.equals(players[i].name))
   {
-    if(players[i].client==null) 
+    if(players[i].netLink==null) 
     {
       println("Player",playerName,"reconnected to server!");
-      clients[i]=newClient;
+      players[i].netLink=newClient;
       confirmClient(newClient,playerName);
       return; //Już był taki, ale zdechł!
     }
@@ -84,13 +84,14 @@ void whenClientConnected(Client newClient,String playerName)
     }
   }
   
-  clients = (Client[]) expand(clients,clients.length+1);//expand the array of clients
-  clients[clients.length-1] = newClient;//sets the last client to be the newly connected client
-  names = expand(names, names.length+1);
-  names[names.length-1]=playerName;
-  val = expand(val, val.length+1);//in this case expanding a value array to have a value for each client.
-  
   confirmClient(newClient,playerName);
+    
+  players = (Player[]) expand(players,players.length+1);//expand the array of clients
+  Player tmp=new Player(newClient,playerName,random(initialMaxX),random(initialMaxY),0);
+  players[players.length-1] = tmp;//sets the last player to be the newly connected client
+   
+  mainGameArray = (GameObject[]) expand(mainGameArray,mainGameArray.length+1);//expand the array of game objects 
+  mainGameArray[mainGameArray.length-1] = tmp;//Player is also one of GameObjects
 }
 
 ///Event handler called when a client connects.
@@ -120,11 +121,11 @@ void disconnectEvent(Client someClient)
   println("Disconnect event happened on server.");
   if(DEBUG>2) println(mainServer,someClient);
   
-  for(int i=0;i<clients.length;i++)
-  if(clients[i]==someClient)
+  for(int i=0;i<players.length;i++)
+  if(players[i].netLink == someClient )
   {
-    println(names[i]," disconnected!");
-    clients[i]=null;
+    println(players[i].name," disconnected!");
+    players[i].netLink=null;
     break;
   }
 }
