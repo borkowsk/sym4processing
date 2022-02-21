@@ -1,7 +1,10 @@
 //*  Game classes and rules
 //*///////////////////////////
+
+String plants="☘️";//Koniczyna
+String[] pepl={"😃","😐"};
 boolean VIS_MIN_MAX=true;///Option for visualisation - with min/max value
-boolean KEEP_ASPECT=false;///Option for visualisation - with proportional aspect ratio
+boolean KEEP_ASPECT=true;///Option for visualisation - with proportional aspect ratio
 boolean WITH_INFO=true;///Information about objects
 int     indexOfMe=-1;///Index of object visualising client or supervisor
 
@@ -50,7 +53,7 @@ int localiseByName(GameObject[] table,String name)
   && name.equals(table[i].name)
   )
   {
-    return i;
+    return i; //<>//
   }
   return -1;
 }
@@ -62,7 +65,7 @@ void visualise2D(float startX,float startY,float width,float height)///Flat/map 
   float minY=MAX_FLOAT;
   float maxY=MIN_FLOAT;
   //float minZ=MAX_FLOAT;
-  //float maxZ=MIN_FLOAT;
+  //float maxZ=MIN_FLOAT; //<>//
   
   for(Position p:mainGameArray)
   {
@@ -101,8 +104,8 @@ void visualise2D(float startX,float startY,float width,float height)///Flat/map 
   for(int i=0;i<mainGameArray.length;i++)
   {
     GameObject tmp=mainGameArray[i];
-    if(tmp!=null)
-    {
+    if(tmp!=null) //<>//
+    { //<>//
       float X=startX+(tmp.X-minX)/(maxX-minX)*width;
       float Y=startY+(tmp.Y-minY)/(maxY-minY)*width;
       

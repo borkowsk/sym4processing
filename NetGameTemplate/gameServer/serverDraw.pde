@@ -19,7 +19,7 @@ void initialiseGame()
   for(int i=0;i<initialSizeOfMainArray;i++)
   {
     GameObject tmp=new GameObject("o"+nf(i,2),int(random(initialMaxX)),int(random(initialMaxY)),0);
-    tmp.visual="#";
+    tmp.visual=plants;
     mainGameArray[i]=tmp;
   }
 }

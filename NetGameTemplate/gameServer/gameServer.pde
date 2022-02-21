@@ -51,7 +51,7 @@ void serverWaitingDraw()
   visualise2D(Xmargin,0,width-Xmargin,height);
   fill(0);
   textAlign(CENTER,CENTER);
-  text("Waiting for clients",width/2,height/2);
+  text("Waiting for clients\n"+pepl[0]+plants+pepl[1],width/2,height/2);
 }
 
 /// Confirm client registration and send correct current name
@@ -79,6 +79,8 @@ void whenClientConnected(Client newClient,String playerName)
     {
       println("Player",playerName,"reconnected to server!");
       players[i].netLink=newClient;
+      players[i].visual=pepl[1];
+      players[i].changed|=VISUAL_MSK;
       confirmClient(newClient,players[i]);
       return; //Już był taki, ale zdechł!
     }
@@ -91,7 +93,7 @@ void whenClientConnected(Client newClient,String playerName)
   }
     
   Player tmp=new Player(newClient,playerName,random(initialMaxX),random(initialMaxY),0);
-  tmp.visual="@";
+  tmp.visual=pepl[0];
   confirmClient(newClient,tmp);
   
   players = (Player[]) expand(players,players.length+1);//expand the array of clients
@@ -133,6 +135,8 @@ void disconnectEvent(Client someClient)
   {
     println(players[i].name," disconnected!");
     players[i].netLink=null;
+    players[i].visual="_";
+    players[i].changed|=VISUAL_MSK;
     break;
   }
 }

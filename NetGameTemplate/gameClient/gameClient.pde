@@ -22,6 +22,7 @@ void setup()
   VIS_MIN_MAX=false;///Option for visualisation - with min/max value
   KEEP_ASPECT=true;///Option for visualisation - with proportional aspect ratio
   WITH_INFO=false;///Information about objects
+  //textSize(16);
 }
 
 void draw() 
