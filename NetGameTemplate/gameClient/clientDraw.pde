@@ -26,8 +26,7 @@ void clientGameDraw()
 
 void visualisationChanged(GameObject[] table,String name,String vtype)
 {
-  if(DEBUG>0) println("Change visualisation for ",name,"into",vtype);
-  int pos=(name.equals(Opts.sYOU)?0:localiseByName(table,name));
+  int pos=(name.equals(Opts.sYOU)?indexOfMe:localiseByName(table,name));
   if(pos==-1)//FIRST TIME
   {
     mainGameArray = (GameObject[]) expand(mainGameArray,mainGameArray.length+1);
@@ -37,9 +36,23 @@ void visualisationChanged(GameObject[] table,String name,String vtype)
   mainGameArray[pos].visual=vtype;
 }
 
+void colorChanged(GameObject[] table,String name,String hexColor)
+{
+  color newColor=unhex(hexColor); //<>//
+  int pos=(name.equals(Opts.sYOU)?indexOfMe:localiseByName(table,name));
+  if(pos==-1)//FIRST TIME
+  {
+    mainGameArray = (GameObject[]) expand(mainGameArray,mainGameArray.length+1);
+    pos=mainGameArray.length-1;
+    mainGameArray[pos]=new GameObject(name,0,0,0);
+    mainGameArray[pos].foreground=newColor;
+  }
+  mainGameArray[pos].foreground=newColor;
+}
+
 void positionChanged(GameObject[] table,String name,float[] inparr2)
 {
-  int pos=(name.equals(Opts.sYOU)?0:localiseByName(table,name));
+  int pos=(name.equals(Opts.sYOU)?indexOfMe:localiseByName(table,name));
   if(pos==-1)//FIRST TIME
   {
     mainGameArray = (GameObject[]) expand(mainGameArray,mainGameArray.length+1);
@@ -68,14 +81,20 @@ void interpretMessage(String msg)
   case Opts.IAM: println(playerName,"recived ENEXPECTED MESSAGE TYPE:",msg.charAt(0));break;
   //Normal interactions
   case Opts.YOU: playerName=decodeOptAndInf(msg);
-                 if(DEBUG>0) println(playerName,"recived confirmation from the server!");
+                 if(DEBUG>2) println(msg);
+                 if(DEBUG>1) println(playerName,"recived confirmation from the server!");
                  surface.setTitle(Opts.name+";"+playerName);
                  break;
-  case Opts.VIS: String objectName=decodeInfos(msg,instr1);
-                 if(DEBUG>1) println(msg);
-                 if(DEBUG>0) println(objectName,"change visualisation into",instr1[0]); 
+  case Opts.VIS: { String objectName=decodeInfos(msg,instr1);
+                 if(DEBUG>2) println(msg);
+                 if(DEBUG>1) println(objectName,"change visualisation into",instr1[0]); 
                  visualisationChanged(mainGameArray,objectName,instr1[0]);
-                 break;                 
+  } break;
+  case Opts.COL: { String objectName=decodeInfos(msg,instr1);
+                 if(DEBUG>2) println(msg);
+                 if(DEBUG>1) println(objectName,"change color into",instr1[0]); 
+                 colorChanged(mainGameArray,objectName,instr1[0]);
+  } break;               
   //... rest of message types
   case Opts.EUC: if(msg.charAt(1)=='1')
                  {

@@ -7,7 +7,7 @@
 // https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
 import processing.net.*;
 
-int DEBUG=2;//Level of debug logging
+int DEBUG=1;//Level of debug logging
 
 Server mainServer;
 
@@ -57,14 +57,14 @@ void serverWaitingDraw()
 /// Confirm client registration and send correct current name
 void confirmClient(Client newClient,Player player)
 {
-  if(DEBUG>0) print("Server confirms the client's registration: ");
+  if(DEBUG>1) print("Server confirms the client's registration: ");
   
   String msg=sayOptAndInf(Opts.YOU,player.name);
-  if(DEBUG>0) println(msg);
+  if(DEBUG>1) println(msg);
   newClient.write(msg);
   
   msg=sayOptAndInfos(Opts.VIS,Opts.sYOU,player.visual);
-  if(DEBUG>0) println(msg);
+  if(DEBUG>1) println(msg);
   newClient.write(msg);
 }
 
@@ -110,13 +110,13 @@ void serverEvent(Server me,Client newClient)
   
   while(newClient.available() <= 0) delay(10);
   
-  if(DEBUG>0) print("Server is READING FROM CLIENT: ");
+  if(DEBUG>1) print("Server is READING FROM CLIENT: ");
   String msg=newClient.readStringUntil(Opts.NOPE);
-  if(DEBUG>0) println(msg);
+  if(DEBUG>1) println(msg);
   String playerName=decodeHELLO(msg);
   
   msg=sayHELLO(Opts.name);
-  if(DEBUG>0) println("Server is SENDING: ",msg);
+  if(DEBUG>1) println("Server is SENDING: ",msg);
   newClient.write(msg);
     
   whenClientConnected(newClient,playerName);

@@ -7,6 +7,8 @@ boolean wholeUpdateRequested=false;
 //GameObject atributes specific for server side
 final int MOVED_MSK  = 0x1;
 final int VISUAL_MSK = 0x2;
+final int COLOR_MSK  = 0x4;
+final int ALL_MSK = MOVED_MSK | VISUAL_MSK | COLOR_MSK;
 
 abstract class implNeeded 
 { 
@@ -20,6 +22,9 @@ void initialiseGame()
   {
     GameObject tmp=new GameObject("o"+nf(i,2),int(random(initialMaxX)),int(random(initialMaxY)),0);
     tmp.visual=plants;
+    tmp.foreground=color(int(random(100)),128+int(random(128)),100+int(random(100)));
+    if(DEBUG>2) println(hex(tmp.foreground));
+    tmp.changed=ALL_MSK;
     mainGameArray[i]=tmp;
   }
 }
@@ -34,6 +39,7 @@ void sendWholeUpdate()
   {
     String msg=sayOptAndInfos(Opts.VIS,curr.name,curr.visual);
     msg+=sayPosition(Opts.EUC,curr.name,curr.X,curr.Y);
+    msg+=sayOptAndInfos(Opts.COL,curr.name,hex(curr.foreground));
     mainServer.write(msg);
     curr.changed=0;//Whatever was there was sent
   }
@@ -57,6 +63,8 @@ void updateChangedAgents()
       msg+=sayOptAndInfos(Opts.VIS,curr.name,curr.visual);
     if((curr.changed & MOVED_MSK )!=0)  
       msg+=sayPosition(Opts.EUC,curr.name,curr.X,curr.Y);
+    if((curr.changed & COLOR_MSK  )!=0)
+      msg+=sayOptAndInfos(Opts.COL,curr.name,hex(curr.foreground));
     if(msg.length()>0)  
       mainServer.write(msg);
     curr.changed=0;//Whatever was there was sent
@@ -87,9 +95,9 @@ void readMessages()
   && players[i].netLink !=null
   && players[i].netLink.available()>0)
   {
-        if(DEBUG>0) print("Server is reciving from",players[i].name,":");
+        if(DEBUG>1) print("Server is reciving from",players[i].name,":");
         String msg = players[i].netLink.readStringUntil(Opts.NOPE);
-        if(DEBUG>0) println(msg);
+        if(DEBUG>1) println(msg);
         interpretMessage(msg,players[i]);
   }
 }

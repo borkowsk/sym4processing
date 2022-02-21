@@ -18,6 +18,7 @@ class Opts {
   static final String sYOU="Y";//REPLACER OF CORESPONDENT NAME as a ready to use String. Character.toString(YOU);<-not for static
   static final char UPD='U';//Request for update about whole scene
   static final char VIS='V';//Visualisation info for particular object
+  static final char COL='C';//Colors of particular object
   static final char EUC='E';//Euclidean position of part object
   static final char POL='P';//Polar position of part object
   //static final char
@@ -33,7 +34,7 @@ String sayHELLO(String myName)
 String decodeHELLO(String msgHello)
 {
   String[] fields=split(msgHello,Opts.SPC);
-  if(DEBUG>3) println(fields[0],fields[1],fields[2]);
+  if(DEBUG>2) println(fields[0],fields[1],fields[2]);
   if(fields[0].charAt(0)==Opts.HELLO && fields[1].charAt(0)==Opts.IAM )
       return fields[2];
   else
@@ -83,7 +84,7 @@ String sayOptAndInfos(char optCode,String objName,String info1,String info2)
 String decodeInfos(String msgInfos,String[] infos)
 {
   String[] fields=split(msgInfos,Opts.SPC);
-  if(DEBUG>0) println(fields);
+  if(DEBUG>2) println(fields);
 
   int dimension=fields[0].charAt(1)-'0';
   
@@ -153,7 +154,7 @@ String sayPosition(char EUCorPOL,String objName,float[] coordinates)
 String decodePosition(String msgPosition,float[] coordinates)
 {
   String[] fields=split(msgPosition,Opts.SPC);
-  if(DEBUG>3) println(fields[0],fields[1],fields[2]);
+  if(DEBUG>2) println(fields[0],fields[1],fields[2]);
   if(fields[0].charAt(0)==Opts.EUC || fields[0].charAt(0)==Opts.POL )
   {
     int dimension=fields[0].charAt(1)-'0';

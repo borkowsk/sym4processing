@@ -2,11 +2,11 @@
 //*///////////////////////////
 
 String plants="☘️";//Koniczyna
-String[] pepl={"😃","😐"};
+String[] pepl={"😃","😐"};///dwa ludziki
 boolean VIS_MIN_MAX=true;///Option for visualisation - with min/max value
 boolean KEEP_ASPECT=true;///Option for visualisation - with proportional aspect ratio
 boolean WITH_INFO=true;///Information about objects
-int     indexOfMe=-1;///Index of object visualising client or supervisor
+int     indexOfMe=-1;///Index of object visualising client or server supervisor
 
 abstract class Position extends implNeeded
 {
@@ -23,6 +23,7 @@ class GameObject extends Position
 {
   String name;//Each object has an individual identifier necessary for communication. Better short.
   String visual="?";//Text representation of the visualization. The unicode character or the name of an external file.
+  color  foreground=0xff00ff00;
   ///constructor
   GameObject(String iniName,float iniX,float iniY,float iniZ){ super(iniX,iniY,iniZ);
     name=iniName;
@@ -43,7 +44,7 @@ class Player extends GameObject
   }
 };//EndOfClass Player
 
-int initialSizeOfMainArray=10;
+int initialSizeOfMainArray=30;
 GameObject[] mainGameArray=null;
 
 int localiseByName(GameObject[] table,String name)
@@ -53,7 +54,7 @@ int localiseByName(GameObject[] table,String name)
   && name.equals(table[i].name)
   )
   {
-    return i; //<>//
+    return i;
   }
   return -1;
 }
@@ -64,12 +65,12 @@ void visualise2D(float startX,float startY,float width,float height)///Flat/map 
   float maxX=MIN_FLOAT;
   float minY=MAX_FLOAT;
   float maxY=MIN_FLOAT;
-  //float minZ=MAX_FLOAT;
-  //float maxZ=MIN_FLOAT; //<>//
+  //float minZ=MAX_FLOAT; //<>//
+  //float maxZ=MIN_FLOAT;
   
   for(Position p:mainGameArray)
   {
-    float X=p.X; //<>//
+    float X=p.X;
     if(minX>X) minX=X;
     if(maxX<X) maxX=X;
     
@@ -100,12 +101,12 @@ void visualise2D(float startX,float startY,float width,float height)///Flat/map 
     textAlign(CENTER,CENTER);
   }
   
-  fill(0,255,0);textAlign(CENTER,CENTER);
+  textAlign(CENTER,CENTER);
   for(int i=0;i<mainGameArray.length;i++)
   {
     GameObject tmp=mainGameArray[i];
-    if(tmp!=null) //<>//
-    { //<>//
+    if(tmp!=null)
+    {
       float X=startX+(tmp.X-minX)/(maxX-minX)*width;
       float Y=startY+(tmp.Y-minY)/(maxY-minY)*width;
       
@@ -113,12 +114,14 @@ void visualise2D(float startX,float startY,float width,float height)///Flat/map 
       {
           fill(128+random(128),255,0);
           text("!"+tmp.visual+"!",X,Y);
-          fill(0,255,0);
       }
       else
-      text(tmp.visual,X,Y); //<>//
+      {
+        fill(red(tmp.foreground),green(tmp.foreground),blue(tmp.foreground));
+        text(tmp.visual,X,Y);
+      }
       
-      if(WITH_INFO) //<>//
+      if(WITH_INFO)
       {
         fill(255,0,0,128);textAlign(LEFT,CENTER);
         text(tmp.info(),X+10,Y);

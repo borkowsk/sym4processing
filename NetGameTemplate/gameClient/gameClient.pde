@@ -5,7 +5,7 @@
 //https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
 import processing.net.*;
 
-int DEBUG=2;///Level of debug logging
+int DEBUG=1;///Level of debug logging
 int DEF_FRAME_RATE=60;///Frame rate during game
 
 String  playerName="";//ASCII IDENTIFIER!
@@ -60,14 +60,14 @@ void whenConnectedToServer()
 {
     println(playerName,"connected!");
     String msg=sayHELLO(playerName);
-    if(DEBUG>0) println(playerName,"is SENDING:",msg);
+    if(DEBUG>1) println(playerName,"is SENDING:",msg);
     myClient.write(msg);
     
     while(myClient.available() <= 0) delay(10);
     
-    if(DEBUG>0) print(playerName,"is READING FROM SERVER:");
+    if(DEBUG>1) print(playerName,"is READING FROM SERVER:");
     msg=myClient.readStringUntil(Opts.NOPE);
-    if(DEBUG>0) println(msg);
+    if(DEBUG>1) println(msg);
     
     String serverType=decodeHELLO(msg);
     if(serverType.equals(Opts.name) )
@@ -78,7 +78,7 @@ void whenConnectedToServer()
       mainGameArray[0].visual="???";
       indexOfMe=0;
       msg=sayOptCode(Opts.UPD);
-      if(DEBUG>0) println(playerName,"is SENDING:",msg);
+      if(DEBUG>1) println(playerName,"is SENDING:",msg);
       myClient.write(msg);
     }
     else
@@ -100,7 +100,7 @@ void drawTryConnect()
    myClient = new Client(this,serverIP,servPORT);
    if(!myClient.active())
    {
-      if(DEBUG>0) println(playerName," still not connected!");
+      if(DEBUG>1) println(playerName," still not connected!");
       myClient=null;
    }
    else
