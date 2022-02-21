@@ -11,9 +11,11 @@ int DEBUG=2;//Level of debug logging
 
 Server mainServer;
 
-int    val[] = new int[0];
-String names[]= new String[0];
-Client clients[] = new Client[0];//the array of clients
+//int[]    val     = new int[0];
+//String[] names   = new String[0];
+//Client[] clients = new Client[0];//the array of clients
+
+Player[] players= new Player[0];//the array of clients (players)
 
 void setup() 
 {
@@ -25,14 +27,13 @@ void setup()
     println("Server for '"+Opts.name+"' started!");
     println("IP:",serverIP,"PORT:",servPORT);
     initialiseGame();
-    val = expand(val, val.length+1);
   }
   else exit();
 }
 
 void draw() 
 {
-  if(clients.length==0)
+  if(players.length==0)
       serverWaitingDraw();
   else
       serverGameDraw();
@@ -64,10 +65,11 @@ void confirmClient(Client newClient,String playerName)
 ///This is extra stuff that should be done, when new client was connected
 void whenClientConnected(Client newClient,String playerName)
 {
-  for(int i=0;i<names.length;i++)
-  if(playerName.equals(names[i]))
+  for(int i=0;i<players.length;i++)
+  if(players[i]!=null
+  && playerName.equals(players[i].name))
   {
-    if(clients[i]==null) 
+    if(players[i].client==null) 
     {
       println("Player",playerName,"reconnected to server!");
       clients[i]=newClient;
