@@ -19,7 +19,8 @@ Player[] players= new Player[0];//the array of clients (players)
 
 void setup() 
 {
-  size(500, 500);  
+  size(700, 500);
+  Xmargin=200;
   noStroke();
   mainServer = new Server(this,servPORT,serverIP);
   if(mainServer.active())
@@ -38,8 +39,8 @@ void draw()
   else
       serverGameDraw();
       
-  textAlign(CENTER,BOTTOM);fill(255,0,0);
-  text(nf(frameRate,2,2)+"fps",width/2.,height);
+  textAlign(LEFT,BOTTOM);fill(255,0,0);
+  text(nf(frameRate,2,2)+"fps",0,height);
 }
 
 /// Waiting view placeholder ;-)
@@ -47,7 +48,7 @@ void serverWaitingDraw()
 {
   background(255);
   //... any picture?
-  visualise2D(0,0,width,height);
+  visualise2D(Xmargin,0,width-Xmargin,height);
   fill(0);
   textAlign(CENTER,CENTER);
   text("Waiting for clients",width/2,height/2);
@@ -88,6 +89,7 @@ void whenClientConnected(Client newClient,String playerName)
     
   players = (Player[]) expand(players,players.length+1);//expand the array of clients
   Player tmp=new Player(newClient,playerName,random(initialMaxX),random(initialMaxY),0);
+  tmp.visual="@";
   players[players.length-1] = tmp;//sets the last player to be the newly connected client
    
   mainGameArray = (GameObject[]) expand(mainGameArray,mainGameArray.length+1);//expand the array of game objects 

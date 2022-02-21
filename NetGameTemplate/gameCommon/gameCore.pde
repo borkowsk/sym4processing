@@ -1,6 +1,8 @@
 //*  Game classes and rules
 //*///////////////////////////
-boolean VIS_MIN_MAX=true;///Option for visualisation
+boolean VIS_MIN_MAX=true;///Option for visualisation - with min/max value
+boolean KEEP_ASPECT=false;///Option for visualisation - with proportional aspect ratio
+boolean WITH_INFO=true;
 
 abstract class Position
 {
@@ -20,6 +22,11 @@ class GameObject extends Position
   ///constructor
   GameObject(String iniName,float iniX,float iniY,float iniZ){ super(iniX,iniY,iniZ);
     name=iniName;
+  }
+  
+  String info()
+  {
+    return name+":"+X+":"+Y;
   }
 };//EndOfClass GameObject
 
@@ -59,13 +66,21 @@ void visualise2D(float startX,float startY,float width,float height)///Flat/map 
     //if(maxZ<Z) maxZ=Z;
   }
   
+  if(KEEP_ASPECT)
+  {
+    float minXY=min(minX,minY);
+    float maxXY=max(maxX,maxY);
+    minX=minY=minXY;
+    maxX=maxY=maxXY;
+  }
+  
   if(VIS_MIN_MAX)
   {
     fill(255,255,0);
-    textAlign(LEFT,TOP);text(minX+";"+minY,0,0);
-    textAlign(LEFT,BOTTOM);text(minX+";"+maxY,0,height);
-    textAlign(RIGHT,TOP);text(maxX+";"+minY,width,0);
-    textAlign(RIGHT,BOTTOM);text(maxX+";"+maxY,width,height);
+    textAlign(LEFT,TOP);    text(minX+";"+minY,startX      ,startY);
+    textAlign(LEFT,BOTTOM); text(minX+";"+maxY,startX      ,startY+height);
+    textAlign(RIGHT,TOP);   text(maxX+";"+minY,startX+width,startY);
+    textAlign(RIGHT,BOTTOM);text(maxX+";"+maxY,startX+width,startY+height);
     textAlign(CENTER,CENTER);
   }
   
@@ -78,6 +93,12 @@ void visualise2D(float startX,float startY,float width,float height)///Flat/map 
       float X=startX+(tmp.X-minX)/(maxX-minX)*width;
       float Y=startY+(tmp.Y-minY)/(maxY-minY)*width;
       text(tmp.visual,X,Y);
+      if(WITH_INFO)
+      {
+        fill(255,0,0,128);textAlign(LEFT,CENTER);
+        text(tmp.info(),X+10,Y);
+        fill(0,255,0);textAlign(CENTER,CENTER);
+      }
     }
   }
 }
