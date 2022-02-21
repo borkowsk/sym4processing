@@ -75,6 +75,7 @@ void whenConnectedToServer()
       mainGameArray=new GameObject[1];
       mainGameArray[0]=new GameObject(playerName,10,10,0);
       mainGameArray[0].visual="???";
+      indexOfMe=0;
       msg=sayOptCode(Opts.UPD);
       if(DEBUG>0) println(playerName,"is SENDING:",msg);
       myClient.write(msg);

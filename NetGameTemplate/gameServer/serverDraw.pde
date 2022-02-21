@@ -1,6 +1,17 @@
-int Xmargin=0;
+int   Xmargin=0;
 float initialMaxX=100;
 float initialMaxY=100;
+
+boolean wholeUpdateRequested=false;
+
+//GameObject atributes specific for server side
+final int MOVED_MSK  = 0x1;
+final int VISUAL_MSK = 0x2;
+
+abstract class implNeeded 
+{ 
+  int changed=0;//*_MASK alloved here
+};
 
 void initialiseGame()
 {
@@ -16,6 +27,7 @@ void initialiseGame()
 void sendWholeUpdate()
 {
   noLoop();//KIND OF CRITICAL SECTION!?!?!
+  
   GameObject curr=null;
   for(int i=0;i<mainGameArray.length;i++)
   if((curr=mainGameArray[i])!=null)
@@ -23,12 +35,36 @@ void sendWholeUpdate()
     String msg=sayOptAndInfos(Opts.VIS,curr.name,curr.visual);
     msg+=sayPosition(Opts.EUC,curr.name,curr.X,curr.Y);
     mainServer.write(msg);
+    curr.changed=0;//Whatever was there was sent
+  }
+    
+  wholeUpdateRequested=false;
+  loop();
+}
+
+void updateChangedAgents()
+{
+  noLoop();//KIND OF CRITICAL SECTION!?!?!
+  
+  GameObject curr=null;
+  for(int i=0;i<mainGameArray.length;i++)
+  if((curr=mainGameArray[i])!=null
+  && curr.changed!=0
+  )
+  {
+    String msg="";
+    if((curr.changed & VISUAL_MSK )!=0)
+      msg+=sayOptAndInfos(Opts.VIS,curr.name,curr.visual);
+    if((curr.changed & MOVED_MSK )!=0)  
+      msg+=sayPosition(Opts.EUC,curr.name,curr.X,curr.Y);
+    if(msg.length()>0)  
+      mainServer.write(msg);
+    curr.changed=0;//Whatever was there was sent
   }
   
   loop();
 }
 
-boolean wholeUpdateRequested=false;
 void interpretMessage(String msg,Player player)
 {
   switch(msg.charAt(0)){
@@ -38,17 +74,15 @@ void interpretMessage(String msg,Player player)
   case Opts.HELLO:
   case Opts.IAM: println("Server recived ENEXPECTED MESSAGE TYPE:",msg.charAt(0));break;
   //Normal interactions
-  case Opts.UPD: wholeUpdateRequested=true;break;
+  case Opts.UPD: 
+                  wholeUpdateRequested=true; 
+                break;
   }//END OF MESSAGE TYPES SWITCH
 }
 
-void serverGameDraw()
+void readMessages()
 {
-  background(0);
-  fill(255,0,255);textAlign(LEFT,TOP);
-  text(players.length,0,0);//Displays how many clients have connected to the server
-  
-  for (int i = 0; i < players.length; i++)
+  for(int i = 0; i < players.length; i++)
   if(players[i]!=null 
   && players[i].netLink !=null
   && players[i].netLink.available()>0)
@@ -58,16 +92,10 @@ void serverGameDraw()
         if(DEBUG>0) println(msg);
         interpretMessage(msg,players[i]);
   }
-  
-  visualise2D(Xmargin,0,width-Xmargin,height);
-  
-  if(wholeUpdateRequested)//If any client requested update
-  {
-      sendWholeUpdate();
-      wholeUpdateRequested=false;
-  }
-  
-  fill(255,0,255);textAlign(LEFT,TOP);
+}
+
+void internalMechanics()
+{
   for (int i = 0; i < players.length; i++)
   if(players[i]!=null 
   && players[i].netLink !=null
@@ -76,6 +104,30 @@ void serverGameDraw()
     players[i].X = (players[i].X+1)%255;//changes the value based on which client number it has (the higher client number, the fast it changes).
     String msg=sayPosition(Opts.EUC,Opts.sYOU,players[i].X,players[i].Y);
     players[i].netLink.write(msg);//writes to the right client (using the byte type is not necessary)
+    
+    fill(255,0,255);textAlign(LEFT,TOP);
     text(players[i].name+": "+players[i].X,0, height/2.+15*(i+1));
+    players[i].changed=MOVED_MSK;
+  }
+}
+
+void serverGameDraw()
+{
+  background(0);
+  fill(255,0,255);textAlign(LEFT,TOP);
+  text(players.length,0,0);//Displays how many clients have connected to the server
+  
+  visualise2D(Xmargin,0,width-Xmargin,height);
+  
+  readMessages();
+  internalMechanics();
+  
+  if(wholeUpdateRequested)//If any client requested update
+  {
+     sendWholeUpdate(); //<>//
+  }
+  else
+  {
+     updateChangedAgents(); //<>//
   }
 }

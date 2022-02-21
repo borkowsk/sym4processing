@@ -3,8 +3,9 @@
 boolean VIS_MIN_MAX=true;///Option for visualisation - with min/max value
 boolean KEEP_ASPECT=false;///Option for visualisation - with proportional aspect ratio
 boolean WITH_INFO=true;///Information about objects
+int     indexOfMe=-1;///Index of object visualising client or supervisor
 
-abstract class Position
+abstract class Position extends implNeeded
 {
   float X,Y;//2D coordinates
   float Z;//Even on a 2D board, objects can pass each other without collision.
@@ -96,7 +97,7 @@ void visualise2D(float startX,float startY,float width,float height)///Flat/map 
     textAlign(CENTER,CENTER);
   }
   
-  fill(0,255,0);
+  fill(0,255,0);textAlign(CENTER,CENTER);
   for(int i=0;i<mainGameArray.length;i++)
   {
     GameObject tmp=mainGameArray[i];
@@ -104,7 +105,16 @@ void visualise2D(float startX,float startY,float width,float height)///Flat/map 
     {
       float X=startX+(tmp.X-minX)/(maxX-minX)*width;
       float Y=startY+(tmp.Y-minY)/(maxY-minY)*width;
+      
+      if(i==indexOfMe)
+      {
+          fill(128+random(128),255,0);
+          text("!"+tmp.visual+"!",X,Y);
+          fill(0,255,0);
+      }
+      else
       text(tmp.visual,X,Y); //<>//
+      
       if(WITH_INFO) //<>//
       {
         fill(255,0,0,128);textAlign(LEFT,CENTER);
