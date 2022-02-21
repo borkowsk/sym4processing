@@ -24,6 +24,7 @@ void setup()
   {
     println("Server for '"+Opts.name+"' started!");
     println("IP:",serverIP,"PORT:",servPORT);
+    initialiseGame();
     val = expand(val, val.length+1);
   }
   else exit();
@@ -43,8 +44,10 @@ void draw()
 /// Waiting view placeholder ;-)
 void serverWaitingDraw()
 {
-  background(255);fill(0);
+  background(255);
   //... any picture?
+  visualise2D(0,0,width,height);
+  fill(0);
   textAlign(CENTER,CENTER);
   text("Waiting for clients",width/2,height/2);
 }
