@@ -1,9 +1,11 @@
+//*  gameClient - more comm. logic 
+//*/////////////////////////////////////////////// 
+
 //GameObject atributes specific for client side
 abstract class implNeeded 
 {
   //...currently nothing here
 };
-
 
 void clientGameDraw()
 {          

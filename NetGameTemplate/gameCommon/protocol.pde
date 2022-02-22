@@ -1,11 +1,12 @@
-//Declaration common for client and server
-//Use link script for make symbolic connections to gameServer & gameClient directories
+//* Declaration common for client and server
+//* Use link script for make symbolic connections to gameServer & gameClient directories
+//*//////////////////////////////////////////////////////////////////////////////////////
 import processing.net.*;
 
 //long pid = ProcessHandle.current().pid();//JAVA9 :-(
-//String  serverIP="127.0.0.1";//localhost
+String  serverIP="127.0.0.1";//localhost
 //String  serverIP="192.168.55.201";//at home 
-String  serverIP="192.168.55.104";
+//String  serverIP="192.168.55.104";
 //String  serverIP="10.3.24.216";//at work
 //String  serverIP="10.3.24.4";//workstation local
 //String  serverIP="193.0.101.164";
@@ -174,15 +175,4 @@ String decodePosition(String msgPosition,float[] coordinates)
   else
   return null;//Invalid message
 }
-
-
-/*
-                   TURNL,//Turn left
-                   TURNR,//Turn right
-                   FORW,//Forward
-                   BACK,//Backward
-                   MY_ACT,//Player action "name of action"
-                   //FINAL - before clossing connection
-*/
-                   
                    

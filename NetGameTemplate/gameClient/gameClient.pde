@@ -1,8 +1,9 @@
-//*  Client for gameServer
-//*////////////////////////
+//*  Client for gameServer - MAIN FILE
+//*//////////////////////////////////////
 //
 //Base on:
 //https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
+//
 import processing.net.*;
 
 int DEBUG=0;///Level of debug logging
