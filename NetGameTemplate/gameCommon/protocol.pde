@@ -16,11 +16,14 @@ class Opts {
   static final char IAM='I';//I am "name of server/name of client"
   static final char YOU='Y';//REPLACER OF CORESPONDENT NAME
   static final String sYOU="Y";//REPLACER OF CORESPONDENT NAME as a ready to use String. Character.toString(YOU);<-not for static
-  static final char UPD='U';//Request for update about whole scene
-  static final char VIS='V';//Visualisation info for particular object
-  static final char COL='C';//Colors of particular object
-  static final char EUC='E';//Euclidean position of part object
-  static final char POL='P';//Polar position of part object
+  static final char UPD='U';//Request for update about a whole scene
+  static final char VIS='V';//Visualisation info for a particular object
+  static final char COL='C';//Colors of a particular object
+  static final char EUC='E';//Euclidean position of an object
+  static final char POL='P';//Polar position of an object
+  //avatar control
+  static final char NAV='N';//Navigation of the avatar
+  static final char ACT='A';//User defined actions of the avatar
   //static final char
 };
 
