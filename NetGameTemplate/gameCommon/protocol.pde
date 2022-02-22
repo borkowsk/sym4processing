@@ -3,9 +3,10 @@
 import processing.net.*;
 
 //long pid = ProcessHandle.current().pid();//JAVA9 :-(
-String  serverIP="127.0.0.1";
-//String  serverIP="192.168.55.201";
-//String  serverIP="10.3.24.216";
+//String  serverIP="127.0.0.1";//localhost
+//String  serverIP="192.168.55.201";//at home 
+//String  serverIP="10.3.24.216";//at work
+String  serverIP="10.3.24.4";//workstation
 int     servPORT=5205;
 
 class Opts { 
