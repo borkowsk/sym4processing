@@ -90,9 +90,11 @@ void playerMove(String dir,Player player)
 
 void playerAction(String action,Player player)
 {
-  
+  println(player.name,"did undefined or not allowed action:",action);
+  player.netLink.write( sayOptAndInf(Opts.ERR,"Action "+action+" is undefined in this context!"));
 }
 
+///It interprets message from a particular client
 void interpretMessage(String msg,Player player)
 {
   switch(msg.charAt(0)){
@@ -114,6 +116,7 @@ void interpretMessage(String msg,Player player)
   }//END OF MESSAGE TYPES SWITCH
 }
 
+///Read messages from clients
 void readMessages()
 {
   for(int i = 0; i < players.length; i++)
@@ -124,10 +127,12 @@ void readMessages()
         if(DEBUG>1) print("Server is reciving from",players[i].name,":");
         String msg = players[i].netLink.readStringUntil(Opts.NOPE);
         if(DEBUG>1) println(msg);
+        
         interpretMessage(msg,players[i]);
   }
 }
 
+///Do what is independent of player actions
 void internalMechanics()
 {
 /*
@@ -155,7 +160,7 @@ void serverGameDraw()
   visualise2D(Xmargin,0,width-Xmargin,height);
   
   readMessages();
-  internalMechanics();
+  internalMechanics();//Do what is independent of player actions
   
   if(wholeUpdateRequested)//If any client requested update
   {
