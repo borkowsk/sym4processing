@@ -12,6 +12,7 @@ class Opts {
   static final String name="anyGame";//ASCII IDENTIFIER!
   static final char NOPE='\n';
   static final char SPC=9;
+  static final char ERR='e';//Error message for partner
   static final char HELLO='H';//First message
   static final char IAM='I';//I am "name of server/name of client"
   static final char YOU='Y';//REPLACER OF CORESPONDENT NAME

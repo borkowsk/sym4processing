@@ -79,12 +79,15 @@ void interpretMessage(String msg)
   case Opts.NOPE: if(DEBUG>0) println(playerName,"recived NOPE");break;
   case Opts.HELLO:
   case Opts.IAM: println(playerName,"recived ENEXPECTED MESSAGE TYPE:",msg.charAt(0));break;
+  case Opts.ERR: { String emessage=decodeOptAndInf(msg);
+                   println(playerName,"recived error:\n\t",emessage);
+                  } break;
   //Normal interactions
-  case Opts.YOU: playerName=decodeOptAndInf(msg);
+  case Opts.YOU: { playerName=decodeOptAndInf(msg);
                  if(DEBUG>2) println(msg);
                  if(DEBUG>1) println(playerName,"recived confirmation from the server!");
                  surface.setTitle(Opts.name+";"+playerName);
-                 break;
+                 } break;
   case Opts.VIS: { String objectName=decodeInfos(msg,instr1);
                  if(DEBUG>2) println(msg);
                  if(DEBUG>1) println(objectName,"change visualisation into",instr1[0]); 

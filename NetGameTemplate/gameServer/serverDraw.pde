@@ -73,6 +73,25 @@ void updateChangedAgents()
   loop();
 }
 
+void playerMove(String dir,Player player)
+{
+  switch(dir.charAt(0)){
+  //case 'f': break;
+  //case 'b': break;
+  //case 'c': break;
+  //case 'd': break;
+  default:
+       println(player.name,"did unknown move");
+       player.netLink.write( sayOptAndInf(Opts.ERR,dir+" move is unknown on the server!"));
+  break;
+  }//end of moves switch
+}
+
+void playerAction(String action,Player player)
+{
+  
+}
+
 void interpretMessage(String msg,Player player)
 {
   switch(msg.charAt(0)){
@@ -85,6 +104,12 @@ void interpretMessage(String msg,Player player)
   case Opts.UPD: 
                   wholeUpdateRequested=true; 
                 break;
+  case Opts.NAV:{ String direction=decodeOptAndInf(msg);     
+                  playerMove(direction,player);
+                } break;
+  case Opts.ACT:{ String action=decodeOptAndInf(msg);     
+                  playerAction(action,player);
+                } break;              
   }//END OF MESSAGE TYPES SWITCH
 }
 
