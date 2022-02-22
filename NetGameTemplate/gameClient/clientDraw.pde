@@ -38,7 +38,7 @@ void visualisationChanged(GameObject[] table,String name,String vtype)
 
 void colorChanged(GameObject[] table,String name,String hexColor)
 {
-  color newColor=unhex(hexColor); //<>//
+  color newColor=unhex(hexColor);
   int pos=(name.equals(Opts.sYOU)?indexOfMe:localiseByName(table,name));
   if(pos==-1)//FIRST TIME
   {

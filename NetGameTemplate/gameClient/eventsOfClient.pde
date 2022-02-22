@@ -1,9 +1,24 @@
 void keyPressed()
 {
+  if(DEBUG>2) println("KEY:",key,int(key));
+  
   if(myClient==null || !myClient.active())
   {
     println("Connection is not active");
     return;
+  }
+  
+  if(key==65535)//arrows  etc...
+  {
+    if(DEBUG>2) println("keyCode:",keyCode);
+    switch(keyCode){
+    case UP: key='w'; break;
+    case DOWN: key='s'; break;
+    case LEFT: key='a'; break;
+    case RIGHT: key='d'; break;
+    default:
+    return;//Other special keys is ignored
+    }//end of switch
   }
   
   switch(key){
@@ -18,7 +33,7 @@ void keyPressed()
   case 'd':
   case 'D': myClient.write(sayOptAndInf(Opts.NAV,"r")); break;
   //Interaction:
-  case ' ': myClient.write(sayOptAndInf(Opts.ACT,"default")); break;
+  case ' ': myClient.write(sayOptAndInf(Opts.ACT,"default")); break; //<>//
   case ESC:
   {
     println(key,"is ignored for the game client");
