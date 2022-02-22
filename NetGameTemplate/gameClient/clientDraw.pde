@@ -14,6 +14,11 @@ void clientGameDraw()
       {
         if(DEBUG>2) print(playerName,"is reciving:");
         String msg = myClient.readStringUntil(Opts.NOPE);
+        if(msg==null || msg.equals("") || msg.charAt(msg.length()-1)!=Opts.NOPE)
+        {
+          println(playerName,"recived invalid message. IGNORED");
+          return;
+        }
         if(DEBUG>2) println(msg);
         interpretMessage(msg);
       }

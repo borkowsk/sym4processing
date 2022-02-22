@@ -126,6 +126,11 @@ void readMessages()
   {
         if(DEBUG>1) print("Server is reciving from",players[i].name,":");
         String msg = players[i].netLink.readStringUntil(Opts.NOPE);
+        if(msg==null || msg.equals("") || msg.charAt(msg.length()-1)!=Opts.NOPE)
+        {
+          println("Server recived invalid message. IGNORED");
+          return;
+        }
         if(DEBUG>1) println(msg);
         
         interpretMessage(msg,players[i]);
