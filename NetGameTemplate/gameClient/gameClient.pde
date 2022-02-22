@@ -14,7 +14,7 @@ Client  myClient=null;
     
 void setup() 
 {
-  size(300,300);
+  size(500,500);
   loadName();
   println("PLAYER:",playerName);
   println("Expected server IP:",serverIP,"\nExpected server PORT:",servPORT);
