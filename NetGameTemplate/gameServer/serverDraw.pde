@@ -76,15 +76,16 @@ void updateChangedAgents()
 void playerMove(String dir,Player player)
 {
   switch(dir.charAt(0)){
-  //case 'f': break;
-  //case 'b': break;
-  //case 'c': break;
-  //case 'd': break;
+  case 'f': player.Y--; break;
+  case 'b': player.Y++; break;
+  case 'l': player.X--; break;
+  case 'r': player.X++; break;
   default:
        println(player.name,"did unknown move");
        player.netLink.write( sayOptAndInf(Opts.ERR,dir+" move is unknown on the server!"));
   break;
   }//end of moves switch
+  player.changed|=MOVED_MSK;
 }
 
 void playerAction(String action,Player player)
@@ -129,6 +130,7 @@ void readMessages()
 
 void internalMechanics()
 {
+/*
   for (int i = 0; i < players.length; i++)
   if(players[i]!=null 
   && players[i].netLink !=null
@@ -141,7 +143,7 @@ void internalMechanics()
     fill(255,0,255);textAlign(LEFT,TOP);
     text(players[i].name+": "+players[i].X,0, height/2.+15*(i+1));
     players[i].changed=MOVED_MSK;
-  }
+  } */
 }
 
 void serverGameDraw()
