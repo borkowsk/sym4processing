@@ -133,6 +133,10 @@ void readMessages()
         }
         if(DEBUG>1) println(msg);
         
+        textAlign(LEFT,TOP);fill(random(255),random(255),random(255));
+        text(players[i].name+": "+players[i].X+" "+players[i].X,
+             0, 15*(i+1) );
+        
         interpretMessage(msg,players[i]);
   }
 }
@@ -140,20 +144,19 @@ void readMessages()
 ///Do what is independent of player actions
 void internalMechanics()
 {
-/*
+
   for (int i = 0; i < players.length; i++)
   if(players[i]!=null 
   && players[i].netLink !=null
   && players[i].netLink.active())
   {
-    players[i].X = (players[i].X+1)%255;//changes the value based on which client number it has (the higher client number, the fast it changes).
-    String msg=sayPosition(Opts.EUC,Opts.sYOU,players[i].X,players[i].Y);
-    players[i].netLink.write(msg);//writes to the right client (using the byte type is not necessary)
-    
-    fill(255,0,255);textAlign(LEFT,TOP);
-    text(players[i].name+": "+players[i].X,0, height/2.+15*(i+1));
-    players[i].changed=MOVED_MSK;
-  } */
+    //players[i].X = (players[i].X+1)%255;//changes the value based on which client number it has (the higher client number, the fast it changes).
+    //String msg=sayPosition(Opts.EUC,Opts.sYOU,players[i].X,players[i].Y);
+    //players[i].netLink.write(msg);//writes to the right client (using the byte type is not necessary)
+    //players[i].changed=MOVED_MSK;
+    fill(players[i].foreground); textAlign(LEFT,TOP);
+    text(players[i].name,0,15*(i+1));
+  }
 }
 
 void serverGameDraw()

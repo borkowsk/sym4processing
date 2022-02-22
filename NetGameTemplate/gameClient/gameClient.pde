@@ -5,7 +5,8 @@
 //https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
 import processing.net.*;
 
-int DEBUG=1;///Level of debug logging
+int DEBUG=0;///Level of debug logging
+int VIEWMESG=1;///
 int DEF_FRAME_RATE=60;///Frame rate during game
 
 String  playerName="";//ASCII IDENTIFIER!
@@ -14,7 +15,7 @@ Client  myClient=null;
     
 void setup() 
 {
-  size(500,500);
+  size(400,400);
   loadName();
   println("PLAYER:",playerName);
   println("Expected server IP:",serverIP,"\nExpected server PORT:",servPORT);
@@ -42,7 +43,7 @@ void draw()
   }
   
   textAlign(CENTER,BOTTOM);fill(255,0,0);
-  text(nf(frameRate,2,2)+"fps",width/2.,height);
+  text("Use WSAD & SPACE ("+nf(frameRate,2,2)+"fps)",width/2.,height);
 }
 
 /// Intro view placeholder ;-)
@@ -60,25 +61,26 @@ void whenConnectedToServer()
 {
     println(playerName,"connected!");
     String msg=sayHELLO(playerName);
-    if(DEBUG>1) println(playerName,"is SENDING:",msg);
+    if(VIEWMESG>0 || DEBUG>1) println(playerName,"is sending:\n",msg);
     myClient.write(msg);
     
     while(myClient.available() <= 0) delay(10);
     
     if(DEBUG>1) print(playerName,"is READING FROM SERVER:");
     msg=myClient.readStringUntil(Opts.NOPE);
-    if(DEBUG>1) println(msg);
+    if(VIEWMESG>0 || DEBUG>1) println(msg);
     
     String serverType=decodeHELLO(msg);
     if(serverType.equals(Opts.name) )
     {
-      surface.setTitle(Opts.name+":"+playerName);
+      surface.setTitle(serverIP+"//"+Opts.name+":"+playerName);
       mainGameArray=new GameObject[1];
       mainGameArray[0]=new GameObject(playerName,10,10,0);
       mainGameArray[0].visual="???";
       indexOfMe=0;
       msg=sayOptCode(Opts.UPD);
-      if(DEBUG>1) println(playerName,"is SENDING:",msg);
+      if(DEBUG>1) print(playerName,"is SENDING:");
+      if(VIEWMESG>0 || DEBUG>1) println(msg);
       myClient.write(msg);
     }
     else

@@ -7,7 +7,7 @@
 // https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
 import processing.net.*;
 
-int DEBUG=1;//Level of debug logging
+int DEBUG=0;//Level of debug logging
 
 Server mainServer;
 
@@ -28,6 +28,7 @@ void setup()
     println("Server for '"+Opts.name+"' started!");
     println("IP:",serverIP,"PORT:",servPORT);
     initialiseGame();
+    surface.setTitle(serverIP+"//"+Opts.name+":"+servPORT);
   }
   else exit();
 }
@@ -92,7 +93,7 @@ void whenClientConnected(Client newClient,String playerName)
     }
   }
     
-  Player tmp=new Player(newClient,playerName,random(initialMaxX),random(initialMaxY),0);
+  Player tmp=new Player(newClient,playerName,int(random(initialMaxX)),int(random(initialMaxY)),1);
   tmp.visual=pepl[0];
   confirmClient(newClient,tmp);
   

@@ -14,12 +14,14 @@ void clientGameDraw()
       {
         if(DEBUG>2) print(playerName,"is reciving:");
         String msg = myClient.readStringUntil(Opts.NOPE);
+        if(VIEWMESG>0 || DEBUG>2) println(msg);
+        
         if(msg==null || msg.equals("") || msg.charAt(msg.length()-1)!=Opts.NOPE)
         {
           println(playerName,"recived invalid message. IGNORED");
           return;
         }
-        if(DEBUG>2) println(msg);
+        
         interpretMessage(msg);
       }
       else
@@ -89,20 +91,17 @@ void interpretMessage(String msg)
                   } break;
   //Normal interactions
   case Opts.YOU: { playerName=decodeOptAndInf(msg);
-                 if(DEBUG>2) println(msg);
                  if(DEBUG>1) println(playerName,"recived confirmation from the server!");
-                 surface.setTitle(Opts.name+";"+playerName);
+                 surface.setTitle(serverIP+"//"+Opts.name+";"+playerName);
                  } break;
   case Opts.VIS: { String objectName=decodeInfos(msg,instr1);
-                 if(DEBUG>2) println(msg);
                  if(DEBUG>1) println(objectName,"change visualisation into",instr1[0]); 
                  visualisationChanged(mainGameArray,objectName,instr1[0]);
   } break;
   case Opts.COL: { String objectName=decodeInfos(msg,instr1);
-                 if(DEBUG>2) println(msg);
                  if(DEBUG>1) println(objectName,"change color into",instr1[0]); 
                  colorChanged(mainGameArray,objectName,instr1[0]);
-  } break;               
+                 } break;               
   //... rest of message types
   case Opts.EUC: if(msg.charAt(1)=='1')
                  {
