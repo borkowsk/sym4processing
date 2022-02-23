@@ -4,16 +4,17 @@
 import processing.net.*;
 
 //long pid = ProcessHandle.current().pid();//JAVA9 :-(
-String  serverIP="127.0.0.1";//localhost
-//String  serverIP="192.168.55.201";//at home 
-//String  serverIP="192.168.55.104";
-//String  serverIP="10.3.24.216";//at work
-//String  serverIP="10.3.24.4";//workstation local
-//String  serverIP="193.0.101.164";
-int     servPORT=5205;
+String  serverIP="127.0.0.1";     ///> localhost
+//String  serverIP="192.168.55.201";///> at home 
+//String  serverIP="192.168.55.104";///> 
+//String  serverIP="10.3.24.216";   ///> at work
+//String  serverIP="10.3.24.4";     ///> workstation local
+//String  serverIP="193.0.101.164"; ///> 
+int     servPORT=5205;  ///> 
 
+/// ???
 class Opts { 
-  static final String name="anyGame";//ASCII IDENTIFIER!
+  static final String name="sampleGame";//ASCII IDENTIFIER!
   static final char NOPE='\n';
   static final char SPC=9;
   static final char ERR='e';//Error message for partner
@@ -32,13 +33,13 @@ class Opts {
   //static final char
 };
 
-///For server-client handshake
+/// For server-client handshake
 String sayHELLO(String myName)
 {
     return ""+Opts.HELLO+Opts.SPC+Opts.IAM+Opts.SPC+myName+Opts.SPC+Opts.NOPE;
 }
 
-///Decode handshake
+/// Decode handshake
 String decodeHELLO(String msgHello)
 {
   String[] fields=split(msgHello,Opts.SPC);
@@ -49,13 +50,13 @@ String decodeHELLO(String msgHello)
       return null;
 }
 
-///Send one char info. When recieved, only charAt(0) is important.
+/// Send one char info. When recieved, only charAt(0) is important.
 String sayOptCode(char optCode)
 {
   return Character.toString(optCode)+Opts.SPC+Opts.NOPE;
 }
 
-///Send simple string info - SPC inside 'inf' is allowed.
+/// Send simple string info - SPC inside 'inf' is allowed.
 String sayOptAndInf(char optCode,String inf)
 {
   return Character.toString(optCode)+Opts.SPC+inf+Opts.SPC+Opts.NOPE;
@@ -69,7 +70,7 @@ String decodeOptAndInf(String msg)
   return ret;
 }
 
-///Send many(1) string info - SPC inside val is NOT allowed.
+/// Send many(1) string info - SPC inside val is NOT allowed.
 String sayOptAndInfos(char optCode,String objName,String info1)
 {
   return ""+optCode+"1"+Opts.SPC
@@ -78,7 +79,7 @@ String sayOptAndInfos(char optCode,String objName,String info1)
            +Opts.NOPE;
 }
 
-///Send many(2) string info - SPC inside val is NOT allowed.
+/// Send many(2) string info - SPC inside val is NOT allowed.
 String sayOptAndInfos(char optCode,String objName,String info1,String info2)
 {
   return ""+optCode+"2"+Opts.SPC
@@ -88,7 +89,7 @@ String sayOptAndInfos(char optCode,String objName,String info1,String info2)
            +Opts.NOPE;
 }
 
-///Decode 1-9 infos message. Dimension of the array must be proper
+/// Decode 1-9 infos message. Dimension of the array must be proper
 String decodeInfos(String msgInfos,String[] infos)
 {
   String[] fields=split(msgInfos,Opts.SPC);
@@ -105,9 +106,9 @@ String decodeInfos(String msgInfos,String[] infos)
 }
 
 
-///Send position of particular object
-///E1 OName Data @ - Euclidean position float(X)
-///P1 OName Data @ - Polar position float(Alfa +-180)
+/// Send position of particular object
+/// E1 OName Data @ - Euclidean position float(X)
+/// P1 OName Data @ - Polar position float(Alfa +-180)
 String sayPosition(char EUCorPOL,String objName,float coord)
 {
   return ""+EUCorPOL+"1"+Opts.SPC
@@ -116,9 +117,9 @@ String sayPosition(char EUCorPOL,String objName,float coord)
            +Opts.NOPE;
 }
                    
-///E2 OName Data*2 @ - Euclidean position float(X) float(Y)
-///P2 OName Data*2 @ - Polar position float(Alfa +-180) float(DISTANCE)
-///OName == object identification or name of player or 'Y'
+/// E2 OName Data*2 @ - Euclidean position float(X) float(Y)
+/// P2 OName Data*2 @ - Polar position float(Alfa +-180) float(DISTANCE)
+/// OName == object identification or name of player or 'Y'
 String sayPosition(char EUCorPOL,String objName,float coord1,float coord2)
 {
   return ""+EUCorPOL+"2"+Opts.SPC
@@ -128,9 +129,9 @@ String sayPosition(char EUCorPOL,String objName,float coord1,float coord2)
            +Opts.NOPE;
 }
 
-///E3 OName Data*3 @ - Euclidean position float(X) float(Y) float(H) 
-///P3 OName Data*3 @ - Polar position float(Alfa +-180) float(DISTANCE) float(Beta +-180)
-///OName == object identification or name of player or 'Y'
+/// E3 OName Data*3 @ - Euclidean position float(X) float(Y) float(H) 
+/// P3 OName Data*3 @ - Polar position float(Alfa +-180) float(DISTANCE) float(Beta +-180)
+/// OName == object identification or name of player or 'Y'
 String sayPosition(char EUCorPOL,String objName,float coord1,float coord2,float coord3)
 {
   return ""+EUCorPOL+"3"+Opts.SPC
@@ -141,9 +142,9 @@ String sayPosition(char EUCorPOL,String objName,float coord1,float coord2,float 
            +Opts.NOPE;
 }
 
-///En OName Data*n @ - Euclidean position float(X) float(Y) float(H) "class name of object or name of player"
-///Pn OName Data*n @ - Polar position float(Alfa +-180) float(DISTANCE) float(Beta +-180) "class name of object or name of player"
-///OName == object identification or name of player or 'Y'
+/// En OName Data*n @ - Euclidean position float(X) float(Y) float(H) "class name of object or name of player"
+/// Pn OName Data*n @ - Polar position float(Alfa +-180) float(DISTANCE) float(Beta +-180) "class name of object or name of player"
+/// OName == object identification or name of player or 'Y'
 String sayPosition(char EUCorPOL,String objName,float[] coordinates)
 {
   String ret=EUCorPOL
@@ -158,7 +159,7 @@ String sayPosition(char EUCorPOL,String objName,float[] coordinates)
   return ret;
 }
 
-///Decode 1-9 positioning message. Dimension of the array must be proper
+/// Decode 1-9 positioning message. Dimension of the array must be proper
 String decodePosition(String msgPosition,float[] coordinates)
 {
   String[] fields=split(msgPosition,Opts.SPC);

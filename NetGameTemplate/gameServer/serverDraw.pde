@@ -1,22 +1,24 @@
-//*  Server for gameClients - more comm. logic 
-//*/////////////////////////////////////////////// 
-int   Xmargin=0;
-float initialMaxX=100;
-float initialMaxY=100;
+//*  Server for gameClients - more comm. & game logic 
+//*//////////////////////////////////////////////////// 
+int   Xmargin=0;       ///> ???
+float initialMaxX=100; ///> ???
+float initialMaxY=100; ///> ???
 
-boolean wholeUpdateRequested=false;
+boolean wholeUpdateRequested=false; ///> ???
 
 //GameObject atributes specific for server side
-final int MOVED_MSK  = 0x1;
-final int VISUAL_MSK = 0x2;
-final int COLOR_MSK  = 0x4;
-final int ALL_MSK = MOVED_MSK | VISUAL_MSK | COLOR_MSK;
+final int MOVED_MSK  = 0x1; ///> ???
+final int VISUAL_MSK = 0x2; ///> ???
+final int COLOR_MSK  = 0x4; ///> ???
+final int ALL_MSK = MOVED_MSK | VISUAL_MSK | COLOR_MSK; ///> ???
 
+///
 abstract class implNeeded 
 { 
   int changed=0;//*_MASK alloved here
 };
 
+///
 void initialiseGame()
 {
   mainGameArray=new GameObject[initialSizeOfMainArray];
@@ -31,6 +33,24 @@ void initialiseGame()
   }
 }
 
+/// Do what is independent of player actions
+void stepOfGameMechanics()
+{
+  for (int i = 0; i < players.length; i++)
+  if(players[i]!=null 
+  && players[i].netLink !=null
+  && players[i].netLink.active())
+  {
+    //players[i].X = (players[i].X+1)%255;//changes the value based on which client number it has (the higher client number, the fast it changes).
+    //String msg=sayPosition(Opts.EUC,Opts.sYOU,players[i].X,players[i].Y);
+    //players[i].netLink.write(msg);//writes to the right client (using the byte type is not necessary)
+    //players[i].changed=MOVED_MSK;
+    fill(players[i].foreground); textAlign(LEFT,TOP);
+    text(players[i].name,0,15*(i+1));
+  }
+}
+
+///
 void sendWholeUpdate()
 {
   noLoop();//KIND OF CRITICAL SECTION!?!?!
@@ -50,7 +70,8 @@ void sendWholeUpdate()
   loop();
 }
 
-void updateChangedAgents()
+///
+void sendUpdateOfChangedAgents()
 {
   noLoop();//KIND OF CRITICAL SECTION!?!?!
   
@@ -75,28 +96,7 @@ void updateChangedAgents()
   loop();
 }
 
-void playerMove(String dir,Player player)
-{
-  switch(dir.charAt(0)){
-  case 'f': player.Y--; break;
-  case 'b': player.Y++; break;
-  case 'l': player.X--; break;
-  case 'r': player.X++; break;
-  default:
-       println(player.name,"did unknown move");
-       player.netLink.write( sayOptAndInf(Opts.ERR,dir+" move is unknown on the server!"));
-  break;
-  }//end of moves switch
-  player.changed|=MOVED_MSK;
-}
-
-void playerAction(String action,Player player)
-{
-  println(player.name,"did undefined or not allowed action:",action);
-  player.netLink.write( sayOptAndInf(Opts.ERR,"Action "+action+" is undefined in this context!"));
-}
-
-///It interprets message from a particular client
+/// It interprets message from a particular client
 void interpretMessage(String msg,Player player)
 {
   switch(msg.charAt(0)){
@@ -111,6 +111,7 @@ void interpretMessage(String msg,Player player)
                 break;
   case Opts.NAV:{ String direction=decodeOptAndInf(msg);     
                   playerMove(direction,player);
+                  player.changed|=MOVED_MSK;
                 } break;
   case Opts.ACT:{ String action=decodeOptAndInf(msg);     
                   playerAction(action,player);
@@ -118,7 +119,7 @@ void interpretMessage(String msg,Player player)
   }//END OF MESSAGE TYPES SWITCH
 }
 
-///Read messages from clients
+/// Read messages from clients
 void readMessages()
 {
   for(int i = 0; i < players.length; i++)
@@ -143,24 +144,7 @@ void readMessages()
   }
 }
 
-///Do what is independent of player actions
-void internalMechanics()
-{
-
-  for (int i = 0; i < players.length; i++)
-  if(players[i]!=null 
-  && players[i].netLink !=null
-  && players[i].netLink.active())
-  {
-    //players[i].X = (players[i].X+1)%255;//changes the value based on which client number it has (the higher client number, the fast it changes).
-    //String msg=sayPosition(Opts.EUC,Opts.sYOU,players[i].X,players[i].Y);
-    //players[i].netLink.write(msg);//writes to the right client (using the byte type is not necessary)
-    //players[i].changed=MOVED_MSK;
-    fill(players[i].foreground); textAlign(LEFT,TOP);
-    text(players[i].name,0,15*(i+1));
-  }
-}
-
+///
 void serverGameDraw()
 {
   background(0);
@@ -170,7 +154,8 @@ void serverGameDraw()
   visualise2D(Xmargin,0,width-Xmargin,height);
   
   readMessages();
-  internalMechanics();//Do what is independent of player actions
+  
+  stepOfGameMechanics();//Do what is independent of player actions
   
   if(wholeUpdateRequested)//If any client requested update
   {
@@ -178,7 +163,7 @@ void serverGameDraw()
   }
   else
   {
-     updateChangedAgents(); //<>//
+     sendUpdateOfChangedAgents(); //<>//
   }
 }
 

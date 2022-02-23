@@ -6,17 +6,21 @@
 // https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
 //
 import processing.net.*;
+//import processing.pdf.*;//Działa jako server, ale plik PDF jest pusty
+import processing.svg.*;
 
-int DEBUG=0;//Level of debug logging
+int DEBUG=0; ///> Level of debug logging
 
-Server mainServer;
+Server mainServer; ///> ???
 
-Player[] players= new Player[0];//the array of clients (players)
+Player[] players= new Player[0]; ///> The array of clients (players)
 
+/// 
 void setup() 
 {
-  size(700, 500);
-  //size(700, 500, SVG, "filename.svg");//Without window
+  size(700, 500);//Other possibilities: P2D,P3D,FX2D,PDF,SVG
+  //size(700, 500,SVG,"screen_file.svg");//Without window
+  //size(700, 500,PDF, "screen_file.pdf");//Without window
   Xmargin=200;
   noStroke();
   mainServer = new Server(this,servPORT,serverIP);
@@ -30,6 +34,7 @@ void setup()
   else exit();
 }
 
+/// 
 void draw() 
 {
   if(players.length==0)
@@ -44,7 +49,7 @@ void draw()
 /// Waiting view placeholder ;-)
 void serverWaitingDraw()
 {
-  background(255);
+  background(128);
   //... any picture?
   visualise2D(Xmargin,0,width-Xmargin,height);
   fill(0);
@@ -66,23 +71,24 @@ void confirmClient(Client newClient,Player player)
   newClient.write(msg);
 }
 
-///This is extra stuff that should be done, when new client was connected
+/// This is stuff that should be done,  
+/// when new client was connected
 void whenClientConnected(Client newClient,String playerName)
 {
   for(int i=0;i<players.length;i++)
   if(players[i]!=null
   && playerName.equals(players[i].name))
   {
-    if(players[i].netLink==null) 
+    if(players[i].netLink==null)//Już był taki, ale połączenie zdechło albo klient!
     {
       println("Player",playerName,"reconnected to server!");
       players[i].netLink=newClient;
       players[i].visual=pepl[1];
       players[i].changed|=VISUAL_MSK;
       confirmClient(newClient,players[i]);
-      return; //Już był taki, ale zdechł!
+      return;
     }
-    else
+    else// Taka nazwa dotyczy wciąż aktywnego gracza - trzeba zmienić
     {
       print("New",playerName,"will be ");//Jest już taki, trzeba jakoś zmienić nazwę
       playerName+='X';
@@ -101,7 +107,7 @@ void whenClientConnected(Client newClient,String playerName)
   mainGameArray[mainGameArray.length-1] = tmp;//Player is also one of GameObjects
 }
 
-///Event handler called when a client connects.
+/// Event handler called when a client connects to server
 void serverEvent(Server me,Client newClient)
 {
   noLoop();//KIND OF CRITICAL SECTION!!!
@@ -122,7 +128,8 @@ void serverEvent(Server me,Client newClient)
   loop(); 
 }
 
-///ClientEvent message is generated when a client disconnects.
+/// ClientEvent message is generated 
+/// when a client disconnects from server
 void disconnectEvent(Client someClient) 
 {
   println("Disconnect event happened on server.");

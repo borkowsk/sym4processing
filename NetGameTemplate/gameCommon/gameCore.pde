@@ -1,13 +1,14 @@
 //*  Game classes and rules
 //*///////////////////////////
 
-String plants="☘️";//Koniczyna
-String[] pepl={"😃","😐"};///dwa ludziki
-boolean VIS_MIN_MAX=true;///Option for visualisation - with min/max value
-boolean KEEP_ASPECT=true;///Option for visualisation - with proportional aspect ratio
-boolean WITH_INFO=true;///Information about objects
-int     indexOfMe=-1;///Index of object visualising client or server supervisor
+String plants="☘️";       ///> Koniczyna
+String[] pepl={"😃","😐"};///> dwa ludziki
+boolean VIS_MIN_MAX=true;///> Option for visualisation - with min/max value
+boolean KEEP_ASPECT=true;///> Option for visualisation - with proportional aspect ratio
+boolean WITH_INFO=true;  ///> Information about objects
+int     indexOfMe=-1;    ///> Index of object visualising client or server supervisor
 
+///
 abstract class Position extends implNeeded
 {
   float X,Y;//2D coordinates
@@ -19,6 +20,7 @@ abstract class Position extends implNeeded
   }
 };//EndOfClass Position
 
+///
 class GameObject extends Position
 {
   String name;//Each object has an individual identifier necessary for communication. Better short.
@@ -35,6 +37,7 @@ class GameObject extends Position
   }
 };//EndOfClass GameObject
 
+///
 class Player extends GameObject
 {
   Client netLink;
@@ -44,9 +47,10 @@ class Player extends GameObject
   }
 };//EndOfClass Player
 
-int initialSizeOfMainArray=30;
-GameObject[] mainGameArray=null;
+int initialSizeOfMainArray=30;  ///> ???
+GameObject[] mainGameArray=null;///> ???
 
+///
 int localiseByName(GameObject[] table,String name)
 {
   for(int i=0;i<table.length;i++)
@@ -54,18 +58,19 @@ int localiseByName(GameObject[] table,String name)
   && name.equals(table[i].name)
   )
   {
-    return i;
+    return i; //<>//
   }
   return -1;
 }
- //<>//
-void visualise2D(float startX,float startY,float width,float height)///Flat/map visualisation
-{                                                                   assert mainGameArray!=null;
+
+/// Flat/map visualisation
+void visualise2D(float startX,float startY,float width,float height)
+{                                                                   assert mainGameArray!=null; //<>//
   float minX=MAX_FLOAT;
   float maxX=MIN_FLOAT;
   float minY=MAX_FLOAT;
   float maxY=MIN_FLOAT;
-  //float minZ=MAX_FLOAT; //<>//
+  //float minZ=MAX_FLOAT; //<>// //<>//
   //float maxZ=MIN_FLOAT;
   
   for(Position p:mainGameArray)
@@ -129,6 +134,33 @@ void visualise2D(float startX,float startY,float width,float height)///Flat/map 
       }
     }
   }
+}
+
+/// Moves allowed for the player. 
+/// Intended to be used on the server side.
+boolean playerMove(String dir,Player player)
+{
+  switch(dir.charAt(0)){
+  case 'f': player.Y--; break;
+  case 'b': player.Y++; break;
+  case 'l': player.X--; break;
+  case 'r': player.X++; break;
+  default:
+       println(player.name,"did unknown move");
+       if(player.netLink!=null && player.netLink.active())
+          player.netLink.write( sayOptAndInf(Opts.ERR,dir+" move is unknown in this game!") );
+       return false;
+  }//end of moves switch
+  return true;
+}
+
+/// 
+boolean playerAction(String action,Player player)
+{
+  println(player.name,"did undefined or not allowed action:",action);
+  if(player.netLink!=null && player.netLink.active())
+     player.netLink.write( sayOptAndInf(Opts.ERR,"Action "+action+" is undefined in this context!"));
+  return false;
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
