@@ -1,8 +1,11 @@
 //* Simulation have to collect and write down statistics from every step
 //* CA: STATISTICS LOG TEMPLATE
 //*////////////////////////////////////////////////////////////////////////////////
-PrintWriter outstat;
 
+PrintWriter outstat;///> Handle to the text file with the record of model statistics
+
+/// It prepares a unique statistics file name, opens the file 
+/// and enters the header line.
 void initializeStats()
 {
   String FileName=modelName+="_"+year()+'.'+nf(month(),2)+'.'+nf(day(),2)+'.'+nf(hour(),2)+'.'+nf(minute(),2)+'.'+nf(second(),2)+'.'+millis();
@@ -10,14 +13,17 @@ void initializeStats()
   outstat.println("$STEP\tAlive\t.....");//<-- complete the header fields!
 }
 
-float meanDummy=0;
-int   liveCount=0;
+float meanDummy=0;///> the average of the non-zero cell values
+int   liveCount=0;///> number of non-zero cells
 
+/// The function calculates all world statistics after the simulation step
 void doStatistics(World world)
 {
   doStatisticsOnCells(world.cells);
+  /// ... statistics of other things
 }
 
+/// Cell statistics. One-dimensional version
 void doStatisticsOnCells(int[] cells)
 {  
   int curr;
@@ -52,6 +58,7 @@ void doStatisticsOnCells(int[] cells)
    //outstat should be closed in exit() --> see Exit.pde
 }
 
+/// Cell statistics. Two-dimensional version
 void doStatisticsOnCells(int[][] cells)
 {  
   long summ=0;
@@ -86,7 +93,6 @@ void doStatisticsOnCells(int[][] cells)
    }
    //outstat should be closed in exit() --> see Exit.pde
 }
-
 
 //*//////////////////////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - CA (Cellular Automaton) TEMPLATE

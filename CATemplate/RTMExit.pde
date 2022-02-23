@@ -1,7 +1,8 @@
 //* CA: EXIT TEMPLATE
 //*////////////////////////
 
-void exit()          //it is called whenever a window is closed.
+/// It is called whenever a window is closed.
+void exit()          
 {
   noLoop();          //For to be sure...
   delay(100);        // it is possible to close window when draw() is still working!

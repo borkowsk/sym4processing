@@ -3,20 +3,23 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 //Model parameters
-int side=75;//side of main table
-String modelName="ABMTemplate";
-float density=0.75;
+String modelName="ABMTemplate";///> Name of the model is used for log files
+int side=75;      ///> side of "world" main table
+float density=0.75;///> initial density of agents
 
-World TheWorld=new World(side);//... but also will be initialised inside setup()
+World TheWorld=new World(side);///>Main table will be initialised inside setup()
 
 //Parameters of visualisation etc...
-int cwidth=15;//size of cell
-int STATUSHEIGH=40;
-int STEPSperVIS=1;
-int FRAMEFREQ=10;
-boolean WITH_VIDEO=false;
-boolean simulationRun=false;//Start/stop flag
+int cwidth=15;     ///> requested size of cell
+int STATUSHEIGH=40;///> height of status bar
+int STEPSperVIS=1; ///> how many model steps beetwen visualisations 
+int FRAMEFREQ=10;  ///> how many model steps per second
+boolean WITH_VIDEO=false;///> Make a movie?
 
+boolean simulationRun=false;///> Start/stop flag
+
+/// setup() is called only once, at the beginning of run
+/// At least setup() or draw() must be present in animation program
 void setup()
 {
   //Graphics
@@ -53,6 +56,8 @@ void setup()
   NextVideoFrame();//It utilise inside variable to check if is enabled
 }
 
+/// draw() is called many times, to the end of run or noLoop() call.
+/// At least setup() or draw() must be present in animation program
 void draw()
 {
   if(simulationRun)
@@ -72,6 +77,7 @@ void draw()
 
 }
 
+/// Function designed to fill the status bar with simulation statistics.
 void writeStatusLine()
 {
   fill(255);rect(0,side*cwidth,width,STATUSHEIGH);

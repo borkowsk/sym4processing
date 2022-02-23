@@ -3,41 +3,48 @@
 //*/////////////////////////////////////////////////////////////
 int StepCounter=0;
 
+/// The main class of simulation
 class World
 {
   //Agent agents[];//One dimensional array of agents
   //OR
   Agent agents[][];//Two dimensional array of agents
   
-  World(int side)//Constructor of the World
+  /// Constructor of the World
+  World(int side)
   {
     //agents=new Agent[side];
     //OR
     agents=new Agent[side][side];
   }
-}
+}//ENDofCLASS
 
 //* More alaborated functionalities are defined as stand-alone functions,
 //* not as methods because of not enought flexible syntax of Processing
 //*/////////////////////////////////////////////////////////////////////////
 
+/// Prepares the World class for the first step of the simulation 
 void initializeModel(World world)
 {
   initializeAgents(world.agents);
   //... initilise others things
 }
 
+/// Draws a representation of the simulation world
 void visualizeModel(World world)
 {
   visualizeAgents(world.agents);
   //... visualise others things
 }
 
+/// Dummy changes for testing of whole class World
 void dummyChange(World world)
 {
   dummyChangeAgents(world.agents);
+  //... dummy change of other things
 }
 
+///Full model step. Change agents and other components if present.
 void modelStep(World world)
 {
    //Dummy part

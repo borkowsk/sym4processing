@@ -1,8 +1,11 @@
 //* Simulation have to collect and write down statistics from every step
 //* ABM: STATISTICS LOG TEMPLATE
 //*/////////////////////////////////////////////////////////////////////////////////////
-PrintWriter outstat;
 
+PrintWriter outstat;///> Handle to the text file with the record of model statistics
+
+/// It prepares a unique statistics file name, opens the file 
+/// and enters the header line.
 void initializeStats()
 {
   String FileName=modelName+="_"+year()+'.'+nf(month(),2)+'.'+nf(day(),2)+'.'
@@ -12,14 +15,17 @@ void initializeStats()
   outstat.println("$STEP\tAlive\t.....");//<-- complete the header fields!
 }
 
-float meanDummy=0;
-int   liveCount=0;
+float meanDummy=0;///> average value for the dummy field
+int   liveCount=0;///> number of living agents
 
+/// The function calculates all world statistics after the simulation step
 void doStatistics(World world)
 {
   doStatisticsOnAgents(world.agents);
+  /// ... statistics of other things
 }
 
+/// Agent statistics. One-dimensional version
 void doStatisticsOnAgents(Agent[] agents)
 {  
   Agent curra;
@@ -45,6 +51,7 @@ void doStatisticsOnAgents(Agent[] agents)
    //outstat should be closed in exit() --> see Exit.pde
 }
 
+/// Agent statistics. Two-dimensional version
 void doStatisticsOnAgents(Agent[][] agents)
 {  
   Agent curra;

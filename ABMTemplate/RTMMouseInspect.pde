@@ -8,11 +8,8 @@ int selectedX=-1;
 int selectedY=-1;
 Agent selected=null;
 
-//double minDist2Selec=MAX_INT;//???
-//double maxTransSelec=-MAX_INT;//???
-
+/// Simple version of Pair containing a pair of integers
 class PairOfInt
-//Simple version of Pair returning a pair of Int
 {
     public final int a;
     public final int b;
@@ -24,6 +21,9 @@ class PairOfInt
     }
 };
 
+/// This function is automatically run by Processing when 
+/// any mouse button is pressed. 
+/// Inside, you can use the variables 'mouseX' and 'mouseY'.
 void mouseClicked()
 {
   println("Mouse clicked at ",mouseX,mouseY);//DEBUG
@@ -37,16 +37,20 @@ void mouseClicked()
     selectedX=result.a;
     selectedY=result.b;
     if((selected=TheWorld.agents[selectedY][selectedX])!=null)
+    {
       println("Cell",selectedX,selectedY,"belong to",TheWorld.agents[selectedY][selectedX]);
+      //... more info about the cell & the agent
+    }
     else
       println("Cell",selectedX,selectedY,"is empty");
   }
 }
 
-PairOfInt findCell(Agent[][] agents)//Używamy gobalnych zmiennych mouseX i mouseY dla szybkości
-{ //Przeliczanie współrzędnych myszy na współrzędne komórki 
-  //Parametr jest tylko do sprawdzenie typu i ROZMIARÓW
-  //Działa o tyle o ile wizualizacja komórek startuje w punkcie 0,0
+/// Convert mouse coordinates to cell coordinates
+/// The parameter is only for checking type and SIZES
+/// Works as long as the agents visualization starts at point 0,0
+PairOfInt findCell(Agent[][] agents)
+{ 
   int x=mouseX/cwidth;
   int y=mouseY/cwidth;
   if(0<=y && y<agents.length
@@ -55,7 +59,6 @@ PairOfInt findCell(Agent[][] agents)//Używamy gobalnych zmiennych mouseX i mous
   else
       return null;
 }
-
 
 //*////////////////////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE

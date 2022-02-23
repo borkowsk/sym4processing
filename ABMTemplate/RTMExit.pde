@@ -1,6 +1,7 @@
 //* ABM: EXIT() TEMPLATE
 //*///////////////////////
 
+/// It is called whenever a window is closed.
 void exit()          //it is called whenever a window is closed. 
 {
   noLoop();          //For to be sure...

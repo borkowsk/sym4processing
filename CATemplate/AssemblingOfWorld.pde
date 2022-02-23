@@ -3,15 +3,17 @@
 ///////////////////////////////////////////////////////////////
 int StepCounter=0;
 
+/// The main class of simulation
 class World
 {
-  //int cells[];//One dimensional array of agents
+  //int cells[];//One dimensional array of cells
   //int newcells[];//Secondary array for synchronic mode
   //OR
-  int cells[][];//Two dimensional array of agents
+  int cells[][];//Two dimensional array of cells
   int newcells[][];//Secondary array for synchronic mode
   
-  World(int side)//Constructor of the World
+  /// Constructor of the World
+  World(int side)
   {
     //cells=new int[side];
     //if(synchronicMode) newcells=new int[side];
@@ -20,7 +22,7 @@ class World
     if(synchronicMode) newcells=new int[side][side];
   }
   
-  //Swap arrays[]
+  /// Swap the cell arrays in synchronic mode
   void   swap()
   {
     //int[] tmp=cells;
@@ -29,40 +31,46 @@ class World
     cells=newcells;
     newcells=tmp;
   }
-}
+}//ENDofCLASS
 
 //* More alaborated functionalities are defined as stand-alone functions,
 //* not as methods because of not enought flexible syntax of Processing
 //*/////////////////////////////////////////////////////////////////////////
 
+/// Prepares the World class for the first step of the simulation 
 void initializeModel(World world)
 {
   initializeCells(world.cells);
+  //... initilise others things
 }
 
+/// Draws a representation of the simulation world
 void visualizeModel(World world)
 {
   visualizeCells(world.cells);
+  //... visualise others things
 }
 
-void dummyChange(World world)
+/// Example changes of cells for testing the visualization 
+void exampleChange(World world)
 {
   if(synchronicMode)
   {
     //Implement rules
-    synchChangeCells(world.cells,world.newcells);
+    synchChangeCellsModulo(world.cells,world.newcells);
     //Swap arrays
     world.swap();
   }
   else
-    asyncChangeCells(world.cells);
+    asyncChangeCellsModulo(world.cells);
 }
 
+///Full model step. Change cells and other components if present.
 void modelStep(World world)
 {
-   //Dummy part
-   dummyChange(world);//Comment out 
-   //AND
+   //Dummy example part
+   exampleChange(world);
+   //OR
    //... do real simulation on cells ... THIS PART IS FOR YOU!
    
    StepCounter++;

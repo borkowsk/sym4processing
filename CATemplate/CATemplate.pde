@@ -3,30 +3,32 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 //Model parameters
-int      side=201;//side of main table
-String   modelName="CATemplate";
-float    density=0.0000;
-boolean  synchronicMode=true;//if false, then Monte Carlo mode is used
+String   modelName="CATemplate";///> Name of the model is used for log files
+int      side=201;      ///> side of "world" main table
+float    density=0.0000;///> initial density of live cells
+boolean  synchronicMode=true;///> if false, then Monte Carlo mode is used
 
-World TheWorld=new World(side);//... but also will be initialised inside setup()
+World TheWorld=new World(side);///>Main table will be initialised inside setup()
 
 //Parameters of visualisation etc...
-int cwidth=3;//requested size of cell
-int STATUSHEIGH=40;
-int STEPSperVIS=1;
-int FRAMEFREQ=100;
-boolean WITH_VIDEO=false;
-boolean simulationRun=true;//Start/stop flag
+int cwidth=3;      ///> requested size of cell
+int STATUSHEIGH=40;///> height of status bar
+int STEPSperVIS=1; ///> how many model steps beetwen visualisations 
+int FRAMEFREQ= 50; ///> how many model steps per second
+boolean WITH_VIDEO=false;///> Make a movie?
 
+boolean simulationRun=true;///> Start/stop flag
+
+/// setup() is called only once, at the beginning of run
+/// At least setup() or draw() must be present in animation program
 void setup()
 {
   //Graphics
-  size(603,643);
+  size(604,644);
   noSmooth();
   frameRate(FRAMEFREQ);
   background(255,255,200);
   strokeWeight(2);
-  
   
   //Model
   initializeModel(TheWorld);
@@ -56,6 +58,8 @@ void setup()
   NextVideoFrame();//It utilise inside variable to check if is enabled
 }
 
+/// draw() is called many times, to the end of run or noLoop() call.
+/// At least setup() or draw() must be present in animation program
 void draw()
 {
   if(simulationRun)
@@ -75,6 +79,7 @@ void draw()
 
 }
 
+/// Function designed to fill the status bar with simulation statistics.
 void writeStatusLine()
 {
   fill(255);rect(0,side*cwidth,width,STATUSHEIGH);

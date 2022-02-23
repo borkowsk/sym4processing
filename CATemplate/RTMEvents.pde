@@ -2,7 +2,10 @@
 //*  CA: KEYBOARD EVENTS HANDLING
 //*////////////////////////////////////////////////////
 
-void keyPressed() 
+/// Automatically run by Processing when any key on the 
+/// keyboard is pressed. Inside, you can use the variables 
+/// 'key' and 'keyCode'.
+void keyPressed()
 {
   println("RECIVED:'",key,"\' CODE:",int(key)); 
   switch(key)
@@ -23,6 +26,7 @@ void keyPressed()
   case ESC: simulationRun=!simulationRun; break;
   case 's': simulationRun=false; break;
   case 'r': simulationRun=true; break;
+  case 'q': exit(); break;
   default:println("Command '"+key+"' unknown");
           println("USE:");
           println("1-9 for less frequent visualisation");

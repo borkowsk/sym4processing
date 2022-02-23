@@ -2,6 +2,7 @@
 // Cells need to be initialised & they need rules of change 
 //////////////////////////////////////////////////////////////////////////////////
 
+/// Initialization of cells (2D version)
 void initializeCells(int[][] cells)
 {
    for(int a=0;a<cells.length;a++)
@@ -14,7 +15,8 @@ void initializeCells(int[][] cells)
    if(density==0) 
        cells[cells.length/2][cells.length/2]=1;
 }
-//OR
+//OR 
+/// Initialization of cells (1D version)
 void initializeCells(int[] cells)
 {
   for(int a=0;a<cells.length;a++)
@@ -27,23 +29,11 @@ void initializeCells(int[] cells)
        cells[cells.length/2]=1;
 }
 
-//Implement rules
-/////////////////////////////////////////////////
+//* Implement model rules below
+//*///////////////////////////////////////////////
 
-void synchChangeCells(int[] cells,int[] newcells)
-{
-  int N=cells.length;
-  for(int a=0;a<N;a++)
-  {
-    int l=(a+cells.length-1)%cells.length;
-    int r=(a+1)%cells.length;
-    
-    //Synchronic modulo rule
-    newcells[a]=(cells[l]+cells[a]+cells[r])%4;
-  }    
-}
-//OR
-void synchChangeCells(int[][] cells,int[][] newcells)
+/// Your cells change over time (SYNCHRONIC 2D version)
+void synchChangeCellsModulo(int[][] cells,int[][] newcells)
 {
   int N=cells.length;
   for(int a=0;a<N;a++)
@@ -61,22 +51,23 @@ void synchChangeCells(int[][] cells,int[][] newcells)
     newcells[a][b]=summ%5;
   }  
 }
-
-void  asyncChangeCells(int[] cells)
+//OR 
+/// Your cells change over time (SYNCHRONIC 1D version)
+void synchChangeCellsModulo(int[] cells,int[] newcells)
 {
-  int MC=cells.length;
-  for(int i=0;i<MC;i++)
+  int N=cells.length;
+  for(int a=0;a<N;a++)
   {
-    int a=(int)random(0,cells.length);
     int l=(a+cells.length-1)%cells.length;
     int r=(a+1)%cells.length;
     
-    //Modulo rule for Monte Carlo mode
-    cells[a]=(cells[l]+cells[a]+cells[r])%4;
-  }  
+    //Synchronic modulo rule
+    newcells[a]=(cells[l]+cells[a]+cells[r])%4;
+  }    
 }
-//OR
-void  asyncChangeCells(int[][] cells)
+
+/// Your cells change over time (ASYNCHRONIC 2D version)
+void  asyncChangeCellsModulo(int[][] cells)
 {
   int MC=cells.length*cells[0].length;
   for(int i=0;i<MC;i++)
@@ -94,6 +85,21 @@ void  asyncChangeCells(int[][] cells)
     //Modulo rule for Monte Carlo mode      
     cells[a][b]=summ%6;
   }
+}
+//OR
+/// Your cells change over time (ASYNCHRONIC 1D version)
+void  asyncChangeCellsModulo(int[] cells)
+{
+  int MC=cells.length;
+  for(int i=0;i<MC;i++)
+  {
+    int a=(int)random(0,cells.length);
+    int l=(a+cells.length-1)%cells.length;
+    int r=(a+1)%cells.length;
+    
+    //Modulo rule for Monte Carlo mode
+    cells[a]=(cells[l]+cells[a]+cells[r])%4;
+  }  
 }
 
 //*//////////////////////////////////////////////////////////////////////////////////////////////

@@ -2,6 +2,7 @@
 //*   CA: BASIC VISUALISATION
 //*//////////////////////////////////////////////////////////////////////////
 
+/// Visualization of cells. Two-dimensional version
 void visualizeCells(int[][] cells)
 {
   for(int a=0;a<cells.length;a++)
@@ -24,6 +25,7 @@ void visualizeCells(int[][] cells)
    }
 }
 //OR
+/// Visualization of cells. One-dimensional version
 void visualizeCells(int[] cells)
 {
    for(int a=0;a<cells.length;a++)

@@ -7,11 +7,8 @@ boolean Clicked=false;
 int selectedX=-1;
 int selectedY=-1;
 
-//double minDist2Selec=MAX_INT;//???
-//double maxTransSelec=-MAX_INT;//???
-
+/// Simple version of Pair containing a pair of integers
 class PairOfInt
-//Simple version of Pair returning a pair of Int
 {
     public final int a;
     public final int b;
@@ -23,6 +20,9 @@ class PairOfInt
     }
 };
 
+/// This function is automatically run by Processing when 
+/// any mouse button is pressed. 
+/// Inside, you can use the variables 'mouseX' and 'mouseY'.
 void mouseClicked()
 {
   println("Mouse clicked at ",mouseX,mouseY);//DEBUG
@@ -40,10 +40,11 @@ void mouseClicked()
   }
 }
 
+/// Convert mouse coordinates to cell coordinates
+/// The parameter is only for checking type and SIZES
+/// Works as long as the cell visualization starts at point 0,0
 PairOfInt findCell(int[][] cells)
-{ //Przeliczanie współrzędnych myszy na współrzędne komórki 
-  //Parametr jest tylko do sprawdzenie typu i ROZMIARÓW
-  //Działa o tyle o ile wizualizacja komórek startuje w punkcie 0,0
+{ 
   int x=mouseX/cwidth;
   int y=mouseY/cwidth;
   if(0<=y && y<cells.length

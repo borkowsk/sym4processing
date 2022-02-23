@@ -2,27 +2,31 @@
 //*  ABM: EVENTS TEMPLATE
 //*/////////////////////////////////////////////////
 
-void keyPressed() 
+/// Automatically run by Processing when any key on the 
+/// keyboard is pressed. Inside, you can use the variables 
+/// 'key' and 'keyCode'.
+void keyPressed()
 {
   println("RECIVED:'",key,"\' CODE:",int(key)); 
   switch(key)
   {
-  case '1': STEPSperVIS=1;background(255,255,200);text("StPerV: "+STEPSperVIS,1,16);break;
-  case '2': STEPSperVIS=2;background(255,255,200);text("StPerV: "+STEPSperVIS,1,16);break;
-  case '3': STEPSperVIS=5;background(255,255,200);text("StPerV: "+STEPSperVIS,1,16);break;
-  case '4': STEPSperVIS=10;background(255,255,200);text("StPerV: "+STEPSperVIS,1,16);break;
-  case '5': STEPSperVIS=25;background(255,255,200);text("StPerV: "+STEPSperVIS,1,16);break;
-  case '6': STEPSperVIS=50;background(255,255,200);text("StPerV: "+STEPSperVIS,1,16);break;
-  case '7': STEPSperVIS=100;background(255,255,200);text("StPerV: "+STEPSperVIS,1,16);break;
-  case '8': STEPSperVIS=150;background(255,255,200);text("StPerV: "+STEPSperVIS,1,16);break;
-  case '9': STEPSperVIS=200;background(255,255,200);text("StPerV: "+STEPSperVIS,1,16);break;
-//  case '0': STEPSperVIS=1;DeltaMC=0.2;text("DeltaMC: "+DeltaMC,1,16);break;
+  case '1': STEPSperVIS=1;println("StPerV: "+STEPSperVIS);break;
+  case '2': STEPSperVIS=2;println("StPerV: "+STEPSperVIS);break;
+  case '3': STEPSperVIS=5;println("StPerV: "+STEPSperVIS);break;
+  case '4': STEPSperVIS=10;println("StPerV: "+STEPSperVIS);break;
+  case '5': STEPSperVIS=25;println("StPerV: "+STEPSperVIS);break;
+  case '6': STEPSperVIS=50;println("StPerV: "+STEPSperVIS);break;
+  case '7': STEPSperVIS=100;println("StPerV: "+STEPSperVIS);break;
+  case '8': STEPSperVIS=150;println("StPerV: "+STEPSperVIS);break;
+  case '9': STEPSperVIS=200;println("StPerV: "+STEPSperVIS);break;
+//  case '0': STEPSperVIS=1;DeltaMC=0.2;println("DeltaMC: "+DeltaMC);break;
   case ' ': save(modelName+"."+nf((float)StepCounter,6,5)+".PNG");
             //write(world,modelName+"."+nf((float)StepCounter,6,5));//Aktualny stan ekosystemu
             break;
   case ESC: simulationRun=!simulationRun; break;
   case 's': simulationRun=false; break;
   case 'r': simulationRun=true; break;
+  case 'q': exit(); break;
   default:println("Command '"+key+"' unknown");
           println("USE:");
           println("1-9 for less frequent visualisation");

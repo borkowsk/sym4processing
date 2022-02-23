@@ -2,6 +2,7 @@
 //* ABM: BASIC VISUALISATION
 //*//////////////////////////////////////////////////////////////////////////
 
+/// Visualization of agents. Two-dimensional version
 void visualizeAgents(Agent[][] agents)
 {
   Agent curra;
@@ -25,6 +26,7 @@ void visualizeAgents(Agent[][] agents)
    }
 }
 //OR
+/// Visualization of agents. One-dimensional version
 void visualizeAgents(Agent[] agents)
 {
    Agent curra;
