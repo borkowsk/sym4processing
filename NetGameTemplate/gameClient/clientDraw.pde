@@ -1,12 +1,13 @@
 //*  gameClient - more comm. logic 
 //*/////////////////////////////////////////////// 
 
-//GameObject atributes specific for client side
+/// GameObject atributes specific for client side
 abstract class implNeeded 
 {
   //...currently nothing here
 };
 
+/// 
 void clientGameDraw()
 {          
     fill(255,0,0);
@@ -33,6 +34,7 @@ void clientGameDraw()
     visualise2D(0,0,width,height);
 }
 
+/// 
 void visualisationChanged(GameObject[] table,String name,String vtype)
 {
   int pos=(name.equals(Opts.sYOU)?indexOfMe:localiseByName(table,name));
@@ -45,6 +47,7 @@ void visualisationChanged(GameObject[] table,String name,String vtype)
   mainGameArray[pos].visual=vtype;
 }
 
+/// 
 void colorChanged(GameObject[] table,String name,String hexColor)
 {
   color newColor=unhex(hexColor);
@@ -59,6 +62,7 @@ void colorChanged(GameObject[] table,String name,String hexColor)
   mainGameArray[pos].foreground=newColor;
 }
 
+/// 
 void positionChanged(GameObject[] table,String name,float[] inparr2)
 {
   int pos=(name.equals(Opts.sYOU)?indexOfMe:localiseByName(table,name));
@@ -75,11 +79,14 @@ void positionChanged(GameObject[] table,String name,float[] inparr2)
   }
 }
 
+
+// Arrays for decoding more complicated messages
 float[] inparr1=new float[1];
 float[] inparr2=new float[2];
 String[] instr1=new String[1];
 String[] instr2=new String[2];
 
+///
 void interpretMessage(String msg)
 {
   switch(msg.charAt(0)){

@@ -6,14 +6,15 @@
 //
 import processing.net.*;
 
-int DEBUG=0;///Level of debug logging
-int VIEWMESG=1;///
-int DEF_FRAME_RATE=60;///Frame rate during game
+int DEBUG=0;    ///> Level of debug logging
+int VIEWMESG=1; ///>
+int DEF_FRAME_RATE=60; ///> Frame rate during game
 
-String  playerName="";//ASCII IDENTIFIER!
+String  playerName=""; ///> ASCII IDENTIFIER!
 
-Client  myClient=null;
+Client  myClient=null; ///> 
     
+///
 void setup() 
 {
   size(400,400);
@@ -27,6 +28,7 @@ void setup()
   //textSize(16);
 }
 
+///
 void draw() 
 { 
   if(frameCount<2)
@@ -93,7 +95,7 @@ void whenConnectedToServer()
     }
 }
 
-///Attempting to connect and initial communication
+/// Attempting to connect and initial communication
 void drawTryConnect()
 {
    background(128);
