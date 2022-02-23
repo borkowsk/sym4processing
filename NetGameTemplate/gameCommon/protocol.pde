@@ -175,4 +175,11 @@ String decodePosition(String msgPosition,float[] coordinates)
   else
   return null;//Invalid message
 }
+
+//*/////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
+//*  https://github.com/borkowsk/sym4processing
+//*/////////////////////////////////////////////////////////////////////////////////////////
+
+
                    

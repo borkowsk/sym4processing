@@ -3,23 +3,20 @@
 //
 // Base on:
 // Example code for a server with multiple clients communicating to only one at a time.
-// It will work for any client. 
 // https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
+//
 import processing.net.*;
 
 int DEBUG=0;//Level of debug logging
 
 Server mainServer;
 
-//int[]    val     = new int[0];
-//String[] names   = new String[0];
-//Client[] clients = new Client[0];//the array of clients
-
 Player[] players= new Player[0];//the array of clients (players)
 
 void setup() 
 {
   size(700, 500);
+  //size(700, 500, SVG, "filename.svg");//Without window
   Xmargin=200;
   noStroke();
   mainServer = new Server(this,servPORT,serverIP);
@@ -141,3 +138,8 @@ void disconnectEvent(Client someClient)
     break;
   }
 }
+
+//*/////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
+//*  https://github.com/borkowsk/sym4processing
+//*/////////////////////////////////////////////////////////////////////////////////////////
