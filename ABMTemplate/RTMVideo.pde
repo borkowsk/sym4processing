@@ -1,9 +1,10 @@
 // Tool for made video from simulation
-/////////////////////////////////////////////////////////////////////////////////////
-// http://funprogramming.org/VideoExport-for-Processing/examples/basic/basic.pde
+//////////////////////////////////////////////////////////////////////////////////////
+// --> http://funprogramming.org/VideoExport-for-Processing/examples/basic/basic.pde
 //
-// Trzeba zainstalować program ffmpeg żeby działało!!!
-import com.hamoid.*;//Oraz importujemy niezbędną biblioteką zawierającą klasę VideoExport
+// Poza biblioteka "hamoid" trzeba zainstalować tez program ffmpeg żeby działało!!!
+//
+import com.hamoid.*;//Importujemy niezbędną biblioteką zawierającą klasę VideoExport
 
 // USAGE:
 // To wywołanie musi być w setup() żeby zadziałało Video:
@@ -65,6 +66,7 @@ void CloseVideo() //To wołamy gdy chcemy zamknąć
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - MOVIE MAKER 
-///////////////////////////////////////////////////////////////////////////////////////////
+//*////////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE
+//*  https://github.com/borkowsk/sym4processing                MOVIE MAKER
+//*////////////////////////////////////////////////////////////////////////////////////////////

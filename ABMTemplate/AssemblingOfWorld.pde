@@ -1,5 +1,6 @@
-// World is a one of two central class of each ABM model
-///////////////////////////////////////////////////////////////
+//* World is a one of two central class of each ABM model
+//* ABM: WORLD OF AGENTS FOR FILL UP
+//*/////////////////////////////////////////////////////////////
 int StepCounter=0;
 
 class World
@@ -16,18 +17,20 @@ class World
   }
 }
 
-//More alaborated functionalities are defined as stand-alone functions,
-//not as methods because of not enought flexible syntax of Processing
-///////////////////////////////////////////////////////////////////////////
+//* More alaborated functionalities are defined as stand-alone functions,
+//* not as methods because of not enought flexible syntax of Processing
+//*/////////////////////////////////////////////////////////////////////////
 
 void initializeModel(World world)
 {
   initializeAgents(world.agents);
+  //... initilise others things
 }
 
 void visualizeModel(World world)
 {
   visualizeAgents(world.agents);
+  //... visualise others things
 }
 
 void dummyChange(World world)
@@ -45,6 +48,8 @@ void modelStep(World world)
    StepCounter++;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM: WORLD OF AGENTS FOR FILL UP
-///////////////////////////////////////////////////////////////////////////////////////////////
+
+//*////////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE
+//*  https://github.com/borkowsk/sym4processing
+//*////////////////////////////////////////////////////////////////////////////////////////////

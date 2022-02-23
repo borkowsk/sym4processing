@@ -1,11 +1,14 @@
-// Simulation have to collect and write down statistics from every step
-///////////////////////////////////////////////////////////////////////////////////////
+//* Simulation have to collect and write down statistics from every step
+//* ABM: STATISTICS LOG TEMPLATE
+//*/////////////////////////////////////////////////////////////////////////////////////
 PrintWriter outstat;
 
 void initializeStats()
 {
-  String FileName=modelName+="_"+year()+'.'+nf(month(),2)+'.'+nf(day(),2)+'.'+nf(hour(),2)+'.'+nf(minute(),2)+'.'+nf(second(),2)+'.'+millis();
+  String FileName=modelName+="_"+year()+'.'+nf(month(),2)+'.'+nf(day(),2)+'.'
+                           +nf(hour(),2)+'.'+nf(minute(),2)+'.'+nf(second(),2)+'.'+millis();
   outstat=createWriter(FileName+".out");
+  //HEADER LINE:
   outstat.println("$STEP\tAlive\t.....");//<-- complete the header fields!
 }
 
@@ -68,6 +71,8 @@ void doStatisticsOnAgents(Agent[][] agents)
    //outstat should be closed in exit() --> see Exit.pde
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM: STATISTICS LOG TEMPLATE
-///////////////////////////////////////////////////////////////////////////////////////////
+
+//*////////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE
+//*  https://github.com/borkowsk/sym4processing
+//*////////////////////////////////////////////////////////////////////////////////////////////
