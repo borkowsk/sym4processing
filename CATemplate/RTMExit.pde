@@ -1,4 +1,7 @@
-void exit()          //it is called whenever a window is closed. 
+//* CA: EXIT TEMPLATE
+//*////////////////////////
+
+void exit()          //it is called whenever a window is closed.
 {
   noLoop();          //For to be sure...
   delay(100);        // it is possible to close window when draw() is still working!
@@ -16,6 +19,7 @@ void exit()          //it is called whenever a window is closed.
   super.exit();       //What library superclass have to do at exit()
 } 
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - EXIT TEMPLATE
-///////////////////////////////////////////////////////////////////////////////////////////
+//*//////////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - CA (Cellular Automaton) TEMPLATE
+//*  https://github.com/borkowsk/sym4processing
+//*//////////////////////////////////////////////////////////////////////////////////////////////

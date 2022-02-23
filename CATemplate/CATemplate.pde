@@ -3,7 +3,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 //Model parameters
-int      side=200;//side of main table
+int      side=201;//side of main table
 String   modelName="CATemplate";
 float    density=0.0000;
 boolean  synchronicMode=true;//if false, then Monte Carlo mode is used
@@ -11,7 +11,7 @@ boolean  synchronicMode=true;//if false, then Monte Carlo mode is used
 World TheWorld=new World(side);//... but also will be initialised inside setup()
 
 //Parameters of visualisation etc...
-int cwidth=3;//size of cell
+int cwidth=3;//requested size of cell
 int STATUSHEIGH=40;
 int STEPSperVIS=1;
 int FRAMEFREQ=100;
@@ -21,7 +21,7 @@ boolean simulationRun=true;//Start/stop flag
 void setup()
 {
   //Graphics
-  size(600,640);
+  size(603,643);
   noSmooth();
   frameRate(FRAMEFREQ);
   background(255,255,200);
@@ -85,6 +85,7 @@ void writeStatusLine()
   text(StepCounter+")  Fps:"+ frameRate,0,side*cwidth+STATUSHEIGH-2);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - CA MAIN TEMPLATE
-///////////////////////////////////////////////////////////////////////////////////////////
+//*//////////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - CA (Cellular Automaton) TEMPLATE
+//*  https://github.com/borkowsk/sym4processing
+//*//////////////////////////////////////////////////////////////////////////////////////////////

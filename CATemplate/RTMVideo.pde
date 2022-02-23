@@ -1,8 +1,9 @@
 // Tool for made video from simulation
-/////////////////////////////////////////////////////////////////////////////////////
-// http://funprogramming.org/VideoExport-for-Processing/examples/basic/basic.pde
+//////////////////////////////////////////////////////////////////////////////////////
+// --> http://funprogramming.org/VideoExport-for-Processing/examples/basic/basic.pde
 //
-// Trzeba zainstalować program ffmpeg żeby działało!!!
+// Poza biblioteka "hamoid" trzeba zainstalować tez program ffmpeg żeby działało!!!
+//
 import com.hamoid.*;//Oraz importujemy niezbędną biblioteką zawierającą klasę VideoExport
 
 // USAGE:
@@ -58,13 +59,14 @@ void CloseVideo() //To wołamy gdy chcemy zamknąć
    fill(0);
    text("(c) W.Borkowski @ ISS University of Warsaw",1,height);//Może się nie zdążyć pojawić
    //powinno być jakieś "force screen update", ale nie znalazłem
-   for(int i=0;i<videoFramesFreq;i++)//Musi trwać sekundę czy coś...
-       videoExport.saveFrame();//Video frame
+   for(int i=0;i<videoFramesFreq;i++)//Have to last about one second
+       videoExport.saveFrame();//Video frames for final freeze
    videoExport.saveFrame();//Video frame - LAST
    videoExport.endMovie();//Koniec filma
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - MOVIE MAKER 
-///////////////////////////////////////////////////////////////////////////////////////////
+//*//////////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - CA (Cellular Automaton) TEMPLATE
+//*  https://github.com/borkowsk/sym4processing
+//*//////////////////////////////////////////////////////////////////////////////////////////////
