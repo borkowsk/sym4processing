@@ -4,14 +4,21 @@
 # exclude patterns (uncomment them if you want to use them):
 # *.[oa]
 *~
-*png
-*PNG
-*AVI
-*avi
-*mp3
-*mp4
-*zip
-*ZIP
+*.old
+*.png
+*.PNG
+*.svg
+*.SVG
+*.pdf
+*.PDF
+*.avi
+*.AVI
+*.MP3
+*.mp3
+*.MP4
+*.mp4
+*.zip
+*.ZIP
 *out
 *xls
 *xlsx
