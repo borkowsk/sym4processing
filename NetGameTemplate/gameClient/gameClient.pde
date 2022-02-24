@@ -6,32 +6,38 @@
 //
 import processing.net.*;
 
-int DEBUG=0;    ///> Level of debug logging
-int VIEWMESG=1; ///>
-int DEF_FRAME_RATE=60; ///> Frame rate during game
+int DEBUG=0;    ///> Program trace level
+int VIEWMESG=1; ///> Game protocol message tracing level
+int INTRO_FRAMES=3;    ///> How long the intro lasts?
+int DEF_FRAME_RATE=60; ///> Desired frame rate during game
 
-String  playerName=""; ///> ASCII IDENTIFIER!
+String  playerName=""; ///> ASCII IDENTIFIER OF THE PLAYER. It is from player.txt file.
 
-Client  myClient=null; ///> 
+Client  myClient=null; ///> Network client object representing connection to the server
     
-///
+/// Startup of a game client. Still not connected after that.
 void setup() 
 {
-  size(400,400);
-  loadName();
+  size(400,400);    //Init window in particular size!
+  loadSettings();   //Loads playerName from the 'player.txt' file!
   println("PLAYER:",playerName);
   println("Expected server IP:",serverIP,"\nExpected server PORT:",servPORT);
-  frameRate(1);
-  VIS_MIN_MAX=false;///Option for visualisation - with min/max value
-  KEEP_ASPECT=true;///Option for visualisation - with proportional aspect ratio
-  WITH_INFO=false;///Information about objects
-  //textSize(16);
+  frameRate(1);     //Only for intro (->INTRO_FRAMES) and establishing connection time.
+  VIS_MIN_MAX=false;//Option for visualisation - with min/max value
+  KEEP_ASPECT=true; //Option for visualisation - with proportional aspect ratio
+  WITH_INFO=false;  //Information about objects
+  //textSize(16);   //... not work well with default font :-(
 }
 
-///
+/// A function that is triggered many times per second, 
+/// carrying out the main tasks of the client.
+/// - First it shows the intro for the first few frames.
+/// - Then it is trying to establish connection with server
+/// - Finally it realising communication with server & visualisation
+/// When connection with server broke, it go back to establishing connection.
 void draw() 
 { 
-  if(frameCount<2)
+  if(frameCount<INTRO_FRAMES)
   {
        drawStartUpInfo(); 
   }
@@ -70,16 +76,16 @@ void whenConnectedToServer()
     while(myClient.available() <= 0) delay(10);
     
     if(DEBUG>1) print(playerName,"is READING FROM SERVER:");
-    msg=myClient.readStringUntil(Opts.NOPE);
+    msg=myClient.readStringUntil(Opts.EOR);
     if(VIEWMESG>0 || DEBUG>1) println(msg);
     
     String serverType=decodeHELLO(msg);
     if(serverType.equals(Opts.name) )
     {
       surface.setTitle(serverIP+"//"+Opts.name+":"+playerName);
-      mainGameArray=new GameObject[1];
-      mainGameArray[0]=new GameObject(playerName,10,10,0);
-      mainGameArray[0].visual="???";
+      gameWorld=new GameObject[1];
+      gameWorld[0]=new GameObject(playerName,10,10,0);
+      gameWorld[0].visual="???";
       indexOfMe=0;
       msg=sayOptCode(Opts.UPD);
       if(DEBUG>1) print(playerName,"is SENDING:");
@@ -127,7 +133,8 @@ void disconnectEvent(Client someClient)
 }
 
 /// Loads the player's name from the file "player.txt"
-void loadName()
+/// But may do more...
+void loadSettings()
 {
   BufferedReader reader=createReader("player.txt");
   try {

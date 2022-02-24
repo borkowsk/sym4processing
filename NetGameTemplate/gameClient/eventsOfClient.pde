@@ -1,7 +1,7 @@
 //*  gameClient - keyboard input 
 //*/////////////////////////////////////////////// 
 
-///
+/// Keyboard events - mostly control of the avatar
 void keyPressed()
 {
   if(DEBUG>2) println("KEY:",key,int(key));
@@ -41,6 +41,7 @@ void keyPressed()
   case ' ': msg=sayOptAndInf(Opts.ACT,"default"); break; //<>//
   case ESC: println(key,"is ignored for the game client");key=0; return;
 }//END of SWITCH
+
   if(VIEWMESG>0) println(playerName,"is sending:\n",msg);
   myClient.write(msg);
 }
