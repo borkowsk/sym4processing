@@ -108,45 +108,7 @@ void whenClientConnected(Client newClient,String playerName)
    
   gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);//expand the array of game objects 
   gameWorld[gameWorld.length-1] = tmp;//Player is also one of GameObjects
-}
-
-/// Event handler called when a client connects to server
-void serverEvent(Server me,Client newClient)
-{
-  noLoop();//KIND OF CRITICAL SECTION!!!
-  
-  while(newClient.available() <= 0) delay(10);
-  
-  if(DEBUG>1) print("Server is READING FROM CLIENT: ");
-  String msg=newClient.readStringUntil(Opts.EOR);
-  if(DEBUG>1) println(msg);
-  String playerName=decodeHELLO(msg);
-  
-  msg=sayHELLO(Opts.name);
-  if(DEBUG>1) println("Server is SENDING: ",msg);
-  newClient.write(msg);
-    
-  whenClientConnected(newClient,playerName);
-  
-  loop(); 
-}
-
-/// ClientEvent message is generated 
-/// when a client disconnects from server
-void disconnectEvent(Client someClient) 
-{
-  println("Disconnect event happened on server.");
-  if(DEBUG>2) println(mainServer,someClient);
-  
-  for(int i=0;i<players.length;i++)
-  if(players[i].netLink == someClient )
-  {
-    println(players[i].name," disconnected!");
-    players[i].netLink=null;
-    players[i].visual="_";
-    players[i].flags|=VISUAL_MSK;
-    break;
-  }
+  println("Player",tmp.name,"connected to server!");
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////

@@ -7,7 +7,7 @@
 import processing.net.*;
 
 int DEBUG=0;    ///> Program trace level
-int VIEWMESG=1; ///> Game protocol message tracing level
+int VIEWMESG=0; ///> Game protocol message tracing level
 int INTRO_FRAMES=3;    ///> How long the intro lasts?
 int DEF_FRAME_RATE=60; ///> Desired frame rate during game
 
@@ -123,15 +123,6 @@ void drawTryConnect()
    }
 }
         
-/// ClientEvent message is generated when a client disconnects.
-void disconnectEvent(Client someClient) 
-{
-  background(0);
-  print(playerName,"disconnected from server.");
-  myClient=null;
-  frameRate(1);
-}
-
 /// Loads the player's name from the file "player.txt"
 /// But may do more...
 void loadSettings()

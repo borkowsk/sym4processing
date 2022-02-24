@@ -1,5 +1,5 @@
-//*  gameClient - keyboard input 
-//*/////////////////////////////////////////////// 
+//*  gameClient - keyboard input & other asynchronic events 
+//*//////////////////////////////////////////////////////////// 
 
 /// Keyboard events - mostly control of the avatar
 void keyPressed()
@@ -44,6 +44,31 @@ void keyPressed()
 
   if(VIEWMESG>0) println(playerName,"is sending:\n",msg);
   myClient.write(msg);
+}
+
+/// ClientEvent message is generated when a client disconnects.
+void disconnectEvent(Client someClient) 
+{
+  background(0);
+  print(playerName,"disconnected from server.");
+  myClient=null;
+  frameRate(1);
+}
+
+/// Event handler called when a client connects to server
+void serverEvent(Server serv,Client cli)
+{
+  println(playerName,"got unexpected serverEvent()"); 
+}
+
+/// ClientEvent message is generated when the 
+/// server sends data to an existing client.
+/// This is alternative, asynchronous way to
+/// read messages from the server.
+void clientEvent(Client cli) 
+{
+  //println(playerName,"got serverEvent()"); 
+  //cli.read(...)
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////

@@ -120,7 +120,7 @@ void clientGameDraw()
     //communication with server:
     for(int i = 0; true; i++) //why not while(true) ?
     {
-      if (myClient.available() > 0) 
+      if (myClient!=null && myClient.available() > 0) 
       {
         if(DEBUG>2) print(playerName,"is reciving:");
         String msg = myClient.readStringUntil(Opts.EOR);
