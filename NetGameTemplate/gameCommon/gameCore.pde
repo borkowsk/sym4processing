@@ -1,14 +1,28 @@
 //*  Game classes and rules
 //*///////////////////////////
 
-String plants="☘️";       ///> Koniczyna
-String[] pepl={"😃","😐"};///> dwa ludziki
+String plants="☘️";       ///> plants... 
+String[] pepl={"😃","😐"};///> peoples...
 boolean VIS_MIN_MAX=true;///> Option for visualisation - with min/max value
 boolean KEEP_ASPECT=true;///> Option for visualisation - with proportional aspect ratio
 boolean WITH_INFO=true;  ///> Information about objects
 int     indexOfMe=-1;    ///> Index of object visualising client or server supervisor
 
-///
+//GameObject atributes specific for server side
+final int MOVED_MSK  = 0x1; ///> object was moved
+final int VISUAL_MSK = 0x2; ///> object changed its type of view
+final int COLOR_MSK  = 0x4; ///> object changed its colors
+final int ALL_MSK = MOVED_MSK | VISUAL_MSK | COLOR_MSK; ///> all changes
+
+/// Server side implementation part of any game object
+/// needs modification flags, but client side are free to use 
+/// this parts.
+abstract class implNeeded 
+{ 
+  int flags=0;//*_MSK alloved here
+};
+
+/// Representation of 3D position in the game world
 abstract class Position extends implNeeded
 {
   float X,Y;//2D coordinates
@@ -20,7 +34,7 @@ abstract class Position extends implNeeded
   }
 };//EndOfClass Position
 
-///
+/// Representation of generic game object
 class GameObject extends Position
 {
   String name;//Each object has an individual identifier necessary for communication. Better short.
@@ -37,7 +51,7 @@ class GameObject extends Position
   }
 };//EndOfClass GameObject
 
-///
+/// Representation of generic player
 class Player extends GameObject
 {
   Client netLink;
@@ -48,9 +62,12 @@ class Player extends GameObject
 };//EndOfClass Player
 
 int initialSizeOfMainArray=30;  ///> ???
-GameObject[] mainGameArray=null;///> ???
+GameObject[] gameWorld=null;///> ???
 
-///
+/// Determines the index of the object with the specified proper name 
+/// in an array of objects or players. 
+/// Simple implementation for now, but you can change into dictionary or 
+/// something after that.
 int localiseByName(GameObject[] table,String name)
 {
   for(int i=0;i<table.length;i++)
@@ -65,15 +82,15 @@ int localiseByName(GameObject[] table,String name)
 
 /// Flat/map visualisation
 void visualise2D(float startX,float startY,float width,float height)
-{                                                                   assert mainGameArray!=null; //<>//
+{                                                                   assert gameWorld!=null; //<>//
   float minX=MAX_FLOAT;
   float maxX=MIN_FLOAT;
   float minY=MAX_FLOAT;
   float maxY=MIN_FLOAT;
-  //float minZ=MAX_FLOAT; //<>// //<>//
+  //float minZ=MAX_FLOAT; //<>//
   //float maxZ=MIN_FLOAT;
   
-  for(Position p:mainGameArray)
+  for(Position p:gameWorld)
   {
     float X=p.X;
     if(minX>X) minX=X;
@@ -107,9 +124,9 @@ void visualise2D(float startX,float startY,float width,float height)
   }
   
   textAlign(CENTER,CENTER);
-  for(int i=0;i<mainGameArray.length;i++)
+  for(int i=0;i<gameWorld.length;i++)
   {
-    GameObject tmp=mainGameArray[i];
+    GameObject tmp=gameWorld[i];
     if(tmp!=null)
     {
       float X=startX+(tmp.X-minX)/(maxX-minX)*width;
@@ -154,7 +171,8 @@ boolean playerMove(String dir,Player player)
   return true;
 }
 
-/// 
+/// The actions of agents and players in the game are defined by names 
+/// in the protocol, thanks to which their set is expandable.
 boolean playerAction(String action,Player player)
 {
   println(player.name,"did undefined or not allowed action:",action);

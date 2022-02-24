@@ -11,11 +11,13 @@ import processing.svg.*;
 
 int DEBUG=0; ///> Level of debug logging
 
-Server mainServer; ///> ???
+Server mainServer; ///> Object representing server's TCP/IP input port
 
 Player[] players= new Player[0]; ///> The array of clients (players)
 
-/// 
+/// Startup of a game server. 
+/// It initialises window (if required) and TCP/IP port.
+/// It exits, if is not able to do that.
 void setup() 
 {
   size(700, 500);//Other possibilities: P2D,P3D,FX2D,PDF,SVG
@@ -34,7 +36,8 @@ void setup()
   else exit();
 }
 
-/// 
+/// This function is called many times per second.
+/// Real work of server depends of current state of clients connections.
 void draw() 
 {
   if(players.length==0)
@@ -84,7 +87,7 @@ void whenClientConnected(Client newClient,String playerName)
       println("Player",playerName,"reconnected to server!");
       players[i].netLink=newClient;
       players[i].visual=pepl[1];
-      players[i].changed|=VISUAL_MSK;
+      players[i].flags|=VISUAL_MSK;
       confirmClient(newClient,players[i]);
       return;
     }
@@ -103,8 +106,8 @@ void whenClientConnected(Client newClient,String playerName)
   players = (Player[]) expand(players,players.length+1);//expand the array of clients
   players[players.length-1] = tmp;//sets the last player to be the newly connected client
    
-  mainGameArray = (GameObject[]) expand(mainGameArray,mainGameArray.length+1);//expand the array of game objects 
-  mainGameArray[mainGameArray.length-1] = tmp;//Player is also one of GameObjects
+  gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);//expand the array of game objects 
+  gameWorld[gameWorld.length-1] = tmp;//Player is also one of GameObjects
 }
 
 /// Event handler called when a client connects to server
@@ -115,7 +118,7 @@ void serverEvent(Server me,Client newClient)
   while(newClient.available() <= 0) delay(10);
   
   if(DEBUG>1) print("Server is READING FROM CLIENT: ");
-  String msg=newClient.readStringUntil(Opts.NOPE);
+  String msg=newClient.readStringUntil(Opts.EOR);
   if(DEBUG>1) println(msg);
   String playerName=decodeHELLO(msg);
   
@@ -141,7 +144,7 @@ void disconnectEvent(Client someClient)
     println(players[i].name," disconnected!");
     players[i].netLink=null;
     players[i].visual="_";
-    players[i].changed|=VISUAL_MSK;
+    players[i].flags|=VISUAL_MSK;
     break;
   }
 }
