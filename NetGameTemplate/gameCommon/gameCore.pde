@@ -1,12 +1,18 @@
-//*  Game classes and rules
-//*///////////////////////////
+//*  Game classes and rules and parameters
+//*/////////////////////////////////////////
+
+float initialMaxX=100; ///> Initial horizontal size of game "board" 
+float initialMaxY=100; ///> Initial vertical size of game "board" 
+int initialSizeOfMainArray=30;  ///> Initial number of @GameObjects in @gameWorld
+int     indexOfMe=-1;    ///> Index of object visualising client or server supervisor
 
 String plants="☘️";       ///> plants... 
 String[] pepl={"😃","😐"};///> peoples...
-boolean VIS_MIN_MAX=true;///> Option for visualisation - with min/max value
-boolean KEEP_ASPECT=true;///> Option for visualisation - with proportional aspect ratio
-boolean WITH_INFO=true;  ///> Information about objects
-int     indexOfMe=-1;    ///> Index of object visualising client or server supervisor
+
+// Options for visualisation 
+boolean VIS_MIN_MAX=true;///> Visualisation with min/max value
+boolean KEEP_ASPECT=true;///> Visualisation with proportional aspect ratio
+int     INFO_LEVEL=0;    ///> Visualisation with information about objects
 
 //GameObject atributes specific for server side
 final int MOVED_MSK  = 0x1; ///> object was moved
@@ -19,50 +25,68 @@ final int ALL_MSK = MOVED_MSK | VISUAL_MSK | COLOR_MSK; ///> all changes
 /// this parts.
 abstract class implNeeded 
 { 
-  int flags=0;//*_MSK alloved here
-};
+  int flags=0;//> *_MSK alloved here
+}//EndOfClass implNeeded
 
 /// Representation of 3D position in the game world
 abstract class Position extends implNeeded
 {
-  float X,Y;//2D coordinates
-  float Z;//Even on a 2D board, objects can pass each other without collision.
+  float X,Y;//> 2D coordinates
+  float Z;  //> Even on a 2D board, objects can pass each other without collision.
+  
   ///constructor
-  Position(float iniX,float iniY,float iniZ)
-  {
+  Position(float iniX,float iniY,float iniZ){
     X=iniX;Y=iniY;Z=iniZ;
   }
-};//EndOfClass Position
+}//EndOfClass Position
 
 /// Representation of generic game object
 class GameObject extends Position
 {
-  String name;//Each object has an individual identifier necessary for communication. Better short.
-  String visual="?";//Text representation of the visualization. The unicode character or the name of an external file.
-  color  foreground=0xff00ff00;
+  String name;//> Each object has an individual identifier necessary for communication. Better short.
+  String visual="?";//> Text representation of the visualization. The unicode character or the name of an external file.
+  color  foreground=0xff00ff00;//> Main color of object
+  
+  float[] distances=null;      //> Array of distances to other objects.
+                               //> Not always in use!
+  float  passiveRadius=1;      //> Radius of passive interaction
+  
   ///constructor
   GameObject(String iniName,float iniX,float iniY,float iniZ){ super(iniX,iniY,iniZ);
     name=iniName;
   }
   
-  String info()
+  /// It can make string info about object. 
+  /// 'level' is level of details, when 0 means "name only".  
+  String info(int level)
   {
-    return name+":"+X+":"+Y;
+    return name+(level>0?":"+X+":"+Y:"");
   }
-};//EndOfClass GameObject
+}//EndOfClass GameObject
+
+class ActiveGameObject extends GameObject
+{
+  float activeRadius=1;// Radius for active interaction with others objects
+  GameObject interactionObject=null;// Only one in a time
+  
+  ///constructor
+  ActiveGameObject(String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ);
+    activeRadius=iniRadius;
+  }
+}//EndOfClass ActiveGameObject
 
 /// Representation of generic player
-class Player extends GameObject
+class Player extends ActiveGameObject
 {
-  Client netLink;
+  Client netLink;// Network connection to client application
+  
   ///constructor
-  Player(Client iniClient,String iniName,float iniX,float iniY,float iniZ){ super(iniName,iniX,iniY,iniZ);
+  Player(Client iniClient,String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ,iniRadius);
     netLink=iniClient;
   }
-};//EndOfClass Player
+}//EndOfClass Player
 
-int initialSizeOfMainArray=30;  ///> ???
-GameObject[] gameWorld=null;///> ???
+GameObject[] gameWorld=null;    ///> MAIN ARRAY OF GameObjects
 
 /// Determines the index of the object with the specified proper name 
 /// in an array of objects or players. 
@@ -75,19 +99,22 @@ int localiseByName(GameObject[] table,String name)
   && name.equals(table[i].name)
   )
   {
-    return i; //<>//
+    return i; //<>// //<>//
   }
   return -1;
 }
 
+
+
+
 /// Flat/map visualisation
 void visualise2D(float startX,float startY,float width,float height)
-{                                                                   assert gameWorld!=null; //<>//
+{                                                                   assert gameWorld!=null; //<>// //<>//
   float minX=MAX_FLOAT;
   float maxX=MIN_FLOAT;
   float minY=MAX_FLOAT;
   float maxY=MIN_FLOAT;
-  //float minZ=MAX_FLOAT; //<>//
+  //float minZ=MAX_FLOAT; //<>// //<>//
   //float maxZ=MIN_FLOAT;
   
   for(Position p:gameWorld)
@@ -143,10 +170,10 @@ void visualise2D(float startX,float startY,float width,float height)
         text(tmp.visual,X,Y);
       }
       
-      if(WITH_INFO)
+      if(INFO_LEVEL>=0)
       {
         fill(255,0,0,128);textAlign(LEFT,CENTER);
-        text(tmp.info(),X+10,Y);
+        text(tmp.info(INFO_LEVEL),X+10,Y);
         fill(0,255,0);textAlign(CENTER,CENTER);
       }
     }

@@ -2,9 +2,6 @@
 //*//////////////////////////////////////////////////// 
 
 int   Xmargin=0;       ///> Left margin of server screen (status column)
-float initialMaxX=100; ///> Initial horizontal size of game "board" 
-float initialMaxY=100; ///> Initial vertical size of game "board" 
-
 boolean wholeUpdateRequested=false; ///> ???
 
 /// This function sends a full game board update to all clients

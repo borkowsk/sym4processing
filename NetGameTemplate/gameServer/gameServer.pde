@@ -1,5 +1,5 @@
-//*  Server for gameClients
-//*////////////////////////// 
+//*  Server for gameClients - setup() & draw() SOURCE FILE
+//*////////////////////////////////////////////////////////////////// 
 //
 // Base on:
 // Example code for a server with multiple clients communicating to only one at a time.
@@ -99,7 +99,7 @@ void whenClientConnected(Client newClient,String playerName)
     }
   }
     
-  Player tmp=new Player(newClient,playerName,int(random(initialMaxX)),int(random(initialMaxY)),1);
+  Player tmp=new Player(newClient,playerName,int(random(initialMaxX)),int(random(initialMaxY)),1,1.5);
   tmp.visual=pepl[0];
   confirmClient(newClient,tmp);
   

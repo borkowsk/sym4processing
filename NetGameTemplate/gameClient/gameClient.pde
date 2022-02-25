@@ -1,5 +1,5 @@
-//*  Client for gameServer - MAIN FILE
-//*//////////////////////////////////////
+//*  Client for gameServer - setup() & draw() SOURCE FILE
+//*//////////////////////////////////////////////////////////
 //
 //Base on:
 //https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
@@ -25,7 +25,7 @@ void setup()
   frameRate(1);     //Only for intro (->INTRO_FRAMES) and establishing connection time.
   VIS_MIN_MAX=false;//Option for visualisation - with min/max value
   KEEP_ASPECT=true; //Option for visualisation - with proportional aspect ratio
-  WITH_INFO=false;  //Information about objects
+  INFO_LEVEL=-1;    //Information about objects (-1 - no information printed)
   //textSize(16);   //... not work well with default font :-(
 }
 
