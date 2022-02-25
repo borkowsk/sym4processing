@@ -28,6 +28,7 @@ class Opts {
   static final char UPD='U'; //Request for update about a whole scene
   static final char VIS='V'; //Visualisation info for a particular object
   static final char COL='C'; //Colors of a particular object
+  static final char TCH='T'; //Touch with other object
   static final char EUC='E'; //Euclidean position of an object
   static final char POL='P'; //Polar position of an object
   //Player controls of avatar
@@ -110,6 +111,39 @@ String decodeInfos(String msgInfos,String[] infos)
   return fields[1];//Nazwa
 }
 
+String sayTouch(String nameOfTouched,float distance,String actionDef)
+{
+  return ""+Opts.TCH+"1"+Opts.SPC
+           +nameOfTouched+Opts.SPC
+           +actionDef+Opts.SPC
+           +nf(distance)+Opts.SPC
+           +Opts.EOR;
+}
+
+String sayTouch(String nameOfTouched,float distance,String action1,String action2)
+{
+  return ""+Opts.TCH+"2"+Opts.SPC
+           +nameOfTouched+Opts.SPC
+           +action1+Opts.SPC
+           +action2+Opts.SPC
+           +nf(distance)+Opts.SPC
+           +Opts.EOR;
+}
+
+float decodeTouch(String msg,String[] infos)
+{
+  String[] fields=split(msg,Opts.SPC);
+  
+  int dimension=fields[0].charAt(1)-'0';
+  
+  if(dimension+1 != infos.length) 
+        println("Invalid size",dimension,"of infos array!",infos.length,"for",fields[0],"message!");
+        
+  for(int i=0;i<dimension+1;i++)
+    infos[i]=fields[i+1];
+    
+  return  Float.parseFloat(fields[dimension+2]);
+}
 
 /// Send position of particular object
 /// E1 OName Data @ - Euclidean position float(X)
@@ -172,10 +206,13 @@ String decodePosition(String msgPosition,float[] coordinates)
   if(fields[0].charAt(0)==Opts.EUC || fields[0].charAt(0)==Opts.POL )
   {
     int dimension=fields[0].charAt(1)-'0';
+    
     if(dimension!=coordinates.length) 
           println("Invalid size",dimension,"of coordinate array!");
+          
     for(int i=0;i<coordinates.length;i++)
       coordinates[i]=Float.parseFloat(fields[i+2]);
+      
     return fields[1];//Nazwa
   }
   else
