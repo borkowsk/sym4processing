@@ -14,23 +14,29 @@ int     servPORT=5205;  ///> Teoretically it could be any above 1024
 
 /// Protocol dictionary ("opcodes" etc.)
 class Opts { 
-  static final String name="sampleGame";//ASCII IDENTIFIER!
+  static final String name="sampleGame";//ASCI IDENTIFIER OF PROTOCOL
   static final String sYOU="Y";//REPLACER OF CORESPONDENT NAME as a ready to use String. 
                                //Character.toString(YOU);<-not for static
   //Record defining characters
   static final char EOR='\n';//End of record (EOR)
-  static final char SPC=9;   //Field separator
+  static final char SPC='\t';//Field separator
   //Record headers (bidirectorial)
   static final char ERR='e'; //Error message for partner
-  static final char HEL='H'; //First message (client-server handshake)
+  static final char HEL='H'; //Hello message (client-server handshake)
   static final char IAM='I'; //I am "name of server/name of client"
   static final char YOU='Y'; //Redefining player name if not suitable
+  //Named variables/resources
+  static final char GET='G'; //Get global resource by name
+  static final char BIN='B'; //Binary hunk of resources (name.type\tsize\tthen data)
+  static final char TXT='X'; //Text hunk of resources (name.type\tsize\tthen data)
+  //Game scene/state 
   static final char UPD='U'; //Request for update about a whole scene
   static final char VIS='V'; //Visualisation info for a particular object
   static final char COL='C'; //Colors of a particular object
-  static final char TCH='T'; //Touch with other object
+  static final char STA='S'; //State of a particular object
   static final char EUC='E'; //Euclidean position of an object
   static final char POL='P'; //Polar position of an object
+  static final char TCH='T'; //Touch with other object
   //Player controls of avatar
   static final char NAV='N';//Navigation of the avatar
   static final char ACT='A';//User defined actions of the avatar
