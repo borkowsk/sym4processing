@@ -7,7 +7,7 @@
 import processing.net.*;
 
 int DEBUG=0;    ///> Program trace level
-int VIEWMESG=0; ///> Game protocol message tracing level
+int VIEWMESG=1; ///> Game protocol message tracing level
 int INTRO_FRAMES=3;    ///> How long the intro lasts?
 int DEF_FRAME_RATE=60; ///> Desired frame rate during game
 
