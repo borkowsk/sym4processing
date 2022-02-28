@@ -7,7 +7,7 @@
 //
 import processing.net.*;
 //import processing.pdf.*;//Działa jako server, ale plik PDF jest pusty
-import processing.svg.*;
+import processing.svg.*;//No-window server!
 
 int DEBUG=0; ///> Level of debug logging
 
@@ -21,7 +21,7 @@ Player[] players= new Player[0]; ///> The array of clients (players)
 void setup() 
 {
   size(700, 500);//Other possibilities: P2D,P3D,FX2D,PDF,SVG
-  //size(700, 500,SVG,"screen_file.svg");//Without window
+  //size(700, 500,SVG,"screen_file.svg");//No-window server!
   //size(700, 500,PDF, "screen_file.pdf");//Without window
   Xmargin=200;
   noStroke();
