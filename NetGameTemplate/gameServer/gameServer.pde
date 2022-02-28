@@ -107,7 +107,8 @@ void whenClientConnected(Client newClient,String playerName)
   players[players.length-1] = tmp;//sets the last player to be the newly connected client
    
   gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);//expand the array of game objects 
-  gameWorld[gameWorld.length-1] = tmp;//Player is also one of GameObjects
+  gameWorld[gameWorld.length-1] = tmp;// Player is also one of GameObjects
+  //tmp.indexInGameWorld=gameWorld.length-1;// It should also be filled in as an emergency during the first use
   println("Player",tmp.name,"connected to server!");
 }
 

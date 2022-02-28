@@ -134,6 +134,55 @@ void stepOfGameMechanics()
   }
 }
 
+/// Checks for collisions and sends information about them to clients
+/// In the example game, only the players move, so only they can cause collisions
+void checkCollisions()
+{
+  for(int i=0;i<players.length;i++)
+  if(players[i]!=null && players[i].netLink!=null) //Not a ghost
+  {
+    int indexInGameWorld=players[i].indexInGameWorld; //println(indexInGameWorld);
+    if(indexInGameWorld<0) // SAFEGUARD
+    {
+      indexInGameWorld=localiseByName(gameWorld,players[i].name);
+      if(indexInGameWorld>=0) players[i].indexInGameWorld=indexInGameWorld;
+      else
+      {
+        println("Data inconsistency error:",players[i].name,"is not in the game world!");
+        continue;
+      }
+    }
+    
+    int indexOfTouched=findCollision(gameWorld,indexInGameWorld,0,false);
+    if(indexOfTouched>=0) //COLLISION DETECTED!
+    {
+        if(players[i].interactionObject!=gameWorld[indexOfTouched])//New interaction
+        {
+          if(DEBUG>0)
+            println("New touch beetween",gameWorld[indexInGameWorld].name,"&",gameWorld[indexOfTouched].name);
+          players[i].interactionObject=gameWorld[indexOfTouched];
+          String[] possib=gameWorld[indexOfTouched].possibilities();
+          String msg;
+          if(possib==null)
+            msg=sayTouch(gameWorld[indexOfTouched].name,0,"defo");//DISTANCE IS IGNORED in THIS GAME
+          else
+            msg=sayTouch(gameWorld[indexOfTouched].name,0,possib);
+          players[i].netLink.write(msg);
+        }
+    }
+    else
+    {
+      //println("No collision for",gameWorld[indexInGameWorld].name);//DEBUG ONLY!
+      if(players[i].interactionObject!=null)
+      {
+         String msg=sayOptAndInf(Opts.DTC,players[i].interactionObject.name);
+         players[i].interactionObject=null;
+         players[i].netLink.write(msg);
+      }
+    }
+  }
+}
+
 /// Server real jobs during game:
 /// - Displays how many clients have connected to the server
 /// - Visualises the current state of the game
@@ -154,12 +203,15 @@ void serverGameDraw()
   
   if(wholeUpdateRequested)//If any client requested update
   {
-     sendWholeUpdate(); //Send whole update to clients //<>//
+     sendWholeUpdate(); //Send whole update to clients
   }
   else
   {
-     sendUpdateOfChangedAgents();// Send to clients only last changed things //<>//
+     sendUpdateOfChangedAgents();// Send to clients only last changed things
   }
+  
+  checkCollisions();// checks for collisions and sends information about them to clients
+  
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////

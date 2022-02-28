@@ -36,7 +36,9 @@ class Opts {
   static final char STA='S'; //State of a particular object
   static final char EUC='E'; //Euclidean position of an object
   static final char POL='P'; //Polar position of an object
-  static final char TCH='T'; //Touch with other object
+  //Interactions
+  static final char TCH='T'; //Active "Touch" with other object (info about name & possible actions)
+  static final char DTC='D'; //Detouch with any of previously touched object (name provided)
   //Player controls of avatar
   static final char NAV='N';//Navigation of the avatar
   static final char ACT='A';//User defined actions of the avatar
@@ -134,6 +136,20 @@ String sayTouch(String nameOfTouched,float distance,String action1,String action
            +action2+Opts.SPC
            +nf(distance)+Opts.SPC
            +Opts.EOR;
+}
+
+String sayTouch(String nameOfTouched,float distance,String[] actions)// NOT TESTED
+{
+  String ret=""+Opts.TCH;
+  if(actions.length<9)
+    ret+=""+actions.length+Opts.SPC;
+  else
+    ret+="0"+actions.length+Opts.SPC;
+  ret+=nameOfTouched+Opts.SPC;  
+  for(int i=0;i<actions.length;i++)
+    ret+=actions[i]+Opts.SPC;
+  ret+=nf(distance)+Opts.SPC+Opts.EOR;  
+  return ret;
 }
 
 float decodeTouch(String msg,String[] infos)

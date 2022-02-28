@@ -14,11 +14,15 @@ boolean VIS_MIN_MAX=true;///> Visualisation with min/max value
 boolean KEEP_ASPECT=true;///> Visualisation with proportional aspect ratio
 int     INFO_LEVEL=0;    ///> Visualisation with information about objects
 
-//GameObject atributes specific for server side
+//Changes of GameObject atributes (specific for server side)
 final int MOVED_MSK  = 0x1; ///> object was moved
 final int VISUAL_MSK = 0x2; ///> object changed its type of view
 final int COLOR_MSK  = 0x4; ///> object changed its colors
-final int ALL_MSK = MOVED_MSK | VISUAL_MSK | COLOR_MSK; ///> all changes
+final int STATE_MSK  = 0x8; ///> object changed its states
+/// To visualize the interaction between background objects
+final int TOUCH_MSK  = STATE_MSK*2;
+/// All possible changes
+final int ALL_MSK = MOVED_MSK | VISUAL_MSK | COLOR_MSK | STATE_MSK | TOUCH_MSK; 
 
 /// Server side implementation part of any game object
 /// needs modification flags, but client side are free to use 
@@ -29,6 +33,7 @@ abstract class implNeeded
 }//EndOfClass implNeeded
 
 /// Representation of 3D position in the game world
+/// However, the value of Z is not always used.
 abstract class Position extends implNeeded
 {
   float X,Y;//> 2D coordinates
@@ -37,6 +42,16 @@ abstract class Position extends implNeeded
   ///constructor
   Position(float iniX,float iniY,float iniZ){
     X=iniX;Y=iniY;Z=iniZ;
+  }
+  
+  float distance2D(Position toWhat)
+  {
+    return dist(X,Y,toWhat.X,toWhat.Y);
+  }
+  
+  float distance3D(Position toWhat)
+  {
+    return dist(X,Y,Z,toWhat.X,toWhat.Y,toWhat.Z);
   }
 }//EndOfClass Position
 
@@ -56,11 +71,22 @@ class GameObject extends Position
     name=iniName;
   }
   
+  /// List of actions that this object can performed
+  /*_interfunc*/ String[] abilities() { return null;} 
+  
+  /// List of actions that can be performed on this object
+  /*_interfunc*/ String[] possibilities() { return null;} 
+  
   /// It can make string info about object. 
   /// 'level' is level of details, when 0 means "name only".  
-  String info(int level)
+  /*_interfunc*/ String info(int level)
   {
-    return name+(level>0?":"+X+":"+Y:"");
+    String ret=name;
+    if(level>=0)
+      ret+=";"+X+";"+Y;
+    if(level>1)
+      ret+=";"+passiveRadius;
+    return ret;
   }
 }//EndOfClass GameObject
 
@@ -79,6 +105,7 @@ class ActiveGameObject extends GameObject
 class Player extends ActiveGameObject
 {
   Client netLink;// Network connection to client application
+  int    indexInGameWorld=-1;
   
   ///constructor
   Player(Client iniClient,String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ,iniRadius);
@@ -104,12 +131,41 @@ int localiseByName(GameObject[] table,String name)
   return -1;
 }
 
-
-
+/// Returns the index of the first collided object
+/// 'indexOfMoved' is the index of the object for which we check for collisions.
+/// The first time 'startIndex' should be 0, but thanks to this parameter 
+/// you can continue searching for more collisions. 
+int findCollision(GameObject[] table,int indexOfMoved,int startIndex,boolean withZ)
+{
+  float activeRadius=-1;//By default active radius is disabled
+  
+  //Is moved object of any active type?
+  ActiveGameObject active=(ActiveGameObject)(table[indexOfMoved]);
+  if(active!=null)
+    activeRadius=active.activeRadius;
+  
+  for(int i=startIndex;i<table.length;i++)
+  if(i!=indexOfMoved && table[i]!=null)
+  {
+    float dist=withZ?table[indexOfMoved].distance3D(table[i])
+                    :table[indexOfMoved].distance2D(table[i]);
+    
+    //If possible, keep the distance for later use
+    if(table[i].distances!=null) table[i].distances[indexOfMoved]=dist; //<>//
+    if(table[indexOfMoved].distances!=null) table[indexOfMoved].distances[i]=dist;
+                    
+    if(dist<=table[indexOfMoved].passiveRadius+table[i].passiveRadius)
+    return i; //DETECTED //<>//
+    
+    if(activeRadius>0 && dist<=activeRadius+table[i].passiveRadius)
+    return i; //ALSO DETECTED  //<>//
+  }
+  return -1;//NO COLLISION DETECTED!
+}
 
 /// Flat/map visualisation
 void visualise2D(float startX,float startY,float width,float height)
-{                                                                   assert gameWorld!=null; //<>// //<>//
+{                                                                   assert gameWorld!=null; //<>//
   float minX=MAX_FLOAT;
   float maxX=MIN_FLOAT;
   float minY=MAX_FLOAT;

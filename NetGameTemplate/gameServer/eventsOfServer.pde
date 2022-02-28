@@ -41,6 +41,8 @@ void disconnectEvent(Client someClient)
   if(DEBUG>2) println("Disconnect event happened on server.");
   if(DEBUG>2) println(mainServer,someClient);
   
+  noLoop();//KIND OF CRITICAL SECTION!!!
+  
   for(int i=0;i<players.length;i++)
   if(players[i].netLink == someClient )
   {
@@ -50,6 +52,8 @@ void disconnectEvent(Client someClient)
     players[i].flags|=VISUAL_MSK;
     break;
   }
+  
+  loop(); 
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
