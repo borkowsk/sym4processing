@@ -6,8 +6,8 @@ float initialMaxY=100; ///> Initial vertical size of game "board"
 int initialSizeOfMainArray=30;  ///> Initial number of @GameObjects in @gameWorld
 int     indexOfMe=-1;    ///> Index of object visualising client or server supervisor
 
-String plants="☘️";       ///> plants... 
-String[] pepl={"😃","😐"};///> peoples...
+String[] plants={"_","☘️"}; ///> plants... 
+String[] avatars={"_","😃","😐"};///> peoples...
 
 // Options for visualisation 
 boolean VIS_MIN_MAX=true;///> Visualisation with min/max value
@@ -21,8 +21,8 @@ final int COLOR_MSK  = 0x4; ///> object changed its colors
 final int STATE_MSK  = 0x8; ///> object changed its states
 /// To visualize the interaction between background objects
 final int TOUCH_MSK  = STATE_MSK*2;
-/// All possible changes
-final int ALL_MSK = MOVED_MSK | VISUAL_MSK | COLOR_MSK | STATE_MSK | TOUCH_MSK; 
+/// All initial changes
+final int ALL_CHNG_MSK = MOVED_MSK | VISUAL_MSK | COLOR_MSK | STATE_MSK ; 
 
 /// Server side implementation part of any game object
 /// needs modification flags, but client side are free to use 
@@ -126,7 +126,7 @@ int localiseByName(GameObject[] table,String name)
   && name.equals(table[i].name)
   )
   {
-    return i;
+    return i; //<>//
   }
   return -1;
 }
@@ -151,14 +151,14 @@ int findCollision(GameObject[] table,int indexOfMoved,int startIndex,boolean wit
                     :table[indexOfMoved].distance2D(table[i]);
     
     //If possible, keep the distance for later use
-    if(table[i].distances!=null) table[i].distances[indexOfMoved]=dist;
+    if(table[i].distances!=null) table[i].distances[indexOfMoved]=dist; //<>//
     if(table[indexOfMoved].distances!=null) table[indexOfMoved].distances[i]=dist;
                     
     if(dist<=table[indexOfMoved].passiveRadius+table[i].passiveRadius)
-    return i; //DETECTED
+    return i; //DETECTED //<>//
     
     if(activeRadius>0 && dist<=activeRadius+table[i].passiveRadius)
-    return i; //ALSO DETECTED
+    return i; //ALSO DETECTED //<>//
   }
   return -1;//NO COLLISION DETECTED!
 }
@@ -170,7 +170,7 @@ void visualise2D(float startX,float startY,float width,float height)
   float maxX=MIN_FLOAT;
   float minY=MAX_FLOAT;
   float maxY=MIN_FLOAT;
-  //float minZ=MAX_FLOAT;
+  //float minZ=MAX_FLOAT; //<>//
   //float maxZ=MIN_FLOAT;
   
   for(Position p:gameWorld)
@@ -268,10 +268,25 @@ boolean playerMove(String dir,Player player)
 /// in the protocol, thanks to which their set is expandable.
 boolean playerAction(String action,Player player)
 {
-  println(player.name,"did undefined or not allowed action:",action);
   if(player.netLink!=null && player.netLink.active())
-     player.netLink.write( sayOptAndInf(Opts.ERR,"Action "+action+" is undefined in this context!"));
+  {
+     if(player.interactionObject==null)
+       player.netLink.write( sayOptAndInf(Opts.ERR,"Action "+action+" is undefined in this context!"));
+     else
+       performAction(player,action,player.interactionObject);
+  }
   return false;
+}
+
+/// Action placeholder.
+void performAction(ActiveGameObject subject,String action,GameObject object)
+{
+  if(object.visual.equals(plants[1]))
+  {
+    object.visual=plants[0];
+    object.flags|=VISUAL_MSK;
+  }
+  //println(player.name,"did undefined or not allowed action:",action);
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////

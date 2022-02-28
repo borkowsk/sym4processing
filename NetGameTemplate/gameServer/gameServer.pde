@@ -57,7 +57,7 @@ void serverWaitingDraw()
   visualise2D(Xmargin,0,width-Xmargin,height);
   fill(0);
   textAlign(CENTER,CENTER);
-  text("Waiting for clients\n"+pepl[0]+plants+pepl[1],width/2,height/2);
+  text("Waiting for clients\n"+avatars[1]+plants[1]+avatars[2],width/2,height/2);
 }
 
 /// Confirm client registration and send correct current name
@@ -86,7 +86,7 @@ void whenClientConnected(Client newClient,String playerName)
     {
       println("Player",playerName,"reconnected to server!");
       players[i].netLink=newClient;
-      players[i].visual=pepl[1];
+      players[i].visual=avatars[2];
       players[i].flags|=VISUAL_MSK;
       confirmClient(newClient,players[i]);
       return;
@@ -100,7 +100,7 @@ void whenClientConnected(Client newClient,String playerName)
   }
     
   Player tmp=new Player(newClient,playerName,int(random(initialMaxX)),int(random(initialMaxY)),1,1.5);
-  tmp.visual=pepl[0];
+  tmp.visual=avatars[1];
   confirmClient(newClient,tmp);
   
   players = (Player[]) expand(players,players.length+1);//expand the array of clients

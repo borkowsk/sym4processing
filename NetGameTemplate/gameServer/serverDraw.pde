@@ -109,10 +109,10 @@ void initialiseGame()
   for(int i=0;i<initialSizeOfMainArray;i++)
   {
     GameObject tmp=new GameObject("o"+nf(i,2),int(random(initialMaxX)),int(random(initialMaxY)),0);
-    tmp.visual=plants;
+    tmp.visual=plants[1];
     tmp.foreground=color(int(random(100)),128+int(random(128)),100+int(random(100)));
     if(DEBUG>2) println(hex(tmp.foreground));
-    tmp.flags=ALL_MSK;
+    tmp.flags=ALL_CHNG_MSK;
     gameWorld[i]=tmp;
   }
 }
