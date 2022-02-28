@@ -99,7 +99,7 @@ class ActiveGameObject extends GameObject
   ActiveGameObject(String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ);
     activeRadius=iniRadius;
   }
-}//EndOfClass ActiveGameObject
+}//EndOfClass ActiveGameObject //<>//
 
 /// Representation of generic player
 class Player extends ActiveGameObject
@@ -109,12 +109,12 @@ class Player extends ActiveGameObject
   
   ///constructor
   Player(Client iniClient,String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ,iniRadius);
-    netLink=iniClient;
+    netLink=iniClient; //<>//
   }
 }//EndOfClass Player
 
 GameObject[] gameWorld=null;    ///> MAIN ARRAY OF GameObjects
-
+ //<>//
 /// Determines the index of the object with the specified proper name 
 /// in an array of objects or players. 
 /// Simple implementation for now, but you can change into dictionary or 
@@ -126,7 +126,7 @@ int localiseByName(GameObject[] table,String name)
   && name.equals(table[i].name)
   )
   {
-    return i; //<>// //<>//
+    return i;
   }
   return -1;
 }
@@ -151,26 +151,26 @@ int findCollision(GameObject[] table,int indexOfMoved,int startIndex,boolean wit
                     :table[indexOfMoved].distance2D(table[i]);
     
     //If possible, keep the distance for later use
-    if(table[i].distances!=null) table[i].distances[indexOfMoved]=dist; //<>//
+    if(table[i].distances!=null) table[i].distances[indexOfMoved]=dist;
     if(table[indexOfMoved].distances!=null) table[indexOfMoved].distances[i]=dist;
                     
     if(dist<=table[indexOfMoved].passiveRadius+table[i].passiveRadius)
-    return i; //DETECTED //<>//
+    return i; //DETECTED
     
     if(activeRadius>0 && dist<=activeRadius+table[i].passiveRadius)
-    return i; //ALSO DETECTED  //<>//
+    return i; //ALSO DETECTED
   }
   return -1;//NO COLLISION DETECTED!
 }
 
 /// Flat/map visualisation
 void visualise2D(float startX,float startY,float width,float height)
-{                                                                   assert gameWorld!=null; //<>//
+{                                                                   assert gameWorld!=null;
   float minX=MAX_FLOAT;
   float maxX=MIN_FLOAT;
   float minY=MAX_FLOAT;
   float maxY=MIN_FLOAT;
-  //float minZ=MAX_FLOAT; //<>// //<>//
+  //float minZ=MAX_FLOAT;
   //float maxZ=MIN_FLOAT;
   
   for(Position p:gameWorld)
@@ -217,13 +217,23 @@ void visualise2D(float startX,float startY,float width,float height)
       
       if(i==indexOfMe)
       {
-          fill(128+random(128),255,0);
+          fill(red(tmp.foreground),green(tmp.foreground),blue(tmp.foreground));
           text("!"+tmp.visual+"!",X,Y);
+          if(DEBUG>0){ stroke(255,0,0);point(X,Y);}
       }
       else
       {
         fill(red(tmp.foreground),green(tmp.foreground),blue(tmp.foreground));
         text(tmp.visual,X,Y);
+        if(DEBUG>0){ stroke(255,0,0);point(X,Y);}
+        if((tmp.flags & TOUCH_MSK)!=0)
+        {
+          stroke(255,0,0);
+          point(X,Y);
+          noFill();
+          ellipseMode(RADIUS);
+          ellipse(X,Y,10,10);
+        }
       }
       
       if(INFO_LEVEL>=0)

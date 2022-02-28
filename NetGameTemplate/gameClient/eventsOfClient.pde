@@ -37,8 +37,14 @@ void keyPressed()
   case 'A': msg=sayOptAndInf(Opts.NAV,"l"); break;
   case 'd':
   case 'D': msg=sayOptAndInf(Opts.NAV,"r"); break;
-  //Interaction:
-  case ' ': msg=sayOptAndInf(Opts.ACT,"default"); break; //<>//
+  //Perform interaction:
+  case ' ': { //<>//
+              ActiveGameObject me=(ActiveGameObject)(gameWorld[indexOfMe]); assert me!=null;
+              if(me.interactionObject!=null)
+              {
+                msg=sayOptAndInf(Opts.ACT,"defo"); 
+              }
+            } break;
   case ESC: println(key,"is ignored for the game client");key=0; return;
 }//END of SWITCH
 

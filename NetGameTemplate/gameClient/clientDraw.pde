@@ -50,6 +50,49 @@ void positionChanged(GameObject[] table,String name,float[] inpos)
   }
 }
 
+/// Handling for getting the avatar in contact with the game object
+void beginInteraction(GameObject[] table,String[]  objectAndActionsNames)
+{
+  int pos=localiseByName(table,objectAndActionsNames[0]);
+  if(pos>=0)
+  {
+    if( table[indexOfMe] instanceof ActiveGameObject )
+    {
+      ActiveGameObject me=(ActiveGameObject)(table[indexOfMe]); assert me!=null; //<>//
+      if(me.interactionObject!=null) me.interactionObject.flags^=TOUCH_MSK;
+      me.interactionObject=table[pos];
+    }
+    table[pos].flags|=TOUCH_MSK;
+  }
+  else
+  {
+    println(objectAndActionsNames[0],"not found!");
+    println("DATA INCONSISTENCY! CALL SERVER FOR FULL UPDATE");
+    String msg=sayOptCode(Opts.UPD);
+    if(DEBUG>1) print(playerName,"is SENDING:");
+    if(VIEWMESG>0 || DEBUG>1) println(msg);
+    myClient.write(msg);
+  }
+}
+
+/// Handling for getting out of the avatar's contact with the game object
+void finishInteraction(GameObject[] table,String objectName)
+{
+  int pos=localiseByName(table,objectName);
+  if(pos>=0)//It may happen that in the meantime it has disappeared
+  {
+    table[pos].flags^=TOUCH_MSK;
+  }
+  //Any way, you have to forget about him! 
+  if( table[indexOfMe] instanceof ActiveGameObject )
+  {
+    ActiveGameObject me=(ActiveGameObject)(table[indexOfMe]); assert me!=null; //<>//
+    me.interactionObject=null;
+  }
+}
+
+
+
 // Arrays for decoding more complicated messages
 float[] inparr1=new float[1];
 float[] inparr2=new float[2];
@@ -82,7 +125,21 @@ void interpretMessage(String msg)
   case Opts.COL: { String objectName=decodeInfos(msg,instr1);
                  if(DEBUG>1) println(objectName,"change color into",instr1[0]); 
                  colorChanged(gameWorld,objectName,instr1[0]);
-                 } break;               
+                 } break;     
+  case Opts.TCH: { String[] inputs;
+                   switch(msg.charAt(1)){
+                   case '1':inputs=instr2;break;
+                   case '2':inputs=instr3;break;
+                   default: inputs=new String[msg.charAt(1)-'0'+1];//NOT TESTED TODO!
+                   }
+                   float dist=decodeTouch(msg,inputs);
+                   if(DEBUG>0) println(playerName,"touched",inputs[0],inputs[1]);
+                   beginInteraction(gameWorld,inputs);
+                 }break;
+  case Opts.DTC: { String objectName=decodeOptAndInf(msg);
+                 if(DEBUG>0) println(playerName,"detached from",objectName);
+                 finishInteraction(gameWorld,objectName);//--> beginInteraction(inputs);
+                 }break;                  
   //... rest of message types
   case Opts.EUC: if(msg.charAt(1)=='1')
                  {
