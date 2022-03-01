@@ -6,7 +6,7 @@
 //
 import processing.net.*;
 
-int DEBUG=0;    ///> Program trace level
+int DEBUG=2;    ///> Program trace level
 int VIEWMESG=0; ///> Game protocol message tracing level
 int INTRO_FRAMES=3;    ///> How long the intro lasts?
 int DEF_FRAME_RATE=60; ///> Desired frame rate during game
@@ -25,7 +25,7 @@ void setup()
   frameRate(1);     //Only for intro (->INTRO_FRAMES) and establishing connection time.
   VIS_MIN_MAX=false;//Option for visualisation - with min/max value
   KEEP_ASPECT=true; //Option for visualisation - with proportional aspect ratio
-  INFO_LEVEL=-1;    //Information about objects (-1 - no information printed)
+  INFO_LEVEL=SCORE_MSK;    //Information about objects (-1 - no information printed)
   //textSize(16);   //... not work well with default font :-(
 }
 

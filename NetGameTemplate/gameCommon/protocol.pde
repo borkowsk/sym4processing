@@ -33,7 +33,7 @@ class Opts {
   static final char UPD='U'; //Request for update about a whole scene
   static final char VIS='V'; //Visualisation info for a particular object
   static final char COL='C'; //Colors of a particular object
-  static final char STA='S'; //State of a particular object
+  static final char STA='S'; //State of a particular object (ex.: objname\thp\tval, objname\tsc\tval etc.)
   static final char EUC='E'; //Euclidean position of an object
   static final char POL='P'; //Polar position of an object
   //Interactions

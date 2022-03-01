@@ -6,23 +6,27 @@ float initialMaxY=100; ///> Initial vertical size of game "board"
 int initialSizeOfMainArray=30;  ///> Initial number of @GameObjects in @gameWorld
 int     indexOfMe=-1;    ///> Index of object visualising client or server supervisor
 
-String[] plants={"_","☘️"}; ///> plants... 
+String[] plants= {"_","☘️"}; ///> plants... 
 String[] avatars={"_","😃","😐"};///> peoples...
 
-// Options for visualisation 
-boolean VIS_MIN_MAX=true;///> Visualisation with min/max value
-boolean KEEP_ASPECT=true;///> Visualisation with proportional aspect ratio
-int     INFO_LEVEL=0;    ///> Visualisation with information about objects
-
 //Changes of GameObject atributes (specific for server side)
-final int MOVED_MSK  = 0x1; ///> object was moved
-final int VISUAL_MSK = 0x2; ///> object changed its type of view
-final int COLOR_MSK  = 0x4; ///> object changed its colors
-final int STATE_MSK  = 0x8; ///> object changed its states
+final int MOVED_MSK  = unbinary("000000010"); ///> object was moved (0x1)
+final int VISUAL_MSK = unbinary("000000100"); ///> object changed its type of view
+final int COLOR_MSK  = unbinary("000001000"); ///> object changed its colors
+final int HPOINT_MSK = unbinary("000010000"); ///> object changed its hp state (most frequently changed state)
+final int SCORE_MSK  = unbinary("000100000"); ///> object changed its score (for players it is most frequently changed state)
+final int RADIUS_MSK = unbinary("001000000"); ///> object changed its radius of activity (ex. go to sleep);
+final int STATE_MSK  = HPOINT_MSK | SCORE_MSK | RADIUS_MSK;///> object changed its states
 /// To visualize the interaction between background objects
-final int TOUCH_MSK  = STATE_MSK*2;
+final int TOUCH_MSK  = unbinary("100000000"); ///>
 /// All initial changes
 final int ALL_CHNG_MSK = MOVED_MSK | VISUAL_MSK | COLOR_MSK | STATE_MSK ; 
+
+// Options for visualisation 
+int     INFO_LEVEL =1 | SCORE_MSK;///> Visualisation with information about objects (name & score by default)
+boolean VIS_MIN_MAX=true;    ///> Visualisation with min/max value
+boolean KEEP_ASPECT=true;    ///> Visualisation with proportional aspect ratio
+
 
 /// Server side implementation part of any game object
 /// needs modification flags, but client side are free to use 
@@ -62,6 +66,8 @@ class GameObject extends Position
   String visual="?";//> Text representation of the visualization. The unicode character or the name of an external file.
   color  foreground=0xff00ff00;//> Main color of object
   
+  float  hpoints=1;//Health points
+  
   float[] distances=null;      //> Array of distances to other objects.
                                //> Not always in use!
   float  passiveRadius=1;      //> Radius of passive interaction
@@ -77,15 +83,29 @@ class GameObject extends Position
   /// List of actions that can be performed on this object
   /*_interfunc*/ String[] possibilities() { return null;} 
   
+  /// Interface for changing the state of the game object 
+  /// over the network (mostly)
+  /*_interfunc*/ boolean  setState(String field,String val)
+  {
+    if(field.charAt(0)=='h' && field.charAt(1)=='p')
+    {
+       hpoints=Float.parseFloat(val);
+       return true;
+    }
+    return false;
+  }
+  
   /// It can make string info about object. 
   /// 'level' is level of details, when 0 means "name only".  
   /*_interfunc*/ String info(int level)
-  {
-    String ret=name;
-    if(level>=0)
-      ret+=";"+X+";"+Y;
-    if(level>1)
-      ret+=";"+passiveRadius;
+  { //<>//
+    String ret="";
+    if((level & 0x1)!=0)
+      ret+=name;
+    if((level & MOVED_MSK)!=0)
+      ret+=";"+nf(X)+";"+nf(Y);
+    if((level & RADIUS_MSK)!=0)
+      ret+=";pr:"+passiveRadius;
     return ret;
   }
 }//EndOfClass GameObject
@@ -96,7 +116,7 @@ class ActiveGameObject extends GameObject
   GameObject interactionObject=null;// Only one in a time
   
   ///constructor
-  ActiveGameObject(String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ);
+  ActiveGameObject(String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ); //<>//
     activeRadius=iniRadius;
   }
 }//EndOfClass ActiveGameObject //<>//
@@ -104,14 +124,38 @@ class ActiveGameObject extends GameObject
 /// Representation of generic player
 class Player extends ActiveGameObject
 {
+  float  score=0;// Result
   Client netLink;// Network connection to client application
   int    indexInGameWorld=-1;
-  
+   //<>//
   ///constructor
   Player(Client iniClient,String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ,iniRadius);
     netLink=iniClient; //<>//
   }
-}//EndOfClass Player
+  
+  /// Interface for changing the state of the game object 
+  /// over the network (mostly)
+  /*_interfunc*/ boolean  setState(String field,String val)
+  {
+    if(field.charAt(0)=='s' && field.charAt(1)=='c')
+    {
+       score=Float.parseFloat(val);
+       return true;
+    }
+    return super.setState(field,val);
+  }
+  
+  /// It can make string info about object. 
+  /// 'level' is level of details, when 0 means "name only".  
+  /*_interfunc*/ String info(int level)
+  {
+    String ret=super.info(level);
+    if((level & SCORE_MSK)!=0)
+      ret+=";"+score;
+    return ret;
+  }
+  
+}//EndOfClass Player //<>//
 
 GameObject[] gameWorld=null;    ///> MAIN ARRAY OF GameObjects
  //<>//
@@ -123,7 +167,7 @@ int localiseByName(GameObject[] table,String name)
 {
   for(int i=0;i<table.length;i++)
   if(table[i]!=null
-  && name.equals(table[i].name)
+  && name.equals(table[i].name) //<>//
   )
   {
     return i; //<>//
@@ -148,14 +192,14 @@ int findCollision(GameObject[] table,int indexOfMoved,int startIndex,boolean wit
   if(i!=indexOfMoved && table[i]!=null)
   {
     float dist=withZ?table[indexOfMoved].distance3D(table[i])
-                    :table[indexOfMoved].distance2D(table[i]);
+                    :table[indexOfMoved].distance2D(table[i]); //<>//
     
     //If possible, keep the distance for later use
     if(table[i].distances!=null) table[i].distances[indexOfMoved]=dist; //<>//
-    if(table[indexOfMoved].distances!=null) table[indexOfMoved].distances[i]=dist;
+    if(table[indexOfMoved].distances!=null) table[indexOfMoved].distances[i]=dist; //<>//
                     
     if(dist<=table[indexOfMoved].passiveRadius+table[i].passiveRadius)
-    return i; //DETECTED //<>//
+    return i; //DETECTED //<>// //<>//
     
     if(activeRadius>0 && dist<=activeRadius+table[i].passiveRadius)
     return i; //ALSO DETECTED //<>//
@@ -167,7 +211,7 @@ int findCollision(GameObject[] table,int indexOfMoved,int startIndex,boolean wit
 void visualise2D(float startX,float startY,float width,float height)
 {                                                                   assert gameWorld!=null;
   float minX=MAX_FLOAT;
-  float maxX=MIN_FLOAT;
+  float maxX=MIN_FLOAT; //<>//
   float minY=MAX_FLOAT;
   float maxY=MIN_FLOAT;
   //float minZ=MAX_FLOAT; //<>//
@@ -207,6 +251,7 @@ void visualise2D(float startX,float startY,float width,float height)
   }
   
   textAlign(CENTER,CENTER);
+  if(DEBUG>3) println("INFO_LEVEL:",binary(INFO_LEVEL));
   for(int i=0;i<gameWorld.length;i++)
   {
     GameObject tmp=gameWorld[i];
@@ -278,13 +323,21 @@ boolean playerAction(String action,Player player)
   return false;
 }
 
-/// Action placeholder.
+/// Actions placeholder.
 void performAction(ActiveGameObject subject,String action,GameObject object)
 {
   if(object.visual.equals(plants[1]))
   {
-    object.visual=plants[0];
-    object.flags|=VISUAL_MSK;
+    subject.hpoints+=object.hpoints;subject.flags|=HPOINT_MSK;
+    
+    if(subject instanceof Player)
+    {
+      Player pl=(Player)(subject);
+      pl.score++;pl.flags|=SCORE_MSK;
+    }
+    
+    object.hpoints=0;object.flags|=HPOINT_MSK;
+    object.visual=plants[0];object.flags|=VISUAL_MSK;
   }
   //println(player.name,"did undefined or not allowed action:",action);
 }
