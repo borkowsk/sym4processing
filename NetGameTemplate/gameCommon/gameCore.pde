@@ -107,7 +107,7 @@ class GameObject extends Position
    /// state elements that have change flags  (for network streaming)
    /*_interfunc*/ String sayState()
    {
-     String msg="";
+     String msg=""; //<>//
      if((flags & VISUAL_MSK )!=0)
         msg+=sayOptAndInfos(Opts.VIS,name,visual);
      if((flags & MOVED_MSK )!=0)  
@@ -142,7 +142,7 @@ class ActiveGameObject extends GameObject
   GameObject interactionObject=null;// Only one in a time
   
   ///constructor
-  ActiveGameObject(String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ); //<>//
+  ActiveGameObject(String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ);
     activeRadius=iniRadius;
   }
   
@@ -150,7 +150,7 @@ class ActiveGameObject extends GameObject
   /// over the network (mostly)
   /*_interfunc*/ boolean  setState(String field,String val)
   {
-    if(field.charAt(0)=='a' && field.charAt(1)=='c' && field.charAt(2)=='t')//act-Radius
+    if(field.charAt(0)=='a' && field.charAt(1)=='c' && field.charAt(2)=='t')//act-Radius //<>//
     {
        activeRadius=Float.parseFloat(val);
        return true;
@@ -185,7 +185,7 @@ class Player extends ActiveGameObject
   /// over the network (mostly)
   /*_interfunc*/ boolean  setState(String field,String val)
   {
-    if(field.charAt(0)=='s' && field.charAt(1)=='c')//sc-ore
+    if(field.charAt(0)=='s' && field.charAt(1)=='c')//sc-ore //<>//
     {
        score=Float.parseFloat(val);
        return true;
@@ -225,10 +225,10 @@ int localiseByName(GameObject[] table,String name)
 {
   for(int i=0;i<table.length;i++)
   if(table[i]!=null
-  && name.equals(table[i].name) //<>//
+  && name.equals(table[i].name)
   )
   {
-    return i; //<>//
+    return i;
   }
   return -1;
 }
@@ -250,17 +250,17 @@ int findCollision(GameObject[] table,int indexOfMoved,int startIndex,boolean wit
   if(i!=indexOfMoved && table[i]!=null)
   {
     float dist=withZ?table[indexOfMoved].distance3D(table[i])
-                    :table[indexOfMoved].distance2D(table[i]); //<>//
+                    :table[indexOfMoved].distance2D(table[i]);
     
     //If possible, keep the distance for later use
-    if(table[i].distances!=null) table[i].distances[indexOfMoved]=dist; //<>//
-    if(table[indexOfMoved].distances!=null) table[indexOfMoved].distances[i]=dist; //<>//
+    if(table[i].distances!=null) table[i].distances[indexOfMoved]=dist;
+    if(table[indexOfMoved].distances!=null) table[indexOfMoved].distances[i]=dist;
                     
     if(dist<=table[indexOfMoved].passiveRadius+table[i].passiveRadius)
-    return i; //DETECTED //<>// //<>//
+    return i; //DETECTED //<>//
     
     if(activeRadius>0 && dist<=activeRadius+table[i].passiveRadius)
-    return i; //ALSO DETECTED //<>//
+    return i; //ALSO DETECTED
   }
   return -1;//NO COLLISION DETECTED!
 }
@@ -269,10 +269,10 @@ int findCollision(GameObject[] table,int indexOfMoved,int startIndex,boolean wit
 void visualise2D(float startX,float startY,float width,float height)
 {                                                                   assert gameWorld!=null;
   float minX=MAX_FLOAT;
-  float maxX=MIN_FLOAT; //<>//
+  float maxX=MIN_FLOAT;
   float minY=MAX_FLOAT;
   float maxY=MIN_FLOAT;
-  //float minZ=MAX_FLOAT; //<>//
+  //float minZ=MAX_FLOAT;
   //float maxZ=MIN_FLOAT;
   
   for(Position p:gameWorld)

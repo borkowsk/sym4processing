@@ -50,6 +50,27 @@ void positionChanged(GameObject[] table,String name,float[] inpos)
   }
 }
 
+/// Handle changes in states of agents/objects
+void stateChanged(GameObject[] table,String objectName,String field,String val)
+{
+  int pos=localiseByName(table,objectName);
+  if(pos>=0)
+  {
+      GameObject me=table[pos]; assert me!=null;
+      if(!me.setState(field,val))
+      println(objectName+"."+field," NOT FOUND. Change ignored!"); 
+  }
+  else
+  {
+    println(objectName,"not found!");
+    println("DATA INCONSISTENCY! CALL SERVER FOR FULL UPDATE");
+    String msg=sayOptCode(Opts.UPD);
+    if(DEBUG>1) print(playerName,"is SENDING:");
+    if(VIEWMESG>0 || DEBUG>1) println(msg);
+    myClient.write(msg);
+  }  
+}
+
 /// Handling for getting the avatar in contact with the game object
 void beginInteraction(GameObject[] table,String[]  objectAndActionsNames)
 {
@@ -58,7 +79,7 @@ void beginInteraction(GameObject[] table,String[]  objectAndActionsNames)
   {
     if( table[indexOfMe] instanceof ActiveGameObject )
     {
-      ActiveGameObject me=(ActiveGameObject)(table[indexOfMe]); assert me!=null; //<>//
+      ActiveGameObject me=(ActiveGameObject)(table[indexOfMe]); assert me!=null;
       if(me.interactionObject!=null) me.interactionObject.flags^=TOUCH_MSK;
       me.interactionObject=table[pos];
     }
@@ -86,7 +107,7 @@ void finishInteraction(GameObject[] table,String objectName)
   //Any way, you have to forget about him! 
   if( table[indexOfMe] instanceof ActiveGameObject )
   {
-    ActiveGameObject me=(ActiveGameObject)(table[indexOfMe]); assert me!=null; //<>//
+    ActiveGameObject me=(ActiveGameObject)(table[indexOfMe]); assert me!=null;
     me.interactionObject=null;
   }
 }
@@ -121,11 +142,17 @@ void interpretMessage(String msg)
   case Opts.VIS: { String objectName=decodeInfos(msg,instr1);
                  if(DEBUG>1) println(objectName,"change visualisation into",instr1[0]); 
                  visualisationChanged(gameWorld,objectName,instr1[0]);
-  } break;
+                 } break;
   case Opts.COL: { String objectName=decodeInfos(msg,instr1);
                  if(DEBUG>1) println(objectName,"change color into",instr1[0]); 
                  colorChanged(gameWorld,objectName,instr1[0]);
-                 } break;     
+                 } break;   
+  case Opts.STA: {
+                   String objectName=decodeInfos(msg,instr2);
+                   if(DEBUG>0) println(objectName,"change state",instr2[0],"<==",instr2[1]);
+                   stateChanged(gameWorld,objectName,instr2[0],instr2[1]);
+                 } break;
+  // interactions               
   case Opts.TCH: { String[] inputs;
                    switch(msg.charAt(1)){
                    case '1':inputs=instr2;break;
