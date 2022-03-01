@@ -103,6 +103,17 @@ String sayOptAndInfos(char optCode,String objName,String info1,String info2)
            +Opts.EOR;
 }
 
+/// Send many(3) string info - SPC inside val is NOT allowed.
+String sayOptAndInfos(char optCode,String objName,String info1,String info2,String info3)
+{
+  return ""+optCode+"3"+Opts.SPC
+           +objName+Opts.SPC
+           +info1+Opts.SPC
+           +info2+Opts.SPC
+           +info3+Opts.SPC
+           +Opts.EOR;
+}
+
 /// Decode 1-9 infos message. Dimension of the array must be proper
 String decodeInfos(String msgInfos,String[] infos)
 {

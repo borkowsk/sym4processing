@@ -15,10 +15,12 @@ final int VISUAL_MSK = unbinary("000000100"); ///> object changed its type of vi
 final int COLOR_MSK  = unbinary("000001000"); ///> object changed its colors
 final int HPOINT_MSK = unbinary("000010000"); ///> object changed its hp state (most frequently changed state)
 final int SCORE_MSK  = unbinary("000100000"); ///> object changed its score (for players it is most frequently changed state)
-final int RADIUS_MSK = unbinary("001000000"); ///> object changed its radius of activity (ex. go to sleep);
-final int STATE_MSK  = HPOINT_MSK | SCORE_MSK | RADIUS_MSK;///> object changed its states
+final int PASRAD_MSK = unbinary("001000000"); ///> object changed its passive radius (ex. grow);
+final int ACTRAD_MSK = unbinary("010000000"); ///> object changed its radius of activity (ex. go to sleep);
+final int STATE_MSK  = HPOINT_MSK | SCORE_MSK | PASRAD_MSK | ACTRAD_MSK ;///> object changed its states
+//....any more?
 /// To visualize the interaction between background objects
-final int TOUCH_MSK  = unbinary("100000000"); ///>
+final int TOUCH_MSK  = unbinary("1000000000000000000"); ///>
 /// All initial changes
 final int ALL_CHNG_MSK = MOVED_MSK | VISUAL_MSK | COLOR_MSK | STATE_MSK ; 
 
@@ -87,13 +89,37 @@ class GameObject extends Position
   /// over the network (mostly)
   /*_interfunc*/ boolean  setState(String field,String val)
   {
-    if(field.charAt(0)=='h' && field.charAt(1)=='p')
+    if(field.charAt(0)=='h' && field.charAt(1)=='p')//hp-points
     {
        hpoints=Float.parseFloat(val);
        return true;
     }
+    else
+    if(field.charAt(0)=='p' && field.charAt(1)=='a' && field.charAt(2)=='s')//pas-Radius
+    {
+       passiveRadius=Float.parseFloat(val);
+       return true;
+    }
     return false;
   }
+  
+   /// The function creates a message block from those object 
+   /// state elements that have change flags  (for network streaming)
+   /*_interfunc*/ String sayState()
+   {
+     String msg="";
+     if((flags & VISUAL_MSK )!=0)
+        msg+=sayOptAndInfos(Opts.VIS,name,visual);
+     if((flags & MOVED_MSK )!=0)  
+        msg+=sayPosition(Opts.EUC,name,X,Y);
+     if((flags & COLOR_MSK  )!=0)
+        msg+=sayOptAndInfos(Opts.COL,name,hex(foreground));
+     if((flags & HPOINT_MSK )!=0) 
+        msg+=sayOptAndInfos(Opts.STA,name,"hp",nf(hpoints)); 
+     if((flags & PASRAD_MSK )!=0) 
+        msg+=sayOptAndInfos(Opts.STA,name,"pasr",nf(passiveRadius));
+     return msg;
+   }
   
   /// It can make string info about object. 
   /// 'level' is level of details, when 0 means "name only".  
@@ -104,7 +130,7 @@ class GameObject extends Position
       ret+=name;
     if((level & MOVED_MSK)!=0)
       ret+=";"+nf(X)+";"+nf(Y);
-    if((level & RADIUS_MSK)!=0)
+    if((level & PASRAD_MSK)!=0)
       ret+=";pr:"+passiveRadius;
     return ret;
   }
@@ -119,6 +145,28 @@ class ActiveGameObject extends GameObject
   ActiveGameObject(String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ); //<>//
     activeRadius=iniRadius;
   }
+  
+  /// Interface for changing the state of the game object 
+  /// over the network (mostly)
+  /*_interfunc*/ boolean  setState(String field,String val)
+  {
+    if(field.charAt(0)=='a' && field.charAt(1)=='c' && field.charAt(2)=='t')//act-Radius
+    {
+       activeRadius=Float.parseFloat(val);
+       return true;
+    }
+    return super.setState(field,val);
+  }
+  
+  /// The function creates a message block from those object 
+  /// state elements that have change flags (for network streaming)
+  /*_interfunc*/ String sayState()
+  {
+     String msg=super.sayState();
+     if((flags & ACTRAD_MSK )!=0) 
+        msg+=sayOptAndInfos(Opts.STA,name,"actr",nf(activeRadius));
+     return msg;
+  }  
 }//EndOfClass ActiveGameObject //<>//
 
 /// Representation of generic player
@@ -137,13 +185,23 @@ class Player extends ActiveGameObject
   /// over the network (mostly)
   /*_interfunc*/ boolean  setState(String field,String val)
   {
-    if(field.charAt(0)=='s' && field.charAt(1)=='c')
+    if(field.charAt(0)=='s' && field.charAt(1)=='c')//sc-ore
     {
        score=Float.parseFloat(val);
        return true;
     }
     return super.setState(field,val);
   }
+  
+  /// The function creates a message block from those object 
+  /// state elements that have change flags (for network streaming)
+  /*_interfunc*/ String sayState()
+  {
+     String msg=super.sayState();
+     if((flags & SCORE_MSK )!=0) 
+        msg+=sayOptAndInfos(Opts.STA,name,"sc",nf(score));
+     return msg;
+  }  
   
   /// It can make string info about object. 
   /// 'level' is level of details, when 0 means "name only".  
