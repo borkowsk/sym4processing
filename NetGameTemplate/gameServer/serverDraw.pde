@@ -13,10 +13,13 @@ void sendWholeUpdate()
   for(int i=0;i<gameWorld.length;i++)
   if((curr=gameWorld[i])!=null)
   {
-    String msg=sayOptAndInfos(Opts.VIS,curr.name,curr.visual);
-    msg+=sayPosition(Opts.EUC,curr.name,curr.X,curr.Y);
-    msg+=sayOptAndInfos(Opts.COL,curr.name,hex(curr.foreground));
-    mainServer.write(msg);
+    curr.flags|=ALL_CHNG_MSK;
+    String msg=curr.sayState();
+    //sayOptAndInfos(Opts.VIS,curr.name,curr.visual);
+    //msg+=sayPosition(Opts.EUC,curr.name,curr.X,curr.Y);
+    //msg+=sayOptAndInfos(Opts.COL,curr.name,hex(curr.foreground));
+    if(msg.length()>0)  
+      mainServer.write(msg);
     curr.flags=0;//Whatever was there was sent
   }
     
@@ -30,24 +33,18 @@ void sendUpdateOfChangedAgents()
   noLoop();//KIND OF CRITICAL SECTION!?!?!
   
   GameObject curr=null;
+  
   for(int i=0;i<gameWorld.length;i++)
   if((curr=gameWorld[i])!=null
-  && curr.flags!=0
+  && (curr.flags & ALL_CHNG_MSK)!=0
   )
   {
-    String msg="";
-    if((curr.flags & VISUAL_MSK )!=0)
-      msg+=sayOptAndInfos(Opts.VIS,curr.name,curr.visual);
-    if((curr.flags & MOVED_MSK )!=0)  
-      msg+=sayPosition(Opts.EUC,curr.name,curr.X,curr.Y);
-    if((curr.flags & COLOR_MSK  )!=0)
-      msg+=sayOptAndInfos(Opts.COL,curr.name,hex(curr.foreground));
-    //... 
+      String msg=curr.sayState();
         
-    if(msg.length()>0)  
-      mainServer.write(msg);
+      if(msg.length()>0)  
+        mainServer.write(msg);
  
-    curr.flags=0;//Whatever was there was sent
+     curr.flags=0;//Whatever was there was sent
   }
   
   loop();
