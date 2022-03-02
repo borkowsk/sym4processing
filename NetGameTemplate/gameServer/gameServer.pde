@@ -25,6 +25,7 @@ void setup()
   //size(700, 500,PDF, "screen_file.pdf");//Without window
   Xmargin=200;
   noStroke();
+  //textSize(16);//Does not work with UNICODE icons! :-(
   mainServer = new Server(this,servPORT,serverIP);
   if(mainServer.active())
   {
@@ -68,10 +69,20 @@ void confirmClient(Client newClient,Player player)
   String msg=sayOptAndInf(Opts.YOU,player.name);
   if(DEBUG>1) println(msg);
   newClient.write(msg);
-  
+    
   msg=sayOptAndInfos(Opts.VIS,Opts.sYOU,player.visual);
   if(DEBUG>1) println(msg);
   newClient.write(msg);
+  
+  // Send the dictionary of types to new player
+  msg=makeAllTypeInfo(gameWorld);
+  if(DEBUG>0) println(msg);
+  newClient.write(msg);
+  
+  // Send the new Player to other players
+  msg=sayObjectType(player.name,player.myClassName());
+  if(DEBUG>0) println(msg);
+  mainServer.write(msg);
 }
 
 /// This is stuff that should be done,  
@@ -100,16 +111,18 @@ void whenClientConnected(Client newClient,String playerName)
   }
     
   Player tmp=new Player(newClient,playerName,int(random(initialMaxX)),int(random(initialMaxY)),1,1.5);
-  tmp.visual=avatars[1];
-  confirmClient(newClient,tmp);
   
   players = (Player[]) expand(players,players.length+1);//expand the array of clients
   players[players.length-1] = tmp;//sets the last player to be the newly connected client
    
   gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);//expand the array of game objects 
   gameWorld[gameWorld.length-1] = tmp;// Player is also one of GameObjects
+  
   //tmp.indexInGameWorld=gameWorld.length-1;// It should also be filled in as an emergency during the first use
+  tmp.visual=avatars[1];
+    
   println("Player",tmp.name,"connected to server!");
+  confirmClient(newClient,tmp);
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
