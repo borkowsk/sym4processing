@@ -1,6 +1,37 @@
 //*  gameClient - more comm. logic 
 //*/////////////////////////////////////////////// 
 
+StringDict inventory=new StringDict();
+
+/// Simple object type management
+void implementObjectMenagement(String[] cmd)
+{
+  if(cmd[0].equals("del"))
+     removeObject(gameWorld,cmd[2]);
+  else
+  if(cmd[0].equals("new"))
+  {
+     if(DEBUG>1) println("type:'"+cmd[2]+"' object:'"+cmd[1]+"'");
+     inventory.set(cmd[1],cmd[2]);//println(inventory.get(cmd[1]));
+  }
+  else
+  println(playerName,"UNKNOWN object management command:",cmd[0]);
+}
+
+/// Very simple placeholder for use types dictionary 
+GameObject makeGameObject(String name,float X,float Y,float Z,float R)
+{
+  String type=inventory.get(name); 
+  if(DEBUG>0) println("type:'"+type+"' object:'"+name+"'");
+  switch(type.charAt(0)){
+  default:
+      println("Type",type,"unknown. Replaced by ActiveGameObject.");
+  case 'A':return new ActiveGameObject(name,X,Y,Z,R);
+  case 'G':return new GameObject(name,X,Y,Z);
+  case 'P':return new Player(null,name,X,Y,X,R);
+  }
+}
+
 /// Handle changes in visualisation type of any game object
 void visualisationChanged(GameObject[] table,String name,String vtype)
 {
@@ -9,7 +40,7 @@ void visualisationChanged(GameObject[] table,String name,String vtype)
   {
     gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);
     pos=gameWorld.length-1;
-    gameWorld[pos]=new GameObject(name,0,0,0);
+    gameWorld[pos]=makeGameObject(name,0,0,0,0);
   }
   gameWorld[pos].visual=vtype;
 }
@@ -23,7 +54,7 @@ void colorChanged(GameObject[] table,String name,String hexColor)
   {
     gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);
     pos=gameWorld.length-1;
-    gameWorld[pos]=new GameObject(name,0,0,0);
+    gameWorld[pos]=makeGameObject(name,0,0,0,0);
     gameWorld[pos].foreground=newColor;
   }
   gameWorld[pos].foreground=newColor;
@@ -37,7 +68,7 @@ void positionChanged(GameObject[] table,String name,float[] inpos)
   {
     gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);
     pos=gameWorld.length-1;
-    gameWorld[pos]=new GameObject(name,inpos[0],inpos[1],0);
+    gameWorld[pos]=makeGameObject(name,inpos[0],inpos[1],0,0);
     if(inpos.length==3)
       gameWorld[pos].Z=inpos[2];
   }
@@ -134,22 +165,25 @@ void interpretMessage(String msg)
   case Opts.ERR: { String emessage=decodeOptAndInf(msg);
                    println(playerName,"recived error:\n\t",emessage);
                   } break;
+  case Opts.OBJ: { String[] cmd=decodeObjectMng(msg);
+                   implementObjectMenagement(cmd);
+                 } break;
   //Normal interactions
   case Opts.YOU: { playerName=decodeOptAndInf(msg);
                  if(DEBUG>1) println(playerName,"recived confirmation from the server!");
                  surface.setTitle(serverIP+"//"+Opts.name+";"+playerName);
                  } break;
   case Opts.VIS: { String objectName=decodeInfos(msg,instr1);
-                 if(DEBUG>1) println(objectName,"change visualisation into",instr1[0]); 
-                 visualisationChanged(gameWorld,objectName,instr1[0]);
+                   if(DEBUG>1) println(objectName,"change visualisation into",instr1[0]); 
+                   visualisationChanged(gameWorld,objectName,instr1[0]);
                  } break;
   case Opts.COL: { String objectName=decodeInfos(msg,instr1);
-                 if(DEBUG>1) println(objectName,"change color into",instr1[0]); 
-                 colorChanged(gameWorld,objectName,instr1[0]);
+                   if(DEBUG>1) println(objectName,"change color into",instr1[0]); 
+                   colorChanged(gameWorld,objectName,instr1[0]);
                  } break;   
   case Opts.STA: {
                    String objectName=decodeInfos(msg,instr2);
-                   if(DEBUG>0) println(objectName,"change state",instr2[0],"<==",instr2[1]);
+                   if(DEBUG>2) println(objectName,"change state",instr2[0],"<==",instr2[1]);
                    stateChanged(gameWorld,objectName,instr2[0],instr2[1]);
                  } break;
   // interactions               
@@ -160,11 +194,11 @@ void interpretMessage(String msg)
                    default: inputs=new String[msg.charAt(1)-'0'+1];//NOT TESTED TODO!
                    }
                    float dist=decodeTouch(msg,inputs);
-                   if(DEBUG>0) println(playerName,"touched",inputs[0],inputs[1]);
+                   if(DEBUG>1) println(playerName,"touched",inputs[0],inputs[1]);
                    beginInteraction(gameWorld,inputs);
                  }break;
   case Opts.DTC: { String objectName=decodeOptAndInf(msg);
-                 if(DEBUG>0) println(playerName,"detached from",objectName);
+                 if(DEBUG>1) println(playerName,"detached from",objectName);
                  finishInteraction(gameWorld,objectName);//--> beginInteraction(inputs);
                  }break;                  
   //... rest of message types

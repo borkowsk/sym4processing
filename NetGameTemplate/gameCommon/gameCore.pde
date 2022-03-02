@@ -6,8 +6,8 @@ float initialMaxY=100; ///> Initial vertical size of game "board"
 int initialSizeOfMainArray=30;  ///> Initial number of @GameObjects in @gameWorld
 int     indexOfMe=-1;    ///> Index of object visualising client or server supervisor
 
-String[] plants= {"_","\\|/","/",":","☘️"}; ///> plants... 
-String[] avatars={".","^v^" ,"o.o","@","&","😃","😐"};///> peoples...
+String[] plants= {"_","O","...\nI","_\\|/_\nI ","|/",":","☘️"}; ///> plants... 
+String[] avatars={".","^v^" ,"o^o","@","&","😃","😐"};///> peoples...
 
 //Changes of GameObject atributes (specific for server side)
 final int VISSWITH   = unbinary("000000001"); ///> object is invisible (but in info level name is visible)
@@ -107,7 +107,7 @@ class GameObject extends Position
     {
        passiveRadius=Float.parseFloat(val);
        return true;
-    }
+    } //<>//
     return false;
   }
   
@@ -124,7 +124,7 @@ class GameObject extends Position
         msg+=sayOptAndInfos(Opts.COL,name,hex(foreground));
      if((flags & HPOINT_MSK )!=0) 
         msg+=sayOptAndInfos(Opts.STA,name,"hp",nf(hpoints)); 
-     if((flags & PASRAD_MSK )!=0) 
+     if((flags & PASRAD_MSK )!=0)  //<>//
         msg+=sayOptAndInfos(Opts.STA,name,"pasr",nf(passiveRadius));
      return msg;
    }
@@ -150,7 +150,7 @@ class ActiveGameObject extends GameObject
   GameObject interactionObject=null;// Only one in a time
   
   ///constructor
-  ActiveGameObject(String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ);
+  ActiveGameObject(String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ); //<>//
     activeRadius=iniRadius;
   }
   
@@ -167,7 +167,7 @@ class ActiveGameObject extends GameObject
   }
   
   /// The function creates a message block from those object 
-  /// state elements that have change flags (for network streaming)
+  /// state elements that have change flags (for network streaming) //<>//
   /*_interfunc*/ String sayState()
   {
      String msg=super.sayState();
@@ -175,17 +175,17 @@ class ActiveGameObject extends GameObject
         msg+=sayOptAndInfos(Opts.STA,name,"actr",nf(activeRadius));
      return msg;
   }  
-}//EndOfClass ActiveGameObject //<>//
+}//EndOfClass ActiveGameObject //<>// //<>//
 
 /// Representation of generic player
-class Player extends ActiveGameObject
+class Player extends ActiveGameObject //<>//
 {
   float  score=0;// Result
   Client netLink;// Network connection to client application
   int    indexInGameWorld=-1;
    //<>//
   ///constructor
-  Player(Client iniClient,String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ,iniRadius);
+  Player(Client iniClient,String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ,iniRadius); //<>//
     netLink=iniClient; //<>//
   }
   
@@ -213,10 +213,10 @@ class Player extends ActiveGameObject
   
   /// It can make string info about object. 
   /// 'level' is level of details, when 0 means "name only".  
-  /*_interfunc*/ String info(int level)
+  /*_interfunc*/ String info(int level) //<>//
   {
     String ret=super.info(level);
-    if((level & SCORE_MSK)!=0)
+    if((level & SCORE_MSK)!=0) //<>//
       ret+=";"+score;
     return ret;
   }
@@ -241,6 +241,12 @@ int localiseByName(GameObject[] table,String name)
   return -1;
 }
 
+void removeObject(GameObject[] table,String name)
+{
+  int index=localiseByName(table,name);
+  if(index>=0) table[index]=null;
+}
+
 /// Returns the index of the first collided object
 /// 'indexOfMoved' is the index of the object for which we check for collisions.
 /// The first time 'startIndex' should be 0, but thanks to this parameter 
@@ -251,7 +257,7 @@ int findCollision(GameObject[] table,int indexOfMoved,int startIndex,boolean wit
   
   //Is moved object of any active type?
   ActiveGameObject active=(ActiveGameObject)(table[indexOfMoved]);
-  if(active!=null)
+  if(active!=null) //<>//
     activeRadius=active.activeRadius;
   
   for(int i=startIndex;i<table.length;i++)
