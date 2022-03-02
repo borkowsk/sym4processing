@@ -6,8 +6,8 @@ float initialMaxY=100; ///> Initial vertical size of game "board"
 int initialSizeOfMainArray=30;  ///> Initial number of @GameObjects in @gameWorld
 int     indexOfMe=-1;    ///> Index of object visualising client or server supervisor
 
-String[] plants= {"_","☘️"}; ///> plants... 
-String[] avatars={"_","😃","😐"};///> peoples...
+String[] plants= {"_","\\|/","/",":","☘️"}; ///> plants... 
+String[] avatars={".","^v^" ,"o.o","@","&","😃","😐"};///> peoples...
 
 //Changes of GameObject atributes (specific for server side)
 final int VISSWITH   = unbinary("000000001"); ///> object is invisible (but in info level name is visible)
@@ -21,7 +21,7 @@ final int ACTRAD_MSK = unbinary("010000000"); ///> object changed its radius of 
 final int STATE_MSK  = HPOINT_MSK | SCORE_MSK | PASRAD_MSK | ACTRAD_MSK ;///> object changed its states
 //....any more?
 /// To visualize the interaction between background objects
-final int TOUCH_MSK  = unbinary("1000000000000000000"); ///>
+final int TOUCH_MSK  = unbinary("1000000000000000"); ///>16bits
 /// All initial changes
 final int ALL_CHNG_MSK = MOVED_MSK | VISUAL_MSK | COLOR_MSK | STATE_MSK ; 
 
@@ -37,6 +37,13 @@ boolean KEEP_ASPECT=true;    ///> Visualisation with proportional aspect ratio
 abstract class implNeeded 
 { 
   int flags=0;//> *_MSK alloved here
+  String myClassName()//Shortened class name
+  {
+    String typeStr=getClass().getName(); 
+    int dolar=typeStr.indexOf("$"); //println(typeStr,dolar);
+    typeStr=typeStr.substring(dolar+1);
+    return typeStr;
+  }
 }//EndOfClass implNeeded
 
 /// Representation of 3D position in the game world
@@ -266,9 +273,22 @@ int findCollision(GameObject[] table,int indexOfMoved,int startIndex,boolean wit
   return -1;//NO COLLISION DETECTED!
 }
 
-/// Flat/map visualisation
+/// Prepares information about the types and names 
+/// of all objects on the game board.
+/// Mainly needed when a new client connects.
+String makeAllTypeInfo(GameObject[] table)
+{
+  String ret="";
+  
+  for(int i=0;i<table.length;i++)
+     ret+=sayObjectType(table[i].name,table[i].myClassName());
+     
+  return ret;
+}
+
+/// Flat map visualisation
 void visualise2D(float startX,float startY,float width,float height)
-{                                                                   assert gameWorld!=null;
+{                                                            assert gameWorld!=null;
   float minX=MAX_FLOAT;
   float maxX=MIN_FLOAT;
   float minY=MAX_FLOAT;
@@ -322,7 +342,7 @@ void visualise2D(float startX,float startY,float width,float height)
       if(i==indexOfMe)
       {
           fill(red(tmp.foreground),green(tmp.foreground),blue(tmp.foreground));
-          text("!"+tmp.visual+"!",X,Y);
+          text("-"+tmp.visual+"-",X,Y);
           if(DEBUG>0){ stroke(255,0,0);point(X,Y);}
       }
       else
