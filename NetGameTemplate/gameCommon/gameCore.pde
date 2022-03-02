@@ -10,6 +10,7 @@ String[] plants= {"_","☘️"}; ///> plants...
 String[] avatars={"_","😃","😐"};///> peoples...
 
 //Changes of GameObject atributes (specific for server side)
+final int VISSWITH   = unbinary("000000001"); ///> object is invisible (but in info level name is visible)
 final int MOVED_MSK  = unbinary("000000010"); ///> object was moved (0x1)
 final int VISUAL_MSK = unbinary("000000100"); ///> object changed its type of view
 final int COLOR_MSK  = unbinary("000001000"); ///> object changed its colors
@@ -313,7 +314,7 @@ void visualise2D(float startX,float startY,float width,float height)
   for(int i=0;i<gameWorld.length;i++)
   {
     GameObject tmp=gameWorld[i];
-    if(tmp!=null)
+    if(tmp!=null && (tmp.flags & VISSWITH)==0 )
     {
       float X=startX+(tmp.X-minX)/(maxX-minX)*width;
       float Y=startY+(tmp.Y-minY)/(maxY-minY)*width;
