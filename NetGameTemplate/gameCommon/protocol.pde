@@ -18,7 +18,7 @@ class Opts {
   static final String sYOU="Y";//REPLACER OF CORESPONDENT NAME as a ready to use String. 
                                //Character.toString(YOU);<-not for static
   //Record defining characters
-  static final char EOR='\n';//End of record (EOR)
+  static final char EOR=0x03;//End of record (EOR)
   static final char SPC='\t';//Field separator
   //Record headers (bidirectorial)
   static final char ERR='e'; //Error message for partner
