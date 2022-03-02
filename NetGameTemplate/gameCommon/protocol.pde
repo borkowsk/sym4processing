@@ -29,6 +29,7 @@ class Opts {
   static final char GET='G'; //Get global resource by name
   static final char BIN='B'; //Binary hunk of resources (name.type\tsize\tthen data)
   static final char TXT='X'; //Text hunk of resources (name.type\tsize\tthen data)
+  static final char OBJ='O'; //Objects managment: "On typename objectName" or "Od objectName"
   //Game scene/state 
   static final char UPD='U'; //Request for update about a whole scene
   static final char VIS='V'; //Visualisation info for a particular object
@@ -250,6 +251,41 @@ String decodePosition(String msgPosition,float[] coordinates)
   }
   else
   return null;//Invalid message
+}
+
+/// Object type managment - type of object
+String sayObjectType(String type,String objectName)
+{
+  return Opts.OBJ+"n"+Opts.SPC
+         +type+Opts.SPC
+         +objectName+Opts.SPC
+         +Opts.EOR;  
+}
+
+/// Object type managment - object removing from the game world
+String sayObjectRemove(String objectName)
+{
+  return Opts.OBJ+"d"+Opts.SPC
+         +objectName+Opts.SPC
+         +Opts.EOR;  
+}
+
+/// Object type managment - decoding
+String[] decodeObjectMng(String msg)
+{
+  String[] fields=split(msg,Opts.SPC);
+  if(fields[0].charAt(1)=='n')
+    fields[0]="new";
+  else
+  if(fields[0].charAt(1)=='d')
+    fields[0]="del";
+  else
+  {
+    println("Invalid object management command:'"+fields[0].charAt(1)+"' for",fields[1],"! IGNORED!");
+    return null;
+  }
+  
+  return shorten(fields);
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
