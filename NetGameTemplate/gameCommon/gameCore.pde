@@ -107,7 +107,7 @@ class GameObject extends Position
     {
        passiveRadius=Float.parseFloat(val);
        return true;
-    } //<>//
+    }
     return false;
   }
   
@@ -115,7 +115,7 @@ class GameObject extends Position
    /// state elements that have change flags  (for network streaming)
    /*_interfunc*/ String sayState()
    {
-     String msg=""; //<>//
+     String msg="";
      if((flags & VISUAL_MSK )!=0)
         msg+=sayOptAndInfos(Opts.VIS,name,visual);
      if((flags & MOVED_MSK )!=0)  
@@ -124,7 +124,7 @@ class GameObject extends Position
         msg+=sayOptAndInfos(Opts.COL,name,hex(foreground));
      if((flags & HPOINT_MSK )!=0) 
         msg+=sayOptAndInfos(Opts.STA,name,"hp",nf(hpoints)); 
-     if((flags & PASRAD_MSK )!=0)  //<>//
+     if((flags & PASRAD_MSK )!=0)
         msg+=sayOptAndInfos(Opts.STA,name,"pasr",nf(passiveRadius));
      return msg;
    }
@@ -132,7 +132,7 @@ class GameObject extends Position
   /// It can make string info about object. 
   /// 'level' is level of details, when 0 means "name only".  
   /*_interfunc*/ String info(int level)
-  { //<>//
+  {
     String ret="";
     if((level & 0x1)!=0)
       ret+=name;
@@ -150,7 +150,7 @@ class ActiveGameObject extends GameObject
   GameObject interactionObject=null;// Only one in a time
   
   ///constructor
-  ActiveGameObject(String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ); //<>//
+  ActiveGameObject(String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ);
     activeRadius=iniRadius;
   }
   
@@ -158,7 +158,7 @@ class ActiveGameObject extends GameObject
   /// over the network (mostly)
   /*_interfunc*/ boolean  setState(String field,String val)
   {
-    if(field.charAt(0)=='a' && field.charAt(1)=='c' && field.charAt(2)=='t')//act-Radius //<>//
+    if(field.charAt(0)=='a' && field.charAt(1)=='c' && field.charAt(2)=='t')//act-Radius
     {
        activeRadius=Float.parseFloat(val);
        return true;
@@ -167,7 +167,7 @@ class ActiveGameObject extends GameObject
   }
   
   /// The function creates a message block from those object 
-  /// state elements that have change flags (for network streaming) //<>//
+  /// state elements that have change flags (for network streaming)
   /*_interfunc*/ String sayState()
   {
      String msg=super.sayState();
@@ -175,25 +175,25 @@ class ActiveGameObject extends GameObject
         msg+=sayOptAndInfos(Opts.STA,name,"actr",nf(activeRadius));
      return msg;
   }  
-}//EndOfClass ActiveGameObject //<>// //<>//
+}//EndOfClass ActiveGameObject
 
 /// Representation of generic player
-class Player extends ActiveGameObject //<>//
+class Player extends ActiveGameObject
 {
   float  score=0;// Result
   Client netLink;// Network connection to client application
   int    indexInGameWorld=-1;
-   //<>//
+
   ///constructor
-  Player(Client iniClient,String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ,iniRadius); //<>//
-    netLink=iniClient; //<>//
+  Player(Client iniClient,String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ,iniRadius);
+    netLink=iniClient;
   }
   
   /// Interface for changing the state of the game object 
   /// over the network (mostly)
   /*_interfunc*/ boolean  setState(String field,String val)
   {
-    if(field.charAt(0)=='s' && field.charAt(1)=='c')//sc-ore //<>//
+    if(field.charAt(0)=='s' && field.charAt(1)=='c')//sc-ore
     {
        score=Float.parseFloat(val);
        return true;
@@ -213,18 +213,18 @@ class Player extends ActiveGameObject //<>//
   
   /// It can make string info about object. 
   /// 'level' is level of details, when 0 means "name only".  
-  /*_interfunc*/ String info(int level) //<>//
+  /*_interfunc*/ String info(int level)
   {
     String ret=super.info(level);
-    if((level & SCORE_MSK)!=0) //<>//
+    if((level & SCORE_MSK)!=0)
       ret+=";"+score;
     return ret;
   }
   
-}//EndOfClass Player //<>//
+}//EndOfClass Player
 
 GameObject[] gameWorld=null;    ///> MAIN ARRAY OF GameObjects
- //<>//
+
 /// Determines the index of the object with the specified proper name 
 /// in an array of objects or players. 
 /// Simple implementation for now, but you can change into dictionary or 
@@ -257,7 +257,7 @@ int findCollision(GameObject[] table,int indexOfMoved,int startIndex,boolean wit
   
   //Is moved object of any active type?
   ActiveGameObject active=(ActiveGameObject)(table[indexOfMoved]);
-  if(active!=null) //<>//
+  if(active!=null)
     activeRadius=active.activeRadius;
   
   for(int i=startIndex;i<table.length;i++)
@@ -271,7 +271,7 @@ int findCollision(GameObject[] table,int indexOfMoved,int startIndex,boolean wit
     if(table[indexOfMoved].distances!=null) table[indexOfMoved].distances[i]=dist;
                     
     if(dist<=table[indexOfMoved].passiveRadius+table[i].passiveRadius)
-    return i; //DETECTED //<>//
+    return i; //DETECTED
     
     if(activeRadius>0 && dist<=activeRadius+table[i].passiveRadius)
     return i; //ALSO DETECTED

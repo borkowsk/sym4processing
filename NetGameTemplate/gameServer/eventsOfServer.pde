@@ -9,8 +9,8 @@ void keyPressed()
   if(key==ESC)
   {
     println("Keyboard is ignored for the game server");
-    key=0; //<>//
-  }    
+    key=0;
+  }
 }
 
 /// Event handler called when a client connects to server

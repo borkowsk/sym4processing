@@ -38,7 +38,7 @@ void keyPressed()
   case 'd':
   case 'D': msg=sayOptAndInf(Opts.NAV,"r"); break;
   //Perform interaction:
-  case ' ': { //<>//
+  case ' ': {
               ActiveGameObject me=(ActiveGameObject)(gameWorld[indexOfMe]); assert me!=null;
               if(me.interactionObject!=null)
               {
