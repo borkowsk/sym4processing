@@ -1,12 +1,14 @@
-//Różne proste statystyki dla tablic jednowymiarowych
-/////////////////////////////////////////////////////////
+//*  Różne proste statystyki dla tablic jednowymiarowych
+//*  EN: Various simple statistics for one-dimensional arrays
+//*/////////////////////////////////////////////////////////
 
-//Średnia arytmetyczna z danych typu float
+/// Średnia arytmetyczna z danych typu float
+/// https://en.wikipedia.org/wiki/Arithmetic_mean
+/// EN: Arithmetic mean of the float data
 float meanArithmetic(float data[],int offset,int limit)
-//https://en.wikipedia.org/wiki/Arithmetic_mean
 {                       
-                        assert(offset<limit);
-                        assert(limit<data.length);
+                                  assert(offset<limit);
+                                  assert(limit<data.length);
   double sum = 0;
   
   for (int i = offset ; i < limit; i++)
@@ -17,12 +19,13 @@ float meanArithmetic(float data[],int offset,int limit)
   return (float)(sum/(limit-offset)); 
 }
 
-//Średnia arytmetyczna z danych o "podwójnej" precyzji
+/// Średnia arytmetyczna z danych o "podwójnej" precyzji
+/// https://en.wikipedia.org/wiki/Arithmetic_mean
+/// EN: Arithmetic mean of the "double" precision data
 double meanArithmetic(double data[],int offset,int limit)
-//https://en.wikipedia.org/wiki/Arithmetic_mean
 {                       
-                        assert(offset<limit);
-                        assert(limit<data.length);
+                                    assert(offset<limit);
+                                    assert(limit<data.length);
   double sum = 0;
   
   for (int i = offset ; i < limit; i++)
@@ -33,11 +36,12 @@ double meanArithmetic(double data[],int offset,int limit)
   return sum/(limit-offset);
 }
 
-//Korelacja Pearsona
+/// Korelacja Pearsona
+/// https://pl.wikipedia.org/wiki/Wsp%C3%B3%C5%82czynnik_korelacji_Pearsona
+/// EN: Pearson's correlation
 double correlation(float data1[],float data2[],
                    int offset1,int offset2,
                    int limit)
-//https://pl.wikipedia.org/wiki/Wsp%C3%B3%C5%82czynnik_korelacji_Pearsona
 {
   double X_s=0,Y_s=0;
   double summ1=0,summ2=0,summ3=0,corelation=0;
@@ -89,14 +93,14 @@ double correlation(float data1[],float data2[],
   return corelation;
 }
 
-//Średnia z korelacji za pomocą Z
+/// Średnia z korelacji za pomocą Z
+/// Trzeba zmienić korelacje na Z żeby móc je legalnie dodawać. 
+/// Niestety korelacje =1 i =-1 są nietransformowalne więc trochę oszukujemy
+/// EN: Mean of the correlation using Z
 double meanCorrelations(double data[],int offset,int limit)
-//Liczenie średniej z korelacji.
-//Trzeba zmienić korelacje na Z żeby je legalnie pododawać. 
-//Niestety korelacje =1 i =-1 są nietransformowalne więc trochę oszukujemy
 {
-                        assert(offset<limit);
-                        assert(limit<data.length);
+                                            assert(offset<limit);
+                                            assert(limit<data.length);
   double PomCorrelation=0;          
   
   for (int i = offset ; i < limit; i++)
@@ -104,7 +108,7 @@ double meanCorrelations(double data[],int offset,int limit)
     double pom = data[i];
     if (pom >= 0.999999) pom = 0.999999;
     if (pom <= -0.999999) pom = -0.999999;
-    double  Z = 0.5 * Math.log( (1.0 + pom) / (1.0 - pom) ); // więc robimy transformacje w Z
+    double  Z = 0.5 * Math.log( (1.0 + pom) / (1.0 - pom) ); // robimy transformacje w Z/we do Z transformations
     PomCorrelation += Z; //Sumujemy kolejne Z
   }
 
@@ -112,12 +116,13 @@ double meanCorrelations(double data[],int offset,int limit)
 
   PomCorrelation = ( Math.exp(2 * PomCorrelation) - 1 ) 
                               / 
-                   ( Math.exp(2 * PomCorrelation) + 1 ); //I z powrotem zmieniamy w korelacje
+                   ( Math.exp(2 * PomCorrelation) + 1 ); //I z powrotem zmieniamy w korelacje/And we're changing Z back to correlations
       
   return PomCorrelation;
 }
 
-//Entropia informacyjna z histogramu
+/// Entropia informacyjna z histogramu
+/// EN: Informational entropy from the histogram
 double entropyFromHist(int[] histogram)
 {
   double sum=0; //Ile przypadków. 
@@ -137,7 +142,7 @@ double entropyFromHist(int[] histogram)
   return -sumlog; //<>//
 }
 
-//**************************************************************************
-//  2016-2019 (c) Wojciech Tomasz Borkowski  http://borkowski.iss.uw.edu.pl
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI
-//**************************************************************************
+//*////////////////////////////////////////////////////////////////////////////
+//*  2016-2019 (c) Wojciech Tomasz Borkowski
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI
+//*////////////////////////////////////////////////////////////////////////////
