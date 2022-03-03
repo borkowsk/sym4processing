@@ -1,1 +1,1 @@
-Dodatkowe funkcjonalności do szablonu aplikacji symulacyjnej
+Additional functionalities for simulation application templates
