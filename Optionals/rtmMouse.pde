@@ -1,7 +1,7 @@
-// Obsluga zdarzeń myszy
-//////////////////////////////
+//* Handling mouse events
+//*////////////////////////////
 
-/* Alternatywne są w UtilsRectAreas
+/* The alternatives are in UtilsRectAreas
 void mousePressed() 
 {
         println("Pressed "+mouseX+" x "+mouseY);
@@ -13,8 +13,9 @@ void mouseReleased()
 }
 */
 
+/// Mouse movement support. It shouldn't be too time consuming.
+/// see: //https://processing.org/reference/mouseMoved_.html
 void mouseMoved()
-//https://processing.org/reference/mouseMoved_.html
 {
   fill(random(255),random(255),random(255));
   ellipse(mouseX,mouseY,10,10);
