@@ -1,11 +1,13 @@
 # sym4processing - various simulation resources in processing
-* Pliki Processingu wspomagające każdą aplikacje symulacyjną oraz nadające jej wybrane moźliwości i właściwości
-* Szablon projektu aplikacji symulacyjnej typu ABM z możliwością rozbudowania o sieć, nadający się do wielu celów
-* Dodatkowe kody narzędziowe do współpracy z szablonem aplikacji 
-* Przykładowe symulacje napisane z użyciem szablonu 
-* Link do repozytorium z materiałami do kursu "Processing w edukacji i symulacji" (**bookProcessingPL**)
 
-__KLONOWANIE__
+* Processing files supporting various simulation applications and giving them selected possibilities and properties
+* Cellular Automata application design template
+* Design template for an ABM simulation application with the possibility of expanding with a network structure, suitable for many purposes
+* Additional tool codes for working with application templates 
+* Przykładowe symulacje napisane z użyciem szablonu 
+* As a submodule, import a repository with materials for the course "Processing in education and simulation" (**bookProcessingPL**)
+
+__REPOSITORY CLONING__
 
 ```git clone --recurse-submodules https://github.com/borkowsk/sym4processing.git```
 
