@@ -1,8 +1,8 @@
-//* Simulation have to collect and write down statistics from every step
+/// Simulation have to collect and write down statistics from every step
 //* CA: STATISTICS LOG TEMPLATE
 //*////////////////////////////////////////////////////////////////////////////////
 
-PrintWriter outstat;///> Handle to the text file with the record of model statistics
+PrintWriter outstat; ///> Handle to the text file with the record of model statistics
 
 /// It prepares a unique statistics file name, opens the file 
 /// and enters the header line.
@@ -24,6 +24,7 @@ void doStatistics(World world)
 }
 
 /// Cell statistics. One-dimensional version
+/// outstat file should be closed in exit() --> see Exit.pde
 void doStatisticsOnCells(int[] cells)
 {  
   int curr;
@@ -55,10 +56,10 @@ void doStatisticsOnCells(int[] cells)
      if(outstat!=null)
         outstat.println(StepCounter+"\t"+liveCount+"\tFINISHED");
    }
-   //outstat should be closed in exit() --> see Exit.pde
 }
 
 /// Cell statistics. Two-dimensional version
+/// outstat file should be closed in exit() --> see Exit.pde
 void doStatisticsOnCells(int[][] cells)
 {  
   long summ=0;
@@ -91,7 +92,6 @@ void doStatisticsOnCells(int[][] cells)
      if(outstat!=null)
         outstat.println(StepCounter+"\t"+liveCount+"\tFINISHED");
    }
-   //outstat should be closed in exit() --> see Exit.pde
 }
 
 //*//////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,16 +1,19 @@
-// World is a one of two central class of each CA model
-// CA: WORLD OF CELLS FOR FILL UP
-///////////////////////////////////////////////////////////////
-int StepCounter=0;
+/// World is a one of two central class of each CA model
+//* CA: WORLD OF CELLS FOR FILL UP
+//*/////////////////////////////////////////////////////////////
+
+int StepCounter=0;///> Global variable for caunting real simulation steps.
+                  ///> Value may differ from frameCount.
+
 
 /// The main class of simulation
 class World
 {
-  //int cells[];//One dimensional array of cells
-  //int newcells[];//Secondary array for synchronic mode
+  //int cells[];   //> One dimensional array of cells
+  //int newcells[];//> Secondary array for synchronic mode
   //OR
-  int cells[][];//Two dimensional array of cells
-  int newcells[][];//Secondary array for synchronic mode
+  int cells[][];   //> Two dimensional array of cells
+  int newcells[][];//> Secondary array for synchronic mode
   
   /// Constructor of the World
   World(int side)
@@ -33,8 +36,8 @@ class World
   }
 }//ENDofCLASS
 
-//* More alaborated functionalities are defined as stand-alone functions,
-//* not as methods because of not enought flexible syntax of Processing
+/// More alaborated functionalities are defined as stand-alone functions,
+/// not as methods because of not enought flexible syntax of Processing
 //*/////////////////////////////////////////////////////////////////////////
 
 /// Prepares the World class for the first step of the simulation 

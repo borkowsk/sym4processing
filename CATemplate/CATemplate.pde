@@ -1,25 +1,25 @@
-//   Template for CA MODEL utilized 1D or 2D discrete geometry
-//   implemented by Wojciech Borkowski
-/////////////////////////////////////////////////////////////////////////////////////////
+/// Template for CA MODEL utilized 1D or 2D discrete geometry
+//*   implemented by Wojciech Borkowski
+//*////////////////////////////////////////////////////////////////////////////
 
 //Model parameters
 String   modelName="CATemplate";///> Name of the model is used for log files
-int      side=201;      ///> side of "world" main table
-float    density=0.0000;///> initial density of live cells
-boolean  synchronicMode=true;///> if false, then Monte Carlo mode is used
+int      side=201;              ///> side of "world" main table
+float    density=0.0000;        ///> initial density of live cells
+boolean  synchronicMode=true;   ///> if false, then Monte Carlo mode is used
 
-World TheWorld=new World(side);///>Main table will be initialised inside setup()
+World TheWorld=new World(side); ///>Main table will be initialised inside setup()
 
 //Parameters of visualisation etc...
-int cwidth=3;      ///> requested size of cell
-int STATUSHEIGH=40;///> height of status bar
-int STEPSperVIS=1; ///> how many model steps beetwen visualisations 
-int FRAMEFREQ= 50; ///> how many model steps per second
-boolean WITH_VIDEO=false;///> Make a movie?
+int cwidth=3;                   ///> requested size of cell
+int STATUSHEIGH=40;             ///> height of status bar
+int STEPSperVIS=1;              ///> how many model steps beetwen visualisations 
+int FRAMEFREQ= 50;              ///> how many model steps per second
+boolean WITH_VIDEO=false;       ///> Need the application make a movie?
 
-boolean simulationRun=true;///> Start/stop flag
+boolean simulationRun=true;     ///> Start/stop flag
 
-/// setup() is called only once, at the beginning of run
+/// Function setup() is called only once, at the beginning of run
 /// At least setup() or draw() must be present in animation program
 void setup()
 {
@@ -58,7 +58,7 @@ void setup()
   NextVideoFrame();//It utilise inside variable to check if is enabled
 }
 
-/// draw() is called many times, to the end of run or noLoop() call.
+/// Function draw() is called many times, to the end of run or noLoop() call.
 /// At least setup() or draw() must be present in animation program
 void draw()
 {
