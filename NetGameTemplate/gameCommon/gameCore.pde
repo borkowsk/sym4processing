@@ -1,15 +1,18 @@
-//*  Game classes and rules and parameters
-//*/////////////////////////////////////////
+/// Game classes and its basic behaviours
+//* Use link_commons.sh script for make symbolic connections to gameServer & gameClient directories
+//*/////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Game board attributes
+int initialSizeOfMainArray=30;  ///> Initial number of @GameObjects in @gameWorld
 float initialMaxX=100; ///> Initial horizontal size of game "board" 
 float initialMaxY=100; ///> Initial vertical size of game "board" 
-int initialSizeOfMainArray=30;  ///> Initial number of @GameObjects in @gameWorld
-int     indexOfMe=-1;    ///> Index of object visualising client or server supervisor
+int     indexOfMe=-1;  ///> Index of object visualising the client or the server supervisor
 
+// For very basic visualistion
 String[] plants= {"_","O","...\nI","_\\|/_\nI ","|/",":","☘️"}; ///> plants... 
 String[] avatars={".","^v^" ,"o^o","@","&","😃","😐"};///> peoples...
 
-//Changes of GameObject atributes (specific for server side)
+//Changes of GameObject atributes (rather specific for server side)
 final int VISSWITH   = unbinary("000000001"); ///> object is invisible (but in info level name is visible)
 final int MOVED_MSK  = unbinary("000000010"); ///> object was moved (0x1)
 final int VISUAL_MSK = unbinary("000000100"); ///> object changed its type of view
@@ -30,16 +33,16 @@ int     INFO_LEVEL =1 | SCORE_MSK;///> Visualisation with information about obje
 boolean VIS_MIN_MAX=true;    ///> Visualisation with min/max value
 boolean KEEP_ASPECT=true;    ///> Visualisation with proportional aspect ratio
 
-
 /// Server side implementation part of any game object
 /// needs modification flags, but client side are free to use 
 /// this parts.
 abstract class implNeeded 
 { 
   int flags=0;//> *_MSK alloved here
-  String myClassName()//Shortened class name
+  
+  String myClassName()//> Shortened class name (see: https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html)
   {
-    String typeStr=getClass().getName(); 
+    String typeStr=getClass().getName(); // TODO? Use getSimpleName() ?
     int dolar=typeStr.indexOf("$"); //println(typeStr,dolar);
     typeStr=typeStr.substring(dolar+1);
     return typeStr;
@@ -53,33 +56,36 @@ abstract class Position extends implNeeded
   float X,Y;//> 2D coordinates
   float Z;  //> Even on a 2D board, objects can pass each other without collision.
   
-  ///constructor
+  /// constructor
   Position(float iniX,float iniY,float iniZ){
     X=iniX;Y=iniY;Z=iniZ;
   }
   
+  /// 2D distance calculation
   float distance2D(Position toWhat)
   {
     return dist(X,Y,toWhat.X,toWhat.Y);
   }
   
+  /// 3D distance calculation
   float distance3D(Position toWhat)
   {
     return dist(X,Y,Z,toWhat.X,toWhat.Y,toWhat.Z);
   }
 }//EndOfClass Position
 
-/// Representation of generic game object
+/// Representation of simple game object
 class GameObject extends Position
 {
-  String name;//> Each object has an individual identifier necessary for communication. Better short.
+  String name;      //> Each object has an individual identifier necessary for communication. Better short.
   String visual="?";//> Text representation of the visualization. The unicode character or the name of an external file.
   color  foreground=0xff00ff00;//> Main color of object
   
-  float  hpoints=1;//Health points
+  float  hpoints=1; //>Health points
   
   float[] distances=null;      //> Array of distances to other objects.
                                //> Not always in use!
+                               
   float  passiveRadius=1;      //> Radius of passive interaction
   
   ///constructor
@@ -87,14 +93,15 @@ class GameObject extends Position
     name=iniName;
   }
   
-  /// List of actions that this object can performed
+  /// @return: List of actions that this object can performed
   /*_interfunc*/ String[] abilities() { return null;} 
   
-  /// List of actions that can be performed on this object
+  /// @return: List of actions that can be performed on this object
   /*_interfunc*/ String[] possibilities() { return null;} 
   
   /// Interface for changing the state of the game object 
   /// over the network (mostly)
+  /// @return: true if field is found
   /*_interfunc*/ boolean  setState(String field,String val)
   {
     if(field.charAt(0)=='h' && field.charAt(1)=='p')//hp-points
@@ -111,21 +118,22 @@ class GameObject extends Position
     return false;
   }
   
-   /// The function creates a message block from those object 
-   /// state elements that have change flags  (for network streaming)
+   /// The function creates a message list (for network streaming) 
+   /// from those object state elements that have change flag sets
+   /// @return: Ready to send list of all changes made on object (based on flags)
    /*_interfunc*/ String sayState()
    {
      String msg="";
      if((flags & VISUAL_MSK )!=0)
-        msg+=sayOptAndInfos(Opts.VIS,name,visual);
+        msg+=sayOptAndInfos(Opcs.VIS,name,visual);
      if((flags & MOVED_MSK )!=0)  
-        msg+=sayPosition(Opts.EUC,name,X,Y);
+        msg+=sayPosition(Opcs.EUC,name,X,Y);
      if((flags & COLOR_MSK  )!=0)
-        msg+=sayOptAndInfos(Opts.COL,name,hex(foreground));
+        msg+=sayOptAndInfos(Opcs.COL,name,hex(foreground));
      if((flags & HPOINT_MSK )!=0) 
-        msg+=sayOptAndInfos(Opts.STA,name,"hp",nf(hpoints)); 
+        msg+=sayOptAndInfos(Opcs.STA,name,"hp",nf(hpoints)); 
      if((flags & PASRAD_MSK )!=0)
-        msg+=sayOptAndInfos(Opts.STA,name,"pasr",nf(passiveRadius));
+        msg+=sayOptAndInfos(Opcs.STA,name,"pasr",nf(passiveRadius));
      return msg;
    }
   
@@ -168,11 +176,12 @@ class ActiveGameObject extends GameObject
   
   /// The function creates a message block from those object 
   /// state elements that have change flags (for network streaming)
+  /// @return: Ready to send list of all changes made on object (based on flags)
   /*_interfunc*/ String sayState()
   {
      String msg=super.sayState();
      if((flags & ACTRAD_MSK )!=0) 
-        msg+=sayOptAndInfos(Opts.STA,name,"actr",nf(activeRadius));
+        msg+=sayOptAndInfos(Opcs.STA,name,"actr",nf(activeRadius));
      return msg;
   }  
 }//EndOfClass ActiveGameObject
@@ -191,6 +200,7 @@ class Player extends ActiveGameObject
   
   /// Interface for changing the state of the game object 
   /// over the network (mostly)
+  /// @return: true if field is found
   /*_interfunc*/ boolean  setState(String field,String val)
   {
     if(field.charAt(0)=='s' && field.charAt(1)=='c')//sc-ore
@@ -203,11 +213,12 @@ class Player extends ActiveGameObject
   
   /// The function creates a message block from those object 
   /// state elements that have change flags (for network streaming)
+  /// @return: Ready to send list of all changes made on object (based on flags)
   /*_interfunc*/ String sayState()
   {
      String msg=super.sayState();
      if((flags & SCORE_MSK )!=0) 
-        msg+=sayOptAndInfos(Opts.STA,name,"sc",nf(score));
+        msg+=sayOptAndInfos(Opcs.STA,name,"sc",nf(score));
      return msg;
   }  
   
@@ -223,12 +234,11 @@ class Player extends ActiveGameObject
   
 }//EndOfClass Player
 
-GameObject[] gameWorld=null;    ///> MAIN ARRAY OF GameObjects
-
 /// Determines the index of the object with the specified proper name 
 /// in an array of objects or players. 
 /// Simple implementation for now, but you can change into dictionary or 
 /// something after that.
+/// @return: index or -1 if not found.
 int localiseByName(GameObject[] table,String name)
 {
   for(int i=0;i<table.length;i++)
@@ -241,16 +251,20 @@ int localiseByName(GameObject[] table,String name)
   return -1;
 }
 
+/// It removes object reffered by name from the table.
+/// The object may remains somowhere else, so no any destruction will be performed.
 void removeObject(GameObject[] table,String name)
 {
   int index=localiseByName(table,name);
   if(index>=0) table[index]=null;
 }
 
-/// Returns the index of the first collided object
+/// It finds the index of the first collided object
 /// 'indexOfMoved' is the index of the object for which we check for collisions.
 /// The first time 'startIndex' should be 0, but thanks to this parameter 
-/// you can continue searching for more collisions. 
+/// you can continue searching for more collisions.
+/// Whem withZ parameter is false, only 2D distance is calculated.
+/// @returns: index or -1 if nothing collidend with object reffered by indexOfMoved
 int findCollision(GameObject[] table,int indexOfMoved,int startIndex,boolean withZ)
 {
   float activeRadius=-1;//By default active radius is disabled
@@ -282,6 +296,7 @@ int findCollision(GameObject[] table,int indexOfMoved,int startIndex,boolean wit
 /// Prepares information about the types and names 
 /// of all objects on the game board.
 /// Mainly needed when a new client connects.
+/// @return: Ready to send list of type infos messages for whole table
 String makeAllTypeInfo(GameObject[] table)
 {
   String ret="";
@@ -292,7 +307,7 @@ String makeAllTypeInfo(GameObject[] table)
   return ret;
 }
 
-/// Flat map visualisation
+/// Simplest flat map visualisation of game board
 void visualise2D(float startX,float startY,float width,float height)
 {                                                            assert gameWorld!=null;
   float minX=MAX_FLOAT;
@@ -378,6 +393,7 @@ void visualise2D(float startX,float startY,float width,float height)
 
 /// Moves allowed for the player. 
 /// Intended to be used on the server side.
+/// @return: false if dir string contains unknow command, otherwise true
 boolean playerMove(String dir,Player player)
 {
   switch(dir.charAt(0)){
@@ -388,7 +404,7 @@ boolean playerMove(String dir,Player player)
   default:
        println(player.name,"did unknown move");
        if(player.netLink!=null && player.netLink.active())
-          player.netLink.write( sayOptAndInf(Opts.ERR,dir+" move is unknown in this game!") );
+          player.netLink.write( sayOptAndInf(Opcs.ERR,dir+" move is unknown in this game!") );
        return false;
   }//end of moves switch
   return true;
@@ -396,16 +412,15 @@ boolean playerMove(String dir,Player player)
 
 /// The actions of agents and players in the game are defined by names 
 /// in the protocol, thanks to which their set is expandable.
-boolean playerAction(String action,Player player)
+void playerAction(String action,Player player)
 {
   if(player.netLink!=null && player.netLink.active())
   {
      if(player.interactionObject==null)
-       player.netLink.write( sayOptAndInf(Opts.ERR,"Action "+action+" is undefined in this context!"));
+       player.netLink.write( sayOptAndInf(Opcs.ERR,"Action "+action+" is undefined in this context!"));
      else
        performAction(player,action,player.interactionObject);
   }
-  return false;
 }
 
 /// Actions placeholder.
@@ -426,6 +441,8 @@ void performAction(ActiveGameObject subject,String action,GameObject object)
   }
   //println(player.name,"did undefined or not allowed action:",action);
 }
+
+GameObject[] gameWorld=null;    ///> MAIN ARRAY OF GameObjects
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE

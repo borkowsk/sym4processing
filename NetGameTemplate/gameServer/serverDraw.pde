@@ -1,8 +1,9 @@
-//*  Server for gameClients - more comm. & game logic 
+/// gameServer - more communication & game logic 
 //*//////////////////////////////////////////////////// 
 
-int   Xmargin=0;       ///> Left margin of server screen (status column)
-boolean wholeUpdateRequested=false; ///> ???
+int   Xmargin=0;                   ///> Left margin of server screen (status column)
+boolean wholeUpdateRequested=false;///> Information about a client requesting information about the entire scene.
+                                   ///> In such a case, it is sent to all clients (in this template of the server)
 
 /// This function sends a full game board update to all clients
 void sendWholeUpdate()
@@ -20,14 +21,14 @@ void sendWholeUpdate()
     //msg+=sayOptAndInfos(Opts.COL,curr.name,hex(curr.foreground));
     if(msg.length()>0)  
       mainServer.write(msg);
-    curr.flags=0;//Whatever was there was sent
+    curr.flags=0;//Whatever was there, was sent
   }
     
-  wholeUpdateRequested=false;
+  wholeUpdateRequested=false;// Now all is sent.
   loop();
 }
 
-/// This function sends all recent changes to all server clients.
+/// This function sends all recent changes to all clients.
 void sendUpdateOfChangedAgents()
 {
   noLoop();//KIND OF CRITICAL SECTION!?!?!
@@ -44,46 +45,23 @@ void sendUpdateOfChangedAgents()
       if(msg.length()>0)  
         mainServer.write(msg);
  
-     curr.flags=0;//Whatever was there was sent
+     curr.flags=0;//Whatever was there, was sent
   }
   
   loop();
 }
 
-/// It interprets message from a particular client/player
-void interpretMessage(String msg,Player player)
+/// It reads pending messages from all players
+void readMessagesFromPlayers()
 {
-  switch(msg.charAt(0)){
-  //Obliq. part
-  default: println("Server recived from",player.name,"UNKNOWN MESSAGE TYPE:",msg.charAt(0));break;
-  case Opts.EOR: println("Server recived empty record from",player.name); break;
-  case Opts.HEL:
-  case Opts.IAM: println("Server recived from",player.name,"UNEXPECTED MESSAGE TYPE:",msg.charAt(0));break;
-  //Normal interactions
-  case Opts.UPD: 
-                  wholeUpdateRequested=true; 
-                break;
-  case Opts.NAV:{ String direction=decodeOptAndInf(msg);     
-                  playerMove(direction,player);
-                  player.flags|=MOVED_MSK;
-                } break;
-  case Opts.ACT:{ String action=decodeOptAndInf(msg);     
-                  playerAction(action,player);
-                } break;              
-  }//END OF MESSAGE TYPES SWITCH
-}
-
-/// It reads messages from clients
-void readMessages()
-{
-  for(int i = 0; i < players.length; i++)
+  for(int i = 0; i < players.length; i++) // Always in the same order :-/ TODO?
   if(players[i]!=null 
   && players[i].netLink !=null
   && players[i].netLink.available()>0)
   {
         if(DEBUG>1) print("Server is reciving from",players[i].name,":");
-        String msg = players[i].netLink.readStringUntil(Opts.EOR);
-        if(msg==null || msg.equals("") || msg.charAt(msg.length()-1)!=Opts.EOR)
+        String msg = players[i].netLink.readStringUntil(Opcs.EOR);
+        if(msg==null || msg.equals("") || msg.charAt(msg.length()-1)!=Opcs.EOR)
         {
           println("Server recived invalid message. IGNORED");
           return;
@@ -97,7 +75,6 @@ void readMessages()
         interpretMessage(msg,players[i]);
   }
 }
-
 
 /// initialisation of game world
 void initialiseGame()
@@ -172,7 +149,7 @@ void checkCollisions()
       //println("No collision for",gameWorld[indexInGameWorld].name);//DEBUG ONLY!
       if(players[i].interactionObject!=null)
       {
-         String msg=sayOptAndInf(Opts.DTC,players[i].interactionObject.name);
+         String msg=sayOptAndInf(Opcs.DTC,players[i].interactionObject.name);
          players[i].interactionObject=null;
          players[i].netLink.write(msg);
       }
@@ -194,7 +171,7 @@ void serverGameDraw()
   
   visualise2D(Xmargin,0,width-Xmargin,height);// current state of the game
   
-  readMessages();// Do what players decided to do (if doable)
+  readMessagesFromPlayers();// Do what players decided to do (if doable)
   
   stepOfGameMechanics();//Do what is independent of player actions!
   
@@ -208,7 +185,33 @@ void serverGameDraw()
   }
   
   checkCollisions();// checks for collisions and sends information about them to clients
-  
+}
+
+/// This function interprets message from a particular player
+void interpretMessage(String msg,Player player)
+{
+  switch(msg.charAt(0)){
+  // Future use
+  case Opcs.OBJ: // From a neighboring server?
+  case Opcs.GET: // RESOURCES NOT IMPLEMENTED FOR NOW! TODO
+  //Obliq. part
+  default: println("Server recived from",player.name,"UNKNOWN MESSAGE TYPE:",msg.charAt(0));break;
+  case Opcs.EOR: println("Server recived empty record from",player.name); break;
+  case Opcs.HEL: 
+  case Opcs.IAM: // SHOULD NOT APPEAR WHEN REGULAR MESSAGE LOOP IS ACTIVE!
+      println("Server recived from",player.name,"UNEXPECTED MESSAGE TYPE:",msg.charAt(0));break;
+  //Normal interactions
+  case Opcs.UPD: 
+                  wholeUpdateRequested=true; 
+                break;
+  case Opcs.NAV:{ String direction=decodeOptAndInf(msg);     
+                  playerMove(direction,player);
+                  player.flags|=MOVED_MSK;
+                } break;
+  case Opcs.ACT:{ String action=decodeOptAndInf(msg);     
+                  playerAction(action,player);
+                } break;
+  }//END OF MESSAGE TYPES SWITCH
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////

@@ -1,17 +1,17 @@
-//*  Server for gameClients - setup() & draw() SOURCE FILE
+/// Server for gameClients - setup() & draw() SOURCE FILE
 //*////////////////////////////////////////////////////////////////// 
 //
-// Base on:
-// Example code for a server with multiple clients communicating to only one at a time.
-// https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
+/// Losely base on
+/// example code for a server with multiple clients communicating to only one at a time.
+/// (see: https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html)
 //
-import processing.net.*;
-//import processing.pdf.*;//Działa jako server, ale plik PDF jest pusty
-import processing.svg.*;//No-window server!
+import processing.net.*;  //Needed for network communication
+//import processing.pdf.*;//It acts as a server, but the PDF file is empty
+import processing.svg.*;  //No-window server!
 
-int DEBUG=0; ///> Level of debug logging
+int DEBUG=0;       ///> Level of debug logging
 
-Server mainServer; ///> Object representing server's TCP/IP input port
+Server mainServer; ///> Object representing server's TCP/IP COMMUNICATION
 
 Player[] players= new Player[0]; ///> The array of clients (players)
 
@@ -29,10 +29,10 @@ void setup()
   mainServer = new Server(this,servPORT,serverIP);
   if(mainServer.active())
   {
-    println("Server for '"+Opts.name+"' started!");
+    println("Server for '"+Opcs.name+"' started!");
     println("IP:",serverIP,"PORT:",servPORT);
     initialiseGame();
-    surface.setTitle(serverIP+"//"+Opts.name+":"+servPORT);
+    surface.setTitle(serverIP+"//"+Opcs.name+":"+servPORT);
   }
   else exit();
 }
@@ -66,11 +66,11 @@ void confirmClient(Client newClient,Player player)
 {
   if(DEBUG>1) print("Server confirms the client's registration: ");
   
-  String msg=sayOptAndInf(Opts.YOU,player.name);
+  String msg=sayOptAndInf(Opcs.YOU,player.name);
   if(DEBUG>1) println(msg);
   newClient.write(msg);
     
-  msg=sayOptAndInfos(Opts.VIS,Opts.sYOU,player.visual);
+  msg=sayOptAndInfos(Opcs.VIS,Opcs.sYOU,player.visual);
   if(DEBUG>1) println(msg);
   newClient.write(msg);
   

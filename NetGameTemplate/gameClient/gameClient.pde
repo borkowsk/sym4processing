@@ -1,13 +1,13 @@
-//*  Client for gameServer - setup() & draw() SOURCE FILE
+///  Client for gameServer - setup() & draw() SOURCE FILE
 //*//////////////////////////////////////////////////////////
 //
-//Base on:
-//https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
+/// Losely based on:
+/// --> https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
 //
 import processing.net.*;
 
-int DEBUG=1;    ///> Program trace level
-int VIEWMESG=0; ///> Game protocol message tracing level
+int DEBUG=1;           ///> Program trace level
+int VIEWMESG=0;        ///> Game protocol message tracing level
 int INTRO_FRAMES=3;    ///> How long the intro lasts?
 int DEF_FRAME_RATE=60; ///> Desired frame rate during game
 
@@ -76,18 +76,18 @@ void whenConnectedToServer()
     while(myClient.available() <= 0) delay(10);
     
     if(DEBUG>1) print(playerName,"is READING FROM SERVER:");
-    msg=myClient.readStringUntil(Opts.EOR);
+    msg=myClient.readStringUntil(Opcs.EOR);
     if(VIEWMESG>0 || DEBUG>1) println(msg);
     
     String serverType=decodeHELLO(msg);
-    if(serverType.equals(Opts.name) )
+    if(serverType.equals(Opcs.name) )
     {
-      surface.setTitle(serverIP+"//"+Opts.name+":"+playerName);
+      surface.setTitle(serverIP+"//"+Opcs.name+":"+playerName);
       gameWorld=new GameObject[1];
       gameWorld[0]=new Player(myClient,playerName,10,10,0,1);//float iniX,float iniY,float iniZ,float iniRadius
       gameWorld[0].visual="???";
       indexOfMe=0;
-      msg=sayOptCode(Opts.UPD);
+      msg=sayOptCode(Opcs.UPD);
       if(DEBUG>1) print(playerName,"is SENDING:");
       if(VIEWMESG>0 || DEBUG>1) println(msg);
       myClient.write(msg);
@@ -95,7 +95,7 @@ void whenConnectedToServer()
     else
     {
       println("Protocol mismatch: '"
-              +serverType+"'<>'"+Opts.name+"'");
+              +serverType+"'<>'"+Opcs.name+"'");
       myClient.stop();
       exit();
     }

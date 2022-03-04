@@ -1,4 +1,4 @@
-//*  gameClient - more comm. logic 
+///  gameClient - more communication logic 
 //*/////////////////////////////////////////////// 
 
 StringDict inventory=new StringDict();
@@ -22,7 +22,7 @@ void implementObjectMenagement(String[] cmd)
 GameObject makeGameObject(String name,float X,float Y,float Z,float R)
 {
   String type=inventory.get(name); 
-  if(DEBUG>0) println("type:'"+type+"' object:'"+name+"'");
+  if(DEBUG>1) println("type:'"+type+"' object:'"+name+"'");
   switch(type.charAt(0)){
   default:
       println("Type",type,"unknown. Replaced by ActiveGameObject.");
@@ -35,7 +35,7 @@ GameObject makeGameObject(String name,float X,float Y,float Z,float R)
 /// Handle changes in visualisation type of any game object
 void visualisationChanged(GameObject[] table,String name,String vtype)
 {
-  int pos=(name.equals(Opts.sYOU)?indexOfMe:localiseByName(table,name));
+  int pos=(name.equals(Opcs.sYOU)?indexOfMe:localiseByName(table,name));
   if(pos==-1)//FIRST TIME
   {
     gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);
@@ -49,7 +49,7 @@ void visualisationChanged(GameObject[] table,String name,String vtype)
 void colorChanged(GameObject[] table,String name,String hexColor)
 {
   color newColor=unhex(hexColor);
-  int pos=(name.equals(Opts.sYOU)?indexOfMe:localiseByName(table,name));
+  int pos=(name.equals(Opcs.sYOU)?indexOfMe:localiseByName(table,name));
   if(pos==-1)//FIRST TIME
   {
     gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);
@@ -63,7 +63,7 @@ void colorChanged(GameObject[] table,String name,String hexColor)
 /// Handle changes in position of any game object
 void positionChanged(GameObject[] table,String name,float[] inpos)
 {
-  int pos=(name.equals(Opts.sYOU)?indexOfMe:localiseByName(table,name));
+  int pos=(name.equals(Opcs.sYOU)?indexOfMe:localiseByName(table,name));
   if(pos==-1)//FIRST TIME
   {
     gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);
@@ -95,7 +95,7 @@ void stateChanged(GameObject[] table,String objectName,String field,String val)
   {
     println(objectName,"not found!");
     println("DATA INCONSISTENCY! CALL SERVER FOR FULL UPDATE");
-    String msg=sayOptCode(Opts.UPD);
+    String msg=sayOptCode(Opcs.UPD);
     if(DEBUG>1) print(playerName,"is SENDING:");
     if(VIEWMESG>0 || DEBUG>1) println(msg);
     myClient.write(msg);
@@ -120,7 +120,7 @@ void beginInteraction(GameObject[] table,String[]  objectAndActionsNames)
   {
     println(objectAndActionsNames[0],"not found!");
     println("DATA INCONSISTENCY! CALL SERVER FOR FULL UPDATE");
-    String msg=sayOptCode(Opts.UPD);
+    String msg=sayOptCode(Opcs.UPD);
     if(DEBUG>1) print(playerName,"is SENDING:");
     if(VIEWMESG>0 || DEBUG>1) println(msg);
     myClient.write(msg);
@@ -143,8 +143,6 @@ void finishInteraction(GameObject[] table,String objectName)
   }
 }
 
-
-
 // Arrays for decoding more complicated messages
 float[] inparr1=new float[1];
 float[] inparr2=new float[2];
@@ -159,35 +157,35 @@ void interpretMessage(String msg)
   switch(msg.charAt(0)){
   //Obliq. part
   default: println(playerName,"recived UNKNOWN MESSAGE TYPE:",msg.charAt(0));break;
-  case Opts.EOR: if(DEBUG>0) println(playerName,"recived NOPE");break;
-  case Opts.HEL:
-  case Opts.IAM: println(playerName,"recived UNEXPECTED MESSAGE TYPE:",msg.charAt(0));break;
-  case Opts.ERR: { String emessage=decodeOptAndInf(msg);
+  case Opcs.EOR: if(DEBUG>0) println(playerName,"recived NOPE");break;
+  case Opcs.HEL:
+  case Opcs.IAM: println(playerName,"recived UNEXPECTED MESSAGE TYPE:",msg.charAt(0));break;
+  case Opcs.ERR: { String emessage=decodeOptAndInf(msg);
                    println(playerName,"recived error:\n\t",emessage);
                   } break;
-  case Opts.OBJ: { String[] cmd=decodeObjectMng(msg);
+  case Opcs.OBJ: { String[] cmd=decodeObjectMng(msg);
                    implementObjectMenagement(cmd);
                  } break;
   //Normal interactions
-  case Opts.YOU: { playerName=decodeOptAndInf(msg);
+  case Opcs.YOU: { playerName=decodeOptAndInf(msg);
                  if(DEBUG>1) println(playerName,"recived confirmation from the server!");
-                 surface.setTitle(serverIP+"//"+Opts.name+";"+playerName);
+                 surface.setTitle(serverIP+"//"+Opcs.name+";"+playerName);
                  } break;
-  case Opts.VIS: { String objectName=decodeInfos(msg,instr1);
+  case Opcs.VIS: { String objectName=decodeInfos(msg,instr1);
                    if(DEBUG>1) println(objectName,"change visualisation into",instr1[0]); 
                    visualisationChanged(gameWorld,objectName,instr1[0]);
                  } break;
-  case Opts.COL: { String objectName=decodeInfos(msg,instr1);
+  case Opcs.COL: { String objectName=decodeInfos(msg,instr1);
                    if(DEBUG>1) println(objectName,"change color into",instr1[0]); 
                    colorChanged(gameWorld,objectName,instr1[0]);
                  } break;   
-  case Opts.STA: {
+  case Opcs.STA: {
                    String objectName=decodeInfos(msg,instr2);
                    if(DEBUG>2) println(objectName,"change state",instr2[0],"<==",instr2[1]);
                    stateChanged(gameWorld,objectName,instr2[0],instr2[1]);
                  } break;
   // interactions               
-  case Opts.TCH: { String[] inputs;
+  case Opcs.TCH: { String[] inputs;
                    switch(msg.charAt(1)){
                    case '1':inputs=instr2;break;
                    case '2':inputs=instr3;break;
@@ -197,12 +195,12 @@ void interpretMessage(String msg)
                    if(DEBUG>1) println(playerName,"touched",inputs[0],inputs[1]);
                    beginInteraction(gameWorld,inputs);
                  }break;
-  case Opts.DTC: { String objectName=decodeOptAndInf(msg);
+  case Opcs.DTC: { String objectName=decodeOptAndInf(msg);
                  if(DEBUG>1) println(playerName,"detached from",objectName);
                  finishInteraction(gameWorld,objectName);//--> beginInteraction(inputs);
                  }break;                  
   //... rest of message types
-  case Opts.EUC: if(msg.charAt(1)=='1')
+  case Opcs.EUC: if(msg.charAt(1)=='1')
                  {
                    //String who=decodePosition(msg,inparr1);//print(who);
                    //positionChanged(gameWorld,who,inparr1);
@@ -241,10 +239,10 @@ void clientGameDraw()
       if (myClient!=null && myClient.available() > 0) 
       {
         if(DEBUG>2) print(playerName,"is reciving:");
-        String msg = myClient.readStringUntil(Opts.EOR);
+        String msg = myClient.readStringUntil(Opcs.EOR);
         if(VIEWMESG>0 || DEBUG>2) println(msg);
         
-        if(msg==null || msg.equals("") || msg.charAt(msg.length()-1)!=Opts.EOR)
+        if(msg==null || msg.equals("") || msg.charAt(msg.length()-1)!=Opcs.EOR)
         {
           println(playerName,"recived invalid message. IGNORED");
           return;
