@@ -1,5 +1,6 @@
-//* ABM: EXIT() TEMPLATE
-//*///////////////////////
+/// Everything that needs to be done when the application is terminated.
+//* ABM: EXIT HANDLIG TEMPLATE
+//*//////////////////////////////////////////////////////////////////////
 
 /// It is called whenever a window is closed.
 void exit()          //it is called whenever a window is closed. 
@@ -17,7 +18,8 @@ void exit()          //it is called whenever a window is closed.
   if(WITH_VIDEO) CloseVideo();    //Finalise of Video export
   
   println(modelName,"said: Thank You!");
-  super.exit();       //What library superclass have to do at exit()
+  
+  super.exit();       // What library superclass have to do at exit() !!!
 } 
 
 

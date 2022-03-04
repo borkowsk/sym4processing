@@ -1,11 +1,11 @@
-//* Agent is a one of two central class of each ABM model
+/// Agent is a one of two central class of each ABM model
 //* FILL IT UP!
 //*/////////////////////////////////////////////////////////////
 
 /// Agent class
 class Agent
 {
-  float dummy;//Dummy field. Only for demonstration.
+  float dummy;//> Dummy field. Only for demonstration.
   //... PLACE FOR YOUR CODE
   
   /// Constructor of the Agent

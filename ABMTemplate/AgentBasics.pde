@@ -1,6 +1,6 @@
 //* Agent is a one of two central class of each ABM model
-//* Agents need to be initialised & they need logic of change 
-//* ABM: BASIC INITIALISATION & EVERY STEP CHANGE
+/// Agents need to be initialised & they need logic of change 
+/// ABM: BASIC INITIALISATION & EVERY STEP CHANGE
 //*//////////////////////////////////////////////////////////////
 
 /// Initialization of agents (2D version)

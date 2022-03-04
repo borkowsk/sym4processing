@@ -1,14 +1,15 @@
-//* World is a one of two central class of each ABM model
+/// World is a one of two central class of each ABM model
 //* ABM: WORLD OF AGENTS FOR FILL UP
 //*/////////////////////////////////////////////////////////////
-int StepCounter=0;
+int StepCounter=0; ///> Global variable for caunting real simulation steps.
+                   ///> Value may differ from frameCount.
 
 /// The main class of simulation
 class World
 {
-  //Agent agents[];//One dimensional array of agents
+  //Agent agents[];//> One dimensional array of agents
   //OR
-  Agent agents[][];//Two dimensional array of agents
+  Agent agents[][];//> Two dimensional array of agents
   
   /// Constructor of the World
   World(int side)
@@ -19,8 +20,8 @@ class World
   }
 }//ENDofCLASS
 
-//* More alaborated functionalities are defined as stand-alone functions,
-//* not as methods because of not enought flexible syntax of Processing
+/// More alaborated functionalities are defined as stand-alone functions,
+/// not as methods because of not enought flexible syntax of Processing
 //*/////////////////////////////////////////////////////////////////////////
 
 /// Prepares the World class for the first step of the simulation 

@@ -1,6 +1,6 @@
-//   Template for AGENT BASE MODEL utilized 1D or 2D discrete geometry
-//   implemented by Wojciech Borkowski
-/////////////////////////////////////////////////////////////////////////////////////////
+///   Template for AGENT BASE MODEL utilized 1D or 2D discrete geometry
+//*   implemented by Wojciech Borkowski
+//*///////////////////////////////////////////////////////////////////////////////////////
 
 //Model parameters
 String modelName="ABMTemplate";///> Name of the model is used for log files
@@ -18,7 +18,7 @@ boolean WITH_VIDEO=false;///> Make a movie?
 
 boolean simulationRun=false;///> Start/stop flag
 
-/// setup() is called only once, at the beginning of run
+/// Function setup() is called only once, at the beginning of run
 /// At least setup() or draw() must be present in animation program
 void setup()
 {
@@ -56,7 +56,7 @@ void setup()
   NextVideoFrame();//It utilise inside variable to check if is enabled
 }
 
-/// draw() is called many times, to the end of run or noLoop() call.
+/// Function draw() is called many times, to the end of run or noLoop() call.
 /// At least setup() or draw() must be present in animation program
 void draw()
 {

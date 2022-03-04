@@ -1,4 +1,4 @@
-//* Simulation have to collect and write down statistics from every step
+/// Simulation have to collect and write down statistics from every step
 //* ABM: STATISTICS LOG TEMPLATE
 //*/////////////////////////////////////////////////////////////////////////////////////
 
@@ -26,6 +26,7 @@ void doStatistics(World world)
 }
 
 /// Agent statistics. One-dimensional version
+/// File outstat should be closed in exit() --> see Exit.pde
 void doStatisticsOnAgents(Agent[] agents)
 {  
   Agent curra;
@@ -47,11 +48,10 @@ void doStatisticsOnAgents(Agent[] agents)
       outstat.println(StepCounter+"\t"+liveCount+"\t"+(summ/liveCount));
    
    meanDummy=(float)(summ/liveCount);
-   
-   //outstat should be closed in exit() --> see Exit.pde
 }
 
 /// Agent statistics. Two-dimensional version
+/// File outstat should be closed in exit() --> see Exit.pde
 void doStatisticsOnAgents(Agent[][] agents)
 {  
   Agent curra;
@@ -74,8 +74,6 @@ void doStatisticsOnAgents(Agent[][] agents)
       outstat.println(StepCounter+"\t"+liveCount+"\t"+(summ/liveCount));
    
    meanDummy=(float)(summ/liveCount);
-   
-   //outstat should be closed in exit() --> see Exit.pde
 }
 
 
