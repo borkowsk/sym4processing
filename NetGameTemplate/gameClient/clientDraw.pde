@@ -111,10 +111,10 @@ void beginInteraction(GameObject[] table,String[]  objectAndActionsNames)
     if( table[indexOfMe] instanceof ActiveGameObject )
     {
       ActiveGameObject me=(ActiveGameObject)(table[indexOfMe]); assert me!=null;
-      if(me.interactionObject!=null) me.interactionObject.flags^=TOUCH_MSK;
+      if(me.interactionObject!=null) me.interactionObject.flags^=Masks.TOUCHED;
       me.interactionObject=table[pos];
     }
-    table[pos].flags|=TOUCH_MSK;
+    table[pos].flags|=Masks.TOUCHED;
   }
   else
   {
@@ -133,7 +133,7 @@ void finishInteraction(GameObject[] table,String objectName)
   int pos=localiseByName(table,objectName);
   if(pos>=0)//It may happen that in the meantime it has disappeared
   {
-    table[pos].flags^=TOUCH_MSK;
+    table[pos].flags^=Masks.TOUCHED;
   }
   //Any way, you have to forget about him! 
   if( table[indexOfMe] instanceof ActiveGameObject )

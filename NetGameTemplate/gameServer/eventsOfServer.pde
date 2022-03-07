@@ -50,7 +50,7 @@ void disconnectEvent(Client someClient)
     println("Server registered",players[i].name," disconnection.");
     players[i].netLink=null;
     players[i].visual=avatars[0];
-    players[i].flags|=VISUAL_MSK;
+    players[i].flags|=Masks.VISUAL;
     break;
   }
   

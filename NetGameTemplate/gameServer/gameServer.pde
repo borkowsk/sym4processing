@@ -98,7 +98,7 @@ void whenClientConnected(Client newClient,String playerName)
       println("Player",playerName,"reconnected to server!");
       players[i].netLink=newClient;
       players[i].visual=avatars[2];
-      players[i].flags|=VISUAL_MSK;
+      players[i].flags|=Masks.VISUAL;
       confirmClient(newClient,players[i]);
       return;
     }

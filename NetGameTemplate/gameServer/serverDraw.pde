@@ -14,7 +14,7 @@ void sendWholeUpdate()
   for(int i=0;i<gameWorld.length;i++)
   if((curr=gameWorld[i])!=null)
   {
-    curr.flags|=ALL_CHNG_MSK;
+    curr.flags|=Masks.ALL_CHNG;
     String msg=curr.sayState();
     //sayOptAndInfos(Opts.VIS,curr.name,curr.visual);
     //msg+=sayPosition(Opts.EUC,curr.name,curr.X,curr.Y);
@@ -37,7 +37,7 @@ void sendUpdateOfChangedAgents()
   
   for(int i=0;i<gameWorld.length;i++)
   if((curr=gameWorld[i])!=null
-  && (curr.flags & ALL_CHNG_MSK)!=0
+  && (curr.flags & Masks.ALL_CHNG)!=0
   )
   {
       String msg=curr.sayState();
@@ -86,7 +86,7 @@ void initialiseGame()
     tmp.visual=plants[1];
     tmp.foreground=color(int(random(100)),128+int(random(128)),100+int(random(100)));
     if(DEBUG>2) println(hex(tmp.foreground));
-    tmp.flags=ALL_CHNG_MSK;
+    tmp.flags=Masks.ALL_CHNG;
     gameWorld[i]=tmp;
   }
 }
@@ -206,7 +206,7 @@ void interpretMessage(String msg,Player player)
                 break;
   case Opcs.NAV:{ String direction=decodeOptAndInf(msg);     
                   playerMove(direction,player);
-                  player.flags|=MOVED_MSK;
+                  player.flags|=Masks.MOVED;
                 } break;
   case Opcs.ACT:{ String action=decodeOptAndInf(msg);     
                   playerAction(action,player);

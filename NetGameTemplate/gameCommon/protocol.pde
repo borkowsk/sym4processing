@@ -9,7 +9,7 @@ String  serverIP="127.0.0.1";     ///< localhost
 int     servPORT=5205;            ///< Teoretically it could be any above 1024
 
 /// Protocol dictionary ("opcodes" etc.)
-class Opcs { 
+static abstract class Opcs { 
   static final String name="sampleGame";///< ASCI IDENTIFIER OF PROTOCOL
   static final String sYOU="Y";///< REPLACER OF CORESPONDENT NAME as a ready to use String. 
                                ///< Character.toString(YOU);<-not for static
@@ -43,7 +43,7 @@ class Opcs {
   static final char ACT='A'; ///< 'defo'(-ult) or user defined actions of the avatar
   //...
   //static final char XXX='c';// something more...
-};
+}//EndOfClass Opcs
 
 /// It composes server-client handshake
 /// @return message PREPARED to send. 

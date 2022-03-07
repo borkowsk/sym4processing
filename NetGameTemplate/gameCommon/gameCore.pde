@@ -12,24 +12,25 @@ int     indexOfMe=-1;           ///< Index of object visualising the client or t
 String[] plants= {"_","O","...\nI","_\\|/_\nI ","|/",":","☘️"}; ///< plants... 
 String[] avatars={".","^v^" ,"o^o","@","&","😃","😐"};///< peoples...
 
-//Changes of GameObject atributes (rather specific for server side)
-final int VISSWITH   = unbinary("000000001"); ///< object is invisible (but in info level name is visible)
-final int MOVED_MSK  = unbinary("000000010"); ///< object was moved (0x1)
-final int VISUAL_MSK = unbinary("000000100"); ///< object changed its type of view
-final int COLOR_MSK  = unbinary("000001000"); ///< object changed its colors
-final int HPOINT_MSK = unbinary("000010000"); ///< object changed its hp state (most frequently changed state)
-final int SCORE_MSK  = unbinary("000100000"); ///< object changed its score (for players it is most frequently changed state)
-final int PASRAD_MSK = unbinary("001000000"); ///< object changed its passive radius (ex. grow);
-final int ACTRAD_MSK = unbinary("010000000"); ///< object changed its radius of activity (ex. go to sleep);
-final int STATE_MSK  = HPOINT_MSK | SCORE_MSK | PASRAD_MSK | ACTRAD_MSK ;///< object changed its states
+static abstract class Masks { //Changes of GameObject atributes (rather specific for server side)
+static final int VISSWITH   = unbinary("000000001"); ///< object is invisible (but in info level name is visible)
+static final int MOVED  = unbinary("000000010"); ///< object was moved (0x1)
+static final int VISUAL = unbinary("000000100"); ///< object changed its type of view
+static final int COLOR  = unbinary("000001000"); ///< object changed its colors
+static final int HPOINT = unbinary("000010000"); ///< object changed its hp state (most frequently changed state)
+static final int SCORE  = unbinary("000100000"); ///< object changed its score (for players it is most frequently changed state)
+static final int PASRAD = unbinary("001000000"); ///< object changed its passive radius (ex. grow);
+static final int ACTRAD = unbinary("010000000"); ///< object changed its radius of activity (ex. go to sleep);
 //....any more?
 /// To visualize the interaction between background objects
-final int TOUCH_MSK  = unbinary("1000000000000000"); ///<16bits
-/// All initial changes
-final int ALL_CHNG_MSK = MOVED_MSK | VISUAL_MSK | COLOR_MSK | STATE_MSK ; 
+static final int TOUCHED= unbinary("1000000000000000"); ///<16bits
+// Composed masks below:
+static final int STATES   = HPOINT | SCORE | PASRAD | ACTRAD ;///< object changed its states
+static final int ALL_CHNG = MOVED | VISUAL | COLOR | STATES ; ///< All initial changes
+}//EndOfClass Masks 
 
 // Options for visualisation 
-int     INFO_LEVEL =1 | SCORE_MSK;///< Visualisation with information about objects (name & score by default)
+int     INFO_LEVEL =1 | Masks.SCORE;///< Visualisation with information about objects (name & score by default)
 boolean VIS_MIN_MAX=true;    ///< Visualisation with min/max value
 boolean KEEP_ASPECT=true;    ///< Visualisation with proportional aspect ratio
 
@@ -38,7 +39,7 @@ boolean KEEP_ASPECT=true;    ///< Visualisation with proportional aspect ratio
 /// this parts.
 abstract class implNeeded 
 { 
-  int flags=0;//> *_MSK alloved here
+  int flags=0;//!< Masks. alloved here
   
   String myClassName()//> Shortened class name (see: https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html)
   {
@@ -53,8 +54,8 @@ abstract class implNeeded
 /// However, the value of Z is not always used.
 abstract class Position extends implNeeded
 {
-  float X,Y;//> 2D coordinates
-  float Z;  //> Even on a 2D board, objects can pass each other without collision.
+  float X,Y;//!< 2D coordinates
+  float Z;  //!< Even on a 2D board, objects can pass each other without collision.
   
   /// constructor
   Position(float iniX,float iniY,float iniZ){
@@ -77,16 +78,15 @@ abstract class Position extends implNeeded
 /// Representation of simple game object
 class GameObject extends Position
 {
-  String name;      //> Each object has an individual identifier necessary for communication. Better short.
-  String visual="?";//> Text representation of the visualization. The unicode character or the name of an external file.
+  String name;      //!< Each object has an individual identifier necessary for communication. Better short.
+  String visual="?";//!< Text representation of the visualization. The unicode character or the name of an external file.
   color  foreground=0xff00ff00;//> Main color of object
   
-  float  hpoints=1; //>Health points
+  float  hpoints=1; //!< Health points
   
-  float[] distances=null;      //> Array of distances to other objects.
-                               //> Not always in use!
+  float[] distances=null;      //!< Array of distances to other objects. Not always in use!
                                
-  float  passiveRadius=1;      //> Radius of passive interaction
+  float  passiveRadius=1;      //!< Radius of passive interaction
   
   ///constructor
   GameObject(String iniName,float iniX,float iniY,float iniZ){ super(iniX,iniY,iniZ);
@@ -124,15 +124,15 @@ class GameObject extends Position
    /*_interfunc*/ String sayState()
    {
      String msg="";
-     if((flags & VISUAL_MSK )!=0)
+     if((flags & Masks.VISUAL )!=0)
         msg+=sayOptAndInfos(Opcs.VIS,name,visual);
-     if((flags & MOVED_MSK )!=0)  
+     if((flags & Masks.MOVED )!=0)  
         msg+=sayPosition(Opcs.EUC,name,X,Y);
-     if((flags & COLOR_MSK  )!=0)
+     if((flags & Masks.COLOR  )!=0)
         msg+=sayOptAndInfos(Opcs.COL,name,hex(foreground));
-     if((flags & HPOINT_MSK )!=0) 
+     if((flags & Masks.HPOINT )!=0) 
         msg+=sayOptAndInfos(Opcs.STA,name,"hp",nf(hpoints)); 
-     if((flags & PASRAD_MSK )!=0)
+     if((flags & Masks.PASRAD )!=0)
         msg+=sayOptAndInfos(Opcs.STA,name,"pasr",nf(passiveRadius));
      return msg;
    }
@@ -144,9 +144,9 @@ class GameObject extends Position
     String ret="";
     if((level & 0x1)!=0)
       ret+=name;
-    if((level & MOVED_MSK)!=0)
+    if((level & Masks.MOVED)!=0)
       ret+=";"+nf(X)+";"+nf(Y);
-    if((level & PASRAD_MSK)!=0)
+    if((level & Masks.PASRAD)!=0)
       ret+=";pr:"+passiveRadius;
     return ret;
   }
@@ -154,8 +154,8 @@ class GameObject extends Position
 
 class ActiveGameObject extends GameObject
 {
-  float activeRadius=1;// Radius for active interaction with others objects
-  GameObject interactionObject=null;// Only one in a time
+  float activeRadius=1;             //!< Radius for active interaction with others objects
+  GameObject interactionObject=null;//!< Only one in a time
   
   ///constructor
   ActiveGameObject(String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ);
@@ -180,7 +180,7 @@ class ActiveGameObject extends GameObject
   /*_interfunc*/ String sayState()
   {
      String msg=super.sayState();
-     if((flags & ACTRAD_MSK )!=0) 
+     if((flags & Masks.ACTRAD )!=0) 
         msg+=sayOptAndInfos(Opcs.STA,name,"actr",nf(activeRadius));
      return msg;
   }  
@@ -189,9 +189,10 @@ class ActiveGameObject extends GameObject
 /// Representation of generic player
 class Player extends ActiveGameObject
 {
-  float  score=0;// Result
-  Client netLink;// Network connection to client application
-  int    indexInGameWorld=-1;
+  float  score=0;  //!< Result
+  Client netLink;  //!< Network connection to client application
+  
+  int    indexInGameWorld=-1;//!< Index/shortcut to game board array/container
 
   ///constructor
   Player(Client iniClient,String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ,iniRadius);
@@ -217,7 +218,7 @@ class Player extends ActiveGameObject
   /*_interfunc*/ String sayState()
   {
      String msg=super.sayState();
-     if((flags & SCORE_MSK )!=0) 
+     if((flags & Masks.SCORE )!=0) 
         msg+=sayOptAndInfos(Opcs.STA,name,"sc",nf(score));
      return msg;
   }  
@@ -227,7 +228,7 @@ class Player extends ActiveGameObject
   /*_interfunc*/ String info(int level)
   {
     String ret=super.info(level);
-    if((level & SCORE_MSK)!=0)
+    if((level & Masks.SCORE)!=0)
       ret+=";"+score;
     return ret;
   }
@@ -355,7 +356,7 @@ void visualise2D(float startX,float startY,float width,float height)
   for(int i=0;i<gameWorld.length;i++)
   {
     GameObject tmp=gameWorld[i];
-    if(tmp!=null && (tmp.flags & VISSWITH)==0 )
+    if(tmp!=null && (tmp.flags & Masks.VISSWITH)==0 )
     {
       float X=startX+(tmp.X-minX)/(maxX-minX)*width;
       float Y=startY+(tmp.Y-minY)/(maxY-minY)*width;
@@ -371,7 +372,7 @@ void visualise2D(float startX,float startY,float width,float height)
         fill(red(tmp.foreground),green(tmp.foreground),blue(tmp.foreground));
         text(tmp.visual,X,Y);
         if(DEBUG>0){ stroke(255,0,0);point(X,Y);}
-        if((tmp.flags & TOUCH_MSK)!=0)
+        if((tmp.flags & Masks.TOUCHED)!=0)
         {
           stroke(255,0,0);
           point(X,Y);
@@ -428,16 +429,16 @@ void performAction(ActiveGameObject subject,String action,GameObject object)
 {
   if(object.visual.equals(plants[1]))
   {
-    subject.hpoints+=object.hpoints;subject.flags|=HPOINT_MSK;
+    subject.hpoints+=object.hpoints;subject.flags|=Masks.HPOINT;
     
     if(subject instanceof Player)
     {
       Player pl=(Player)(subject);
-      pl.score++;pl.flags|=SCORE_MSK;
+      pl.score++;pl.flags|=Masks.SCORE;
     }
     
-    object.hpoints=0;object.flags|=HPOINT_MSK;
-    object.visual=plants[0];object.flags|=VISUAL_MSK;
+    object.hpoints=0;object.flags|=Masks.HPOINT;
+    object.visual=plants[0];object.flags|=Masks.VISUAL;
   }
   //println(player.name,"did undefined or not allowed action:",action);
 }

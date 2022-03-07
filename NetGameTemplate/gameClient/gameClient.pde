@@ -25,7 +25,7 @@ void setup()
   frameRate(1);     //Only for intro (->INTRO_FRAMES) and establishing connection time.
   VIS_MIN_MAX=false;//Option for visualisation - with min/max value
   KEEP_ASPECT=true; //Option for visualisation - with proportional aspect ratio
-  INFO_LEVEL=SCORE_MSK;    //Information about objects (-1 - no information printed)
+  INFO_LEVEL=Masks.SCORE;    //Information about objects (-1 - no information printed)
   //textSize(16);   //... not work well with default font :-(
 }
 
