@@ -5,42 +5,42 @@
 import processing.net.*;
 
 //long pid = ProcessHandle.current().pid();//JAVA9 :-(
-String  serverIP="127.0.0.1";     ///> localhost
-int     servPORT=5205;  ///> Teoretically it could be any above 1024
+String  serverIP="127.0.0.1";     ///< localhost
+int     servPORT=5205;            ///< Teoretically it could be any above 1024
 
 /// Protocol dictionary ("opcodes" etc.)
 class Opcs { 
-  static final String name="sampleGame";///> ASCI IDENTIFIER OF PROTOCOL
-  static final String sYOU="Y";///> REPLACER OF CORESPONDENT NAME as a ready to use String. 
-                               ///> Character.toString(YOU);<-not for static
+  static final String name="sampleGame";///< ASCI IDENTIFIER OF PROTOCOL
+  static final String sYOU="Y";///< REPLACER OF CORESPONDENT NAME as a ready to use String. 
+                               ///< Character.toString(YOU);<-not for static
   //Record defining characters
-  static final char EOR=0x03;///> End of record (EOR). EOL is not used, because of it use inside data starings.
-  static final char SPC='\t';///> Field separator
+  static final char EOR=0x03;///< End of record (EOR). EOL is not used, because of it use inside data starings.
+  static final char SPC='\t';///< Field separator
   //Record headers (bidirectorial)
-  static final char ERR='e'; ///> Error message for partner
-  static final char HEL='H'; ///> Hello message (client-server handshake)
-  static final char IAM='I'; ///> I am "name of server/name of client"
-  static final char YOU='Y'; ///> Redefining player name if not suitable
+  static final char ERR='e'; ///< Error message for partner
+  static final char HEL='H'; ///< Hello message (client-server handshake)
+  static final char IAM='I'; ///< I am "name of server/name of client"
+  static final char YOU='Y'; ///< Redefining player name if not suitable
   //Named variables/resources
-  static final char GET='G'; ///> Get global resource by name TODO
-  static final char BIN='B'; ///> Binary hunk of resources (name.type\tsize\tthen data) TODO
-                             ///> Data hunk is recived exactly "as is"!
-  static final char TXT='X'; ///> Text hunk of resources (name.type\tsize\tthen data) TODO
-                             ///> Text may be recoded on the reciver side if needed!
-  static final char OBJ='O'; ///> Objects managment: "On typename objectName" or "Od objectName"
+  static final char GET='G'; ///< Get global resource by name TODO
+  static final char BIN='B'; ///< Binary hunk of resources (name.type\tsize\tthen data) TODO
+                             ///< Data hunk is recived exactly "as is"!
+  static final char TXT='X'; ///< Text hunk of resources (name.type\tsize\tthen data) TODO
+                             ///< Text may be recoded on the reciver side if needed!
+  static final char OBJ='O'; ///< Objects managment: "On typename objectName" or "Od objectName"
   //Game scene/state 
-  static final char UPD='U'; ///> Request for update about a whole scene
-  static final char VIS='V'; ///> Visualisation info for a particular object
-  static final char COL='C'; ///> Colors of a particular object
-  static final char STA='S'; ///> Named state attribute of a particular object (ex.: objname\thp\tval, objname\tsc\tval etc.)
-  static final char EUC='E'; ///> Euclidean position of an object
-  static final char POL='P'; ///> Polar position of an object
+  static final char UPD='U'; ///< Request for update about a whole scene
+  static final char VIS='V'; ///< Visualisation info for a particular object
+  static final char COL='C'; ///< Colors of a particular object
+  static final char STA='S'; ///< Named state attribute of a particular object (ex.: objname\thp\tval, objname\tsc\tval etc.)
+  static final char EUC='E'; ///< Euclidean position of an object
+  static final char POL='P'; ///< Polar position of an object
   //Interactions
-  static final char TCH='T'; ///> Active "Touch" with other object (info about name & possible actions)
-  static final char DTC='D'; ///> Detouch with any of previously touched object (name provided)
+  static final char TCH='T'; ///< Active "Touch" with other object (info about name & possible actions)
+  static final char DTC='D'; ///< Detouch with any of previously touched object (name provided)
   //Player controls of avatar
-  static final char NAV='N'; ///> Navigation of the avatar (wsad and arrows in the template)
-  static final char ACT='A'; ///> 'defo'(-ult) or user defined actions of the avatar
+  static final char NAV='N'; ///< Navigation of the avatar (wsad and arrows in the template)
+  static final char ACT='A'; ///< 'defo'(-ult) or user defined actions of the avatar
   //...
   //static final char XXX='c';// something more...
 };

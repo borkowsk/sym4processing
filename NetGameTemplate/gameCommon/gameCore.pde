@@ -3,35 +3,35 @@
 //*/////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Game board attributes
-int initialSizeOfMainArray=30;  ///> Initial number of @GameObjects in @gameWorld
-float initialMaxX=100; ///> Initial horizontal size of game "board" 
-float initialMaxY=100; ///> Initial vertical size of game "board" 
-int     indexOfMe=-1;  ///> Index of object visualising the client or the server supervisor
+int initialSizeOfMainArray=30;  ///< Initial number of @GameObjects in @gameWorld
+float initialMaxX=100;          ///< Initial horizontal size of game "board" 
+float initialMaxY=100;          ///< Initial vertical size of game "board" 
+int     indexOfMe=-1;           ///< Index of object visualising the client or the server supervisor
 
 // For very basic visualistion
-String[] plants= {"_","O","...\nI","_\\|/_\nI ","|/",":","☘️"}; ///> plants... 
-String[] avatars={".","^v^" ,"o^o","@","&","😃","😐"};///> peoples...
+String[] plants= {"_","O","...\nI","_\\|/_\nI ","|/",":","☘️"}; ///< plants... 
+String[] avatars={".","^v^" ,"o^o","@","&","😃","😐"};///< peoples...
 
 //Changes of GameObject atributes (rather specific for server side)
-final int VISSWITH   = unbinary("000000001"); ///> object is invisible (but in info level name is visible)
-final int MOVED_MSK  = unbinary("000000010"); ///> object was moved (0x1)
-final int VISUAL_MSK = unbinary("000000100"); ///> object changed its type of view
-final int COLOR_MSK  = unbinary("000001000"); ///> object changed its colors
-final int HPOINT_MSK = unbinary("000010000"); ///> object changed its hp state (most frequently changed state)
-final int SCORE_MSK  = unbinary("000100000"); ///> object changed its score (for players it is most frequently changed state)
-final int PASRAD_MSK = unbinary("001000000"); ///> object changed its passive radius (ex. grow);
-final int ACTRAD_MSK = unbinary("010000000"); ///> object changed its radius of activity (ex. go to sleep);
-final int STATE_MSK  = HPOINT_MSK | SCORE_MSK | PASRAD_MSK | ACTRAD_MSK ;///> object changed its states
+final int VISSWITH   = unbinary("000000001"); ///< object is invisible (but in info level name is visible)
+final int MOVED_MSK  = unbinary("000000010"); ///< object was moved (0x1)
+final int VISUAL_MSK = unbinary("000000100"); ///< object changed its type of view
+final int COLOR_MSK  = unbinary("000001000"); ///< object changed its colors
+final int HPOINT_MSK = unbinary("000010000"); ///< object changed its hp state (most frequently changed state)
+final int SCORE_MSK  = unbinary("000100000"); ///< object changed its score (for players it is most frequently changed state)
+final int PASRAD_MSK = unbinary("001000000"); ///< object changed its passive radius (ex. grow);
+final int ACTRAD_MSK = unbinary("010000000"); ///< object changed its radius of activity (ex. go to sleep);
+final int STATE_MSK  = HPOINT_MSK | SCORE_MSK | PASRAD_MSK | ACTRAD_MSK ;///< object changed its states
 //....any more?
 /// To visualize the interaction between background objects
-final int TOUCH_MSK  = unbinary("1000000000000000"); ///>16bits
+final int TOUCH_MSK  = unbinary("1000000000000000"); ///<16bits
 /// All initial changes
 final int ALL_CHNG_MSK = MOVED_MSK | VISUAL_MSK | COLOR_MSK | STATE_MSK ; 
 
 // Options for visualisation 
-int     INFO_LEVEL =1 | SCORE_MSK;///> Visualisation with information about objects (name & score by default)
-boolean VIS_MIN_MAX=true;    ///> Visualisation with min/max value
-boolean KEEP_ASPECT=true;    ///> Visualisation with proportional aspect ratio
+int     INFO_LEVEL =1 | SCORE_MSK;///< Visualisation with information about objects (name & score by default)
+boolean VIS_MIN_MAX=true;    ///< Visualisation with min/max value
+boolean KEEP_ASPECT=true;    ///< Visualisation with proportional aspect ratio
 
 /// Server side implementation part of any game object
 /// needs modification flags, but client side are free to use 
@@ -442,7 +442,7 @@ void performAction(ActiveGameObject subject,String action,GameObject object)
   //println(player.name,"did undefined or not allowed action:",action);
 }
 
-GameObject[] gameWorld=null;    ///> MAIN ARRAY OF GameObjects
+GameObject[] gameWorld=null;    ///< MAIN ARRAY OF GameObjects
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
