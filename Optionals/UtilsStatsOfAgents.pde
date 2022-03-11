@@ -103,7 +103,7 @@ int[] makeHistogramOfA(Agent[] Ags, //Jednowymiarowy "świat" agentów - tablica
   return Hist;
 }
 
-//**************************************************************************
-//  2016-2019 (c) Wojciech Tomasz Borkowski  http://borkowski.iss.uw.edu.pl
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI
-//**************************************************************************
+//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*  https://github.com/borkowsk/sym4processing
+//*///////////////////////////////////////////////////////////////////////////////////////////////////

@@ -51,5 +51,11 @@ void dashedLine(float x0, float y0, float x1, float y1, float[ ] spacing)
       drawLine = !drawLine;  // switch between dash and gap 
     } 
   } 
-} 
+}
+
+//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*  https://github.com/borkowsk/sym4processing
+//*///////////////////////////////////////////////////////////////////////////////////////////////////
+
  
