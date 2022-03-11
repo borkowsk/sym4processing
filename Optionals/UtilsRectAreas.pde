@@ -1,12 +1,14 @@
-// Aktywne prostokąty - autorski system interfejsu aplikacji w Processingu
-// Wojciech Borkowski
-///////////////////////////////////////////////////////////////////////////////
-ArrayList<RectArea>   allAreas = new ArrayList<RectArea>();     //Lista obszarów do wyświetlania
-ArrayList<TextButton> allButtons = new ArrayList<TextButton>(); //Lista przycisków
+/// "Active rectangles" - proprietary application interface system in Processing
+/// @Author Wojciech Borkowski
+//*/////////////////////////////////////////////////////////////////////////////
+ArrayList<RectArea>   allAreas = new ArrayList<RectArea>();     ///< List of areas to be displayed
+ArrayList<TextButton> allButtons = new ArrayList<TextButton>(); ///< Button list
 
-int iniTxButtonSize=16;
-int iniTxButtonCornerRadius=6;//Domyślne zaokrąglenie rogów przycisków
+int iniTxButtonSize=16;       ///< The initial size of the button.
+int iniTxButtonCornerRadius=6;///< The default rounding of the corners of the buttons
 
+/// Mouse click support for buttons.
+/// If the program may also respond to clicks differently, this must be taken into account here.
 void mousePressed() 
 {
   println("Pressed "+mouseX+" x "+mouseY);
@@ -19,6 +21,8 @@ void mousePressed()
   }
 }
 
+/// Mouse button relase support.
+/// If the program may also respond to clicks differently, this must be taken into account here.
 void mouseReleased() 
 {
   println("Released "+mouseX+" x "+mouseY);
@@ -31,19 +35,24 @@ void mouseReleased()
   }
 }  
 
+/// View all interface elements.
+/// Should be called in draw() or in an event handlers.
 void view_all_areas()
 {
-  for( RectArea area: allAreas)   //Lista obszarów do wyświetlania
+  for( RectArea area: allAreas)
   {
     area.view();
   }
 }
 
-class RectArea //Prostokątny obszar ekranu jako postawa pod rożne obszary aktywne
+/// Rectangular screen area class as the basis for various active areas
+class RectArea
 {
-  int    x1,y1,x2,y2;//Rogi obszaru
-  color  back;       //Kolor tła
+  int    x1,y1,x2,y2;//!< Corners of the area
+  color  back;       //!< Colour of background
   
+  /// Constructor. 
+  /// Requires data on the corners of the area.
   RectArea(float iX1,float iY1,float iX2,float iY2)
   {
     back=color(178,178,178);
@@ -54,7 +63,8 @@ class RectArea //Prostokątny obszar ekranu jako postawa pod rożne obszary akty
     //println(x1+" "+y1+" "+x2+" "+y2);
   }
   
-  void view()//Wyświetlanie
+  /// Area display function.
+  /*_interfunc*/ void view()
   {
         rectMode(CORNERS);
         fill(back);
@@ -62,51 +72,51 @@ class RectArea //Prostokątny obszar ekranu jako postawa pod rożne obszary akty
         rect(x1,y1,x2,y2);
   }
   
-  boolean hitted(int x,int y)//Sprawdzenie kliknięcia
+  /// The function of checking if you click on an area
+  /*_interfunc*/ boolean hitted(int x,int y)
   {
     return x1<=x && x<=x2
         && y1<=y && y<=y2;
   }
-}
+}//EndOfClass
 
+/// A class of a panel that contains many buttons
 class PanelOfTextButtons extends RectArea
 {
   ArrayList<TextButton> list; 
   
+  /// Constructor.
+  /// Requires data on the corners of the area.
   PanelOfTextButtons(float iX1,float iY1,float iX2,float iY2)
   {
     super(iX1,iY1,iX2,iY2);
     list = new ArrayList<TextButton>();
   }
   
+  /// Area display function.
   void view()
   {
      super.view();
-     for( RectArea area: list)   //Lista obszarów do wyświetlania
+     for( RectArea area: list)
      {
       area.view();
      }
   }
   
+  /// Filling the panel with buttons.
   void add(TextButton but)
   {
     list.add(but);
     but.x1+=x1;
     but.x2+=x1;
     but.y1+=y1;
-    but.y2+=y1; //Przy move() trzeba z powrotem odjąć a potem dodać nowe
+    but.y2+=y1; //Przy move() trzeba z powrotem odjąć, a potem dodać nowe
   }
   
-}
+}//EndOfClass
 
-/* From Interfaces.pde
-interface named //Any object which have name as printable String
-{
-  String getName();
-}
-*/
-
-class TextButton extends RectArea implements named//Prostokątny przycisk z zawartością tekstową
+/// Rectangular button with text content
+class TextButton extends RectArea implements iNamed
 {
   color  txt,strok;
   int strokW;
@@ -116,6 +126,8 @@ class TextButton extends RectArea implements named//Prostokątny przycisk z zawa
   String title;
   protected int state;
   
+  /// Constructor.
+  /// Requires data on the corners of the area and text content ("title")
   TextButton(String iTitle,float iX1,float iY1,float iX2,float iY2)
   {
     super(iX1,iY1,iX2,iY2);
@@ -131,8 +143,10 @@ class TextButton extends RectArea implements named//Prostokątny przycisk z zawa
     while(textAscent()+textDescent() > y2-y1) textSize(--txtSiz);
   }
   
-  String getName() { return title; }
+  /// Implements the iNamed interface requirement.
+  String name() { return title; }
   
+  /// Area display function.
   void view()
   {
     color cfill=(state==0?txt:back);
@@ -149,7 +163,8 @@ class TextButton extends RectArea implements named//Prostokątny przycisk z zawa
     text(title,x1,y1,x2,y2); 
   }
   
-  void flip_state(boolean visual) //Zmienia stan na przeciwny (0 na 1, inna na 0) i ewentualnie wizualizuje
+  /// Change to the opposite state (0 to 1, other to 0) and possibly visualize
+  /*_interfunc*/ void flip_state(boolean visual)
   {
     if(state==0) state=1;
     else state=0;
@@ -157,7 +172,8 @@ class TextButton extends RectArea implements named//Prostokątny przycisk z zawa
         view();
   }
   
-  void set_state(int new_state,boolean visual) //Zmienia stan na przeciwny (0 na 1, inna na 0) i ewentualnie wizualizuje
+  /// It changes the state to 0 or 1 and optionally visualizes
+  /*_interfunc*/ void set_state(int new_state,boolean visual)
   {
     if(new_state!=state)
     {
@@ -167,19 +183,28 @@ class TextButton extends RectArea implements named//Prostokątny przycisk z zawa
     }
   }
   
-}
+}//EndOfClass
 
-class StateLabel extends TextButton //Klasa pseudobuttonu, która wyświetla stan a nie title, ignoruje flip_state() 
-{                                   //a zmiany stanu przez set_state ma zabezpieczone
-  private boolean allowChng;  //Normalnie uzycie set_state() nic nie zmienia, trzeba ustawić to pole, które po zmnianie się kasuje
-                              //Więc tylko kod działający na obiektach tej klasy może to zrobić, akod działajacy na klasie bazowej nie
-                              
+
+/// A pseudo-button class that displays the state, not the name, 
+/// Also ignores flip_state() and that changes to state through set_state() are "protected"
+class StateLabel extends TextButton 
+{
+  /// Normally using set_state() in this class does not change anything. 
+  /// You have to set this field, which clears always after changing, 
+  /// so only code working on objects of this class can do it, 
+  /// but code working on base class can't :-)
+  private boolean allowChng;
+  
+  /// Constructor.
+  /// Requires data on the corners of the area, text "title" and initial state.
   StateLabel(int iState,String iTitle,float iX1,float iY1,float iX2,float iY2)
   {
     super(iTitle,iX1,iY1,iX2,iY2);
     state=iState;allowChng=false;
   }
  
+  /// Area display function.
   void view()
   {
     color bfill=(allowChng?strok:back);
@@ -196,19 +221,23 @@ class StateLabel extends TextButton //Klasa pseudobuttonu, która wyświetla sta
     text(state+"",x1,y1,x2,y2); 
   }
  
-  void allow()
+  /// A function that allows you to change the state
+  /*_interfunc*/ void allow()
   {
     allowChng=true;
     view();
   }
   
-  void flip_state(boolean visual) //Zmienia stan na przeciwny (0 na 1, inna na 0) i ewentualnie wizualizuje
-  { //Nie zmienia stanu przez flip, najwyżej ponawia wyświetlenie - choć i to chyba nieprzydatne
+  /// Specific for the class. It does not change the state by flip, 
+  /// at most it repeats the display - although it is probably useless
+  void flip_state(boolean visual)   
+  { 
     if(visual)
         view();
   }
   
-  void set_state(int new_state,boolean visual) //Zmienia stan na przeciwny (0 na 1, inna na 0) i ewentualnie wizualizuje
+  /// Specific for the class. It uses allowChng field and then clears it.
+  void set_state(int new_state,boolean visual)
   {
     if(allowChng)
     {
@@ -216,25 +245,36 @@ class StateLabel extends TextButton //Klasa pseudobuttonu, która wyświetla sta
       {
         state=new_state;
       }
-      allowChng=false;//Czy była faktyczna zmiana czy nie
+      
+      allowChng=false;// Whether there was an actual change or not, it will no longer be possible
+      
       if(visual)
           view();
     }
   }
-}
+}//EndOfClass
 
-class StateLabelInc extends TextButton //Klasa buttonu inkrementująca jakieś state label, ewentualnie cofająca działanie drugiej pary
+/// A button class that increments a state label, 
+/// possibly undoing the operation of the opposite pair
+class StateLabelInc extends TextButton
 {
   StateLabel     target;
   StateLabelInc  opponent;
   
-  StateLabelInc(String iTitle,float iX1,float iY1,float iX2,float iY2,StateLabel iTarget,StateLabelInc iOpponent)
+  /// Constructor.
+  /// Requires data on the corners of the area, text "title" and connected areas.
+  StateLabelInc(String iTitle,
+                float iX1,float iY1,float iX2,float iY2,
+                StateLabel iTarget,
+                StateLabelInc iOpponent)
   {
     super(iTitle,iX1,iY1,iX2,iY2);
     target=iTarget;opponent=iOpponent;
   }
   
-  void flip_state(boolean visual) //Nakładka metody
+  /// Class-specific overlay of the inherited method.
+  /// It increases or decreses the state.
+  void flip_state(boolean visual)
   { 
     super.flip_state(visual);
     if(opponent.state!=0) 
@@ -243,26 +283,34 @@ class StateLabelInc extends TextButton //Klasa buttonu inkrementująca jakieś s
     if(state>0) target.set_state(target.state+1,visual);
            else target.set_state(target.state-1,visual);
    } 
-    
-   void decrement(boolean visual) //Metoda cofająca zmianę
+   
+   /// The method that undoes state increments, i.e. decreases the "counter"
+   void decrement(boolean visual)
    {
      state=0;view();
      target.allow(); //Odbezpieczenie       
      target.set_state(target.state-1,visual);
    }
-}
+}//EndOfClass
 
-class UniqTextButton extends TextButton //Klasa buttonu, którego kliknięcie zeruje stan wszystkich innych z listy
+/// Unique button. 
+/// The class of the button, which when clicked, resets the state of all the others on the list
+class UniqTextButton extends TextButton 
 {
-  ArrayList<TextButton> siblings; //Lista wykluczających się
+  ArrayList<TextButton> siblings; //!< List of mutually exclusive buttons
+  
+  /// Constructor.
+  /// Requires data on the corners of the area, text "title" and a list of mutual siblings.
   UniqTextButton(ArrayList<TextButton> iSibl,String iTitle,float iX1,float iY1,float iX2,float iY2)
   {
     super(iTitle,iX1,iY1,iX2,iY2);
     siblings=iSibl;
   }
   
-  //Jeśli stan przycisku kliknieciem zmienia się na różny od 0 to jego rodzeństwo musi zostac wyzerowane
-  void flip_state(boolean visual) //Zmienia stan na przeciwny (0 na 1, inna na 0) i ewentualnie wizualizuje
+  /// Normally the method changes the state to the opposite (0 to 1, other to 0) and possibly visualizes.
+  /// However, if the button state changes to other than 0 then
+  /// his companions (siblings) on the list must be reset.
+  void flip_state(boolean visual)   
   {
     if(state==0) state=1;
     else state=0;
@@ -275,33 +323,40 @@ class UniqTextButton extends TextButton //Klasa buttonu, którego kliknięcie ze
           button.set_state(0,true); //set_state jest po klasie bazowej żeby uniknąć niechcianej rekurencji
     }
   }
-}
+}//EndOfClass
 
-class WrTextButton extends TextButton //Button pamiętający kolumnę do jakiej ma zapisać swój unikalny marker
+/// A button that remembers the column to which its unique marker is to be saved
+class WrTextButton extends TextButton 
 {   
   int column;
   String marker; 
   
+  /// Constructor.
+  /// Requires data on the corners of the area, text "title", text marker and specific output column.
   WrTextButton(String iTitle,float iX1,float iY1,float iX2,float iY2,String iMarker,int iColumn)
   {
     super(iTitle,iX1,iY1,iX2,iY2);
     marker=iMarker;
     column=iColumn;
   }
-}
+}//EndOfClass
 
-class WrUniqTextButton extends UniqTextButton //UniqButton pamiętający kolumnę do jakiej ma zapisać swój unikalny marker
+/// UniqButton additionally remembers the column to which it is to save its unique marker
+class WrUniqTextButton extends UniqTextButton 
 {   
   int column;
   String marker; 
   
+  /// Constructor.
+  /// Requires data on the corners of the area, text "title", text marker and specific output column,
+  /// and, of course, a list of mutual siblings.
   WrUniqTextButton(ArrayList<TextButton> iSibl,String iTitle,float iX1,float iY1,float iX2,float iY2,String iMarker,int iColumn)
   {
     super(iSibl,iTitle,iX1,iY1,iX2,iY2);
     marker=iMarker;
     column=iColumn;
   }
-}
+}//EndOfClass
 
 //*///////////////////////////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES

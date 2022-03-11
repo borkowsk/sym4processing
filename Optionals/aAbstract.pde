@@ -1,11 +1,13 @@
-/////////////////////////////////////////////////////////////////////////////////
-// COMMON INTERFACES AND ABSTRACT CLASSES 
-/////////////////////////////////////////////////////////////////////////////////
-// /* _interfunc */ from interchangeable function
+/// COMMON TEMPLATES, INTERFACES AND ABSTRACT CLASSES 
+///*/////////////////////////////////////////////////////////////////////////////////////////
+/// USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
+/// if you need translate the code into C++ (--> Processing2C )
 
-public class Pair<A,B> 
-//Simple version of Pair template useable for returning a pair of values
-{
+/// Templates:
+//*/////////////////////////////////
+
+/// Simple version of Pair template useable for returning a pair of values
+public class Pair<A,B> {
     public final A a;
     public final B b;
 
@@ -14,88 +16,90 @@ public class Pair<A,B>
         this.a = a;
         this.b = b;
     }
-};
+}//EndOfClass
 
-// Teplates
-///////////////////////////////////
+///
+/// Generally useable interfaces:
+///
+//*//////////////////////////////
 
-// Generally useable interfaces
-///////////////////////////////////////////////////////////////////////////////////////////
+/// Any object which have description as (potentially) long, multi line string
+/// @ABSOLETE!
+interface describable {
+  /*_interfunc*/ String getDescription() /*_forcbody*/;
+}//EndOfClass
 
-
-interface named //ABSOLETE: Any object which have name as printable String
-{
-  String getName();
-}
-
-interface describable //ABSOLETE: Any object which have description as (potentially) long, multi line string
-{
-  String getDescription();
-}
-
+/// Forcing name available as String (planty of usage)
 interface iNamed {
-  ///INFO: Forcing name available as String (planty of usage)
-  /*_interfunc*/ String    name()/*_forcbody*/;
-};
+  /*_interfunc*/ String    name() /*_forcbody*/;
+}//EndOfClass
 
-interface iDescribable { //Any object which have description as (potentially) long, multi line string
-  ///INFO:
-  /*_interfunc*/ String Description();
-};
+/// Any object which have description as (potentially) long, multi line string
+interface iDescribable { 
+  /*_interfunc*/ String Description() /*_forcbody*/;
+}//EndOfClass
 
-// MATH INTERFACES
-/////////////////////////////////////////////////////////////////////////////////
-final float INF_NOT_EXIST=Float.MAX_VALUE;  ///visible autside this file!
+///
+/// MATH INTERFACES:
+///
+//*////////////////////////////////////////////////////////////////////////////
 
+final float INF_NOT_EXIST=Float.MAX_VALUE;  ///< Missing value marker
+
+/// A function of two values in the form of a class - a functor
 interface Function2D {
   /*_interfunc*/ float calculate(float X,float Y)/*_forcbody*/;
   /*_interfunc*/ float getMin()/*_forcbody*/;//MIN_RANGE_VALUE?
   /*_interfunc*/ float getMax()/*_forcbody*/;//Always must be different!
-};
+}//EndOfClass
 
-// VISUALISATION INTERFACES:
-/////////////////////////////////////////////////////////////////////////////////
+///
+/// VISUALISATION INTERFACES:
+///
+//*///////////////////////////
 
+/// Forcing setFill & setStroke methods for visualisation
 interface iColorable {
-  ///INFO: Forcing setFill & setStroke methods for visualisation
   /*_interfunc*/ void setFill(float intensity)/*_forcbody*/;
   /*_interfunc*/ void setStroke(float intensity)/*_forcbody*/;
-};
+}//EndOfClass
 
-interface iPositioned {
-  ///INFO: Forcing posX() & posY() & posZ() methods for visualisation and mapping                
+/// Forcing posX() & posY() & posZ() methods for visualisation and mapping  
+interface iPositioned {              
   /*_interfunc*/ float    posX()/*_forcbody*/;
   /*_interfunc*/ float    posY()/*_forcbody*/;
   /*_interfunc*/ float    posZ()/*_forcbody*/;
-};
+}//EndOfClass
 
 // NETWORK INTERFACES:
 /////////////////////////////////////////////////////////////////////////////////
 
+/// Network connection/link interface
+/// Is iLink interface really needed?
 interface iLink { 
-  ///INFO: Is iLink interface really needed?
-  /*_interfunc*/ float getWeight();
-};
+  /*_interfunc*/ float getWeight()/*_forcbody*/;
+}//EndOfClass
 
+/// Network node interface
+/// "Conn" below is a shortage from Connection.
 interface iNode { 
-  ///INFO: "Conn" below is a shortage from Connection.
   //using class Link not interface iLink because of efficiency!
-  /*_interfunc*/ int     addConn(Link   l);
-  /*_interfunc*/ int     delConn(Link   l);
-  /*_interfunc*/ int     numOfConn()      ;
-  /*_interfunc*/ Link    getConn(int    i);
-  /*_interfunc*/ Link    getConn(Node   n);
-  /*_interfunc*/ Link    getConn(String k);
-  /*_interfunc*/ Link[]  getConns(LinkFilter f);
-};
+  /*_interfunc*/ int     addConn(Link   l)/*_forcbody*/;
+  /*_interfunc*/ int     delConn(Link   l)/*_forcbody*/;
+  /*_interfunc*/ int     numOfConn()      /*_forcbody*/;
+  /*_interfunc*/ Link    getConn(int    i)/*_forcbody*/;
+  /*_interfunc*/ Link    getConn(Node   n)/*_forcbody*/;
+  /*_interfunc*/ Link    getConn(String k)/*_forcbody*/;
+  /*_interfunc*/ Link[]  getConns(LinkFilter f)/*_forcbody*/;
+}//EndOfClass
 
+/// Visualisable network node
 interface iVisNode extends iNode,iNamed,iColorable,iPositioned {
-  ///INFO: visualisable network node
-};
+}//EndOfClass
 
+/// Visualisable network connection
 interface  iVisLink extends iLink,iNamed,iColorable {
-  ///INFO: visualisable network connection
-};
+}//EndOfClass
 
 //*///////////////////////////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES

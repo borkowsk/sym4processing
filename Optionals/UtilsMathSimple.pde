@@ -1,7 +1,9 @@
 //STAŁE
-final float FLOAT_MAX=3.40282347E+38;
 
-//Do określania znaku liczby
+/// Some of my older programs show the constant FLOAT_MAX, while MAX_FLOAT is currently available.
+final float FLOAT_MAX=MAX_FLOAT; //3.40282347E+38;
+
+/// Function for determining the sign of a integer number.
 int sign(int val)
 {
   if(val>0) return 1;
@@ -9,6 +11,7 @@ int sign(int val)
   else return -1;
 }
 
+/// Function for determining the sign of a float number.
 int sign(float val)
 {
   if(val>0) return 1;
@@ -16,6 +19,7 @@ int sign(float val)
   else return -1;
 }
 
+/// Function for determining the sign of a double number.
 int sign(double val)
 {
   if(val>0) return 1;
@@ -23,14 +27,14 @@ int sign(double val)
   else return -1;
 }
 
-//Do powiększania nie więcej niż do pewnej wartości progowej
+/// Function for increasing no more than up to a certain threshold value
 float upToTresh(float val,float incr,float tresh)
 {
     val+=incr;
     return val<tresh?val:tresh;
 }
 
-//Która z trzech wartości jest największa? 
+/// Function to find which of the three values is the largest?
 int whichIsMax(float v0,float v1,float v2)
 {
   if(v0 > v1 && v0 > v2) return 0;
@@ -38,6 +42,7 @@ int whichIsMax(float v0,float v1,float v2)
   else if( v2 > v0 && v2 > v1) return 2;
   else return -1;//żaden nie jest dominujący
 }
+
 
 //*///////////////////////////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES

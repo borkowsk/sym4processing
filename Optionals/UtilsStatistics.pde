@@ -1,10 +1,10 @@
-//*  Różne proste statystyki dla tablic jednowymiarowych
-//*  EN: Various simple statistics for one-dimensional arrays
+///  Various simple statistics for one-dimensional arrays
+//*  PL Różne proste statystyki dla tablic jednowymiarowych
 //*/////////////////////////////////////////////////////////
 
-/// Średnia arytmetyczna z danych typu float
-/// https://en.wikipedia.org/wiki/Arithmetic_mean
 /// EN: Arithmetic mean of the float data
+//* PL: Średnia arytmetyczna z danych typu float
+/// See: https://en.wikipedia.org/wiki/Arithmetic_mean
 float meanArithmetic(float data[],int offset,int limit)
 {                       
                                   assert(offset<limit);
@@ -19,9 +19,9 @@ float meanArithmetic(float data[],int offset,int limit)
   return (float)(sum/(limit-offset)); 
 }
 
-/// Średnia arytmetyczna z danych o "podwójnej" precyzji
-/// https://en.wikipedia.org/wiki/Arithmetic_mean
-/// EN: Arithmetic mean of the "double" precision data
+/// Arithmetic mean of the "double" precision data
+//* PL: Średnia arytmetyczna z danych o "podwójnej" precyzji
+/// See: https://en.wikipedia.org/wiki/Arithmetic_mean
 double meanArithmetic(double data[],int offset,int limit)
 {                       
                                     assert(offset<limit);
@@ -36,9 +36,9 @@ double meanArithmetic(double data[],int offset,int limit)
   return sum/(limit-offset);
 }
 
-/// Korelacja Pearsona
+/// Pearson's correlation
+//* PL: Korelacja Pearsona
 /// https://pl.wikipedia.org/wiki/Wsp%C3%B3%C5%82czynnik_korelacji_Pearsona
-/// EN: Pearson's correlation
 double correlation(float data1[],float data2[],
                    int offset1,int offset2,
                    int limit)
@@ -93,10 +93,11 @@ double correlation(float data1[],float data2[],
   return corelation;
 }
 
-/// Średnia z korelacji za pomocą Z
-/// Trzeba zmienić korelacje na Z żeby móc je legalnie dodawać. 
-/// Niestety korelacje =1 i =-1 są nietransformowalne więc trochę oszukujemy
-/// EN: Mean of the correlation using Z
+/// Mean of the correlation using Z
+/// Unfortunately, the = 1 and = -1 correlations are not transformable, so we cheat a bit
+//* Średnia z korelacji za pomocą Z
+//* Trzeba zmienić korelacje na Z żeby móc je legalnie dodawać. 
+//* Niestety korelacje =1 i =-1 są nietransformowalne więc trochę oszukujemy
 double meanCorrelations(double data[],int offset,int limit)
 {
                                             assert(offset<limit);
@@ -121,8 +122,8 @@ double meanCorrelations(double data[],int offset,int limit)
   return PomCorrelation;
 }
 
-/// Entropia informacyjna z histogramu
-/// EN: Informational entropy from the histogram
+/// Informational entropy from the histogram
+//* PL: Entropia informacyjna z histogramu
 double entropyFromHist(int[] histogram)
 {
   double sum=0; //Ile przypadków. 

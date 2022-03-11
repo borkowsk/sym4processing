@@ -1,15 +1,19 @@
-// Do łatwego i CZYTELNEGO w wyrażeniach podnoszenia do kwadratu
-//////////////////////////////////////////////////////////////////////
+/// Functions for easy and READABLE in squaring expressions
+//*//////////////////////////////////////////////////////////////////////
+
+/// A square of an int number
 int sqr(int a)
 {
   return a*a;
 }
 
+/// A square of an float number
 float sqr(float a)
 {
   return a*a;
 }
 
+/// A square of an double number
 double sqr(double a)
 {
   return a*a;

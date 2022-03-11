@@ -1,8 +1,8 @@
-
+/// Template handling of program call parameters, if available.
+//*/////////////////////////////////////////////////////////////
 
 void checkCommandLine() { /// Parsing command line if available
-  
-    //extern int debug_level;
+    //extern int debug_level;// EXPECTED!
     
     //Is passing parameters possible?
     if(args==null)
