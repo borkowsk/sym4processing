@@ -21,20 +21,20 @@ public class ABMTemplate extends PApplet {
 //*///////////////////////////////////////////////////////////////////////////////////////
 
 //Model parameters
-String modelName="ABMTemplate";///> Name of the model is used for log files
-int side=75;      ///> side of "world" main table
-float density=0.75f;///> initial density of agents
+String modelName="ABMTemplate";///< Name of the model is used for log files
+int side=75;      ///< side of "world" main table
+float density=0.75f;///< initial density of agents
 
-World TheWorld=new World(side);///>Main table will be initialised inside setup()
+World TheWorld=new World(side);///<Main table will be initialised inside setup()
 
 //Parameters of visualisation etc...
-int cwidth=15;     ///> requested size of cell
-int STATUSHEIGH=40;///> height of status bar
-int STEPSperVIS=1; ///> how many model steps beetwen visualisations 
-int FRAMEFREQ=10;  ///> how many model steps per second
-boolean WITH_VIDEO=false;///> Make a movie?
+int cwidth=15;     ///< requested size of cell
+int STATUSHEIGH=40;///< height of status bar
+int STEPSperVIS=1; ///< how many model steps beetwen visualisations 
+int FRAMEFREQ=10;  ///< how many model steps per second
+boolean WITH_VIDEO=false;///< Make a movie?
 
-boolean simulationRun=false;///> Start/stop flag
+boolean simulationRun=false;///< Start/stop flag
 
 /// Function setup() is called only once, at the beginning of run
 /// At least setup() or draw() must be present in animation program
@@ -224,8 +224,8 @@ public void  changeAgents(Agent[] agents)
 /// World is a one of two central class of each ABM model
 //* ABM: WORLD OF AGENTS FOR FILL UP
 //*/////////////////////////////////////////////////////////////
-int StepCounter=0; ///> Global variable for caunting real simulation steps.
-                   ///> Value may differ from frameCount.
+int StepCounter=0; ///< Global variable for caunting real simulation steps.
+                   ///< Value may differ from frameCount.
 
 /// The main class of simulation
 class World
@@ -288,7 +288,7 @@ public void modelStep(World world)
 //* ABM: STATISTICS LOG TEMPLATE
 //*/////////////////////////////////////////////////////////////////////////////////////
 
-PrintWriter outstat;///> Handle to the text file with the record of model statistics
+PrintWriter outstat;///< Handle to the text file with the record of model statistics
 
 /// It prepares a unique statistics file name, opens the file 
 /// and enters the header line.
@@ -301,8 +301,8 @@ public void initializeStats()
   outstat.println("$STEP\tAlive\t.....");//<-- complete the header fields!
 }
 
-float meanDummy=0;///> average value for the dummy field
-int   liveCount=0;///> number of living agents
+float meanDummy=0;///< average value for the dummy field
+int   liveCount=0;///< number of living agents
 
 /// The function calculates all world statistics after the simulation step
 public void doStatistics(World world)
@@ -510,13 +510,13 @@ public void exit()          //it is called whenever a window is closed.
 //*/////////////////////////////////////////////////////////////////////
 
 // Last read mouse data
-int searchedX=-1; ///> The horizontal coordinate of the mouse cursor
-int searchedY=-1; ///> The vertical coordinate of the mouse cursor
-boolean Clicked=false; ///> Was there a click too?
+int searchedX=-1; ///< The horizontal coordinate of the mouse cursor
+int searchedY=-1; ///< The vertical coordinate of the mouse cursor
+boolean Clicked=false; ///< Was there a click too?
 
 // Last selection
-int selectedX=-1; ///> Converted into "world" indices, the agent's horizontal coordinate
-int selectedY=-1; ///> Converted into "world" indices, the agent's vertical coordinate
+int selectedX=-1; ///< Converted into "world" indices, the agent's horizontal coordinate
+int selectedY=-1; ///< Converted into "world" indices, the agent's vertical coordinate
 Agent selected=null; //> Most recently selected agent
 
 /// Simple version of Pair containing a pair of integers
@@ -610,17 +610,17 @@ public PairOfInt findCell(Agent[][] agents)
 //                // PL: Najlepiej w exit()
 
 
-VideoExport        videoExport; ///> CLASS object from additional library - must be installed
+VideoExport        videoExport; ///< CLASS object from additional library - must be installed
                                 //   PL: Obiekt KLASY z dodatkowej biblioteki - trzeba zainstalować
                                  
-static int         videoFramesFreq=0;///> How many frames per second for the movie. It doesn't have to be the same as in frameRate!
+static int         videoFramesFreq=0;///< How many frames per second for the movie. It doesn't have to be the same as in frameRate!
                                      //   PL: Ile klatek w sekundzie filmu. Nie musi być to samo co w frameRate!   
 
-static boolean     videoExportEnabled=false;///> Has film making been initiated?
+static boolean     videoExportEnabled=false;///< Has film making been initiated?
                                             //   PL: Czy tworzenie filmu zostało zainicjowane?
   
-///> Copyright of your movie  
-///> Change it to your copyright. Best in setup() function.
+///< Copyright of your movie  
+///< Change it to your copyright. Best in setup() function.
 //   PL: Zawartość zmień na swój copyright. Najlepiej w funkcji setup().                                   
 String copyrightNote="(c) W.Borkowski @ ISS University of Warsaw";
 
