@@ -1,8 +1,8 @@
 /// World is a one of two central class of each ABM model
 //* ABM: WORLD OF AGENTS FOR FILL UP
 //*/////////////////////////////////////////////////////////////
-int StepCounter=0; ///> Global variable for caunting real simulation steps.
-                   ///> Value may differ from frameCount.
+int StepCounter=0; ///< Global variable for caunting real simulation steps.
+                   ///< Value may differ from frameCount.
 
 /// The main class of simulation
 class World

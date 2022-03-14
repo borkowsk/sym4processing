@@ -2,7 +2,7 @@
 //* ABM: STATISTICS LOG TEMPLATE
 //*/////////////////////////////////////////////////////////////////////////////////////
 
-PrintWriter outstat;///> Handle to the text file with the record of model statistics
+PrintWriter outstat;///< Handle to the text file with the record of model statistics
 
 /// It prepares a unique statistics file name, opens the file 
 /// and enters the header line.
@@ -15,8 +15,8 @@ void initializeStats()
   outstat.println("$STEP\tAlive\t.....");//<-- complete the header fields!
 }
 
-float meanDummy=0;///> average value for the dummy field
-int   liveCount=0;///> number of living agents
+float meanDummy=0;///< average value for the dummy field
+int   liveCount=0;///< number of living agents
 
 /// The function calculates all world statistics after the simulation step
 void doStatistics(World world)

@@ -33,18 +33,18 @@ import com.hamoid.*;// Here we import the necessary library containing the Video
 //                // PL: Najlepiej w exit()
 
 
-VideoExport        videoExport; ///> CLASS object from additional library - must be installed
+VideoExport        videoExport; ///< CLASS object from additional library - must be installed
                                 //   PL: Obiekt KLASY z dodatkowej biblioteki - trzeba zainstalować
                                  
-static int         videoFramesFreq=0;///> How many frames per second for the movie. It doesn't have to be the same as in frameRate!
+static int         videoFramesFreq=0;///< How many frames per second for the movie. It doesn't have to be the same as in frameRate!
                                      //   PL: Ile klatek w sekundzie filmu. Nie musi być to samo co w frameRate!   
 
-static boolean     videoExportEnabled=false;///> Has film making been initiated?
+static boolean     videoExportEnabled=false;///< Has film making been initiated?
                                             //   PL: Czy tworzenie filmu zostało zainicjowane?
   
-///> Copyright of your movie  
-///> Change it to your copyright. Best in setup() function.
-//   PL: Zawartość zmień na swój copyright. Najlepiej w funkcji setup().                                   
+///< Copyright of your movie  
+///< Change it to your copyright. Best in setup() function.
+//   PL: Zawartość zmień na swój "copyright". Najlepiej w funkcji setup().                                   
 String copyrightNote="(c) W.Borkowski @ ISS University of Warsaw";
 
 /// Make the beginning of the movie file!
