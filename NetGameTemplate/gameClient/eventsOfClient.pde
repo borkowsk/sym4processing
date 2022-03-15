@@ -1,4 +1,4 @@
-//*  gameClient - keyboard input & other asynchronic events 
+///  gameClient - keyboard input & other asynchronic events 
 //*//////////////////////////////////////////////////////////// 
 
 /// Keyboard events - mostly control of the avatar
@@ -21,7 +21,7 @@ void keyPressed()
     case LEFT: key='a'; break;
     case RIGHT: key='d'; break;
     default:
-    return;//Other special keys is ignored
+    return;//Other special keys is ignored in this template
     }//end of switch
   }
   
@@ -30,19 +30,19 @@ void keyPressed()
   default:println(key,"is not defined for the game client");return;
   //Navigation
   case 'w':
-  case 'W': msg=sayOptAndInf(Opts.NAV,"f"); break;
+  case 'W': msg=sayOptAndInf(Opcs.NAV,"f"); break;
   case 's':
-  case 'S': msg=sayOptAndInf(Opts.NAV,"b"); break;
+  case 'S': msg=sayOptAndInf(Opcs.NAV,"b"); break;
   case 'a':
-  case 'A': msg=sayOptAndInf(Opts.NAV,"l"); break;
+  case 'A': msg=sayOptAndInf(Opcs.NAV,"l"); break;
   case 'd':
-  case 'D': msg=sayOptAndInf(Opts.NAV,"r"); break;
+  case 'D': msg=sayOptAndInf(Opcs.NAV,"r"); break;
   //Perform interaction:
-  case ' ': { //<>//
+  case ' ': {
               ActiveGameObject me=(ActiveGameObject)(gameWorld[indexOfMe]); assert me!=null;
               if(me.interactionObject!=null)
               {
-                msg=sayOptAndInf(Opts.ACT,"defo"); 
+                msg=sayOptAndInf(Opcs.ACT,"defo"); 
               }
             } break;
   case ESC: println(key,"is ignored for the game client");key=0; return;
@@ -53,16 +53,16 @@ void keyPressed()
 }
 
 /// ClientEvent message is generated when a client disconnects.
-void disconnectEvent(Client someClient) 
+void disconnectEvent(Client client) 
 {
   background(0);
-  print(playerName,"disconnected from server.");
+  print(playerName,"disconnected from server.");      assert client==myClient;
   myClient=null;
   frameRate(1);
 }
 
-/// Event handler called when a client connects to server
-void serverEvent(Server serv,Client cli)
+/// Event handler called on server when a client connects to server
+void serverEvent(Server server,Client client)
 {
   println(playerName,"got unexpected serverEvent()"); 
 }
@@ -71,11 +71,12 @@ void serverEvent(Server serv,Client cli)
 /// server sends data to an existing client.
 /// This is alternative, asynchronous way to
 /// read messages from the server.
-void clientEvent(Client cli) 
-{
-  //println(playerName,"got serverEvent()"); 
-  //cli.read(...)
-}
+//void clientEvent(Client client) 
+//{
+  //println(playerName,"got clientEvent()"); 
+  //msg=cli.read(...)
+  //interpretMessage(String msg)
+//}
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE

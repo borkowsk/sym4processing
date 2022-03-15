@@ -1,6 +1,7 @@
-//*  Dopasowana do modelu obsługa zdarzeń klawiatury
+/// Model-specific event handler. 
+/// Of course, the creator of a specific application has to match actions.
 //*  CA: KEYBOARD EVENTS HANDLING
-//*////////////////////////////////////////////////////
+//*///////////////////////////////////////////////////////////////////////
 
 /// Automatically run by Processing when any key on the 
 /// keyboard is pressed. Inside, you can use the variables 

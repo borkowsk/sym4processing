@@ -1,5 +1,6 @@
+/// Everything that needs to be done when the application is terminated.
 //* CA: EXIT TEMPLATE
-//*////////////////////////
+//*/////////////////////////////////////////////////////////////////////
 
 /// It is called whenever a window is closed.
 void exit()          
@@ -17,6 +18,7 @@ void exit()
   if(WITH_VIDEO) CloseVideo();    //Finalise of Video export
   
   println(modelName,"said: Thank You!");
+  
   super.exit();       //What library superclass have to do at exit()
 } 
 

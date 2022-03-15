@@ -1,6 +1,7 @@
-//*  Dopasowana do modelu obsługa zdarzeń
-//*  ABM: EVENTS TEMPLATE
-//*/////////////////////////////////////////////////
+/// Model-specific event handler. 
+/// Of course, the creator of a specific application has to match actions.
+//* ABM: EVENTS TEMPLATE
+//*///////////////////////////////////////////////////////////////////////
 
 /// Automatically run by Processing when any key on the 
 /// keyboard is pressed. Inside, you can use the variables 
@@ -20,8 +21,8 @@ void keyPressed()
   case '8': STEPSperVIS=150;println("StPerV: "+STEPSperVIS);break;
   case '9': STEPSperVIS=200;println("StPerV: "+STEPSperVIS);break;
 //  case '0': STEPSperVIS=1;DeltaMC=0.2;println("DeltaMC: "+DeltaMC);break;
-  case ' ': save(modelName+"."+nf((float)StepCounter,6,5)+".PNG");
-            //write(world,modelName+"."+nf((float)StepCounter,6,5));//Aktualny stan ekosystemu
+  case ' ': save(modelName+"."+nf((float)StepCounter,6,5)+".PNG");// // Save the contents of the simulation window!
+            //write(world,modelName+"."+nf((float)StepCounter,6,5));// Save the current model state!
             break;
   case ESC: simulationRun=!simulationRun; break;
   case 's': simulationRun=false; break;
@@ -32,7 +33,7 @@ void keyPressed()
           println("1-9 for less frequent visualisation");
           println("  0 for most frequent visualisation");
           println("ESC,r,s for pause/run simulation");
-          println("SPACE for dump the current screen\n"); 
+          println("SPACE for dump the current screen\n"); //... "and state\n); 
   break;
   }
   

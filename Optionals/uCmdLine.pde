@@ -1,8 +1,8 @@
-
+/// Template handling of program call parameters, if available.
+//*/////////////////////////////////////////////////////////////
 
 void checkCommandLine() { /// Parsing command line if available
-  
-    //extern int debug_level;
+    //extern int debug_level;// EXPECTED!
     
     //Is passing parameters possible?
     if(args==null)
@@ -63,3 +63,8 @@ void checkCommandLine() { /// Parsing command line if available
     
     if(Fcount>0 ) println("Failed to understand",Fcount,"parameters");
 }
+
+//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*  https://github.com/borkowsk/sym4processing
+//*///////////////////////////////////////////////////////////////////////////////////////////////////

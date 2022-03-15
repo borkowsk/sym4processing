@@ -1,21 +1,21 @@
-// Diferent filters of links and other link tols for a (social) network
-///////////////////////////////////////////////////////////////////////////////////////////
-// Available filters: 
-//   AllLinks, AndFilter, OrFilter, TypeFilter,
-//   LowPassFilter,   HighPassFilter,
-//   AbsLowPassFilter, AbsHighPassFilter
-//   TypeAndAbsHighPassFilter - special type for efficient visualisation
+/// Different filters of links and other link tools for a (social) network
+//*/////////////////////////////////////////////////////////////////////////
+/// Available filters: 
+///   AllLinks, AndFilter, OrFilter, TypeFilter,
+///   LowPassFilter,   HighPassFilter,
+///   AbsLowPassFilter, AbsHighPassFilter
+///   TypeAndAbsHighPassFilter - special type for efficient visualisation
 
+/// Simplest link filtering class which accepts all links
 class AllLinks extends LinkFilter
-// Simplest link filtering class which accepts all links
 {
   boolean meetsTheAssumptions(Link l) { return true;}
-}
+}//EndOfClass
 
-AllLinks allLinks=new AllLinks();//Used very frequently
+final AllLinks allLinks=new AllLinks();  ///< Such type of filter is used very frequently
 
+/// Special type of filter for efficient visualisation
 class TypeAndAbsHighPassFilter  extends LinkFilter
-// Special type for efficient visualisation
 {
   int ltype;
   float treshold;
@@ -23,10 +23,11 @@ class TypeAndAbsHighPassFilter  extends LinkFilter
   TypeAndAbsHighPassFilter(int t,float tres) { ltype=t;treshold=tres;}
   TypeAndAbsHighPassFilter reset(int t,float tres) { ltype=t;treshold=tres;return this;}
   boolean meetsTheAssumptions(Link l) { return l.ltype==ltype && abs(l.weight)>treshold;}
-}
+}//EndOfClass
 
+/// AND two filters assembly class.
+/// A class for logically joining two filters with the AND operator.
 class AndFilter extends LinkFilter
-// Special class for the assembly of various filters
 {
    LinkFilter a;
    LinkFilter b;
@@ -35,10 +36,11 @@ class AndFilter extends LinkFilter
    { 
      return a.meetsTheAssumptions(l) && b.meetsTheAssumptions(l);
    }
-}
+}//EndOfClass
 
+/// OR two filters assembly class.
+/// A class for logically joining two filters with the OR operator.
 class OrFilter extends LinkFilter
-// Another filters assembly class
 {
    LinkFilter a;
    LinkFilter b;
@@ -47,48 +49,54 @@ class OrFilter extends LinkFilter
    { 
      return a.meetsTheAssumptions(l) || b.meetsTheAssumptions(l);
    }
-}
+}//EndOfClass
 
+/// Type of link filter.
+/// Class which filters links of specific "color"/"type"
 class TypeFilter extends LinkFilter
-// TypeFilter filtering links of specific "color"
 {
   int ltype;
   TypeFilter(int t) { ltype=t;}
   boolean meetsTheAssumptions(Link l) { return l.ltype==ltype;}
-}
+}//EndOfClass
 
+/// Low Pass Filter.
+/// Class which filters links with lower weights
 class LowPassFilter extends LinkFilter
-// lowPassFilter filtering links with lower weights
 {
   float treshold;
   LowPassFilter(float tres) { treshold=tres;}
   boolean meetsTheAssumptions(Link l) { return l.weight<treshold;}
-}
+}//EndOfClass
 
+/// High Pass Filter.
+/// Class which filters links with higher weights
 class HighPassFilter extends LinkFilter
-// lowPassFilter filtering links with higher weights
 {
   float treshold;
   HighPassFilter(float tres) { treshold=tres;}
   boolean meetsTheAssumptions(Link l) { return l.weight>treshold;}
-}
+}//EndOfClass
 
+/// Absolute Low Pass Filter.
+/// lowPassFilter filtering links with lower absolute value of weight
 class AbsLowPassFilter extends LinkFilter
-// lowPassFilter filtering links with lower absolute value of weight
 {
   float treshold;
   AbsLowPassFilter(float tres) { treshold=abs(tres);}
   boolean meetsTheAssumptions(Link l) { return abs(l.weight)<treshold;}
-}
+}//EndOfClass
 
+/// Absolute High Pass Filter.
+/// highPassFilter filtering links with higher absolute value of weight
 class AbsHighPassFilter extends LinkFilter
-// lowPassFilter filtering links with higher absolute value of weight
 {
   float treshold;
   AbsHighPassFilter(float tres) { treshold=abs(tres);}
   boolean meetsTheAssumptions(Link l) { return abs(l.weight)>treshold;}
-}
+}//EndOfClass
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - SOCIAL NETWORK TEMPLATE
-///////////////////////////////////////////////////////////////////////////////////////////
+//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*  https://github.com/borkowsk/sym4processing
+//*///////////////////////////////////////////////////////////////////////////////////////////////////

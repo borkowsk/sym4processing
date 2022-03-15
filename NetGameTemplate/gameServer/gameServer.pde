@@ -1,17 +1,17 @@
-//*  Server for gameClients - setup() & draw() SOURCE FILE
+/// Server for gameClients - setup() & draw() SOURCE FILE
 //*////////////////////////////////////////////////////////////////// 
 //
-// Base on:
-// Example code for a server with multiple clients communicating to only one at a time.
-// https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
+/// Losely base on
+/// example code for a server with multiple clients communicating to only one at a time.
+/// (see: https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html)
 //
-import processing.net.*;
-//import processing.pdf.*;//Działa jako server, ale plik PDF jest pusty
-import processing.svg.*;//No-window server!
+import processing.net.*;  //Needed for network communication
+//import processing.pdf.*;//It acts as a server, but the PDF file is empty
+import processing.svg.*;  //No-window server!
 
-int DEBUG=0; ///> Level of debug logging
+int DEBUG=0;       ///> Level of debug logging
 
-Server mainServer; ///> Object representing server's TCP/IP input port
+Server mainServer; ///> Object representing server's TCP/IP COMMUNICATION
 
 Player[] players= new Player[0]; ///> The array of clients (players)
 
@@ -25,13 +25,14 @@ void setup()
   //size(700, 500,PDF, "screen_file.pdf");//Without window
   Xmargin=200;
   noStroke();
+  //textSize(16);//Does not work with UNICODE icons! :-(
   mainServer = new Server(this,servPORT,serverIP);
   if(mainServer.active())
   {
-    println("Server for '"+Opts.name+"' started!");
+    println("Server for '"+Opcs.name+"' started!");
     println("IP:",serverIP,"PORT:",servPORT);
     initialiseGame();
-    surface.setTitle(serverIP+"//"+Opts.name+":"+servPORT);
+    surface.setTitle(serverIP+"//"+Opcs.name+":"+servPORT);
   }
   else exit();
 }
@@ -65,13 +66,23 @@ void confirmClient(Client newClient,Player player)
 {
   if(DEBUG>1) print("Server confirms the client's registration: ");
   
-  String msg=sayOptAndInf(Opts.YOU,player.name);
+  String msg=sayOptAndInf(Opcs.YOU,player.name);
+  if(DEBUG>1) println(msg);
+  newClient.write(msg);
+    
+  msg=sayOptAndInfos(Opcs.VIS,Opcs.sYOU,player.visual);
   if(DEBUG>1) println(msg);
   newClient.write(msg);
   
-  msg=sayOptAndInfos(Opts.VIS,Opts.sYOU,player.visual);
-  if(DEBUG>1) println(msg);
+  // Send the dictionary of types to new player
+  msg=makeAllTypeInfo(gameWorld);
+  if(DEBUG>0) println(msg);
   newClient.write(msg);
+  
+  // Send the new Player to other players
+  msg=sayObjectType(player.name,player.myClassName());
+  if(DEBUG>0) println(msg);
+  mainServer.write(msg);
 }
 
 /// This is stuff that should be done,  
@@ -87,7 +98,7 @@ void whenClientConnected(Client newClient,String playerName)
       println("Player",playerName,"reconnected to server!");
       players[i].netLink=newClient;
       players[i].visual=avatars[2];
-      players[i].flags|=VISUAL_MSK;
+      players[i].flags|=Masks.VISUAL;
       confirmClient(newClient,players[i]);
       return;
     }
@@ -100,16 +111,18 @@ void whenClientConnected(Client newClient,String playerName)
   }
     
   Player tmp=new Player(newClient,playerName,int(random(initialMaxX)),int(random(initialMaxY)),1,1.5);
-  tmp.visual=avatars[1];
-  confirmClient(newClient,tmp);
   
   players = (Player[]) expand(players,players.length+1);//expand the array of clients
   players[players.length-1] = tmp;//sets the last player to be the newly connected client
    
   gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);//expand the array of game objects 
   gameWorld[gameWorld.length-1] = tmp;// Player is also one of GameObjects
+  
   //tmp.indexInGameWorld=gameWorld.length-1;// It should also be filled in as an emergency during the first use
+  tmp.visual=avatars[1];
+    
   println("Player",tmp.name,"connected to server!");
+  confirmClient(newClient,tmp);
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////

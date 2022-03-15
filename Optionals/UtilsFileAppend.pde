@@ -1,5 +1,5 @@
-//Append to text file:
-//https://stackoverflow.com/questions/17010222/how-do-i-append-text-to-a-csv-txt-file-in-processing
+/// Tools for CSV files.
+/// See: https://stackoverflow.com/questions/17010222/how-do-i-append-text-to-a-csv-txt-file-in-processing
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -26,7 +26,7 @@ void appendTextToFile(String filename, String text){
 }
 
 /**
- * Creates a new file including all subfolders
+ * Creates a new file including all subfolders in the path
  */
 void createFile(File f){
   File parentDir = f.getParentFile();
@@ -39,6 +39,7 @@ void createFile(File f){
 }    
 
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - HANDY FUNCTIONS & CLASSES
-///////////////////////////////////////////////////////////////////////////////////////////
+//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*  https://github.com/borkowsk/sym4processing
+//*///////////////////////////////////////////////////////////////////////////////////////////////////

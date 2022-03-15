@@ -1,8 +1,10 @@
-//Różne sposoby liczenia odległości +-Euclidesa
-//////////////////////////////////////////////////////////////
+/// Different ways to calculate Euclid distances in 2D (flat and torus)
+//*/////////////////////////////////////////////////////////////////////
 
+/// Default Euclidean distance on float numbers
+/// Often needed in simulation programs
+/// Actually the same as dist already shipped in Processing 3.xx
 float distance(float X1,float X2,float Y1,float Y2)
-//Często potrzebne w takich programach - domyslny Euklidesowy
 {
   float dX=X2-X1;
   float dY=Y2-Y1;
@@ -12,8 +14,10 @@ float distance(float X1,float X2,float Y1,float Y2)
     return 0;
 }
 
+/// 2D Euclidean distance on float numbers
+/// Often needed in simulation programs
+/// Version compatible with int and double versions
 float distanceEucl(float X1,float X2,float Y1,float Y2)
-//Często potrzebne w takich programach
 {
   float dX=X2-X1;
   float dY=Y2-Y1;
@@ -23,8 +27,10 @@ float distanceEucl(float X1,float X2,float Y1,float Y2)
     return 0;
 }
 
+/// 2D Euclidean distance on double numbers
+/// Sometimes needed in simulation programs
+/// Version compatible with int and float versions
 double distanceEucl(double X1,double X2,double Y1,double Y2)
-//Często potrzebne w takich programach
 {
   double dX=X2-X1;
   double dY=Y2-Y1;
@@ -35,8 +41,11 @@ double distanceEucl(double X1,double X2,double Y1,double Y2)
     return 0;
 }
 
+/// Euclidean like distance on torus (float numbers)
+/// Sometimes needed in simulation programs
+/// Version compatible with int and double versions
+/// @param Xdd & @param Ydd are the horizontal and vertical perimeter of the torus
 float distanceTorus(float X1,float X2,float Y1,float Y2,float Xdd,float Ydd)
-// Xdd i Ydd to obwody torusa
 { //println("float torus dist");
   float dX=abs(X2-X1);
   float dY=abs(Y2-Y1);
@@ -48,8 +57,11 @@ float distanceTorus(float X1,float X2,float Y1,float Y2,float Xdd,float Ydd)
     return 0;
 }
 
+/// Euclidean like distance on torus (double numbers)
+/// Sometimes needed in simulation programs
+/// Version compatible with int and float versions
+/// @param Xdd & @param Ydd are the horizontal and vertical perimeter of the torus
 double distanceTorus(double X1,double X2,double Y1,double Y2,double Xdd,double Ydd)
-// Xdd i Ydd to obwody torusa
 { //println("double torus dist");
   double dX=Math.abs(X2-X1);
   double dY=Math.abs(Y2-Y1);
@@ -61,8 +73,11 @@ double distanceTorus(double X1,double X2,double Y1,double Y2,double Xdd,double Y
     return 0;
 }
 
+/// Euclidean like distance on torus (int numbers)
+/// Sometimes needed in simulation programs
+/// Version compatible with float and double versions
+/// @param Xdd & @param Ydd are the horizontal and vertical perimeter of the torus
 double distanceTorusInt(int X1,int X2,int Y1,int Y2,int Xdd,int Ydd)
-// Xdd i Ydd to obwody torusa
 { //println("int torus dist");
   int dX=abs(X2-X1);
   int dY=abs(Y2-Y1);
@@ -74,10 +89,10 @@ double distanceTorusInt(int X1,int X2,int Y1,int Y2,int Xdd,int Ydd)
     return 0;
 }
 
-/*
+/* 
+/// Domyslnie Euklidesowy, z uwzględnieniem długości okna
+/// ale dlaczego nie szerokości?
 double distance(double X1,double X2,double Y1,double Y2)
-//Domyslnie Euklidesowy, z uwzględnieniem długości okna
-//ale dlaczego nie szerokości?
 {
   double dX=X2-X1;
   double dY=Y2-Y1;
@@ -92,6 +107,7 @@ double distance(double X1,double X2,double Y1,double Y2)
 }
 */
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - HANDY FUNCTIONS & CLASSES
-///////////////////////////////////////////////////////////////////////////////////////////
+//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*  https://github.com/borkowsk/sym4processing
+//*///////////////////////////////////////////////////////////////////////////////////////////////////

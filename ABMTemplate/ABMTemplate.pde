@@ -1,24 +1,24 @@
-//   Template for AGENT BASE MODEL utilized 1D or 2D discrete geometry
-//   implemented by Wojciech Borkowski
-/////////////////////////////////////////////////////////////////////////////////////////
+///   Template for AGENT BASE MODEL utilized 1D or 2D discrete geometry
+//*   implemented by Wojciech Borkowski
+//*///////////////////////////////////////////////////////////////////////////////////////
 
 //Model parameters
-String modelName="ABMTemplate";///> Name of the model is used for log files
-int side=75;      ///> side of "world" main table
-float density=0.75;///> initial density of agents
+String modelName="ABMTemplate";///< Name of the model is used for log files
+int side=75;      ///< side of "world" main table
+float density=0.75;///< initial density of agents
 
-World TheWorld=new World(side);///>Main table will be initialised inside setup()
+World TheWorld=new World(side);///<Main table will be initialised inside setup()
 
 //Parameters of visualisation etc...
-int cwidth=15;     ///> requested size of cell
-int STATUSHEIGH=40;///> height of status bar
-int STEPSperVIS=1; ///> how many model steps beetwen visualisations 
-int FRAMEFREQ=10;  ///> how many model steps per second
-boolean WITH_VIDEO=false;///> Make a movie?
+int cwidth=15;     ///< requested size of cell
+int STATUSHEIGH=40;///< height of status bar
+int STEPSperVIS=1; ///< how many model steps beetwen visualisations 
+int FRAMEFREQ=10;  ///< how many model steps per second
+boolean WITH_VIDEO=false;///< Make a movie?
 
-boolean simulationRun=false;///> Start/stop flag
+boolean simulationRun=false;///< Start/stop flag
 
-/// setup() is called only once, at the beginning of run
+/// Function setup() is called only once, at the beginning of run
 /// At least setup() or draw() must be present in animation program
 void setup()
 {
@@ -56,7 +56,7 @@ void setup()
   NextVideoFrame();//It utilise inside variable to check if is enabled
 }
 
-/// draw() is called many times, to the end of run or noLoop() call.
+/// Function draw() is called many times, to the end of run or noLoop() call.
 /// At least setup() or draw() must be present in animation program
 void draw()
 {

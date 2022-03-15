@@ -1,4 +1,7 @@
-//Funkcja do mutowania bitów integera
+/// Bit tools
+//*///////////////////
+
+/// Function for mutating integer bits
 int swithbit(int sou,int pos)//flip-flopuje bit na pozycji
 {
   if(pos>=MASKBITS)//Define MASKBITS somewhere
@@ -6,17 +9,17 @@ int swithbit(int sou,int pos)//flip-flopuje bit na pozycji
     println("!!! Mutation autside BITMASK");
     return sou;
   }
-  //Jest poprawna pozycja
-  int bit=0x1<<pos;
+  
+  int bit=0x1<<pos; // There is a correct position
   
   //print(":"+bit+" ");
-  return sou^bit;//xor should do the job?
+  return sou^bit;//xor should do the job? TOCO CHECK?
 }
 
-//Funkcja zliczania bitów intigera
+/// Integer bit counting function
 int countbits(int u)
 {
-  final int BITSPERINT=32;
+  final int BITSPERINT=32; assert Integer.BYTES==4;
   int sum=0;
   for(int i=0;i<BITSPERINT;i++)
     {
@@ -27,6 +30,7 @@ int countbits(int u)
   return sum;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - HANDY FUNCTIONS & CLASSES
-///////////////////////////////////////////////////////////////////////////////////////////
+//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*  https://github.com/borkowsk/sym4processing
+//*///////////////////////////////////////////////////////////////////////////////////////////////////

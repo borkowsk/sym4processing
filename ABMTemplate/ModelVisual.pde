@@ -1,4 +1,4 @@
-//* World full of agents need method of visualisation on screen/window
+/// World full of agents need method of visualisation on screen/window
 //* ABM: BASIC VISUALISATION
 //*//////////////////////////////////////////////////////////////////////////
 

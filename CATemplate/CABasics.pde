@@ -1,6 +1,6 @@
-// Cell is a one of two central types (typicaly char or int) of each CA model
-// Cells need to be initialised & they need rules of change 
-//////////////////////////////////////////////////////////////////////////////////
+/// Cell is a one of two central types (typicaly char or int) of each CA model
+/// Cells need to be initialised & they need rules of change 
+//*////////////////////////////////////////////////////////////////////////////////
 
 /// Initialization of cells (2D version)
 void initializeCells(int[][] cells)
@@ -29,10 +29,11 @@ void initializeCells(int[] cells)
        cells[cells.length/2]=1;
 }
 
-//* Implement model rules below
+//* Example model rules implemented below
 //*///////////////////////////////////////////////
 
 /// Your cells change over time (SYNCHRONIC 2D version)
+/// (Example "modulo 5" model)
 void synchChangeCellsModulo(int[][] cells,int[][] newcells)
 {
   int N=cells.length;
@@ -53,6 +54,7 @@ void synchChangeCellsModulo(int[][] cells,int[][] newcells)
 }
 //OR 
 /// Your cells change over time (SYNCHRONIC 1D version)
+/// (Example "modulo 5" model)
 void synchChangeCellsModulo(int[] cells,int[] newcells)
 {
   int N=cells.length;
@@ -67,6 +69,7 @@ void synchChangeCellsModulo(int[] cells,int[] newcells)
 }
 
 /// Your cells change over time (ASYNCHRONIC 2D version)
+/// (Example "modulo 5" model)
 void  asyncChangeCellsModulo(int[][] cells)
 {
   int MC=cells.length*cells[0].length;
@@ -88,6 +91,7 @@ void  asyncChangeCellsModulo(int[][] cells)
 }
 //OR
 /// Your cells change over time (ASYNCHRONIC 1D version)
+/// (Example "modulo 5" model)
 void  asyncChangeCellsModulo(int[] cells)
 {
   int MC=cells.length;

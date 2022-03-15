@@ -1,5 +1,5 @@
-//*   World full of cells need method of visualisation on screen/window
-//*   CA: BASIC VISUALISATION
+/// World full of cells need method of visualisation on screen/window
+//* CA: BASIC VISUALISATION
 //*//////////////////////////////////////////////////////////////////////////
 
 /// Visualization of cells. Two-dimensional version
@@ -21,7 +21,7 @@ void visualizeCells(int[][] cells)
       fill(128);break;
     }
     
-    rect(b*cwidth,a*cwidth,cwidth,cwidth);//a is vertical!
+    rect(b*cwidth,a*cwidth,cwidth,cwidth);//'a' is vertical!
    }
 }
 //OR

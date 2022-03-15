@@ -1,11 +1,16 @@
 //*  Obsługa wyszukiwania obiektu po kliknięciu myszy
 //*  CA: MOUSE EVENTS HANDLING
 //*//////////////////////////////////////////////////////
-int searchedX=-1;
-int searchedY=-1;
-boolean Clicked=false;
-int selectedX=-1;
-int selectedY=-1;
+
+// Last read mouse data
+int searchedX=-1; ///< The horizontal coordinate of the mouse cursor
+int searchedY=-1; ///< The vertical coordinate of the mouse cursor
+boolean Clicked=false; ///< Was there a click too?
+
+// Last selection
+int selectedX=-1; ///< Converted into "world" indices, the agent's horizontal coordinate
+int selectedY=-1; ///< Converted into "world" indices, the agent's vertical coordinate
+
 
 /// Simple version of Pair containing a pair of integers
 class PairOfInt

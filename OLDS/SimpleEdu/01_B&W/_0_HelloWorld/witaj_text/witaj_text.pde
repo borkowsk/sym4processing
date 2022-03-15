@@ -1,1 +1,0 @@
-text("PROCESSING\nW EDUKACJI!",10,50);

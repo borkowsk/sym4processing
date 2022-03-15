@@ -1,5 +1,10 @@
-//Randomisations
-float randomGaussPareto(int Dist)// when Dist is negative, it is Pareto, when positive, it is Gauss like
+/// Functions that improve the use of pseudo-random numbers
+///*/////////////////////////////////////////////////////////////
+
+/// Function generates pseudo random number with non-flat distribution.
+/// When @p Dist is negative, it is Pareto-like, 
+/// when is positive, it is Gaussian-like
+float randomGaussPareto(int Dist)
 {
   if(Dist>0)
   {
@@ -17,21 +22,28 @@ float randomGaussPareto(int Dist)// when Dist is negative, it is Pareto, when po
   }
 }
 
-//XOR SHIFT random generator - flat distribution
-//http://www.javamex.com/tutorials/random_numbers/xorshift.shtml#.WT6NEzekKXI
-long xl=123456789L;
-double mianownik=(double)9223372036854775807L; //9,223,372,036,854,775,807 <--- max long 
+/// XOR SHIFT random number generator with flat distribution
+/// Apart from the function, it also needs a variable for storing the grain 
+/// and a constant for storing the denominator.
+/// See: http://www.javamex.com/tutorials/random_numbers/xorshift.shtml#.WT6NEzekKXI
 
+static long   xl=123456789L; ///< seed for xorshift randomizer
+final double denominator=(double)9223372036854775807L; ///< denominator for xorshift randomizer (why double?)
+//final  long   denominator=9223372036854775807L;/// 9,223,372,036,854,775,807 <--- max long 
+
+/// Function which generates xorshift random value.
 double RandomXorShift() 
 {
   xl ^= (xl << 21);
   xl ^= (xl >>> 35);
   xl ^= (xl << 4);
-  return (Math.abs(xl)/mianownik);
+  return (Math.abs(xl)/denominator);//Is the result of abs() automatically promoted to double? Looks like...
 }
 
-//Pareto distribution from flat distribution
-//https://math.stackexchange.com/questions/1777367/how-to-generate-a-random-number-from-a-pareto-distribution
+/// @Function RandomPareto().
+/// It generates pareto distribution from flat distribution
+/// See: https://math.stackexchange.com/questions/1777367/how-to-generate-a-random-number-from-a-pareto-distribution
+/// Not tested!!! TODO!
 /*
 double a = 41.4104*(1-0.01); //Kształt- im większe tym ostrzej skośny rozkład
 double b =  6.82053374;      //Skalowanie - im większe tym większy zakres. 
@@ -53,6 +65,7 @@ double RandomPareto()
 }
 */
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - HANDY FUNCTIONS & CLASSES
-///////////////////////////////////////////////////////////////////////////////////////////
+//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*  https://github.com/borkowsk/sym4processing
+//*///////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,16 +1,19 @@
-/* https://processing.org/discourse/beta/num_1202486379.html 
+/**  Function for drawing dashed lines.
+ * NOTE: uses the Processing specific function lerp()
  * Draw a dashed line with given set of dashes and gap lengths. 
- * x0 starting x-coordinate of line. 
- * y0 starting y-coordinate of line. 
- * x1 ending x-coordinate of line. 
- * y1 ending y-coordinate of line. 
- * spacing array giving lengths of dashes and gaps in pixels; 
+ * @param x0 starting x-coordinate of line. 
+ * @param y0 starting y-coordinate of line. 
+ * @param x1 ending x-coordinate of line. 
+ * @param y1 ending y-coordinate of line. 
+ * @param spacing is an array giving lengths of dashes and gaps in pixels; 
  *  an array with values {5, 3, 9, 4} will draw a line with a 
  *  5-pixel dash, 3-pixel gap, 9-pixel dash, and 4-pixel gap. 
  *  if the array has an odd number of entries, the values are 
  *  recycled, so an array of {5, 3, 2} will draw a line with a 
  *  5-pixel dash, 3-pixel gap, 2-pixel dash, 5-pixel gap, 
  *  3-pixel dash, and 2-pixel gap, then repeat. 
+ *
+ *  See: https://processing.org/discourse/beta/num_1202486379.html 
  */ 
 void dashedLine(float x0, float y0, float x1, float y1, float[ ] spacing) 
 { 
@@ -51,5 +54,11 @@ void dashedLine(float x0, float y0, float x1, float y1, float[ ] spacing)
       drawLine = !drawLine;  // switch between dash and gap 
     } 
   } 
-} 
+}
+
+//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*  https://github.com/borkowsk/sym4processing
+//*///////////////////////////////////////////////////////////////////////////////////////////////////
+
  

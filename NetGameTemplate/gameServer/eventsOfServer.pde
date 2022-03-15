@@ -1,16 +1,17 @@
-//*  Server for gameClients - keyboard input & other asynchronic events
+/// gameServer (dummy) keyboard input & other asynchronic events
 //*///////////////////////////////////////////////////////////////////// 
 
 /// Keyboard handler for the server.
-/// In most cases not useable. 
+/// In most cases not useable. However, it protects the server against 
+/// accidental stopping with the ESC key
 void keyPressed()
 {
   //ignore!?
   if(key==ESC)
   {
     println("Keyboard is ignored for the game server");
-    key=0; //<>//
-  }    
+    key=0;
+  }
 }
 
 /// Event handler called when a client connects to server
@@ -21,11 +22,11 @@ void serverEvent(Server me,Client newClient)
   while(newClient.available() <= 0) delay(10);
   
   if(DEBUG>1) print("Server is READING FROM CLIENT: ");
-  String msg=newClient.readStringUntil(Opts.EOR);
+  String msg=newClient.readStringUntil(Opcs.EOR);
   if(DEBUG>1) println(msg);
   String playerName=decodeHELLO(msg);
   
-  msg=sayHELLO(Opts.name);
+  msg=sayHELLO(Opcs.name);
   if(DEBUG>1) println("Server is SENDING: ",msg);
   newClient.write(msg);
     
@@ -49,12 +50,23 @@ void disconnectEvent(Client someClient)
     println("Server registered",players[i].name," disconnection.");
     players[i].netLink=null;
     players[i].visual=avatars[0];
-    players[i].flags|=VISUAL_MSK;
+    players[i].flags|=Masks.VISUAL;
     break;
   }
   
   loop(); 
 }
+
+/// ClientEvent handler is called when the 
+/// server recives data from an existing client.
+/// This is alternative, asynchronous way to
+/// read messages from clients.
+//void clientEvent(Client client) 
+//{
+  //println("Server got clientEvent()"); 
+  //msg=cli.read(...)
+  //interpretMessage(String msg)
+//}
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
