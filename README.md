@@ -11,6 +11,10 @@ __REPOSITORY CLONING__
 
 ```git clone --recurse-submodules https://github.com/borkowsk/sym4processing.git```
 
+__DEPENDENCIES__
+
+You need to install "com.hamoid" library for **Processing** and "ffmpeg" application
+
 **Licencing**
 
 You can use this software freely for educational and research purposes, but if you feel that it would be appropriate to repay somehow, please finance me a big coffee :-)
