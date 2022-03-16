@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import processing.awt.PSurfaceAWT;
 
-MenuBar myMenu;//!< Handle to menu. 
+MenuBar myMenu;///!< Handle to menu. 
                
 /// A function that constructs an example menu.
 /// Processig does not see the height of MenuBar added to Window!

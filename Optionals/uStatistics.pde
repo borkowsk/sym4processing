@@ -1,5 +1,5 @@
 ///  Various simple statistics for one-dimensional arrays
-//*  PL Różne proste statystyki dla tablic jednowymiarowych
+//*  PL: Różne proste statystyki dla tablic jednowymiarowych
 //*/////////////////////////////////////////////////////////
 
 /// EN: Arithmetic mean of the float data

@@ -1,4 +1,4 @@
-/// draw() template
+/// draw() template with possibility of non-visible window
 //*///////////////////////////////////////////////////////////////////////////////////////// 
 
 /// Console only apps. is possible when draw() function set window visibility to false, 

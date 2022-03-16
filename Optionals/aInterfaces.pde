@@ -1,15 +1,12 @@
-//*//////////////////////////////////////////////////////////////////////////////
 /// COMMON INTERFACES
 /// See: "https://github.com/borkowsk/RTSI_public"
 //*//////////////////////////////////////////////////////////////////////////////
 /// USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
 /// if you need translate the code into C++ (--> Processing2C )
 
-
-
-///
+//*
 /// Generally useable interfaces:
-///
+//*
 //*//////////////////////////////
 
 /// Forcing name available as String (planty of usage)
@@ -22,9 +19,9 @@ interface iDescribable {
   /*_interfunc*/ String Description() /*_forcbody*/;
 }//EndOfClass
 
-///
+//*
 /// MATH INTERFACES:
-///
+//*
 //*////////////////////////////////////////////////////////////////////////////
 
 final float INF_NOT_EXIST=Float.MAX_VALUE;  ///< Missing value marker
@@ -36,9 +33,9 @@ interface Function2D {
   /*_interfunc*/ float getMax()/*_forcbody*/;//Always must be different!
 }//EndOfClass
 
-///
+//*
 /// VISUALISATION INTERFACES:
-///
+//*
 //*///////////////////////////
 
 /// Forcing setFill & setStroke methods for visualisation

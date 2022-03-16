@@ -1,7 +1,8 @@
 /// Template handling of program call parameters, if available.
 //*/////////////////////////////////////////////////////////////
 
-void checkCommandLine() /// Parsing command line if available
+/// Parsing command line, if available.
+void checkCommandLine() 
 { 
     //extern int debug_level;// EXPECTED!
     

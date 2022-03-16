@@ -1,17 +1,19 @@
 /// Generic visualisations of a (social) network
 //*/////////////////////////////////////////////////////////
-float XSPREAD=0.01;   /// how far is target point of link of type 1, from center of the cell
-int   linkCounter=0;  /// number od=f links visualised last time
+float XSPREAD=0.01;   ///< how far is target point of link of type 1, from center of the cell
+int   linkCounter=0;  ///< number od=f links visualised last time
 
-//FUNCTIONS:
-////////////
+//   FUNCTIONS:
+//*/////////////
 //void visualiseLinks(iVisNode[]   nodes,float defX,float defY,float cellside);
 //void visualiseLinks(iVisNode[][] nodes,float defX,float defY,float cellside);
 
-// IMPLEMENTATIONS:
-///////////////////
+//   IMPLEMENTATIONS:
+//*///////////////////
 
-void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode) { ///
+/// One dimensional visualisation using arcs()
+void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode) 
+{ 
   noFill();strokeCap(ROUND);
   linkCounter=0;
   ellipseMode(CENTER);
@@ -52,6 +54,7 @@ void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,f
   }
 }
 
+/// Two dimensional visualisation using arrows()
 void visualiseLinks2D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode) { ///
   noFill();strokeCap(ROUND);
   linkCounter=0;
@@ -99,7 +102,9 @@ void visualiseLinks2D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,f
   }
 }
 
-void visualiseLinks(iVisNode[][] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode) { ///
+/// Alternative 2D links visualisation
+void visualiseLinks(iVisNode[][] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode) 
+{ 
   noFill();
   linkCounter=0;
   

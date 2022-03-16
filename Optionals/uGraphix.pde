@@ -1,22 +1,8 @@
-// Różne pomocne procedury rysujące
-////////////////////////////////////////////////////////////////
+/// Various helpful drawing procedures
+//*//////////////////////////////////////////////////////////////
 
-void dottedline(int x1,int y1,int x2,int y2,float dens)
-{
-  for (int i = 0; i <= dens; i++) 
-  {
-    float x = lerp(x1, x2, i/dens);
-    float y = lerp(y1, y2, i/dens);
-    point(x, y);
-  }
-}
-
-void dashedline(float x0, float y0, float x1, float y1,float dens)
-{
-  dashedline(x0,y0,x1,y1,new float[]{dens,dens});
-}
-
-void surround(int x1,int y1,int x2,int y2)//Ramka domyslną linią
+/// Frame drawn with a default line
+void surround(int x1,int y1,int x2,int y2)
 {
   line(x1,y1,x2,y1);//--->
   line(x2,y1,x2,y2);//vvv
@@ -24,18 +10,22 @@ void surround(int x1,int y1,int x2,int y2)//Ramka domyslną linią
   line(x1,y1,x1,y2);//^^^
 }
 
-void cross(float x,float y,float cross_width)//Krzyzyk domyslną linią
+/// Cross drawn with a default line
+void cross(float x,float y,float cross_width)
 {
   line(x-cross_width,y,x+cross_width,y);
   line(x,y-cross_width,x,y+cross_width);
 }
 
-void cross(int x,int y,int cross_width)//Krzyzyk domyslną linią
+/// Cross drawn with a default line 
+/// The version that uses parameters of type int.
+void cross(int x,int y,int cross_width)
 {
   line(x-cross_width,y,x+cross_width,y);
   line(x,y-cross_width,x,y+cross_width);
 }
 
+/// The bald head of a man seen from above
 void baldhead(int x,int y,int r,float direction)
 {
   float D=2*r;
@@ -52,6 +42,12 @@ void baldhead(int x,int y,int r,float direction)
   ellipse(x,y,D,D);
 }
 
+//*
+/// POLYGONS
+//*
+//*/////////////////////
+
+/// A regular polygon with a given radius and number of vertices
 void regularpoly(float x, float y, float radius, int npoints) 
 {
   float angle = TWO_PI / npoints;
@@ -65,22 +61,38 @@ void regularpoly(float x, float y, float radius, int npoints)
   endShape(CLOSE);
 }
 
-//POLYGON
-
-class pointxy
+/// A class to represent two-dimensional points
+class pointxy 
 {
-  float x;
-  float y;
+  float x,y;
+  
   pointxy()
   {
     x=y=0;
   }
+  
   pointxy(float ix,float iy)
   {
     x=ix;y=iy;
   }
+}//EndOfClass
+
+/// Drawing a polygon. 
+/// It utilises vertices given as an array of points
+void polygon(pointxy[] lst/*+1*/)
+{
+  int N= lst.length;
+  beginShape();
+  for (int a = 0; a < N; a ++) 
+  {
+    vertex(lst[a].x,lst[a].y);
+  }
+  endShape(CLOSE);
 }
 
+/// Drawing a polygon. 
+/// It utilises vertices given as an array of points
+/// @param N, size of list, could be smaller than 'lst.lenght'
 void polygon(pointxy[] lst/*+1*/,int N)
 {
   beginShape();
@@ -91,17 +103,20 @@ void polygon(pointxy[] lst/*+1*/,int N)
   endShape(CLOSE);
 }
 
+/// Nearest points of two polygons.
 Pair<pointxy,pointxy> nearestPoints(final pointxy[] listA,final pointxy[] listB)
-//Najbliższe punkty dwóch wielokątów
-{                                    assert(listA.length>0);assert(listB.length>0);
+{                                    
+                                    assert(listA.length>0);
+                                    assert(listB.length>0);
   float mindist=MAX_FLOAT;
   int   minA=-1;
   int   minB=-1;
   for(int i=0;i<listA.length;i++)
-    for(int j=0;j<listB.length;j++) //Pętla nadmiarowa
+    for(int j=0;j<listB.length;j++) //Pętla nadmiarowa (?)
     {
       float x2=(listA[i].x-listB[j].x)*(listA[i].x-listB[j].x);
       float y2=(listA[i].y-listB[j].y)*(listA[i].y-listB[j].y);
+      
       if(x2+y2 < mindist)
       {
         mindist=x2+y2;
@@ -111,7 +126,11 @@ Pair<pointxy,pointxy> nearestPoints(final pointxy[] listA,final pointxy[] listB)
   return new Pair<pointxy,pointxy>(listA[minA],listB[minB]);
 }
 
-//BAR3D 
+//*
+/// BAR3D 
+//*
+//*/////////////////////////////////////////
+
 class settings_bar3d
 {
 int a=10;
@@ -119,9 +138,9 @@ int b=6;
 int c=6;
 color wire=color(255,255,255); //Kolor ramek
 color back=color(0,0,0); //Informacja o kolorze tla
-}
+}//EndOfClass
 
-settings_bar3d bar3dsett=new settings_bar3d();
+settings_bar3d bar3dsett=new settings_bar3d();///< Default settings of bar3d
 
 pointxy bar3dromb[]={new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy()};
 
@@ -160,84 +179,35 @@ void bar3dRGB(float x,float y,float h,int R,int G,int B,int Shad)
   line(bar3dromb[4-1].x,bar3dromb[4-1].y,bar3dromb[5-1].x,bar3dromb[5-1].y);//tyl bok
   line(bar3dromb[5-1].x,bar3dromb[5-1].y,bar3dromb[6-1].x,bar3dromb[6-1].y);//tyl bok
 
- // rect(x,y-h,1,h+1,wire_col);       //lewy pion
-}/* end slupek RGB */
+ // rect(x,y-h,1,h+1,wire_col);       // the left vertical edge is additionally marked
+}/* end of bar3dRGB */
 
-/* https://processing.org/discourse/beta/num_1202486379.html 
- * Draw a dashed line with given set of dashes and gap lengths. 
- * x0 starting x-coordinate of line. 
- * y0 starting y-coordinate of line. 
- * x1 ending x-coordinate of line. 
- * y1 ending y-coordinate of line. 
- * spacing array giving lengths of dashes and gaps in pixels; 
- *  an array with values {5, 3, 9, 4} will draw a line with a 
- *  5-pixel dash, 3-pixel gap, 9-pixel dash, and 4-pixel gap. 
- *  if the array has an odd number of entries, the values are 
- *  recycled, so an array of {5, 3, 2} will draw a line with a 
- *  5-pixel dash, 3-pixel gap, 2-pixel dash, 5-pixel gap, 
- *  3-pixel dash, and 2-pixel gap, then repeat. 
- */ 
  
-void dashedline(float x0, float y0, float x1, float y1, float[ ] spacing) 
-{ 
-  float distance = dist(x0, y0, x1, y1); 
-  float [ ] xSpacing = new float[spacing.length]; 
-  float [ ] ySpacing = new float[spacing.length]; 
-  float drawn = 0.0;  // amount of distance drawn 
- 
-  if (distance > 0) 
-  { 
-    int i; 
-    boolean drawLine = true; // alternate between dashes and gaps 
- 
-    /* 
-      Figure out x and y distances for each of the spacing values 
-      I decided to trade memory for time; I'd rather allocate 
-      a few dozen bytes than have to do a calculation every time 
-      I draw. 
-    */ 
-    for (i = 0; i < spacing.length; i++) 
-    { 
-      xSpacing[i] = lerp(0, (x1 - x0), spacing[i] / distance); 
-      ySpacing[i] = lerp(0, (y1 - y0), spacing[i] / distance); 
-    } 
- 
-    i = 0; 
-    while (drawn < distance) 
-    { 
-      if (drawLine) 
-      { 
-        line(x0, y0, x0 + xSpacing[i], y0 + ySpacing[i]); 
-      } 
-      x0 += xSpacing[i]; 
-      y0 += ySpacing[i]; 
-      /* Add distance "drawn" by this line or gap */ 
-      drawn = drawn + mag(xSpacing[i], ySpacing[i]); 
-      i = (i + 1) % spacing.length;  // cycle through array 
-      drawLine = !drawLine;  // switch between dash and gap 
-    } 
-  } 
-} 
- 
-//STRZAŁKA W DOWOLNYM KIERUNKU
-float def_arrow_size=15;
-float def_arrow_theta=PI/6.0+PI;//3.6651914291881
+//*
+/// ARROW IN ANY DIRECTION
+//*
+//*////////////////////////////////////////
 
+float def_arrow_size=15; ///< Default size of arrows heads
+float def_arrow_theta=PI/6.0+PI;///< Default arrowhead spacing //3.6651914291881
+
+/// Function that draws an arrow with default settings
 void arrow(float x1,float y1,float x2,float y2)
 {
   arrow_d(int(x1),int(y1),int(x2),int(y2),def_arrow_size,def_arrow_theta);
 }
 
+/// Function that draws an arrow with changable settings
 void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)
 {
-  //METODA LICZENIA Z OBRACANIA OSI STRZALKI
+  // CALCULATION METHOD FROM ROTATION OF THE ARROW AXIS
   float A=(size>=1 ? size : size * sqrt( (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2) ));
   float poY=float(y2-y1);
   float poX=float(x2-x1);
 
   if(poY==0 && poX==0)
   {
-    //Rzadki błąd, ale duży problem
+    // Rare error, but big problem
     float cross_width=def_arrow_size/2;
     line(x1-cross_width,y1,x1+cross_width,y1);
     line(x1,y1-cross_width,x1,y1+cross_width);
@@ -252,13 +222,13 @@ void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)
   float xo1=A*cos(theta+alfa);
   float yo1=A*sin(theta+alfa);
   float xo2=A*cos(alfa-theta);
-  float yo2=A*sin(alfa-theta); //cross(x2,y2,128);DEBUG!
+  float yo2=A*sin(alfa-theta);        //cross(x2,y2,128);DEBUG!
 
   line(int(x2+xo1),int(y2+yo1),x2,y2);
   line(int(x2+xo2),int(y2+yo2),x2,y2);
   line(x1,y1,x2,y2);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - HANDY FUNCTIONS & CLASSES
-///////////////////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - HANDY FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////////////////

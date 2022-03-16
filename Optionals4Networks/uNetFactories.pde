@@ -1,7 +1,8 @@
 /// Others factories for fabrication of links for a (social) network
 //*///////////////////////////////////////////////////////////////////
 
-/// Random link factory creates links with random weights
+/// Random link factory.
+/// It creates links with random weights
 class randomWeightLinkFactory extends LinkFactory
 {
   float min_weight,max_weight;

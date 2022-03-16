@@ -1,4 +1,5 @@
-//STAŁE
+/// Math basics
+//*/////////////////
 
 /// Some of my older programs show the constant FLOAT_MAX, while MAX_FLOAT is currently available.
 final float FLOAT_MAX=MAX_FLOAT; //3.40282347E+38;
@@ -42,7 +43,6 @@ int whichIsMax(float v0,float v1,float v2)
   else if( v2 > v0 && v2 > v1) return 2;
   else return -1;//żaden nie jest dominujący
 }
-
 
 //*///////////////////////////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES

@@ -1,8 +1,9 @@
-/// Bit tools
+///  Bit tools
 //*///////////////////
 
-/// Function for mutating integer bits
-int swithbit(int sou,int pos)//flip-flopuje bit na pozycji
+/// Function for mutating integer bits.
+/// Flip-flop the bit at the given position
+int swithbit(int sou,int pos)
 {
   if(pos>=MASKBITS)//Define MASKBITS somewhere
   {
@@ -16,7 +17,8 @@ int swithbit(int sou,int pos)//flip-flopuje bit na pozycji
   return sou^bit;//xor should do the job? TOCO CHECK?
 }
 
-/// Integer bit counting function
+/// IBit counting function.
+/// Counts the set bits of an integer
 int countbits(int u)
 {
   final int BITSPERINT=32; assert Integer.BYTES==4;

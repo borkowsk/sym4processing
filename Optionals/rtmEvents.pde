@@ -1,11 +1,8 @@
-///  Keyboard & Mouse Event Handling.
-///  File: "RTMEventHandling.pde"
-///  @a "https://github.com/borkowsk/RTSI_public"
+///  Keyboard Event Handling.
 /////////////////////////////////////////////////////////////////////////////////////
 
-//TypeAndAbsHighPassFilter comboVisFilter=new TypeAndAbsHighPassFilter();
-//TypeAndAbsHighPassFilter moralVisFilter=new TypeAndAbsHighPassFilter(MORALITY_MARKER,linkWeightTresh);
-
+/// The handler called every time when keyboard key is pressed
+/// You can use 'key' and 'keyCode' Processing variable inside. 
 void keyPressed() 
 {
   fill(128);  //print(CODED);//DEBUG
@@ -26,7 +23,8 @@ void keyPressed()
   case '7': VISFREQ=100;println(VISFREQ,"step/frame");text("StPerV: "+VISFREQ,0,height-16);break;
   case '8': VISFREQ=150;println(VISFREQ,"step/frame");text("StPerV: "+VISFREQ,0,height-16);break;
   case '9': VISFREQ=200;println(VISFREQ,"step/frame");text("StPerV: "+VISFREQ,0,height-16);break;
-  case ' ': save("screen"+nf(frameCount,6,5)+".PNG");
+  case ' ': //SPACE - dump the current screen             
+            save("screen"+nf(frameCount,6,5)+".PNG");
             println("screen"+nf(frameCount,6,5)+".PNG","SAVED!");
             break;
   default:println("Command '"+key+"' unknown");
@@ -38,7 +36,7 @@ void keyPressed()
           textSize(fsize);
           fill(64);textAlign(LEFT,TOP);
           println("USE:");
-          println("\u2423 \t for dump the current screen"); text("SPACE \t for dump the current screen",startX,startY);//SPACE - dump the current screen             
+          println("\u2423 \t for dump the current screen"); text("SPACE \t for dump the current screen",startX,startY);         
           println("1-9 \t for less frequent visualisation");text("1-9 \t for less frequent visualisation",startX,startY+=fsize);         
           println("o 0 \t for less & more frequent frames");text("o 0 \t for less & more frequent frames",startX,startY+=fsize);         
           println("q,Q \t exit");                           text("q,Q \t exit",startX,startY+=fsize);         
@@ -54,7 +52,8 @@ void keyPressed()
   }
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///  Last modification 2021.12.16
-///  @a "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" - EVENTS from TEMPLATE
-///////////////////////////////////////////////////////////////////////////////////////////
+//*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//*  Last modification 2022.03.16
+//*  https://github.com/borkowsk/sym4processing
+//*  See: "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" - KEYBOARD EVENTS TEMPLATE
+//*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////

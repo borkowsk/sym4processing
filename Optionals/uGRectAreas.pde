@@ -1,8 +1,10 @@
-/// "Active rectangles" - proprietary application interface system in Processing
-/// @Author Wojciech Borkowski
-//*/////////////////////////////////////////////////////////////////////////////
-ArrayList<RectArea>   allAreas = new ArrayList<RectArea>();     ///< List of areas to be displayed
-ArrayList<TextButton> allButtons = new ArrayList<TextButton>(); ///< Button list
+/// "Active rectangles" - proprietary application interface module in Processing
+//*////////////////////////////////////////////////////////////////////////////////
+/// USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
+/// if you need translate the code into C++ (--> Processing2C )
+
+ArrayList<RectArea>   allAreas = new ArrayList<RectArea>();     ///< Global list of areas to be displayed.
+ArrayList<TextButton> allButtons = new ArrayList<TextButton>(); ///< Global button list.
 
 int iniTxButtonSize=16;       ///< The initial size of the button.
 int iniTxButtonCornerRadius=6;///< The default rounding of the corners of the buttons
@@ -359,6 +361,7 @@ class WrUniqTextButton extends UniqTextButton
 }//EndOfClass
 
 //*///////////////////////////////////////////////////////////////////////////////////////////////////
+///  @Author Wojciech Borkowski
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
 //*///////////////////////////////////////////////////////////////////////////////////////////////////

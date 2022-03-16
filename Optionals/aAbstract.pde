@@ -3,9 +3,6 @@
 /// USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
 /// if you need translate the code into C++ (--> Processing2C )
 
-/// Templates:
-//*/////////////////////////////////
-
 /// Simple version of Pair template useable for returning a pair of values
 public class Pair<A,B> {
     public final A a;
