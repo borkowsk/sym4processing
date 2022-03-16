@@ -7,48 +7,49 @@
 
 import com.hamoid.*;// Here we import the necessary library containing the VideoExport class
 
-/// USAGE/UŻYCIE:
+/// USAGE
+//* PL: UŻYCIE:
 /// This initVideoExport function call must be in setup() for the Video module to work:
-//  PL: To wywołanie funkcji initVideoExport musi być w setup(), aby moduł Video zadziałał:
+//* PL: To wywołanie funkcji initVideoExport musi być w setup(), aby moduł Video zadziałał:
 ///
 ///  initVideoExport(this,FileName,Frames)); // The VideoExport class must have access to
 ///                                          // the Processing application object
 ///                                          // It's best to run at the end of the setup().
 ///                                          // NOTE !!!: The window must be EVEN sizes
-//
-//                                          // Klasa VideoExport musi mieć dostęp do 
-//                                          // obiektu aplikacji Processingu
-//                                          // Najlepiej wywołać na koncu setupu. 
-//                                          // UWAGA!!!: Okno musi mieć PARZYSTE rozmiary
+//*
+//*                                          // Klasa VideoExport musi mieć dostęp do 
+//*                                          // obiektu aplikacji Processingu
+//*                                          // Najlepiej wywołać na koncu setupu. 
+//*                                          // UWAGA!!!: Okno musi mieć PARZYSTE rozmiary
 ///  
 /// We call Next Video Frame for each frame of the movie, most often in the draw () function:
-//  PL: NextVideoFrame wywołujemy dla każdej klatki filmu, najczęściej w funkcji draw():
+//* PL: NextVideoFrame wywołujemy dla każdej klatki filmu, najczęściej w funkcji draw():
 ///
 ///  NextVideoFrame();//Video frame
 ///
 ///     ... and at the end of the video we call CloseVideo:
-//  PL: ... a na koniec filmu wywołujemy CloseVideo:
+//* PL: ... a na koniec filmu wywołujemy CloseVideo:
 ///
 ///  CloseVideo();// Ideally in exit ()
-//                // PL: Najlepiej w exit()
+//*                  PL: Najlepiej w exit()
 
 
 VideoExport        videoExport; ///< CLASS object from additional library - must be installed
-                                //   PL: Obiekt KLASY z dodatkowej biblioteki - trzeba zainstalować
+                                //*  PL: Obiekt KLASY z dodatkowej biblioteki - trzeba zainstalować
                                  
 static int         videoFramesFreq=0;///< How many frames per second for the movie. It doesn't have to be the same as in frameRate!
                                      //   PL: Ile klatek w sekundzie filmu. Nie musi być to samo co w frameRate!   
 
 static boolean     videoExportEnabled=false;///< Has film making been initiated?
-                                            //   PL: Czy tworzenie filmu zostało zainicjowane?
+                                            //*  PL: Czy tworzenie filmu zostało zainicjowane?
   
 ///< Copyright of your movie  
 ///< Change it to your copyright. Best in setup() function.
-//   PL: Zawartość zmień na swój "copyright". Najlepiej w funkcji setup().                                   
+//*  PL: Zawartość zmień na swój "copyright". Najlepiej w funkcji setup().                                   
 String copyrightNote="(c) W.Borkowski @ ISS University of Warsaw";
 
 /// Make the beginning of the movie file!
-//  PL: Zrób początek pliku filmowego!
+//* PL: Zrób początek pliku filmowego!
 void initVideoExport(processing.core.PApplet parent, String Name,int Frames)
 {
   videoFramesFreq=Frames;
@@ -60,7 +61,7 @@ void initVideoExport(processing.core.PApplet parent, String Name,int Frames)
 }
                 
 /// Initial second sequence for title and copyright
-//  PL: Początkowa sekundowa sekwencja na tytuł i copyright
+//* PL: Początkowa sekundowa sekwencja na tytuł i copyright
 void FirstVideoFrame()
 {
   if(videoExportEnabled)
@@ -74,7 +75,7 @@ void FirstVideoFrame()
 }
 
 /// Each subsequent frame of the movie
-//  PL: Każda kolejna klatka filmu
+//* PL: Każda kolejna klatka filmu
 void NextVideoFrame()
 {  
    if(videoExportEnabled)
@@ -83,15 +84,15 @@ void NextVideoFrame()
                      
 /// This is what we call when we want to close the movie file.
 /// This function adds an ending second sequence with an author's note
-//  PL: To wołamy gdy chcemy zamknąć plik filmu.
-//  PL: Funkcja dodaje kończącą sekundową sekwencje z notą autorską.
+//* PL: To wołamy gdy chcemy zamknąć plik filmu.
+//* PL: Funkcja dodaje kończącą sekundową sekwencje z notą autorską.
 /// NOTE: there should be some "force screen update", but not found :-(
 ///       So, if you x-click the window while drawing, the last frame
 ///       will probably be incomplete
 // PL: UWAGA! 
-//     Powinno być jakieś "force screen update", ale nie znalazłem
-//     Jeśli kliknięcie x okna nastąpi w trakcie rysowania to ostatnia klatka
-//     będzie prawdopodobnie niekompletna
+//*    Powinno być jakieś "force screen update", ale nie znalazłem
+//*    Jeśli kliknięcie x okna nastąpi w trakcie rysowania to ostatnia klatka
+//*    będzie prawdopodobnie niekompletna
 void CloseVideo() 
 {
   if(videoExport!=null)
