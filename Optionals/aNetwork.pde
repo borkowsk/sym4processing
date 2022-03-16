@@ -145,6 +145,18 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
   
   float getWeight() { return weight;}
   
+  color     defColor()
+  {
+     switch ( ltype )
+     {
+     case 0: if(weight<=0) return color(0,-weight*255,0);else return color(weight*255,0,weight*255);
+     case 1: if(weight<=0) return color(-weight*255,0,0);else return color(0,weight*255,weight*255);
+     case 2: if(weight<=0) return color(0,0,-weight*255);else return color(weight*255,weight*255,0);
+     default://Wszystkie inne 
+             if(weight>=0) return color(128,0,weight*255);else return color(-weight*255,-weight*255,128);
+     }   
+  }
+  
   void setStroke(float Intensity)
   {  //float   MAX_LINK_WEIGHT=2;   ///Use maximal strokeWidth for links
      strokeWeight(abs(weight)*MAX_LINK_WEIGHT);

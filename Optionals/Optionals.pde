@@ -1,21 +1,19 @@
 //* File forcing all "optionales" to be loaded from this folder 
 //*///////////////////////////////////////////////////////////////////////
 
-
 /// mandatory globals
-final int    LINK_INTENSITY=2;    ///<
-final float  MAX_LINK_WEIGHT=1.0; ///<
-final int    MASKBITS=0xffffffff; ///< Redefine, when smaller width is required
-int          FRAMEFREQ=10;        ///< simulation speed
+int          FRAMEFREQ=10;        ///< application speed
+int          VISFREQ=1;           ///< how often full visualisation is performed
 //int        debug_level=0; ///< or DEBUG or DEBUG_LEVEL ???
 
-/// Dummy class of Agent
-class Agent 
-{
-  float A;
-}
+final int    LINK_INTENSITY=2;    ///< For network visualisation
+final float  MAX_LINK_WEIGHT=1.0; ///< Also for network visualisation
+final int    MASKBITS=0xffffffff; ///< Redefine, when smaller width is required
 
-/// Dummy setup - additional gr. primitives are tested here:
+/// Dummy class of Agent neded for makeHistogramOfA()
+class Agent { float A; }
+
+/// Dummy setup - some gr. primitives are tested here:
 void setup()
 {
   size(500,500);
