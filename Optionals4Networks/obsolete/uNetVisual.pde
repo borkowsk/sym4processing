@@ -30,7 +30,7 @@ void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,f
     
     if(Source!=null)
     {
-      float X=Source.posX(); 
+      float X=Source.posX();
       Link[] links=Source.getConns(filter);
       int m=links.length;
       for(int j=0;j<m;j++)
@@ -82,11 +82,11 @@ void visualiseLinks2D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,f
         float Xt=links[k].target.posX();
         float Yt=links[k].target.posY();
                                                   if(debug_level>4 && Source==links[k].target)//Będzie kółko!
-                                                        println(Source.name(),"-o-",links[k].target.name()); //<>//
+                                                        println(Source.name(),"-o-",links[k].target.name());
         if(X<Xt) { Xt+=links[k].ltype*XSPREAD;}
         else    { Xt-=links[k].ltype*XSPREAD;}
                                                   if(debug_level>1 && X==Xt && Y==Yt)//TEŻ będzie kółko!!!
-                                                        println("Connection",Source.name(),"->-",links[k].target.name(),"visualised as circle"); //<>//
+                                                        println("Connection",Source.name(),"->-",links[k].target.name(),"visualised as circle");
         links[k].setStroke(LINK_INTENSITY);
         arrow(defX+(X*cellside)+1,defY+(Y*cellside)+1,defX+(Xt*cellside)-1,defY+(Yt*cellside)-1);
         

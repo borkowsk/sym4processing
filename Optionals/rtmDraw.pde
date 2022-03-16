@@ -1,12 +1,16 @@
-/// Console only applet! - TESTING TODO
+/// draw() template
 //*///////////////////////////////////////////////////////////////////////////////////////// 
 
-/// Console only draw() 
-/// This functins set window visibility to false, 
-/// and can do anything but drawing :-D
+/// Console only apps. is possible when draw() function set window visibility to false, 
+/// then can do anything but drawing :-D
+/// final boolean WINDOW_INVISIBLE=true; ... is used in template draw() for swith on window invisibility
 void draw() 
 {
-  surface.setVisible(false);
+  if(WINDOW_INVISIBLE && frameCount==1)
+  {
+    surface.setVisible(false);//Console only applet? - Does it work?
+    println("Windows is set to invisible in draw function!");
+  }
   //... Your code here or in event handlers!
 }
 

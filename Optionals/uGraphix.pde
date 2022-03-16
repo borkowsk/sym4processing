@@ -231,7 +231,7 @@ void arrow(float x1,float y1,float x2,float y2)
 void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)
 {
   //METODA LICZENIA Z OBRACANIA OSI STRZALKI
-  float A=(size>=1 ? size : size * sqrt( sqr(x1-x2)+sqr(y1-y2) ));
+  float A=(size>=1 ? size : size * sqrt( (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2) ));
   float poY=float(y2-y1);
   float poX=float(x2-x1);
 

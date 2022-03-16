@@ -39,7 +39,7 @@
 // 
 //
 import java.util.Map;
-int debug_level=0;
+
 float INTENSITY=20;
 
 // CLASS FOR MODIFICATION:

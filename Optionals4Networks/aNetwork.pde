@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////
 // Classes:
 ///////////
-// class Link extends Colorable //USER CAN MODIFY FOR THE SAKE OF EFFICIENCY
+// class Link extends Colorable implements iLink //USER CAN MODIFY FOR THE SAKE OF EFFICIENCY
 // class NodeList extends Node
 // class NodeMap extends Node
 //
@@ -69,9 +69,9 @@ int debug_level=1;  ///DEBUG level for network. Visible autside this file!
 // ABSTRACT BASE CLASSES
 ///////////////////////////////////
 
-abstract class LinkFilter {
+abstract class LinkFilter implements iLinkFilter {
   ///INFO: 
-  /*_interfunc*/ boolean meetsTheAssumptions(Link l)
+  /*_interfunc*/ boolean meetsTheAssumptions(iLink l)
                   {assert false : "Pure interface meetsTheAssumptions(Link) called"; return false;}
 };
 
@@ -144,6 +144,7 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
   String name(){ return target.name(); }
   
   float getWeight() { return weight;}
+  int   getTypeMarker() { return ltype; }
   
   color     defColor()
   {
@@ -172,6 +173,20 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
   }
 };
 
+/// Simplest link factory creates identical links except for the targets
+/// It also serves as an example of designing factories.
+class basicLinkFactory extends LinkFactory
+{
+  float default_weight;
+  int   default_type;
+  
+  basicLinkFactory(float def_weight,int def_type){ default_weight=def_weight;default_type=def_type;}
+  
+  Link  makeLink(Node Source,Node Target)
+  {
+    return new Link(Target,default_weight,default_type);
+  }
+}
 
 // IMPLEMENTATIONS:
 ///////////////////
@@ -618,6 +633,12 @@ class NodeList extends Node {
   
   int     numOfConn()      { return connections.size();}
   
+  int     addConn(iLink   l)
+  {
+    println("NodeList.addConn(iLink   l) not implemented");
+    return -1;
+  }
+  
   int     addConn(Link   l)
   {
     assert l!=null : "Empty link in "+this.getClass().getName()+".addConn(Link)?"; 
@@ -639,7 +660,7 @@ class NodeList extends Node {
       return   0;
   }
   
-  int     delConn(Link   l)
+  int     delConn(iLink   l)
   {
     if(connections.remove(l))
       return 1;
@@ -653,7 +674,7 @@ class NodeList extends Node {
     return connections.get(i);
   }
   
-  Link    getConn(Node   n)
+  Link    getConn(iNode   n)
   {
     assert n!=null : "Empty node in "+this.getClass().getName()+".getConn(Node)"; 
     for(Link l:connections)
@@ -675,7 +696,7 @@ class NodeList extends Node {
     return null;
   }
   
-  Link[]  getConns(LinkFilter f)
+  Link[]  getConns(iLinkFilter f)
   {
     //assert f!=null : "Empty LinkFilter in "+this.getClass().getName()+".getConns(LinkFilter)"; 
     ArrayList<Link> selected=new ArrayList<Link>();
@@ -691,7 +712,7 @@ class NodeList extends Node {
   }
 };
 
-/*
+
 class NodeMap extends Node {
   ///INFO: Node implementation based on hash map
   //HashMap<Integer,Link> connections;//TODO using Object.hashCode(). Should be a bit faster than String
@@ -703,6 +724,12 @@ class NodeMap extends Node {
   }
   
   int     numOfConn()      { return connections.size();}
+  
+  int     addConn(iLink   l)
+  {
+    println("NodeMap.addConn(iLink   l) not implemented");
+    return -1;
+  }
   
   int     addConn(Link   l)
   {
@@ -720,7 +747,7 @@ class NodeMap extends Node {
       return 0;
   }
   
-  int     delConn(Link   l)
+  int     delConn(iLink   l)
   {
     assert false : "Not implemented "+this.getClass().getName()+".delConn(Link "+l+") called"; 
     return   -1;
@@ -740,7 +767,7 @@ class NodeMap extends Node {
     return null;
   }
   
-  Link    getConn(Node   n)
+  Link    getConn(iNode   n)
   {
     assert n!=null : "Empty node in "+this.getClass().getName()+".getConn(Node)"; 
     String key=n.name();
@@ -753,7 +780,7 @@ class NodeMap extends Node {
     return connections.get(k);
   }
   
-  Link[]  getConns(LinkFilter f)
+  Link[]  getConns(iLinkFilter f)
   {
     assert f!=null : "Empty LinkFilter in "+this.getClass().getName()+".getConns(LinkFilter)"; 
     ArrayList<Link> selected=new ArrayList<Link>();
@@ -767,7 +794,7 @@ class NodeMap extends Node {
     return ret;
   }
 };
-*/
+
 //*///////////////////////////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing

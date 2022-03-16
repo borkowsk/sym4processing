@@ -54,38 +54,7 @@ interface iPositioned {
   /*_interfunc*/ float    posZ()/*_forcbody*/;
 }//EndOfClass
 
-// NETWORK INTERFACES:
-/////////////////////////////////////////////////////////////////////////////////
-
-/// Network connection/link interface
-/// Is iLink interface really needed?
-interface iLink { 
-  /*_interfunc*/ float getWeight()/*_forcbody*/;
-}//EndOfClass
-
-/// Network node interface
-/// "Conn" below is a shortage from Connection.
-interface iNode { 
-  //using class Link not interface iLink because of efficiency!
-  /*_interfunc*/ int     addConn(Link   l)/*_forcbody*/;
-  /*_interfunc*/ int     delConn(Link   l)/*_forcbody*/;
-  /*_interfunc*/ int     numOfConn()      /*_forcbody*/;
-  /*_interfunc*/ Link    getConn(int    i)/*_forcbody*/;
-  /*_interfunc*/ Link    getConn(Node   n)/*_forcbody*/;
-  /*_interfunc*/ Link    getConn(String k)/*_forcbody*/;
-  /*_interfunc*/ Link[]  getConns(LinkFilter f)/*_forcbody*/;
-}//EndOfClass
-
-/// Visualisable network node
-interface iVisNode extends iNode,iNamed,iColorable,iPositioned {
-}//EndOfClass
-
-/// Visualisable network connection
-interface  iVisLink extends iLink,iNamed,iColorable {
-  /*_interfunc*/ color     defColor()/*_forcebody*/;
-}//EndOfClass
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///  Last modification 2022.03.16
-///  @a "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" - USEFULL COMMON INTERFACES
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//*  Last modification 2022.03.16
+//*  See: "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" - USEFULL COMMON INTERFACES
+//*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

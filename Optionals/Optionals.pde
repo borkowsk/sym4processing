@@ -4,8 +4,9 @@
 /// mandatory globals
 int          FRAMEFREQ=10;        ///< application speed
 int          VISFREQ=1;           ///< how often full visualisation is performed
-//int        debug_level=0; ///< or DEBUG or DEBUG_LEVEL ???
+int          debug_level=0; ///< or DEBUG or DEBUG_LEVEL ???
 
+final boolean WINDOW_INVISIBLE=false; ///< used in template draw for swith on window invisibility
 final int    LINK_INTENSITY=2;    ///< For network visualisation
 final float  MAX_LINK_WEIGHT=1.0; ///< Also for network visualisation
 final int    MASKBITS=0xffffffff; ///< Redefine, when smaller width is required

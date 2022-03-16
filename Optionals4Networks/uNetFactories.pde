@@ -1,24 +1,8 @@
-// Diferent fabrication of links for a (social) network
-///////////////////////////////////////////////////////////
+/// Others factories for fabrication of links for a (social) network
+//*///////////////////////////////////////////////////////////////////
 
-class basicLinkFactory extends LinkFactory
-// Simplest link factory creates identical links except for the targets
-// It also serves as an example of designing factories.
-{
-  float default_weight;
-  int   default_type;
-  
-  basicLinkFactory(float def_weight,int def_type){ default_weight=def_weight;default_type=def_type;}
-  
-  Link  makeLink(Node Source,Node Target)
-  {
-    return new Link(Target,default_weight,default_type);
-  }
-  
-}
-
+/// Random link factory creates links with random weights
 class randomWeightLinkFactory extends LinkFactory
-// Random link factory creates links with random weights
 {
   float min_weight,max_weight;
   int   default_type;
@@ -34,7 +18,7 @@ class randomWeightLinkFactory extends LinkFactory
     return new Link(Target,random(min_weight,max_weight),default_type);
   }
   
-}
+}//EndOfClass
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - SOCIAL NETWORK TEMPLATE
