@@ -3,7 +3,7 @@
 //*////////////////////////////////////////////////////////////////////////////////////
 /// --> http://funprogramming.org/VideoExport-for-Processing/examples/basic/basic.pde
 //*
-/// Apart from the "hamoid" library, you also need to install the ffmpeg program to make it work !!! 
+/// Apart from the "com.hamoid" library, you also need to install the ffmpeg program to make it work !!! 
 
 import com.hamoid.*;// Here we import the necessary library containing the VideoExport class
 

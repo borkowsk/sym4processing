@@ -5,8 +5,14 @@
 import processing.net.*;
 
 //long pid = ProcessHandle.current().pid();//JAVA9 :-(
-String  serverIP="127.0.0.1";     ///< localhost
-int     servPORT=5205;            ///< Teoretically it could be any above 1024
+
+
+//String  serverIP="192.168.55.201";///< at home 
+//String  serverIP="192.168.55.104";///< 2. 
+//String  serverIP="10.3.24.216";   ///< at work
+//String  serverIP="10.3.24.4";     ///< workstation local
+int     servPORT=5205;  	     ///> Teoretically it could be any above 1024
+String  serverIP="127.0.0.1";      ///< localhost
 
 /// Protocol dictionary ("opcodes" etc.)
 static abstract class Opcs { 
