@@ -1,9 +1,9 @@
 /// gameServer - more communication & game logic 
 //*//////////////////////////////////////////////////// 
 
-int   Xmargin=0;                   ///> Left margin of server screen (status column)
-boolean wholeUpdateRequested=false;///> Information about a client requesting information about the entire scene.
-                                   ///> In such a case, it is sent to all clients (in this template of the server)
+int   Xmargin=0;                   ///< Left margin of server screen (status column)
+boolean wholeUpdateRequested=false;///< Information about a client requesting information about the entire scene.
+                                   ///< In such a case, it is sent to all clients (in this template of the server)
 
 /// This function sends a full game board update to all clients
 void sendWholeUpdate()
@@ -149,7 +149,7 @@ void checkCollisions()
       //println("No collision for",gameWorld[indexInGameWorld].name);//DEBUG ONLY!
       if(players[i].interactionObject!=null)
       {
-         String msg=sayOptAndInf(Opcs.DTC,players[i].interactionObject.name);
+         String msg=Opcs.say(Opcs.DTC,players[i].interactionObject.name);
          players[i].interactionObject=null;
          players[i].netLink.write(msg);
       }

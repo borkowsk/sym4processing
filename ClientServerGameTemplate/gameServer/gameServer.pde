@@ -9,11 +9,11 @@ import processing.net.*;  //Needed for network communication
 //import processing.pdf.*;//It acts as a server, but the PDF file is empty
 import processing.svg.*;  //No-window server!
 
-int DEBUG=0;       ///> Level of debug logging
+static int DEBUG=0;       ///< Level of debug logging (have to be static because of use inside static functions)
 
-Server mainServer; ///> Object representing server's TCP/IP COMMUNICATION
+Server mainServer; ///< Object representing server's TCP/IP COMMUNICATION
 
-Player[] players= new Player[0]; ///> The array of clients (players)
+Player[] players= new Player[0]; ///< The array of clients (players)
 
 /// Startup of a game server. 
 /// It initialises window (if required) and TCP/IP port.
@@ -66,7 +66,7 @@ void confirmClient(Client newClient,Player player)
 {
   if(DEBUG>1) print("Server confirms the client's registration: ");
   
-  String msg=sayOptAndInf(Opcs.YOU,player.name);
+  String msg=Opcs.say(Opcs.YOU,player.name);
   if(DEBUG>1) println(msg);
   newClient.write(msg);
     

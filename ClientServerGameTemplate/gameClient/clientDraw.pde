@@ -95,7 +95,7 @@ void stateChanged(GameObject[] table,String objectName,String field,String val)
   {
     println(objectName,"not found!");
     println("DATA INCONSISTENCY! CALL SERVER FOR FULL UPDATE");
-    String msg=sayOptCode(Opcs.UPD);
+    String msg=Opcs.say(Opcs.UPD);
     if(DEBUG>1) print(playerName,"is SENDING:");
     if(VIEWMESG>0 || DEBUG>1) println(msg);
     myClient.write(msg);
@@ -120,7 +120,7 @@ void beginInteraction(GameObject[] table,String[]  objectAndActionsNames)
   {
     println(objectAndActionsNames[0],"not found!");
     println("DATA INCONSISTENCY! CALL SERVER FOR FULL UPDATE");
-    String msg=sayOptCode(Opcs.UPD);
+    String msg=Opcs.say(Opcs.UPD);
     if(DEBUG>1) print(playerName,"is SENDING:");
     if(VIEWMESG>0 || DEBUG>1) println(msg);
     myClient.write(msg);

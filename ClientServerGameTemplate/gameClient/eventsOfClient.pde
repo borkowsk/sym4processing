@@ -30,19 +30,19 @@ void keyPressed()
   default:println(key,"is not defined for the game client");return;
   //Navigation
   case 'w':
-  case 'W': msg=sayOptAndInf(Opcs.NAV,"f"); break;
+  case 'W': msg=Opcs.say(Opcs.NAV,"f"); break;
   case 's':
-  case 'S': msg=sayOptAndInf(Opcs.NAV,"b"); break;
+  case 'S': msg=Opcs.say(Opcs.NAV,"b"); break;
   case 'a':
-  case 'A': msg=sayOptAndInf(Opcs.NAV,"l"); break;
+  case 'A': msg=Opcs.say(Opcs.NAV,"l"); break;
   case 'd':
-  case 'D': msg=sayOptAndInf(Opcs.NAV,"r"); break;
+  case 'D': msg=Opcs.say(Opcs.NAV,"r"); break;
   //Perform interaction:
   case ' ': {
               ActiveGameObject me=(ActiveGameObject)(gameWorld[indexOfMe]); assert me!=null;
               if(me.interactionObject!=null)
               {
-                msg=sayOptAndInf(Opcs.ACT,"defo"); 
+                msg=Opcs.say(Opcs.ACT,"defo"); 
               }
             } break;
   case ESC: println(key,"is ignored for the game client");key=0; return;

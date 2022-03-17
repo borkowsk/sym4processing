@@ -405,7 +405,7 @@ boolean playerMove(String dir,Player player)
   default:
        println(player.name,"did unknown move");
        if(player.netLink!=null && player.netLink.active())
-          player.netLink.write( sayOptAndInf(Opcs.ERR,dir+" move is unknown in this game!") );
+          player.netLink.write( Opcs.say(Opcs.ERR,dir+" move is unknown in this game!") );
        return false;
   }//end of moves switch
   return true;
@@ -418,7 +418,7 @@ void playerAction(String action,Player player)
   if(player.netLink!=null && player.netLink.active())
   {
      if(player.interactionObject==null)
-       player.netLink.write( sayOptAndInf(Opcs.ERR,"Action "+action+" is undefined in this context!"));
+       player.netLink.write( Opcs.say(Opcs.ERR,"Action "+action+" is undefined in this context!"));
      else
        performAction(player,action,player.interactionObject);
   }

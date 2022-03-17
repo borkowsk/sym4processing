@@ -6,14 +6,15 @@
 //
 import processing.net.*;
 
-int DEBUG=1;           ///> Program trace level
-int VIEWMESG=0;        ///> Game protocol message tracing level
-int INTRO_FRAMES=3;    ///> How long the intro lasts?
-int DEF_FRAME_RATE=60; ///> Desired frame rate during game
+static int DEBUG=0;    ///< Level of debug logging (have to be static because of use inside static functions)
 
-String  playerName=""; ///> ASCII IDENTIFIER OF THE PLAYER. It is from player.txt file.
+int VIEWMESG=0;        ///< Game protocol message tracing level
+int INTRO_FRAMES=3;    ///< How long the intro lasts?
+int DEF_FRAME_RATE=60; ///< Desired frame rate during game
 
-Client  myClient=null; ///> Network client object representing connection to the server
+String  playerName=""; ///< ASCII IDENTIFIER OF THE PLAYER. It is from player.txt file.
+
+Client  myClient=null; ///< Network client object representing connection to the server
     
 /// Startup of a game client. Still not connected after that.
 void setup() 
@@ -87,7 +88,7 @@ void whenConnectedToServer()
       gameWorld[0]=new Player(myClient,playerName,10,10,0,1);//float iniX,float iniY,float iniZ,float iniRadius
       gameWorld[0].visual="???";
       indexOfMe=0;
-      msg=sayOptCode(Opcs.UPD);
+      msg=Opcs.say(Opcs.UPD);
       if(DEBUG>1) print(playerName,"is SENDING:");
       if(VIEWMESG>0 || DEBUG>1) println(msg);
       myClient.write(msg);
