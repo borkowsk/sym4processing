@@ -2,7 +2,7 @@
 
 void setup() {
   size(300,130);
-  frameRate(20);
+  frameRate(25);
 }
 
 int pos = 0;
