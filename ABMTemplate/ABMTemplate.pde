@@ -14,7 +14,7 @@ int cwidth=15;     ///< requested size of cell
 int STATUSHEIGH=40;///< height of status bar
 int STEPSperVIS=1; ///< how many model steps beetwen visualisations 
 int FRAMEFREQ=10;  ///< how many model steps per second
-boolean WITH_VIDEO=false;///< Make a movie?
+boolean WITH_VIDEO=true;///< Make a movie?
 
 boolean simulationRun=false;///< Start/stop flag
 
