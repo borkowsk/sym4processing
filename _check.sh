@@ -11,10 +11,19 @@ echo -e "Test for required software:\n"
 echo -e "Processing.org..."
 
 find ~/ -name "processing" -type f -executable -print > processing_dirs.lst
-
-grep --color "processing" processing_dirs.lst 
+grep --color "processing" processing_dirs.lst
 wc -l processing_dirs.lst
-
 
 echo -e "\n\tLooks like you have Processing."
 echo -e "\tRemember to run install in its main directory."
+
+echo -e "\nVideo library..."
+find ~/ -name "hamoid"  -print > hamoid_dirs.lst
+grep --color "hamoid" hamoid_dirs.lst
+wc -l hamoid_dirs.lst
+
+echo -e "\n\tLooks like you have Hamoid Video Library."
+
+echo -e "\nffmpeg tool..."
+ffmpeg -version | grep --color "ffmpeg.*version"
+echo -e "\n\tLooks like you have ffmpeg tool instaled"
