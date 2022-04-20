@@ -17,7 +17,7 @@ wc -l processing_dirs.lst
 echo -e "\n\tLooks like you have Processing."
 echo -e "\tRemember to run install in its main directory."
 
-echo -e "\nVideo library..."
+echo -e "\nVideo library..."exp
 find ~/ -name "hamoid"  -print > hamoid_dirs.lst
 grep --color "hamoid" hamoid_dirs.lst
 wc -l hamoid_dirs.lst
@@ -26,4 +26,20 @@ echo -e "\n\tLooks like you have Hamoid Video Library."
 
 echo -e "\nffmpeg tool..."
 ffmpeg -version | grep --color "ffmpeg.*version"
-echo -e "\n\tLooks like you have ffmpeg tool instaled"
+echo -e "\n\tLooks like you have ffmpeg tool instaled\n"
+
+
+#instalacja zmiennej ze ścieżką do IDE processingu
+#jesli jest to potrzebne
+set +e
+grep -q "PRIDE" $HOME/.profile
+
+if [  $? != 0  ]
+then
+     tmp=`tail -1 processing_dirs.lst`
+     PRIDE="$tmp"
+     echo -e "\nProcessing IDE is" $PRIDE
+     echo -e "\nexport PRIDE="$tmp >> $HOME/.profile
+fi
+echo "In $HOME/.profile:"
+grep --color "PRIDE" $HOME/.profile
