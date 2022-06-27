@@ -33,6 +33,13 @@ void checkCommandLine()
         println();
       }
       
+      if(list[0].equals("RANDSEED"))
+      {
+        //RANDSEED
+        RANDSEED=Integer.parseInt(list[1]);
+        println("RANDSEED is:",RANDSEED);
+      }
+      else
       if(list[0].equals("FRAMEFREQ"))
       {
         //*_extern* int           FRAMEFREQ=10;/// simulation speed
