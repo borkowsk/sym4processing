@@ -21,7 +21,4 @@ You can use this software freely for educational and research purposes, but if y
 
 **COFFEE**
 
-<img src="https://pngimg.com/uploads/mug_coffee/mug_coffee_PNG97418.png" alt="drawing" width="100"/>
-
-https://www.buymeacoffee.com/wborkowsk    
-https://www.paypal.com/paypalme/wborkowsk
+<img src="https://pngimg.com/uploads/mug_coffee/mug_coffee_PNG97418.png" alt="drawing" width="100"/> https://www.buymeacoffee.com/wborkowsk      https://www.paypal.com/paypalme/wborkowsk
