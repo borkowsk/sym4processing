@@ -4,7 +4,7 @@
 * Cellular Automata application design template
 * Design template for an ABM simulation application with the possibility of expanding with a network structure, suitable for many purposes
 * Additional tool codes for working with application templates 
-* Przykładowe symulacje napisane z użyciem szablonu 
+* Sample simulations written using these templates
 * As a submodule, import a repository with materials for the course "Processing in education and simulation" (**bookProcessingPL**)
 
 __REPOSITORY CLONING__
