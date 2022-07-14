@@ -4,7 +4,7 @@
 * Cellular Automata application design template
 * Design template for an ABM simulation application with the possibility of expanding with a network structure, suitable for many purposes
 * Additional tool codes for working with application templates 
-* Przykładowe symulacje napisane z użyciem szablonu 
+* Sample simulations written using these templates
 * As a submodule, import a repository with materials for the course "Processing in education and simulation" (**bookProcessingPL**)
 
 __REPOSITORY CLONING__
@@ -20,5 +20,5 @@ You need to install "com.hamoid" library for **Processing** and "ffmpeg" applica
 You can use this software freely for educational and research purposes, but if you feel that it would be appropriate to repay somehow, please finance me a big coffee :-)
 
 **COFFEE**
-https://www.buymeacoffee.com/wborkowsk    
-https://www.paypal.com/paypalme/wborkowsk
+
+<img src="https://pngimg.com/uploads/mug_coffee/mug_coffee_PNG97418.png" alt="drawing" width="100"/> https://www.buymeacoffee.com/wborkowsk      https://www.paypal.com/paypalme/wborkowsk
