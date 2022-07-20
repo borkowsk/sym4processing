@@ -1,39 +1,41 @@
-/// Declaration common for client and server (op.codes and coding/decoding functions)
-//* Use link_commons.sh script for make symbolic connections to gameServer & gameClient directories
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//* NOTE: /*_inline*/ is a Processing2C directive translated to inline in C++ output
+/// Source file with declarations of common symbols for client and server. 
+/// (op.codes and coding/decoding functions).
+/// NOTE! Use "link_commons.sh" script for make symbolic connections 
+/// to "gameServer/" & "gameClient/" directories.
+//*/////////////////////////////////////////////////////////////////////////////////////////////
+//* NOTE: /*_inline*/ is a Processing2C directive translated to keyword 'inline' in C++ output
 import processing.net.*;
 
-//long pid = ProcessHandle.current().pid();//JAVA9 :-(
+//long pid = ProcessHandle.current().pid(); //JAVA9 :-(
+int     servPORT=5205;  	         ///< Theoretically it could be any above 1024
+String  serverIP="127.0.0.1";      ///< localhost
 
-//String  serverIP="192.168.55.201";///< at home 
-//String  serverIP="192.168.55.104";///< 2. 
-//String  serverIP="10.3.24.216";   ///< at work
-//String  serverIP="10.3.24.4";     ///< workstation local
-int     servPORT=5205;  	          ///< Teoretically it could be any above 1024
-String  serverIP="127.0.0.1";       ///< localhost
+//String  serverIP="192.168.55.201"; ///< at home
+//String  serverIP="192.168.55.104"; ///< 2.
+//String  serverIP="10.3.24.216";    ///< at work
+//String  serverIP="10.3.24.4";      ///< workstation local
 
 /// Protocol dictionary ("opcodes") & general code/decode methods
-static abstract class Opcs { 
-  static final String name="sampleGame";///< ASCI IDENTIFIER OF PROTOCOL
-  static final String sYOU="Y";///< REPLACER OF CORESPONDENT NAME as a ready to use String. 
-                               ///< Character.toString(YOU);<-not for static
+static abstract class OpCd { 
+  static final String name="sampleGame"; ///< ASCII IDENTIFIER OF PROTOCOL
+  static final String sYOU="Y"; ///< REPLACER OF CORESPONDENT NAME as a ready to use String.
+                                ///< Character.toString(YOU);<-not for static
   //Record defining characters
-  static final char EOR=0x03;///< End of record (EOR). EOL is not used, because of it use inside data starings.
-  static final char SPC='\t';///< Field separator
-                             ///< Maybe something less popular would be better? TODO
-  //Record headers (bidirectorial)
+  static final char EOR=0x03; ///< End of record (EOR). EOL is not used, because of it use inside data starings.
+  static final char SPC='\t'; ///< Field separator
+                              ///< Maybe something less popular would be better? Why not ';' ?
+  //Record headers (bidirectional)
   static final char ERR='e'; ///< Error message for partner
   static final char HEL='H'; ///< Hello message (client-server handshake)
   static final char IAM='I'; ///< I am "name of server/name of client"
   static final char YOU='Y'; ///< Redefining player name if not suitable
   //Named variables/resources
-  static final char GET='G'; ///< Get global resource by name TODO
-  static final char BIN='B'; ///< Binary hunk of resources (name.type\tsize\tthen data) TODO
-                             ///< Data hunk is recived exactly "as is"!
-  static final char TXT='X'; ///< Text hunk of resources (name.type\tsize\tthen data) TODO
-                             ///< Text may be recoded on the reciver side if needed!
-  static final char OBJ='O'; ///< Objects managment: "On typename objectName" or "Od objectName"
+  static final char GET='G'; ///< Get global resource by name (NOT IMPLEMENTED)
+  static final char BIN='B'; ///< Binary hunk of resources (name.type\tsize\tthen data) (NOT IMPLEMENTED)
+                             ///< Data hunk is received exactly "as is"!
+  static final char TXT='X'; ///< Text hunk of resources (name.type\tsize\tthen data) (NOT IMPLEMENTED)
+                             ///< Text may be recoded on the receiver side if needed!
+  static final char OBJ='O'; ///< Objects management: "On(-ew) typename objectName" or "Od(-elete) objectName"
   //Game scene/state 
   static final char UPD='U'; ///< Request for update about a whole scene
   static final char VIS='V'; ///< Visualisation info for a particular object
@@ -43,15 +45,15 @@ static abstract class Opcs {
   static final char POL='P'; ///< Polar position of an object
   //Interactions
   static final char TCH='T'; ///< Active "Touch" with other object (info about name & possible actions)
-  static final char DTC='D'; ///< Detouch with any of previously touched object (name provided)
+  static final char DTC='D'; ///< Detach with any of previously touched object (name provided)
   //Player controls of avatar
   static final char NAV='N'; ///< Navigation of the avatar (wsad and arrows in the template)
   static final char ACT='A'; ///< 'defo'(-ult) or user defined actions of the avatar
   //...
-  //static final char XXX='c';// something more...
+  //static final char XXX='c'; // something more...
   
   /// It composes one OPC info. 
-  /// For which, when recieved, only charAt(0) is important.
+  /// For which, when received, only charAt(0) is important.
   /// @return message PREPARED to send. 
   /*_inline*/ static final String say(char opc)
   {
@@ -69,7 +71,7 @@ static abstract class Opcs {
   /// It composes multiple strings message. 
   /// Take care about Opcs.SPC inside parameters!!!
   /// @return message PREPARED to send.  
-  /*_inline*/ static final String say(char opc,String... varargParam)//NOT TESTED JET
+  /*_inline*/ static final String say(char opc,String... varargParam) //NOT TESTED JET
   {
     String ret=Character.toString(opc);
     for (int f=0; f < varargParam.length; f++)
@@ -88,9 +90,9 @@ static abstract class Opcs {
   /*_inline*/ static final String[] decode(String msg) //NOT TESTED JET
   {
     String[] fields=split(msg,SPC);
-    return shorten(fields);// remove the item containing EOR from the end of array and @return the array
+    return shorten(fields); // remove the item containing EOR from the end of array and @return the array
   }
-}//EndOfClass Opcs
+} //EndOfClass Opcs
 
 // Specific code/decode functions
 //*////////////////////////////////////
@@ -99,17 +101,17 @@ static abstract class Opcs {
 /// @return message PREPARED to send. 
 /*_inline*/ static final String sayHELLO(String myName)
 {
-    return ""+Opcs.HEL+Opcs.SPC+Opcs.IAM+Opcs.SPC
-             +myName+Opcs.SPC+Opcs.EOR;
+    return ""+OpCd.HEL+OpCd.SPC+OpCd.IAM+OpCd.SPC
+             +myName+OpCd.SPC+OpCd.EOR;
 }
 
 /// It decodes handshake
 /// @return Name of client or name of game implemented on server
 /*_inline*/ static final String decodeHELLO(String msgHello)
 {
-  String[] fields=split(msgHello,Opcs.SPC);
+  String[] fields=split(msgHello,OpCd.SPC);
   if(DEBUG>2) println(fields[0],fields[1],fields[2]);
-  if(fields[0].charAt(0)==Opcs.HEL && fields[1].charAt(0)==Opcs.IAM )
+  if(fields[0].charAt(0)==OpCd.HEL && fields[1].charAt(0)==OpCd.IAM )
       return fields[2];
   else
       return null;
@@ -129,40 +131,40 @@ static abstract class Opcs {
 /// @return message PREPARED to send. 
 /*_inline*/ static final String sayOptAndInfos(char opCode,String objName,String info)
 {
-  return ""+opCode+"1"+Opcs.SPC
-           +objName+Opcs.SPC
-           +info+Opcs.SPC
-           +Opcs.EOR;
+  return ""+opCode+"1"+OpCd.SPC
+           +objName+OpCd.SPC
+           +info+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// Compose many(=2) string info - SPC inside infos is NOT allowed.
 /// @return message PREPARED to send. 
 /*_inline*/ static final String sayOptAndInfos(char opCode,String objName,String info1,String info2)
 {
-  return ""+opCode+"2"+Opcs.SPC
-           +objName+Opcs.SPC
-           +info1+Opcs.SPC
-           +info2+Opcs.SPC
-           +Opcs.EOR;
+  return ""+opCode+"2"+OpCd.SPC
+           +objName+OpCd.SPC
+           +info1+OpCd.SPC
+           +info2+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// Compose many(=3) string info - SPC inside infos is NOT allowed.
 /// @return message PREPARED to send. 
 /*_inline*/ static final String sayOptAndInfos(char opCode,String objName,String info1,String info2,String info3)
 {
-  return ""+opCode+"3"+Opcs.SPC
-           +objName+Opcs.SPC
-           +info1+Opcs.SPC
-           +info2+Opcs.SPC
-           +info3+Opcs.SPC
-           +Opcs.EOR;
+  return ""+opCode+"3"+OpCd.SPC
+           +objName+OpCd.SPC
+           +info1+OpCd.SPC
+           +info2+OpCd.SPC
+           +info3+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// It decodes 1-9 infos message. Dimension of the array must be proper
 /// @return object name, and fill the infos
 /*_inline*/ static final String decodeInfos(String msgInfos,String[] infos)
 {
-  String[] fields=split(msgInfos,Opcs.SPC);
+  String[] fields=split(msgInfos,OpCd.SPC);
   if(DEBUG>2) println(fields.length,fields[1]);
 
   int dimension=fields[0].charAt(1)-'0';
@@ -172,61 +174,61 @@ static abstract class Opcs {
         
   for(int i=0;i<infos.length;i++)
     infos[i]=fields[i+2];
-  return fields[1];//Nazwa
+  return fields[1]; //Nazwa
 }
 
 /// It constructs touch message with only one possible action
 /// @return message PREPARED to send. 
 /*_inline*/ static final String sayTouch(String nameOfTouched,float distance,String actionDef)
 {
-  return ""+Opcs.TCH+"1"+Opcs.SPC
-           +nameOfTouched+Opcs.SPC
-           +actionDef+Opcs.SPC
-           +nf(distance)+Opcs.SPC
-           +Opcs.EOR;
+  return ""+OpCd.TCH+"1"+OpCd.SPC
+           +nameOfTouched+OpCd.SPC
+           +actionDef+OpCd.SPC
+           +nf(distance)+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// It constructs touch message with two possible actions
 /// @return message PREPARED to send
 /*_inline*/ static final String sayTouch(String nameOfTouched,float distance,String action1,String action2)
 {
-  return ""+Opcs.TCH+"2"+Opcs.SPC
-           +nameOfTouched+Opcs.SPC
-           +action1+Opcs.SPC
-           +action2+Opcs.SPC
-           +nf(distance)+Opcs.SPC
-           +Opcs.EOR;
+  return ""+OpCd.TCH+"2"+OpCd.SPC
+           +nameOfTouched+OpCd.SPC
+           +action1+OpCd.SPC
+           +action2+OpCd.SPC
+           +nf(distance)+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// It constructs touch message with many possible actions
 /// @return message PREPARED to send
 /*_inline*/ static final String sayTouch(String nameOfTouched,float distance,String[] actions)
 {
-  String ret=""+Opcs.TCH;
+  String ret=""+OpCd.TCH;
   if(actions.length<9)
-    ret+=""+actions.length+Opcs.SPC;
+    ret+=""+actions.length+OpCd.SPC;
   else
-    ret+="0"+actions.length+Opcs.SPC;
-  ret+=nameOfTouched+Opcs.SPC;  
+    ret+="0"+actions.length+OpCd.SPC;
+  ret+=nameOfTouched+OpCd.SPC;  
   for(int i=0;i<actions.length;i++)
-    ret+=actions[i]+Opcs.SPC;
-  ret+=nf(distance)+Opcs.SPC+Opcs.EOR;  
+    ret+=actions[i]+OpCd.SPC;
+  ret+=nf(distance)+OpCd.SPC+OpCd.EOR;  
   return ret;
 }
 
 /// It decodes touch message. 
 /// @return distance
 /// The infos will be filled with name of touched object and up to 9 possible actions
-/// (or more - NOT TESTED!)
+/// (0 or more than 9 - NOT TESTED!)
 /*_inline*/ static final float decodeTouch(String msg,String[] infos)
 {
-  String[] fields=split(msg,Opcs.SPC);
+  String[] fields=split(msg,OpCd.SPC);
   
   int dimension=fields[0].charAt(1)-'0';
   if(dimension==0)
-  { 
-    dimension=Integer.parseInt(fields[0].substring(1));// TODO: TEST!
-  }
+  {  //<>//
+    dimension=Integer.parseInt(fields[0].substring(1)); // NOT TESTED! //<>//
+  } //<>// //<>//
   
   if(dimension+1 != infos.length) 
         println("Invalid size",dimension,"of infos array!",infos.length,"for",fields[0],"message!");
@@ -243,10 +245,10 @@ static abstract class Opcs {
 /// @return message PREPARED to send
 /*_inline*/ static final String sayPosition(char EUCorPOL,String objName,float coord)
 {
-  return ""+EUCorPOL+"1"+Opcs.SPC
-           +objName+Opcs.SPC
-           +coord+Opcs.SPC
-           +Opcs.EOR;
+  return ""+EUCorPOL+"1"+OpCd.SPC
+           +objName+OpCd.SPC
+           +coord+OpCd.SPC
+           +OpCd.EOR;
 }
                    
 /// It composes message about object position (2 dimensions)                   
@@ -256,11 +258,11 @@ static abstract class Opcs {
 /// @return message PREPARED to send
 /*_inline*/ static final String sayPosition(char EUCorPOL,String objName,float coord1,float coord2)
 {
-  return ""+EUCorPOL+"2"+Opcs.SPC
-           +objName+Opcs.SPC
-           +coord1+Opcs.SPC
-           +coord2+Opcs.SPC
-           +Opcs.EOR;
+  return ""+EUCorPOL+"2"+OpCd.SPC
+           +objName+OpCd.SPC
+           +coord1+OpCd.SPC
+           +coord2+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// It composes message about object position (3 dimensions)
@@ -270,12 +272,12 @@ static abstract class Opcs {
 /// @return message PREPARED to send
 /*_inline*/ static final String sayPosition(char EUCorPOL,String objName,float coord1,float coord2,float coord3)
 {
-  return ""+EUCorPOL+"3"+Opcs.SPC
-           +objName+Opcs.SPC
-           +coord1+Opcs.SPC
-           +coord2+Opcs.SPC
-           +coord3+Opcs.SPC
-           +Opcs.EOR;
+  return ""+EUCorPOL+"3"+OpCd.SPC
+           +objName+OpCd.SPC
+           +coord1+OpCd.SPC
+           +coord2+OpCd.SPC
+           +coord3+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// It composes message about object position (1-9 dimensions)
@@ -286,14 +288,14 @@ static abstract class Opcs {
 /*_inline*/ static final String sayPosition(char EUCorPOL,String objName,float[] coordinates)
 {
   String ret=EUCorPOL
-            +nf(coordinates.length+1,1)+Opcs.SPC;
-  ret+=objName+Opcs.SPC;
+            +nf(coordinates.length+1,1)+OpCd.SPC;
+  ret+=objName+OpCd.SPC;
   for(int i=0;i<coordinates.length;i++)
   {
     ret+=coordinates[i];
-    ret+=Opcs.SPC;
+    ret+=OpCd.SPC;
   }
-  ret+=Opcs.EOR;
+  ret+=OpCd.EOR;
   return ret;
 }
 
@@ -301,9 +303,9 @@ static abstract class Opcs {
 /// @return name of object and also fill coordinates.
 /*_inline*/ static final String decodePosition(String msgPosition,float[] coordinates)
 {
-  String[] fields=split(msgPosition,Opcs.SPC);
+  String[] fields=split(msgPosition,OpCd.SPC);
   if(DEBUG>2) println(fields[0],fields[1],fields[2]);
-  if(fields[0].charAt(0)==Opcs.EUC || fields[0].charAt(0)==Opcs.POL )
+  if(fields[0].charAt(0)==OpCd.EUC || fields[0].charAt(0)==OpCd.POL )
   {
     int dimension=fields[0].charAt(1)-'0';
     
@@ -313,29 +315,29 @@ static abstract class Opcs {
     for(int i=0;i<coordinates.length;i++)
       coordinates[i]=Float.parseFloat(fields[i+2]);
       
-    return fields[1];//Name
+    return fields[1]; //Name
   }
   else
-  return null;//Invalid message
+  return null; //Invalid message
 }
 
 /// For objects types management - type of object
 /// @return message PREPARED to send
 /*_inline*/ static final String sayObjectType(String type,String objectName)
 {
-  return Opcs.OBJ+"n"+Opcs.SPC
-         +type+Opcs.SPC
-         +objectName+Opcs.SPC
-         +Opcs.EOR;  
+  return OpCd.OBJ+"n"+OpCd.SPC
+         +type+OpCd.SPC
+         +objectName+OpCd.SPC
+         +OpCd.EOR;  
 }
 
 /// For objects types management - object removing from the game world
 /// @return message PREPARED to send
 /*_inline*/ static final String sayObjectRemove(String objectName)
 {
-  return Opcs.OBJ+"d"+Opcs.SPC
-         +objectName+Opcs.SPC
-         +Opcs.EOR;  
+  return OpCd.OBJ+"d"+OpCd.SPC
+         +objectName+OpCd.SPC
+         +OpCd.EOR;  
 }
 
 /// It decodes message of objects types management - decoding
@@ -344,7 +346,7 @@ static abstract class Opcs {
 /// Other actions are possible in the future.
 /*_inline*/ static final String[] decodeObjectMng(String msg)
 {
-  String[] fields=split(msg,Opcs.SPC);
+  String[] fields=split(msg,OpCd.SPC);
   if(fields[0].charAt(1)=='n')
     fields[0]="new";
   else
@@ -356,13 +358,12 @@ static abstract class Opcs {
     return null;
   }
   
-  return shorten(fields);// remove one item from the end of array and @return the array
+  return shorten(fields); // remove one item from the end of array and @return the array
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
-//*  https://github.com/borkowsk/sym4processing
+///  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
+///  @author  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
+///  @project https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
 
-
-                   

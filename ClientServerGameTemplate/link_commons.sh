@@ -4,3 +4,6 @@
 # did not appear automagically ;-)
 ln -sir gameCommon/*.pde gameServer/
 ln -sir gameCommon/*.pde gameClient/
+ln -sir ./Readme.md docs/src.java/
+
+

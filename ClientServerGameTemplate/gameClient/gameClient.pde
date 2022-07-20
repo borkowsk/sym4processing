@@ -1,33 +1,33 @@
-///  Client for gameServer - setup() & draw() SOURCE FILE
-//*//////////////////////////////////////////////////////////
+///  Client for gameServer - MAIN SOURCE FILE (setup() & draw() defined here)
+//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-/// Losely based on:
+/// Loosely based on Processing example:
 /// --> https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
 //
 import processing.net.*;
 
 static int DEBUG=0;    ///< Level of debug logging (have to be static because of use inside static functions)
 
-int VIEWMESG=0;        ///< Game protocol message tracing level
+int VIEW_MSG=0;        ///< Game protocol message tracing level
 int INTRO_FRAMES=3;    ///< How long the intro lasts?
 int DEF_FRAME_RATE=60; ///< Desired frame rate during game
 
-String  playerName=""; ///< ASCII IDENTIFIER OF THE PLAYER. It is from player.txt file.
+String  playerName=""; ///< ASCII IDENTIFIER OF THE PLAYER. It is from "player.txt" file.
 
 Client  myClient=null; ///< Network client object representing connection to the server
     
 /// Startup of a game client. Still not connected after that.
 void setup() 
 {
-  size(400,400);    //Init window in particular size!
-  loadSettings();   //Loads playerName from the 'player.txt' file!
+  size(400,400);     //Init window in particular size!
+  loadSettings();    //Loads playerName from the 'player.txt' file!
   println("PLAYER:",playerName);
   println("Expected server IP:",serverIP,"\nExpected server PORT:",servPORT);
-  frameRate(1);     //Only for intro (->INTRO_FRAMES) and establishing connection time.
-  VIS_MIN_MAX=false;//Option for visualisation - with min/max value
-  KEEP_ASPECT=true; //Option for visualisation - with proportional aspect ratio
+  frameRate(1);      //Only for intro (->INTRO_FRAMES) and establishing connection time.
+  VIS_MIN_MAX=false; //Option for visualisation - with min/max value
+  KEEP_ASPECT=true;  //Option for visualisation - with proportional aspect ratio
   INFO_LEVEL=Masks.SCORE;    //Information about objects (-1 - no information printed)
-  //textSize(16);   //... not work well with default font :-(
+  //textSize(16);    //... not work well with default font :-(
 }
 
 /// A function that is triggered many times per second, 
@@ -71,32 +71,32 @@ void whenConnectedToServer()
 {
     println(playerName,"connected!");
     String msg=sayHELLO(playerName);
-    if(VIEWMESG>0 || DEBUG>1) println(playerName,"is sending:\n",msg);
+    if(VIEW_MSG>0 || DEBUG>1) println(playerName,"is sending:\n",msg);
     myClient.write(msg);
     
     while(myClient.available() <= 0) delay(10);
     
     if(DEBUG>1) print(playerName,"is READING FROM SERVER:");
-    msg=myClient.readStringUntil(Opcs.EOR);
-    if(VIEWMESG>0 || DEBUG>1) println(msg);
+    msg=myClient.readStringUntil(OpCd.EOR);
+    if(VIEW_MSG>0 || DEBUG>1) println(msg);
     
     String serverType=decodeHELLO(msg);
-    if(serverType.equals(Opcs.name) )
+    if(serverType.equals(OpCd.name) )
     {
-      surface.setTitle(serverIP+"//"+Opcs.name+":"+playerName);
+      surface.setTitle(serverIP+"//"+OpCd.name+":"+playerName);
       gameWorld=new GameObject[1];
-      gameWorld[0]=new Player(myClient,playerName,10,10,0,1);//float iniX,float iniY,float iniZ,float iniRadius
+      gameWorld[0]=new Player(myClient,playerName,10,10,0,1); //float iniX,float iniY,float iniZ,float iniRadius
       gameWorld[0].visual="???";
       indexOfMe=0;
-      msg=Opcs.say(Opcs.UPD);
+      msg=OpCd.say(OpCd.UPD);
       if(DEBUG>1) print(playerName,"is SENDING:");
-      if(VIEWMESG>0 || DEBUG>1) println(msg);
+      if(VIEW_MSG>0 || DEBUG>1) println(msg);
       myClient.write(msg);
     }
     else
     {
       println("Protocol mismatch: '"
-              +serverType+"'<>'"+Opcs.name+"'");
+              +serverType+"'<>'"+OpCd.name+"'");
       myClient.stop();
       exit();
     }
@@ -117,10 +117,10 @@ void drawTryConnect()
    }
    else
    {
-      noLoop();//???
-      whenConnectedToServer();//If you can't talk to the server then it doesn't come back from this function!
-      frameRate(DEF_FRAME_RATE);//OK, it work, go fast!
-      loop();
+      noLoop(); //KIND OF CRITICAL SECTION?
+      whenConnectedToServer();   //If you can't talk to the server then it doesn't come back from this function!
+      frameRate(DEF_FRAME_RATE); //OK, it work, go fast!
+      loop(); //END OF "CRITICAL SECTION"
    }
 }
         
@@ -135,10 +135,12 @@ void loadSettings()
     e.printStackTrace();
     playerName = "Unknown_player";
   }
-  //reader.close();//Exception?
+  //reader.close(); //Exception?
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
+

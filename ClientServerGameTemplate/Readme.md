@@ -1,4 +1,4 @@
-# Molecular paradigm network game template
+# *Molecular paradigm* network game template
 
 ## Public, basic version of network game template.
 ## (Part of GuestXR UE grant)
@@ -7,7 +7,8 @@
 2. Common members are symbolically linked from the "common" directory.
 3. The network protocol is text-based for easier error-catching.
 
-More information in the source files prepared to generate documentation in the Doxygen format.
+More documentation is in the source files, prepared to generate documentation in the Doxygen format. Just use *docs/_make_docs.sh* and then see *doxDocs/* .
+
 
 
 

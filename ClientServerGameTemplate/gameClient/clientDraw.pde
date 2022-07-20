@@ -4,7 +4,7 @@
 StringDict inventory=new StringDict();
 
 /// Simple object type management
-void implementObjectMenagement(String[] cmd)
+void implementObjectManagement(String[] cmd) ///< global?
 {
   if(cmd[0].equals("del"))
      removeObject(gameWorld,cmd[2]);
@@ -12,7 +12,7 @@ void implementObjectMenagement(String[] cmd)
   if(cmd[0].equals("new"))
   {
      if(DEBUG>1) println("type:'"+cmd[2]+"' object:'"+cmd[1]+"'");
-     inventory.set(cmd[1],cmd[2]);//println(inventory.get(cmd[1]));
+     inventory.set(cmd[1],cmd[2]); //println(inventory.get(cmd[1]));
   }
   else
   println(playerName,"UNKNOWN object management command:",cmd[0]);
@@ -32,25 +32,25 @@ GameObject makeGameObject(String name,float X,float Y,float Z,float R)
   }
 }
 
-/// Handle changes in visualisation type of any game object
-void visualisationChanged(GameObject[] table,String name,String vtype)
+/// Handling changes in visual representation of any game object.
+void visualisationChanged(GameObject[] table,String name,String visual_repr) ///< global?
 {
-  int pos=(name.equals(Opcs.sYOU)?indexOfMe:localiseByName(table,name));
-  if(pos==-1)//FIRST TIME
+  int pos=(name.equals(OpCd.sYOU)?indexOfMe:localiseByName(table,name));
+  if(pos==-1) //FIRST TIME
   {
     gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);
     pos=gameWorld.length-1;
     gameWorld[pos]=makeGameObject(name,0,0,0,0);
   }
-  gameWorld[pos].visual=vtype;
+  gameWorld[pos].visual=visual_repr;
 }
 
 /// Handle changes in colors of any game object
 void colorChanged(GameObject[] table,String name,String hexColor)
 {
   color newColor=unhex(hexColor);
-  int pos=(name.equals(Opcs.sYOU)?indexOfMe:localiseByName(table,name));
-  if(pos==-1)//FIRST TIME
+  int pos=(name.equals(OpCd.sYOU)?indexOfMe:localiseByName(table,name));
+  if(pos==-1) //FIRST TIME
   {
     gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);
     pos=gameWorld.length-1;
@@ -63,8 +63,8 @@ void colorChanged(GameObject[] table,String name,String hexColor)
 /// Handle changes in position of any game object
 void positionChanged(GameObject[] table,String name,float[] inpos)
 {
-  int pos=(name.equals(Opcs.sYOU)?indexOfMe:localiseByName(table,name));
-  if(pos==-1)//FIRST TIME
+  int pos=(name.equals(OpCd.sYOU)?indexOfMe:localiseByName(table,name));
+  if(pos==-1) //FIRST TIME
   {
     gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);
     pos=gameWorld.length-1;
@@ -74,8 +74,8 @@ void positionChanged(GameObject[] table,String name,float[] inpos)
   }
   else
   {
-    gameWorld[pos].X=inparr2[0];
-    gameWorld[pos].Y=inparr2[1];
+    gameWorld[pos].X=inPar2[0];
+    gameWorld[pos].Y=inPar2[1];
     if(inpos.length==3)
       gameWorld[pos].Z=inpos[2];
   }
@@ -95,43 +95,48 @@ void stateChanged(GameObject[] table,String objectName,String field,String val)
   {
     println(objectName,"not found!");
     println("DATA INCONSISTENCY! CALL SERVER FOR FULL UPDATE");
-    String msg=Opcs.say(Opcs.UPD);
+    String msg=OpCd.say(OpCd.UPD);
     if(DEBUG>1) print(playerName,"is SENDING:");
-    if(VIEWMESG>0 || DEBUG>1) println(msg);
+    if(VIEW_MSG>0 || DEBUG>1) println(msg);
     myClient.write(msg);
   }  
 }
 
-/// Handling for getting the avatar in contact with the game object
-void beginInteraction(GameObject[] table,String[]  objectAndActionsNames)
+/// Handling for getting the avatar in contact with the game object.
+/// @parametr distance is not used in this example method, 
+/// but may be used for more complicated interactions.
+void beginInteraction(GameObject[] table,String[]  objectAndActionsNames,float distance)
 {
   int pos=localiseByName(table,objectAndActionsNames[0]);
+  
   if(pos>=0)
   {
     if( table[indexOfMe] instanceof ActiveGameObject )
     {
-      ActiveGameObject me=(ActiveGameObject)(table[indexOfMe]); assert me!=null;
+      ActiveGameObject me=(ActiveGameObject)(table[indexOfMe]);                   assert me!=null;
       if(me.interactionObject!=null) me.interactionObject.flags^=Masks.TOUCHED;
       me.interactionObject=table[pos];
     }
     table[pos].flags|=Masks.TOUCHED;
+    if(DEBUG>1)
+      println(objectAndActionsNames[0],".distance:",distance); //DISTANCE NOT USED FOR NOW!
   }
   else
   {
     println(objectAndActionsNames[0],"not found!");
-    println("DATA INCONSISTENCY! CALL SERVER FOR FULL UPDATE");
-    String msg=Opcs.say(Opcs.UPD);
+    println("DATA INCONSISTENCY! FULL UPDATE IS NEEDED!");
+    String msg=OpCd.say(OpCd.UPD);
     if(DEBUG>1) print(playerName,"is SENDING:");
-    if(VIEWMESG>0 || DEBUG>1) println(msg);
+    if(VIEW_MSG>0 || DEBUG>1) println(msg);
     myClient.write(msg);
   }
 }
 
-/// Handling for getting out of the avatar's contact with the game object
+/// Handling for getting out of the avatar's contact with the game object.
 void finishInteraction(GameObject[] table,String objectName)
 {
   int pos=localiseByName(table,objectName);
-  if(pos>=0)//It may happen that in the meantime it has disappeared
+  if(pos>=0) //It may happen that in the meantime it has disappeared
   {
     table[pos].flags^=Masks.TOUCHED;
   }
@@ -144,85 +149,87 @@ void finishInteraction(GameObject[] table,String objectName)
 }
 
 // Arrays for decoding more complicated messages
-float[] inparr1=new float[1];
-float[] inparr2=new float[2];
-float[] inparr3=new float[3];
-String[] instr1=new String[1];
-String[] instr2=new String[2];
-String[] instr3=new String[3];
+float[]  inPar1=new  float[1]; ///< global?
+float[]  inPar2=new  float[2]; ///< global?
+float[]  inPar3=new  float[3]; ///< global?
+String[] inStr1=new String[1]; ///< global?
+String[] inStr2=new String[2]; ///< global?
+String[] inStr3=new String[3]; ///< global?
 
-/// Handling interpretation of messages from server
+/// Handling interpretation of messages from server (on client side)
 void interpretMessage(String msg)
 {
   switch(msg.charAt(0)){
-  //Obliq. part
-  default: println(playerName,"recived UNKNOWN MESSAGE TYPE:",msg.charAt(0));break;
-  case Opcs.EOR: if(DEBUG>0) println(playerName,"recived NOPE");break;
-  case Opcs.HEL:
-  case Opcs.IAM: println(playerName,"recived UNEXPECTED MESSAGE TYPE:",msg.charAt(0));break;
-  case Opcs.ERR: { String emessage=decodeOptAndInf(msg);
-                   println(playerName,"recived error:\n\t",emessage);
+  default: println(playerName,"received UNKNOWN MESSAGE TYPE:",msg.charAt(0));break;
+  // Obligatory messages:
+  case OpCd.EOR: if(DEBUG>0) println(playerName,"received NOPE");break;
+  case OpCd.HEL:
+  case OpCd.IAM: println(playerName,"received UNEXPECTED MESSAGE TYPE:",msg.charAt(0));break;
+  case OpCd.ERR: { String error_msg=decodeOptAndInf(msg);
+                   println(playerName,"received error:\n\t",error_msg);
                   } break;
-  case Opcs.OBJ: { String[] cmd=decodeObjectMng(msg);
-                   implementObjectMenagement(cmd);
+  case OpCd.OBJ: { String[] cmd=decodeObjectMng(msg);
+                   implementObjectManagement(cmd);
                  } break;
-  //Normal interactions
-  case Opcs.YOU: { playerName=decodeOptAndInf(msg);
-                 if(DEBUG>1) println(playerName,"recived confirmation from the server!");
-                 surface.setTitle(serverIP+"//"+Opcs.name+";"+playerName);
+  // Normal interactions:
+  case OpCd.YOU: { playerName=decodeOptAndInf(msg);
+                 if(DEBUG>1) println(playerName,"received confirmation from the server!");
+                 surface.setTitle(serverIP+"//"+OpCd.name+";"+playerName);
                  } break;
-  case Opcs.VIS: { String objectName=decodeInfos(msg,instr1);
-                   if(DEBUG>1) println(objectName,"change visualisation into",instr1[0]); 
-                   visualisationChanged(gameWorld,objectName,instr1[0]);
+  case OpCd.VIS: { String objectName=decodeInfos(msg,inStr1);
+                   if(DEBUG>1) println(objectName,"change visualisation into",inStr1[0]); 
+                   visualisationChanged(gameWorld,objectName,inStr1[0]);
                  } break;
-  case Opcs.COL: { String objectName=decodeInfos(msg,instr1);
-                   if(DEBUG>1) println(objectName,"change color into",instr1[0]); 
-                   colorChanged(gameWorld,objectName,instr1[0]);
+  case OpCd.COL: { String objectName=decodeInfos(msg,inStr1);
+                   if(DEBUG>1) println(objectName,"change color into",inStr1[0]); 
+                   colorChanged(gameWorld,objectName,inStr1[0]);
                  } break;   
-  case Opcs.STA: {
-                   String objectName=decodeInfos(msg,instr2);
-                   if(DEBUG>2) println(objectName,"change state",instr2[0],"<==",instr2[1]);
-                   stateChanged(gameWorld,objectName,instr2[0],instr2[1]);
+  case OpCd.STA: {
+                   String objectName=decodeInfos(msg,inStr2);
+                   if(DEBUG>2) println(objectName,"change state",inStr2[0],"<==",inStr2[1]);
+                   stateChanged(gameWorld,objectName,inStr2[0],inStr2[1]);
                  } break;
-  // interactions               
-  case Opcs.TCH: { String[] inputs;
+  // Other interactions:
+  case OpCd.TCH: { String[] inputs;
                    switch(msg.charAt(1)){
-                   case '1':inputs=instr2;break;
-                   case '2':inputs=instr3;break;
-                   default: inputs=new String[msg.charAt(1)-'0'+1];//NOT TESTED TODO!
+                   case '1':inputs=inStr2;break;
+                   case '2':inputs=inStr3;break;
+                   default: 
+                         inputs=new String[msg.charAt(1)-'0'+1]; //NOT TESTED? //<>//
+                         break;
                    }
                    float dist=decodeTouch(msg,inputs);
                    if(DEBUG>1) println(playerName,"touched",inputs[0],inputs[1]);
-                   beginInteraction(gameWorld,inputs);
+                   beginInteraction(gameWorld,inputs,dist);
                  }break;
-  case Opcs.DTC: { String objectName=decodeOptAndInf(msg);
+  case OpCd.DTC: { String objectName=decodeOptAndInf(msg);
                  if(DEBUG>1) println(playerName,"detached from",objectName);
-                 finishInteraction(gameWorld,objectName);//--> beginInteraction(inputs);
+                 finishInteraction(gameWorld,objectName); //see: beginInteraction(...);
                  }break;                  
   //... rest of message types
-  case Opcs.EUC: if(msg.charAt(1)=='1')
+  case OpCd.EUC: if(msg.charAt(1)=='1')
                  {
-                   //String who=decodePosition(msg,inparr1);//print(who);
+                   //String who=decodePosition(msg,inparr1); //print(who);
                    //positionChanged(gameWorld,who,inparr1);
                    println("Invalid position message:",msg);
                  }
                  else
                  if(msg.charAt(1)=='2')
                  {
-                   String who=decodePosition(msg,inparr2);//print(who);
-                   positionChanged(gameWorld,who,inparr2);
+                   String who=decodePosition(msg,inPar2); //print(who);
+                   positionChanged(gameWorld,who,inPar2);
                  }
                  else
                  if(msg.charAt(1)=='3')
                  {
-                   String who=decodePosition(msg,inparr3);//print(who);
-                   positionChanged(gameWorld,who,inparr3);
+                   String who=decodePosition(msg,inPar3); //print(who);
+                   positionChanged(gameWorld,who,inPar3);
                  }
                  else
                  {
                    println("Invalid dimension of position message",msg.charAt(1));
                  }
-  }//END OF MESSAGE TYPES SWITCH
+  } //END OF MESSAGE TYPES SWITCH
 }
 
 /// This function performs communication with server & visualisation of the game world 
@@ -238,17 +245,17 @@ void clientGameDraw()
     {
       if (myClient!=null && myClient.available() > 0) 
       {
-        if(DEBUG>2) print(playerName,"is reciving:");
-        String msg = myClient.readStringUntil(Opcs.EOR);
-        if(VIEWMESG>0 || DEBUG>2) println(msg);
+        if(DEBUG>2) print(playerName,"is receiving:");
+        String msg = myClient.readStringUntil(OpCd.EOR);
+        if(VIEW_MSG>0 || DEBUG>2) println(msg);
         
-        if(msg==null || msg.equals("") || msg.charAt(msg.length()-1)!=Opcs.EOR)
+        if(msg==null || msg.equals("") || msg.charAt(msg.length()-1)!=OpCd.EOR)
         {
-          println(playerName,"recived invalid message. IGNORED");
+          println(playerName,"received invalid message. IGNORED");
           return;
         }
         
-        interpretMessage(msg);// Handling interpretation
+        interpretMessage(msg); // Handling interpretation
       }
       else
       break;
@@ -256,6 +263,8 @@ void clientGameDraw()
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
+
