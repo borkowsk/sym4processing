@@ -2,6 +2,7 @@
 //*///////////////////////////////////////////////////////////////////////
 
 /// mandatory globals
+int          RANDSEED=0;          ///< For initialisation of pseudo-random numbers generator 
 int          FRAMEFREQ=10;        ///< application speed
 int          VISFREQ=1;           ///< how often full visualisation is performed
 int          debug_level=0; ///< or DEBUG or DEBUG_LEVEL ???
