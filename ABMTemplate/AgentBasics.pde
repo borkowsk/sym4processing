@@ -1,9 +1,9 @@
 //* Agent is a one of two central class of each ABM model
-/// Agents need to be initialised & they need logic of change 
-/// ABM: BASIC INITIALISATION & EVERY STEP CHANGE
+//* ABM: BASIC INITIALISATION & EVERY STEP CHANGE
+/// Agents need to be initialised & they need logic of change. 
 //*//////////////////////////////////////////////////////////////
 
-/// Initialization of agents (2D version)
+/// Initialization of agents (2D version).
 void initializeAgents(Agent[][] agents)
 {
    for(int a=0;a<agents.length;a++)
@@ -15,7 +15,7 @@ void initializeAgents(Agent[][] agents)
     }
 }
 //OR 
-/// Initialization of agents (1D version)
+/// Initialization of agents (1D version).
 void initializeAgents(Agent[] agents)
 {
   for(int a=0;a<agents.length;a++)
@@ -26,7 +26,8 @@ void initializeAgents(Agent[] agents)
   }
 }
 
-/// Random changes of agents for testing the visualization (2D version)
+/// Example changes of agents (2D version).
+/// Random changes of agents for testing the visualization. 
 void  dummyChangeAgents(Agent[][] agents)
 {
   int MC=agents.length*agents[0].length;
@@ -38,8 +39,11 @@ void  dummyChangeAgents(Agent[][] agents)
       agents[a][b].dummy+=random(-0.1,0.1);
   }
 }
+
 //OR 
-/// Random changes of agents for testing the visualization (1D version)
+
+/// Example changes of agents (1D version).
+/// Random changes of agents for testing the visualization.
 void  dummyChangeAgents(Agent[] agents)
 {
   int MC=agents.length;
@@ -54,7 +58,9 @@ void  dummyChangeAgents(Agent[] agents)
 //* Implement model rules below
 //*///////////////////////////////////////////////
 
-/// Your agents change over time (2D version)
+/// Real changes of agents (2D version).
+/// Typically agents change over time.
+/// User code is needed here.
 void  changeAgents(Agent[][] agents)
 {
   int MC=agents.length*agents[0].length;
@@ -69,7 +75,9 @@ void  changeAgents(Agent[][] agents)
   }
 }
 //OR 
-/// Your agents change over time (1D version)
+/// Real changes of agents (1D version).
+/// Typically agents change over time.
+/// User code is needed here.
 void  changeAgents(Agent[] agents)
 {
   int MC=agents.length;

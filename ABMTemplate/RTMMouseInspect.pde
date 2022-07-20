@@ -7,36 +7,37 @@ int searchedX=-1; ///< The horizontal coordinate of the mouse cursor
 int searchedY=-1; ///< The vertical coordinate of the mouse cursor
 boolean Clicked=false; ///< Was there a click too?
 
-// Last selection
-int selectedX=-1; ///< Converted into "world" indices, the agent's horizontal coordinate
-int selectedY=-1; ///< Converted into "world" indices, the agent's vertical coordinate
-Agent selected=null; //> Most recently selected agent
+// Last selection data:
+int selectedX=-1;    ///< Converted into "world" indices, the agent's horizontal coordinate.
+int selectedY=-1;    ///< Converted into "world" indices, the agent's vertical coordinate.
+Agent selected=null; ///< Most recently selected agent.
 
-/// Simple version of Pair containing a pair of integers
+/// Pair of integers. Simple version of Pair containing a pair of integers.
 class PairOfInt
 {
-    public final int a;
-    public final int b;
+    public final int a; //!< The first component
+    public final int b; //!< The second component
 
+    /// Constructor.
     public PairOfInt(int a,int b) 
     {
-        this.a = a;
-        this.b = b;
+        this.a = a; this.b = b;
     }
-};
+} //_EndOfClass PairOfInt
 
-/// This function is automatically run by Processing when 
-/// any mouse button is pressed. 
+/// Mouse click handler.
+/// This function is automatically run by Processing when any mouse button is pressed. 
 /// Inside, you can use the variables 'mouseX' and 'mouseY'.
+/// NOTE: In C++ translation it is "global" by default.
 void mouseClicked()
 {
-  println("Mouse clicked at ",mouseX,mouseY);//DEBUG
+  println("Mouse clicked at ",mouseX,mouseY); //DEBUG
   Clicked=true;
   searchedX=mouseX;
   searchedY=mouseY; 
   
-  PairOfInt result=findCell(TheWorld.agents);//But 1D searching is belong to you!
-  if(result!=null)//Znaleziono
+  PairOfInt result=findCell(TheWorld.agents); //But 1D searching is belong to you!
+  if(result!=null) //Znaleziono
   {
     selectedX=result.a;
     selectedY=result.b;
@@ -50,7 +51,7 @@ void mouseClicked()
   }
 }
 
-/// Convert mouse coordinates to cell coordinates
+/// Convert mouse coordinates to cell coordinates.
 /// The parameter is only for checking type and SIZES
 /// Works as long as the agents visualization starts at point 0,0
 PairOfInt findCell(Agent[][] agents)

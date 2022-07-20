@@ -2,12 +2,14 @@
 //* ABM: EXIT HANDLIG TEMPLATE
 //*//////////////////////////////////////////////////////////////////////
 
+/// Exit handler.
 /// It is called whenever a window is closed.
-void exit()          //it is called whenever a window is closed. 
+/// NOTE: In C++ translation it is "global" by default.
+void exit()          
 {
   noLoop();          //For to be sure...
   delay(100);        // it is possible to close window when draw() is still working!
-  //write(world,modelName+"."+nf((float)StepCounter,5,5));//end state of the system
+  //write(world,modelName+"."+nf((float)StepCounter,5,5)); //end state of the system
   
   if(outstat!=null)
   {
