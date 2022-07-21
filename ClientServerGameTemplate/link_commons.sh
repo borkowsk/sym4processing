@@ -4,6 +4,8 @@
 # did not appear automagically ;-)
 ln -sir gameCommon/*.pde gameServer/
 ln -sir gameCommon/*.pde gameClient/
+
+# This is needed only for local Doxygen run.
 ln -sir ./Readme.md docs/src.java/
 
 
