@@ -1,11 +1,11 @@
-/// Simulation have to collect and write down statistics from every step
+/// Simulation have to collect and write down statistics from every step.
 //* CA: STATISTICS LOG TEMPLATE
 //*////////////////////////////////////////////////////////////////////////////////
 
 PrintWriter outstat; ///< Handle to the text file with the record of model statistics
 
-/// It prepares a unique statistics file name, opens the file 
-/// and enters the header line.
+/// Initialisation of statistic log. It prepares a unique statistics file name, 
+/// opens the file and enters the header line.
 void initializeStats()
 {
   String FileName=modelName+="_"+year()+'.'+nf(month(),2)+'.'+nf(day(),2)+'.'+nf(hour(),2)+'.'+nf(minute(),2)+'.'+nf(second(),2)+'.'+millis();
@@ -16,15 +16,16 @@ void initializeStats()
 float meanDummy=0;///< the average of the non-zero cell values
 int   liveCount=0;///< number of non-zero cells
 
-/// The function calculates all world statistics after the simulation step
+/// Couning all statistics. The function calculates all world statistics after the simulation step.
 void doStatistics(World world)
 {
   doStatisticsOnCells(world.cells);
   /// ... statistics of other things
 }
 
-/// Cell statistics. One-dimensional version
-/// outstat file should be closed in exit() --> see Exit.pde
+/// Statistics for cells (1D version). The function calculates and writes all cells statistics.
+/// It is called in 'doStatistics()'.
+/// NOTE: outstat file should be closed in exit() --> see Exit.pde
 void doStatisticsOnCells(int[] cells)
 {  
   int curr;
@@ -58,8 +59,9 @@ void doStatisticsOnCells(int[] cells)
    }
 }
 
-/// Cell statistics. Two-dimensional version
-/// outstat file should be closed in exit() --> see Exit.pde
+/// Statistics for cells (2D version). The function calculates and writes all cells statistics.
+/// It is called in 'doStatistics()'.
+/// NOTE: outstat file should be closed in exit() --> see Exit.pde
 void doStatisticsOnCells(int[][] cells)
 {  
   long summ=0;

@@ -3,7 +3,9 @@
 //*////////////////////////////////////////////////////////////////////////////////////
 /// --> http://funprogramming.org/VideoExport-for-Processing/examples/basic/basic.pde
 //*
-/// Apart from the "hamoid" library, you also need to install the ffmpeg program to make it work !!! 
+/// Apart from the "hamoid" library, you also need to install the ffmpeg program to make it work !!!
+
+/// NOTE: The module is not supported by Processing2C ++ tool!
 
 import com.hamoid.*; // Here we import the necessary library containing the VideoExport class
 
@@ -91,7 +93,7 @@ void NextVideoFrame()
 /// NOTE: there should be some "force screen update", but not found :-(
 ///       So, if you x-click the window while drawing, the last frame
 ///       will probably be incomplete
-// PL: UWAGA! 
+//  PL: UWAGA! 
 //     Powinno być jakieś "force screen update", ale nie znalazłem
 //     Jeśli kliknięcie x okna nastąpi w trakcie rysowania to ostatnia klatka
 //     będzie prawdopodobnie niekompletna

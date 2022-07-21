@@ -2,7 +2,8 @@
 //* CA: EXIT TEMPLATE
 //*/////////////////////////////////////////////////////////////////////
 
-/// It is called whenever a window is closed.
+/// Exit handler. It is called whenever a window is closed.
+/// NOTE: In C++ translation it is "global" by default.
 void exit()          
 {
   noLoop();          //For to be sure...

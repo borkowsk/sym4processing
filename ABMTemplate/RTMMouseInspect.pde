@@ -25,8 +25,8 @@ class PairOfInt
     }
 } //_EndOfClass PairOfInt
 
-/// Mouse click handler.
-/// This function is automatically run by Processing when any mouse button is pressed. 
+/// Mouse click handler. This function is automatically run by Processing
+/// when any mouse button is pressed. 
 /// Inside, you can use the variables 'mouseX' and 'mouseY'.
 /// NOTE: In C++ translation it is "global" by default.
 void mouseClicked()
@@ -51,9 +51,10 @@ void mouseClicked()
   }
 }
 
-/// Convert mouse coordinates to cell coordinates.
-/// The parameter is only for checking type and SIZES
-/// Works as long as the agents visualization starts at point 0,0
+/// Searching for cell. Funtion converts mouse coordinates to 
+/// cell coordinates.
+/// The parameter is only for checking type and SIZES.
+/// It works as long as the agents visualization starts at point 0,0
 PairOfInt findCell(Agent[][] agents)
 { 
   int x=mouseX/cwidth;
@@ -66,6 +67,7 @@ PairOfInt findCell(Agent[][] agents)
 }
 
 //*////////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*////////////////////////////////////////////////////////////////////////////////////////////

@@ -22,8 +22,8 @@ boolean WITH_VIDEO=false; ///< Make a movie?
 
 boolean simulationRun=true; ///< Start/stop flag
 
-/// Main function called only once. 
-/// This function encloses things, that should be done at the beginning of run.
+/// Main function called only once. This function encloses things, 
+/// that should be done at the beginning of run.
 /// At least setup() or draw() must be present in animation program
 /// NOTE: In C++ translation it is "global" by default.
 void setup()
@@ -66,8 +66,8 @@ void setup()
   NextVideoFrame(); //It utilise inside variable to check if is enabled
 }
 
-/// Main function called in loop. 
-/// It means, in will be called many times, to the end of app. run or 'noLoop()' call.
+/// Main function called in loop. It means, in will be called many times,
+/// to the end of app. run or 'noLoop()' call.
 /// At least setup() or draw() must be present in animation program.
 /// NOTE: In C++ translation it is "global" by default.
 void draw()
@@ -92,9 +92,8 @@ void draw()
   }
 }
 
-/// Make all content of status bar.
-/// Function designed to fill the status line/lines with.
-/// Typically it would be simulation statistics.
+/// Make all content of status bar. Function designed to fill the status 
+/// line/lines, typically with simulation statistics.
 void writeStatusLine()
 {
   fill(255);
@@ -108,6 +107,7 @@ void writeStatusLine()
 }
 
 //*////////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*////////////////////////////////////////////////////////////////////////////////////////////

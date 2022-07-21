@@ -2,8 +2,7 @@
 //* ABM: EXIT HANDLIG TEMPLATE
 //*//////////////////////////////////////////////////////////////////////
 
-/// Exit handler.
-/// It is called whenever a window is closed.
+/// Exit handler. It is called whenever a window is closed.
 /// NOTE: In C++ translation it is "global" by default.
 void exit()          
 {
@@ -26,6 +25,7 @@ void exit()
 
 
 //*////////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*////////////////////////////////////////////////////////////////////////////////////////////

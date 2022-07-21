@@ -12,7 +12,7 @@ int selectedX=-1; ///< Converted into "world" indices, the agent's horizontal co
 int selectedY=-1; ///< Converted into "world" indices, the agent's vertical coordinate
 
 
-/// Simple version of Pair containing a pair of integers
+/// Pair of integers. Simple version of Pair containing a pair of integers.
 class PairOfInt
 {
     public final int a;
@@ -23,11 +23,12 @@ class PairOfInt
         this.a = a;
         this.b = b;
     }
-};
+} //_EndOfClass PairOfInt
 
-/// This function is automatically run by Processing when 
-/// any mouse button is pressed. 
+/// Mouse click handler. This function is automatically run by Processing
+/// when any mouse button is pressed. 
 /// Inside, you can use the variables 'mouseX' and 'mouseY'.
+/// NOTE: In C++ translation it is "global" by default.
 void mouseClicked()
 {
   println("Mouse clicked at ",mouseX,mouseY);//DEBUG
@@ -45,9 +46,10 @@ void mouseClicked()
   }
 }
 
-/// Convert mouse coordinates to cell coordinates
-/// The parameter is only for checking type and SIZES
-/// Works as long as the cell visualization starts at point 0,0
+/// Searching for cell. Funtion converts mouse coordinates to 
+/// cell coordinates.
+/// The parameter is only for checking type and SIZES.
+/// It works as long as the agents visualization starts at point 0,0
 PairOfInt findCell(int[][] cells)
 { 
   int x=mouseX/cwidth;

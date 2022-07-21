@@ -3,8 +3,8 @@
 //* ABM: EVENTS TEMPLATE
 //*///////////////////////////////////////////////////////////////////////
 
-/// Keyboard click handler.
-/// Automatically run by Processing when any key on the keyboard is pressed. 
+/// Keyboard click handler. Automatically run by Processing 
+/// when any key on the keyboard is pressed. 
 /// Inside, you can use the variables 'key' and 'keyCode'.
 /// NOTE: In C++ translation it is "global" by default.
 void keyPressed()
@@ -46,6 +46,7 @@ void keyPressed()
 
 
 //*////////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*////////////////////////////////////////////////////////////////////////////////////////////

@@ -14,13 +14,16 @@ World TheWorld=new World(side); ///<Main table will be initialised inside setup(
 int cwidth=3;                   ///< requested size of cell
 int STATUSHEIGH=40;             ///< height of status bar
 int STEPSperVIS=1;              ///< how many model steps beetwen visualisations 
-int FRAMEFREQ= 50;              ///< how many model steps per second
+
+int FRAMEFREQ= 16;              ///< how many model steps per second
+
 boolean WITH_VIDEO=false;       ///< Need the application make a movie?
 
 boolean simulationRun=true;     ///< Start/stop flag
 
-/// Function setup() is called only once, at the beginning of run
-/// At least setup() or draw() must be present in animation program
+/// Main function called only once. This function encloses things, 
+/// that should be done at the beginning of run.
+/// NOTE: At least setup() or draw() must be present in animation program.
 void setup()
 {
   //Graphics
@@ -58,28 +61,29 @@ void setup()
   NextVideoFrame();//It utilise inside variable to check if is enabled
 }
 
-/// Function draw() is called many times, to the end of run or noLoop() call.
-/// At least setup() or draw() must be present in animation program
+/// Main function called in loop. It means, in will be called many times,
+/// to the end of app. run or 'noLoop()' call.
+/// NOTE: At least setup() or draw() must be present in animation program.
 void draw()
-{
-  if(simulationRun)
-  {
-    modelStep(TheWorld);
-    doStatistics(TheWorld);
-  }
-  
-  writeStatusLine();
-  
+{    
   if(!simulationRun //When simulation was stopped only visualisation should work
   || StepCounter % STEPSperVIS == 0 ) //But when model is running, visualisation shoud be done from time to time
   {
     visualizeModel(TheWorld);
     NextVideoFrame();//It utilise inside variable to check if is enabled
   }
-
+  
+  writeStatusLine();
+    
+  if(simulationRun)
+  {
+    modelStep(TheWorld);
+    doStatistics(TheWorld);
+  }
 }
 
-/// Function designed to fill the status bar with simulation statistics.
+/// Make all content of status bar. Function designed to fill the status 
+/// line/lines, typically with simulation statistics.
 void writeStatusLine()
 {
   fill(255);rect(0,side*cwidth,width,STATUSHEIGH);
