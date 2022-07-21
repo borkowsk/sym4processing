@@ -6,7 +6,7 @@
 /// NOTE: In C++ translation it is "global" by default.
 void exit()          
 {
-  noLoop();          //For to be sure...
+  noLoop();          //For to be sure... (Not needed in Pr. 3.x?)
   delay(100);        // it is possible to close window when draw() is still working!
   //write(world,modelName+"."+nf((float)StepCounter,5,5)); //end state of the system
   

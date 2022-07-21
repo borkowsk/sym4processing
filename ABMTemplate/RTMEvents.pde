@@ -3,8 +3,9 @@
 //* ABM: EVENTS TEMPLATE
 //*///////////////////////////////////////////////////////////////////////
 
-/// Keyboard click handler. Automatically run by Processing 
-/// when any key on the keyboard is pressed. 
+/// @brief Keyboard click handler. 
+/// @details 
+/// Automatically run by Processing when any key on the keyboard is pressed. 
 /// Inside, you can use the variables 'key' and 'keyCode'.
 /// NOTE: In C++ translation it is "global" by default.
 void keyPressed()
