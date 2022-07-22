@@ -1,8 +1,8 @@
-/// World full of agents need method of visualisation on screen/window
+/// World full of agents need method of visualisation on screen/window.
 //* ABM: BASIC VISUALISATION
 //*//////////////////////////////////////////////////////////////////////////
 
-/// Visualization of agents. Two-dimensional version
+/// Visualization of agents (2D version).
 void visualizeAgents(Agent[][] agents)
 {
   Agent curra;
@@ -19,14 +19,16 @@ void visualizeAgents(Agent[][] agents)
     }
     else
     {
-      fill(128);
+      fill(EMPTYGRAY);
     }
     
-    rect(b*cwidth,a*cwidth,cwidth,cwidth);//a is vertical!
+    rect(b*cwidth,a*cwidth,cwidth,cwidth); //a is vertical!
    }
 }
+
 //OR
-/// Visualization of agents. One-dimensional version
+
+/// Visualization of agents (1D version).
 void visualizeAgents(Agent[] agents)
 {
    Agent curra;
@@ -42,18 +44,21 @@ void visualizeAgents(Agent[] agents)
     }
     else
     {
-      fill(128);
+      fill(EMPTYGRAY);
     }
     
-    int t=(StepCounter/STEPSperVIS)%side;//Uwzględniamy różne częstości wizualizacji
-    noStroke();
+    /// We take into account different visualization frequencies!
+    int t=(StepCounter/STEPSperVIS)%side; 
+    
     rect(a*cwidth,t*cwidth,cwidth,cwidth);
+    
     stroke(255);
     line(0,(t+1)*cwidth+1,width,(t+1)*cwidth+1);
    }
 }
 
 //*////////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*////////////////////////////////////////////////////////////////////////////////////////////

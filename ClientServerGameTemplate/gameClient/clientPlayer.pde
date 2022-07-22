@@ -31,7 +31,7 @@ class Player extends ActiveGameObject
   {
      String msg=super.sayState();
      if((flags & Masks.SCORE )!=0) 
-        msg+=sayOptAndInfos(Opcs.STA,name,"sc",nf(score));
+        msg+=sayOptAndInfos(OpCd.STA,name,"sc",nf(score));
      return msg;
   }  
   

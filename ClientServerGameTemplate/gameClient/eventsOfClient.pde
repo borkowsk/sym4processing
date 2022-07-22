@@ -1,4 +1,4 @@
-///  gameClient - keyboard input & other asynchronic events 
+///  gameClient - keyboard input & other asynchronous events
 //*//////////////////////////////////////////////////////////// 
 
 /// Keyboard events - mostly control of the avatar
@@ -12,7 +12,7 @@ void keyPressed()
     return;
   }
   
-  if(key==65535)//arrows  etc...
+  if(key==65535) //arrows  etc...
   {
     if(DEBUG>2) println("keyCode:",keyCode);
     switch(keyCode){
@@ -21,34 +21,34 @@ void keyPressed()
     case LEFT: key='a'; break;
     case RIGHT: key='d'; break;
     default:
-    return;//Other special keys is ignored in this template
-    }//end of switch
+    return; //Other special keys is ignored in this template
+    } //end of switch
   }
   
   String msg="";
   switch(key){
-  default:println(key,"is not defined for the game client");return;
-  //Navigation
+  default:println(key,"is not defined for the game client"); return;
+  // Navigation
   case 'w':
-  case 'W': msg=Opcs.say(Opcs.NAV,"f"); break;
+  case 'W': msg=OpCd.say(OpCd.NAV,"f"); break;
   case 's':
-  case 'S': msg=Opcs.say(Opcs.NAV,"b"); break;
+  case 'S': msg=OpCd.say(OpCd.NAV,"b"); break;
   case 'a':
-  case 'A': msg=Opcs.say(Opcs.NAV,"l"); break;
+  case 'A': msg=OpCd.say(OpCd.NAV,"l"); break;
   case 'd':
-  case 'D': msg=Opcs.say(Opcs.NAV,"r"); break;
-  //Perform interaction:
+  case 'D': msg=OpCd.say(OpCd.NAV,"r"); break;
+  // Perform interaction:
   case ' ': {
-              ActiveGameObject me=(ActiveGameObject)(gameWorld[indexOfMe]); assert me!=null;
+              ActiveGameObject me=(ActiveGameObject)(gameWorld[indexOfMe]);                             assert me!=null;
               if(me.interactionObject!=null)
               {
-                msg=Opcs.say(Opcs.ACT,"defo"); 
+                msg=OpCd.say(OpCd.ACT,"defo"); 
               }
             } break;
   case ESC: println(key,"is ignored for the game client");key=0; return;
-}//END of SWITCH
+} //END of SWITCH
 
-  if(VIEWMESG>0) println(playerName,"is sending:\n",msg);
+  if(VIEW_MSG>0) println(playerName,"is sending:\n",msg);
   myClient.write(msg);
 }
 
@@ -56,7 +56,7 @@ void keyPressed()
 void disconnectEvent(Client client) 
 {
   background(0);
-  print(playerName,"disconnected from server.");      assert client==myClient;
+  print(playerName,"disconnected from server.");                                                assert client==myClient;
   myClient=null;
   frameRate(1);
 }
@@ -69,8 +69,8 @@ void serverEvent(Server server,Client client)
 
 /// ClientEvent message is generated when the 
 /// server sends data to an existing client.
-/// This is alternative, asynchronous way to
-/// read messages from the server.
+/// @function clientEvent is alternative, asynchronous way
+/// to read messages from the server.
 //void clientEvent(Client client) 
 //{
   //println(playerName,"got clientEvent()"); 
@@ -81,4 +81,6 @@ void serverEvent(Server server,Client client)
 //*/////////////////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*/////////////////////////////////////////////////////////////////////////////////////////
+

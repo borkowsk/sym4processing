@@ -18,16 +18,15 @@ import java.io.IOException;
 
 public class gameServer extends PApplet {
 
-/// Server for gameClients - setup() & draw() SOURCE FILE
-//*////////////////////////////////////////////////////////////////// 
+/// Server for gameClients - MAIN SOURCE FILE (setup() & draw() defined here)
+//*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-/// Losely base on
-/// example code for a server with multiple clients communicating to only one at a time.
+/// Loosely base on example code for a server with multiple clients communicating to only one at a time.
 /// (see: https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html)
 //
-  //Needed for network communication
-//import processing.pdf.*;//It acts as a server, but the PDF file is empty
-  //No-window server!
+   //Needed for network communication
+//import processing.pdf.*; //WARNING! It acts as a server, but the PDF file is empty
+   //No-window server!
 
 static int DEBUG=0;       ///< Level of debug logging (have to be static because of use inside static functions)
 
@@ -40,19 +39,19 @@ Player[] players= new Player[0]; ///< The array of clients (players)
 /// It exits, if is not able to do that.
 public void setup() 
 {
-  //Other possibilities: P2D,P3D,FX2D,PDF,SVG
-  //size(700, 500,SVG,"screen_file.svg");//No-window server!
-  //size(700, 500,PDF, "screen_file.pdf");//Without window
-  Xmargin=200;
+   //Other possibilities: P2D,P3D,FX2D,PDF,SVG
+  //size(700, 500,SVG,"screen_file.svg"); //No-window server!
+  //size(700, 500,PDF, "screen_file.pdf"); //Without window
+  x_margin=200;
   noStroke();
-  //textSize(16);//Does not work with UNICODE icons! :-(
+  //textSize(16); //Does not work with UNICODE icons! :-(
   mainServer = new Server(this,servPORT,serverIP);
   if(mainServer.active())
   {
-    println("Server for '"+Opcs.name+"' started!");
+    println("Server for '"+OpCd.name+"' started!");
     println("IP:",serverIP,"PORT:",servPORT);
     initialiseGame();
-    surface.setTitle(serverIP+"//"+Opcs.name+":"+servPORT);
+    surface.setTitle(serverIP+"//"+OpCd.name+":"+servPORT);
   }
   else exit();
 }
@@ -75,7 +74,7 @@ public void serverWaitingDraw()
 {
   background(128);
   //... any picture?
-  visualise2D(Xmargin,0,width-Xmargin,height);
+  visualise2D(x_margin,0,width-x_margin,height);
   fill(0);
   textAlign(CENTER,CENTER);
   text("Waiting for clients\n"+avatars[1]+plants[1]+avatars[2],width/2,height/2);
@@ -86,11 +85,11 @@ public void confirmClient(Client newClient,Player player)
 {
   if(DEBUG>1) print("Server confirms the client's registration: ");
   
-  String msg=Opcs.say(Opcs.YOU,player.name);
+  String msg=OpCd.say(OpCd.YOU,player.name);
   if(DEBUG>1) println(msg);
   newClient.write(msg);
     
-  msg=sayOptAndInfos(Opcs.VIS,Opcs.sYOU,player.visual);
+  msg=sayOptAndInfos(OpCd.VIS,OpCd.sYOU,player.visual);
   if(DEBUG>1) println(msg);
   newClient.write(msg);
   
@@ -113,7 +112,7 @@ public void whenClientConnected(Client newClient,String playerName)
   if(players[i]!=null
   && playerName.equals(players[i].name))
   {
-    if(players[i].netLink==null)//Już był taki, ale połączenie zdechło albo klient!
+    if(players[i].netLink==null) //Już był taki, ale połączenie zdechło albo klient!
     {
       println("Player",playerName,"reconnected to server!");
       players[i].netLink=newClient;
@@ -124,7 +123,7 @@ public void whenClientConnected(Client newClient,String playerName)
     }
     else// Taka nazwa dotyczy wciąż aktywnego gracza - trzeba zmienić
     {
-      print("New",playerName,"will be ");//Jest już taki, trzeba jakoś zmienić nazwę
+      print("New",playerName,"will be "); //Jest już taki, trzeba jakoś zmienić nazwę
       playerName+='X';
       println(playerName);
     }
@@ -132,13 +131,13 @@ public void whenClientConnected(Client newClient,String playerName)
     
   Player tmp=new Player(newClient,playerName,PApplet.parseInt(random(initialMaxX)),PApplet.parseInt(random(initialMaxY)),1,1.5f);
   
-  players = (Player[]) expand(players,players.length+1);//expand the array of clients
-  players[players.length-1] = tmp;//sets the last player to be the newly connected client
+  players = (Player[]) expand(players,players.length+1); //expand the array of clients
+  players[players.length-1] = tmp; //sets the last player to be the newly connected client
    
-  gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);//expand the array of game objects 
-  gameWorld[gameWorld.length-1] = tmp;// Player is also one of GameObjects
+  gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1); //expand the array of game objects
+  gameWorld[gameWorld.length-1] = tmp; // Player is also one of GameObjects
   
-  //tmp.indexInGameWorld=gameWorld.length-1;// It should also be filled in as an emergency during the first use
+  //tmp.indexInGameWorld=gameWorld.length-1; // It should also be filled in as an emergency during the first use
   tmp.visual=avatars[1];
     
   println("Player",tmp.name,"connected to server!");
@@ -146,6 +145,7 @@ public void whenClientConnected(Client newClient,String playerName)
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
@@ -168,16 +168,16 @@ public void keyPressed()
 /// Event handler called when a client connects to server
 public void serverEvent(Server me,Client newClient)
 {
-  noLoop();//KIND OF CRITICAL SECTION!!!
+  noLoop(); //KIND OF CRITICAL SECTION!!!
   
   while(newClient.available() <= 0) delay(10);
   
   if(DEBUG>1) print("Server is READING FROM CLIENT: ");
-  String msg=newClient.readStringUntil(Opcs.EOR);
+  String msg=newClient.readStringUntil(OpCd.EOR);
   if(DEBUG>1) println(msg);
   String playerName=decodeHELLO(msg);
   
-  msg=sayHELLO(Opcs.name);
+  msg=sayHELLO(OpCd.name);
   if(DEBUG>1) println("Server is SENDING: ",msg);
   newClient.write(msg);
     
@@ -193,7 +193,7 @@ public void disconnectEvent(Client someClient)
   if(DEBUG>2) println("Disconnect event happened on server.");
   if(DEBUG>2) println(mainServer,someClient);
   
-  noLoop();//KIND OF CRITICAL SECTION!!!
+  noLoop(); //KIND OF CRITICAL SECTION!!!
   
   for(int i=0;i<players.length;i++)
   if(players[i].netLink == someClient )
@@ -220,6 +220,7 @@ public void disconnectEvent(Client someClient)
 //}
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
@@ -233,11 +234,11 @@ float initialMaxX=100;          ///< Initial horizontal size of game "board"
 float initialMaxY=100;          ///< Initial vertical size of game "board" 
 int     indexOfMe=-1;           ///< Index of object visualising the client or the server supervisor
 
-// For very basic visualistion
+// For very basic visualisation
 String[] plants= {"_","O","...\nI","_\\|/_\nI ","|/",":","☘️"}; ///< plants... 
-String[] avatars={".","^v^" ,"o^o","@","&","😃","😐"};///< peoples...
+String[] avatars={".","^v^" ,"o^o","@","&","😃","😐"}; ///< peoples...
 
-static abstract class Masks { //Changes of GameObject atributes (rather specific for server side)
+static abstract class Masks { //Changes of GameObject attributes (rather specific for server side)
 static final int VISSWITH   = unbinary("000000001"); ///< object is invisible (but in info level name is visible)
 static final int MOVED  = unbinary("000000010"); ///< object was moved (0x1)
 static final int VISUAL = unbinary("000000100"); ///< object changed its type of view
@@ -250,12 +251,12 @@ static final int ACTRAD = unbinary("010000000"); ///< object changed its radius 
 /// To visualize the interaction between background objects
 static final int TOUCHED= unbinary("1000000000000000"); ///<16bits
 // Composed masks below:
-static final int STATES   = HPOINT | SCORE | PASRAD | ACTRAD ;///< object changed its states
-static final int ALL_CHNG = MOVED | VISUAL | COLOR | STATES ; ///< All initial changes
-}//EndOfClass Masks 
+static final int ALL_STATES  = HPOINT | SCORE | PASRAD | ACTRAD ;     ///< Object changed any of its states
+static final int ALL_CHANGED = MOVED | VISUAL | COLOR | ALL_STATES ;  ///< All initial changes
+} //EndOfClass Masks
 
 // Options for visualisation 
-int     INFO_LEVEL =1 | Masks.SCORE;///< Visualisation with information about objects (name & score by default)
+int     INFO_LEVEL =1 | Masks.SCORE; ///< Visualisation with information about objects (name & score by default)
 boolean VIS_MIN_MAX=true;    ///< Visualisation with min/max value
 boolean KEEP_ASPECT=true;    ///< Visualisation with proportional aspect ratio
 
@@ -264,22 +265,23 @@ boolean KEEP_ASPECT=true;    ///< Visualisation with proportional aspect ratio
 /// this parts.
 abstract class implNeeded 
 { 
-  int flags=0;//!< Masks. alloved here
+  int flags=0; //!< Masks. allowed here
   
-  public String myClassName()//> Shortened class name (see: https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html)
+  public String myClassName() //!< Shortened class name (see: https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html)
   {
-    String typeStr=getClass().getName(); // TODO? Use getSimpleName() ?
-    int dolar=typeStr.indexOf("$"); //println(typeStr,dolar);
+    String typeStr=getClass().getName(); // Alternatively use 'getSimpleName()'
+    int dolar=typeStr.indexOf("$"); 
+    if(DEBUG!=0) println(typeStr,dolar);
     typeStr=typeStr.substring(dolar+1);
     return typeStr;
   }
-}//EndOfClass implNeeded
+} //EndOfClass implNeeded
 
 /// Representation of 3D position in the game world
 /// However, the value of Z is not always used.
 abstract class Position extends implNeeded
 {
-  float X,Y;//!< 2D coordinates
+  float X,Y; //!< 2D coordinates
   float Z;  //!< Even on a 2D board, objects can pass each other without collision.
   
   /// constructor
@@ -298,29 +300,31 @@ abstract class Position extends implNeeded
   {
     return dist(X,Y,Z,toWhat.X,toWhat.Y,toWhat.Z);
   }
-}//EndOfClass Position
+} //EndOfClass Position
 
 /// Representation of simple game object
 class GameObject extends Position
 {
-  String name;      //!< Each object has an individual identifier necessary for communication. Better short.
-  String visual="?";//!< Text representation of the visualization. The unicode character or the name of an external file.
-  int  foreground=0xff00ff00;//> Main color of object
+  String name;       //!< Each object has an individual identifier necessary for communication. Better short.
+  String visual="?"; //!< Text representation of the visualization. The unicode character or the name of an external file.
+  int  foreground=0xff00ff00; //> Main color of object
   
-  float  hpoints=1; //!< Health points
+  float  h_points=1; //!< Health points
   
-  float[] distances=null;      //!< Array of distances to other objects. Not always in use!
+  float[] distances=null; //!< Array of distances to other objects. Not always in use!
                                
-  float  passiveRadius=1;      //!< Radius of passive interaction
+  float  passiveRadius=1; //!< Radius of passive interaction
   
-  ///constructor
+  /// constructor
   GameObject(String iniName,float iniX,float iniY,float iniZ){ super(iniX,iniY,iniZ);
     name=iniName;
   }
   
+  /// Information, what object can do.
   /// @return: List of actions that this object can performed
   /*_interfunc*/ public String[] abilities() { return null;} 
   
+  /// Information on what can be done with the object.
   /// @return: List of actions that can be performed on this object
   /*_interfunc*/ public String[] possibilities() { return null;} 
   
@@ -329,13 +333,13 @@ class GameObject extends Position
   /// @return: true if field is found
   /*_interfunc*/ public boolean  setState(String field,String val)
   {
-    if(field.charAt(0)=='h' && field.charAt(1)=='p')//hp-points
+    if(field.charAt(0)=='h' && field.charAt(1)=='p') //hp-points
     {
-       hpoints=Float.parseFloat(val);
+       h_points=Float.parseFloat(val);
        return true;
     }
     else
-    if(field.charAt(0)=='p' && field.charAt(1)=='a' && field.charAt(2)=='s')//pas-Radius
+    if(field.charAt(0)=='p' && field.charAt(1)=='a' && field.charAt(2)=='s') //pas-Radius
     {
        passiveRadius=Float.parseFloat(val);
        return true;
@@ -350,15 +354,15 @@ class GameObject extends Position
    {
      String msg="";
      if((flags & Masks.VISUAL )!=0)
-        msg+=sayOptAndInfos(Opcs.VIS,name,visual);
+        msg+=sayOptAndInfos(OpCd.VIS,name,visual);
      if((flags & Masks.MOVED )!=0)  
-        msg+=sayPosition(Opcs.EUC,name,X,Y);
+        msg+=sayPosition(OpCd.EUC,name,X,Y);
      if((flags & Masks.COLOR  )!=0)
-        msg+=sayOptAndInfos(Opcs.COL,name,hex(foreground));
+        msg+=sayOptAndInfos(OpCd.COL,name,hex(foreground));
      if((flags & Masks.HPOINT )!=0) 
-        msg+=sayOptAndInfos(Opcs.STA,name,"hp",nf(hpoints)); 
+        msg+=sayOptAndInfos(OpCd.STA,name,"hp",nf(h_points)); 
      if((flags & Masks.PASRAD )!=0)
-        msg+=sayOptAndInfos(Opcs.STA,name,"pasr",nf(passiveRadius));
+        msg+=sayOptAndInfos(OpCd.STA,name,"pasr",nf(passiveRadius));
      return msg;
    }
   
@@ -375,12 +379,12 @@ class GameObject extends Position
       ret+=";pr:"+passiveRadius;
     return ret;
   }
-}//EndOfClass GameObject
+} //EndOfClass GameObject
 
 class ActiveGameObject extends GameObject
 {
-  float activeRadius=1;             //!< Radius for active interaction with others objects
-  GameObject interactionObject=null;//!< Only one in a time
+  float activeRadius=1;              //!< Radius for active interaction with others objects
+  GameObject interactionObject=null; //!< Only one in a time
   
   ///constructor
   ActiveGameObject(String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ);
@@ -391,7 +395,7 @@ class ActiveGameObject extends GameObject
   /// over the network (mostly)
   /*_interfunc*/ public boolean  setState(String field,String val)
   {
-    if(field.charAt(0)=='a' && field.charAt(1)=='c' && field.charAt(2)=='t')//act-Radius
+    if(field.charAt(0)=='a' && field.charAt(1)=='c' && field.charAt(2)=='t') //act-Radius
     {
        activeRadius=Float.parseFloat(val);
        return true;
@@ -406,10 +410,10 @@ class ActiveGameObject extends GameObject
   {
      String msg=super.sayState();
      if((flags & Masks.ACTRAD )!=0) 
-        msg+=sayOptAndInfos(Opcs.STA,name,"actr",nf(activeRadius));
+        msg+=sayOptAndInfos(OpCd.STA,name,"actr",nf(activeRadius));
      return msg;
   }  
-}//EndOfClass ActiveGameObject
+} //EndOfClass ActiveGameObject
 
 /// Representation of generic player
 class Player extends ActiveGameObject
@@ -417,7 +421,7 @@ class Player extends ActiveGameObject
   float  score=0;  //!< Result
   Client netLink;  //!< Network connection to client application
   
-  int    indexInGameWorld=-1;//!< Index/shortcut to game board array/container
+  int    indexInGameWorld=-1; //!< Index/shortcut to game board array/container
 
   ///constructor
   Player(Client iniClient,String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ,iniRadius);
@@ -429,7 +433,7 @@ class Player extends ActiveGameObject
   /// @return: true if field is found
   /*_interfunc*/ public boolean  setState(String field,String val)
   {
-    if(field.charAt(0)=='s' && field.charAt(1)=='c')//sc-ore
+    if(field.charAt(0)=='s' && field.charAt(1)=='c') //sc-ore
     {
        score=Float.parseFloat(val);
        return true;
@@ -444,7 +448,7 @@ class Player extends ActiveGameObject
   {
      String msg=super.sayState();
      if((flags & Masks.SCORE )!=0) 
-        msg+=sayOptAndInfos(Opcs.STA,name,"sc",nf(score));
+        msg+=sayOptAndInfos(OpCd.STA,name,"sc",nf(score));
      return msg;
   }  
   
@@ -458,7 +462,7 @@ class Player extends ActiveGameObject
     return ret;
   }
   
-}//EndOfClass Player
+} //EndOfClass Player
 
 /// Determines the index of the object with the specified proper name 
 /// in an array of objects or players. 
@@ -477,8 +481,8 @@ public int localiseByName(GameObject[] table,String name)
   return -1;
 }
 
-/// It removes object reffered by name from the table.
-/// The object may remains somowhere else, so no any destruction will be performed.
+/// It removes object referred by name from the table.
+/// The object may remains somewhere else, so no any destruction will be performed.
 public void removeObject(GameObject[] table,String name)
 {
   int index=localiseByName(table,name);
@@ -489,11 +493,11 @@ public void removeObject(GameObject[] table,String name)
 /// 'indexOfMoved' is the index of the object for which we check for collisions.
 /// The first time 'startIndex' should be 0, but thanks to this parameter 
 /// you can continue searching for more collisions.
-/// Whem withZ parameter is false, only 2D distance is calculated.
-/// @returns: index or -1 if nothing collidend with object reffered by indexOfMoved
+/// When 'withZ' parameter is false, only 2D distance is calculated.
+/// @returns: index or -1 if nothing collided with object referred by 'indexOfMoved'
 public int findCollision(GameObject[] table,int indexOfMoved,int startIndex,boolean withZ)
 {
-  float activeRadius=-1;//By default active radius is disabled
+  float activeRadius=-1; //By default active radius is disabled
   
   //Is moved object of any active type?
   ActiveGameObject active=(ActiveGameObject)(table[indexOfMoved]);
@@ -516,7 +520,7 @@ public int findCollision(GameObject[] table,int indexOfMoved,int startIndex,bool
     if(activeRadius>0 && dist<=activeRadius+table[i].passiveRadius)
     return i; //ALSO DETECTED
   }
-  return -1;//NO COLLISION DETECTED!
+  return -1; //NO COLLISION DETECTED!
 }
 
 /// Prepares information about the types and names 
@@ -619,7 +623,7 @@ public void visualise2D(float startX,float startY,float width,float height)
 
 /// Moves allowed for the player. 
 /// Intended to be used on the server side.
-/// @return: false if dir string contains unknow command, otherwise true
+/// @return: false if dir string contains unknown command, otherwise true
 public boolean playerMove(String dir,Player player)
 {
   switch(dir.charAt(0)){
@@ -630,9 +634,9 @@ public boolean playerMove(String dir,Player player)
   default:
        println(player.name,"did unknown move");
        if(player.netLink!=null && player.netLink.active())
-          player.netLink.write( Opcs.say(Opcs.ERR,dir+" move is unknown in this game!") );
+          player.netLink.write( OpCd.say(OpCd.ERR,dir+" move is unknown in this game!") );
        return false;
-  }//end of moves switch
+  } //end of moves switch
   return true;
 }
 
@@ -643,7 +647,7 @@ public void playerAction(String action,Player player)
   if(player.netLink!=null && player.netLink.active())
   {
      if(player.interactionObject==null)
-       player.netLink.write( Opcs.say(Opcs.ERR,"Action "+action+" is undefined in this context!"));
+       player.netLink.write( OpCd.say(OpCd.ERR,"Action "+action+" is undefined in this context!"));
      else
        performAction(player,action,player.interactionObject);
   }
@@ -654,7 +658,7 @@ public void performAction(ActiveGameObject subject,String action,GameObject obje
 {
   if(object.visual.equals(plants[1]))
   {
-    subject.hpoints+=object.hpoints;subject.flags|=Masks.HPOINT;
+    subject.h_points+=object.h_points;subject.flags|=Masks.HPOINT;
     
     if(subject instanceof Player)
     {
@@ -662,7 +666,7 @@ public void performAction(ActiveGameObject subject,String action,GameObject obje
       pl.score++;pl.flags|=Masks.SCORE;
     }
     
-    object.hpoints=0;object.flags|=Masks.HPOINT;
+    object.h_points=0;object.flags|=Masks.HPOINT;
     object.visual=plants[0];object.flags|=Masks.VISUAL;
   }
   //println(player.name,"did undefined or not allowed action:",action);
@@ -671,45 +675,48 @@ public void performAction(ActiveGameObject subject,String action,GameObject obje
 GameObject[] gameWorld=null;    ///< MAIN ARRAY OF GameObjects
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
-/// Declaration common for client and server (op.codes and coding/decoding functions)
-//* Use link_commons.sh script for make symbolic connections to gameServer & gameClient directories
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//* NOTE: /*_inline*/ is a Processing2C directive translated to inline in C++ output
+/// Source file with declarations of common symbols for client and server. 
+/// (op.codes and coding/decoding functions).
+/// NOTE! Use "link_commons.sh" script for make symbolic connections 
+/// to "gameServer/" & "gameClient/" directories.
+//*/////////////////////////////////////////////////////////////////////////////////////////////
+//* NOTE: /*_inline*/ is a Processing2C directive translated to keyword 'inline' in C++ output
 
 
-//long pid = ProcessHandle.current().pid();//JAVA9 :-(
+//long pid = ProcessHandle.current().pid(); //JAVA9 :-(
+int     servPORT=5205;  	         ///< Theoretically it could be any above 1024
+String  serverIP="127.0.0.1";      ///< localhost
 
-//String  serverIP="192.168.55.201";///< at home 
-//String  serverIP="192.168.55.104";///< 2. 
-//String  serverIP="10.3.24.216";   ///< at work
-//String  serverIP="10.3.24.4";     ///< workstation local
-int     servPORT=5205;  	          ///< Teoretically it could be any above 1024
-String  serverIP="127.0.0.1";       ///< localhost
+//String  serverIP="192.168.55.201"; ///< at home
+//String  serverIP="192.168.55.104"; ///< 2.
+//String  serverIP="10.3.24.216";    ///< at work
+//String  serverIP="10.3.24.4";      ///< workstation local
 
 /// Protocol dictionary ("opcodes") & general code/decode methods
-static abstract class Opcs { 
-  static final String name="sampleGame";///< ASCI IDENTIFIER OF PROTOCOL
-  static final String sYOU="Y";///< REPLACER OF CORESPONDENT NAME as a ready to use String. 
-                               ///< Character.toString(YOU);<-not for static
+static abstract class OpCd { 
+  static final String name="sampleGame"; ///< ASCII IDENTIFIER OF PROTOCOL
+  static final String sYOU="Y"; ///< REPLACER OF CORESPONDENT NAME as a ready to use String.
+                                ///< Character.toString(YOU);<-not for static
   //Record defining characters
-  static final char EOR=0x03;///< End of record (EOR). EOL is not used, because of it use inside data starings.
-  static final char SPC='\t';///< Field separator
-                             ///< Maybe something less popular would be better? TODO
-  //Record headers (bidirectorial)
+  static final char EOR=0x03; ///< End of record (EOR). EOL is not used, because of it use inside data starings.
+  static final char SPC='\t'; ///< Field separator
+                              ///< Maybe something less popular would be better? Why not ';' ?
+  //Record headers (bidirectional)
   static final char ERR='e'; ///< Error message for partner
   static final char HEL='H'; ///< Hello message (client-server handshake)
   static final char IAM='I'; ///< I am "name of server/name of client"
   static final char YOU='Y'; ///< Redefining player name if not suitable
   //Named variables/resources
-  static final char GET='G'; ///< Get global resource by name TODO
-  static final char BIN='B'; ///< Binary hunk of resources (name.type\tsize\tthen data) TODO
-                             ///< Data hunk is recived exactly "as is"!
-  static final char TXT='X'; ///< Text hunk of resources (name.type\tsize\tthen data) TODO
-                             ///< Text may be recoded on the reciver side if needed!
-  static final char OBJ='O'; ///< Objects managment: "On typename objectName" or "Od objectName"
+  static final char GET='G'; ///< Get global resource by name (NOT IMPLEMENTED)
+  static final char BIN='B'; ///< Binary hunk of resources (name.type\tsize\tthen data) (NOT IMPLEMENTED)
+                             ///< Data hunk is received exactly "as is"!
+  static final char TXT='X'; ///< Text hunk of resources (name.type\tsize\tthen data) (NOT IMPLEMENTED)
+                             ///< Text may be recoded on the receiver side if needed!
+  static final char OBJ='O'; ///< Objects management: "On(-ew) typename objectName" or "Od(-elete) objectName"
   //Game scene/state 
   static final char UPD='U'; ///< Request for update about a whole scene
   static final char VIS='V'; ///< Visualisation info for a particular object
@@ -719,15 +726,15 @@ static abstract class Opcs {
   static final char POL='P'; ///< Polar position of an object
   //Interactions
   static final char TCH='T'; ///< Active "Touch" with other object (info about name & possible actions)
-  static final char DTC='D'; ///< Detouch with any of previously touched object (name provided)
+  static final char DTC='D'; ///< Detach with any of previously touched object (name provided)
   //Player controls of avatar
   static final char NAV='N'; ///< Navigation of the avatar (wsad and arrows in the template)
   static final char ACT='A'; ///< 'defo'(-ult) or user defined actions of the avatar
   //...
-  //static final char XXX='c';// something more...
+  //static final char XXX='c'; // something more...
   
   /// It composes one OPC info. 
-  /// For which, when recieved, only charAt(0) is important.
+  /// For which, when received, only charAt(0) is important.
   /// @return message PREPARED to send. 
   /*_inline*/ public static final String say(char opc)
   {
@@ -745,7 +752,7 @@ static abstract class Opcs {
   /// It composes multiple strings message. 
   /// Take care about Opcs.SPC inside parameters!!!
   /// @return message PREPARED to send.  
-  /*_inline*/ public static final String say(char opc,String... varargParam)//NOT TESTED JET
+  /*_inline*/ public static final String say(char opc,String... varargParam) //NOT TESTED JET
   {
     String ret=Character.toString(opc);
     for (int f=0; f < varargParam.length; f++)
@@ -764,9 +771,9 @@ static abstract class Opcs {
   /*_inline*/ public static final String[] decode(String msg) //NOT TESTED JET
   {
     String[] fields=split(msg,SPC);
-    return shorten(fields);// remove the item containing EOR from the end of array and @return the array
+    return shorten(fields); // remove the item containing EOR from the end of array and @return the array
   }
-}//EndOfClass Opcs
+} //EndOfClass Opcs
 
 // Specific code/decode functions
 //*////////////////////////////////////
@@ -775,17 +782,17 @@ static abstract class Opcs {
 /// @return message PREPARED to send. 
 /*_inline*/ public static final String sayHELLO(String myName)
 {
-    return ""+Opcs.HEL+Opcs.SPC+Opcs.IAM+Opcs.SPC
-             +myName+Opcs.SPC+Opcs.EOR;
+    return ""+OpCd.HEL+OpCd.SPC+OpCd.IAM+OpCd.SPC
+             +myName+OpCd.SPC+OpCd.EOR;
 }
 
 /// It decodes handshake
 /// @return Name of client or name of game implemented on server
 /*_inline*/ public static final String decodeHELLO(String msgHello)
 {
-  String[] fields=split(msgHello,Opcs.SPC);
+  String[] fields=split(msgHello,OpCd.SPC);
   if(DEBUG>2) println(fields[0],fields[1],fields[2]);
-  if(fields[0].charAt(0)==Opcs.HEL && fields[1].charAt(0)==Opcs.IAM )
+  if(fields[0].charAt(0)==OpCd.HEL && fields[1].charAt(0)==OpCd.IAM )
       return fields[2];
   else
       return null;
@@ -805,40 +812,40 @@ static abstract class Opcs {
 /// @return message PREPARED to send. 
 /*_inline*/ public static final String sayOptAndInfos(char opCode,String objName,String info)
 {
-  return ""+opCode+"1"+Opcs.SPC
-           +objName+Opcs.SPC
-           +info+Opcs.SPC
-           +Opcs.EOR;
+  return ""+opCode+"1"+OpCd.SPC
+           +objName+OpCd.SPC
+           +info+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// Compose many(=2) string info - SPC inside infos is NOT allowed.
 /// @return message PREPARED to send. 
 /*_inline*/ public static final String sayOptAndInfos(char opCode,String objName,String info1,String info2)
 {
-  return ""+opCode+"2"+Opcs.SPC
-           +objName+Opcs.SPC
-           +info1+Opcs.SPC
-           +info2+Opcs.SPC
-           +Opcs.EOR;
+  return ""+opCode+"2"+OpCd.SPC
+           +objName+OpCd.SPC
+           +info1+OpCd.SPC
+           +info2+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// Compose many(=3) string info - SPC inside infos is NOT allowed.
 /// @return message PREPARED to send. 
 /*_inline*/ public static final String sayOptAndInfos(char opCode,String objName,String info1,String info2,String info3)
 {
-  return ""+opCode+"3"+Opcs.SPC
-           +objName+Opcs.SPC
-           +info1+Opcs.SPC
-           +info2+Opcs.SPC
-           +info3+Opcs.SPC
-           +Opcs.EOR;
+  return ""+opCode+"3"+OpCd.SPC
+           +objName+OpCd.SPC
+           +info1+OpCd.SPC
+           +info2+OpCd.SPC
+           +info3+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// It decodes 1-9 infos message. Dimension of the array must be proper
 /// @return object name, and fill the infos
 /*_inline*/ public static final String decodeInfos(String msgInfos,String[] infos)
 {
-  String[] fields=split(msgInfos,Opcs.SPC);
+  String[] fields=split(msgInfos,OpCd.SPC);
   if(DEBUG>2) println(fields.length,fields[1]);
 
   int dimension=fields[0].charAt(1)-'0';
@@ -848,61 +855,61 @@ static abstract class Opcs {
         
   for(int i=0;i<infos.length;i++)
     infos[i]=fields[i+2];
-  return fields[1];//Nazwa
+  return fields[1]; //Nazwa
 }
 
 /// It constructs touch message with only one possible action
 /// @return message PREPARED to send. 
 /*_inline*/ public static final String sayTouch(String nameOfTouched,float distance,String actionDef)
 {
-  return ""+Opcs.TCH+"1"+Opcs.SPC
-           +nameOfTouched+Opcs.SPC
-           +actionDef+Opcs.SPC
-           +nf(distance)+Opcs.SPC
-           +Opcs.EOR;
+  return ""+OpCd.TCH+"1"+OpCd.SPC
+           +nameOfTouched+OpCd.SPC
+           +actionDef+OpCd.SPC
+           +nf(distance)+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// It constructs touch message with two possible actions
 /// @return message PREPARED to send
 /*_inline*/ public static final String sayTouch(String nameOfTouched,float distance,String action1,String action2)
 {
-  return ""+Opcs.TCH+"2"+Opcs.SPC
-           +nameOfTouched+Opcs.SPC
-           +action1+Opcs.SPC
-           +action2+Opcs.SPC
-           +nf(distance)+Opcs.SPC
-           +Opcs.EOR;
+  return ""+OpCd.TCH+"2"+OpCd.SPC
+           +nameOfTouched+OpCd.SPC
+           +action1+OpCd.SPC
+           +action2+OpCd.SPC
+           +nf(distance)+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// It constructs touch message with many possible actions
 /// @return message PREPARED to send
 /*_inline*/ public static final String sayTouch(String nameOfTouched,float distance,String[] actions)
 {
-  String ret=""+Opcs.TCH;
+  String ret=""+OpCd.TCH;
   if(actions.length<9)
-    ret+=""+actions.length+Opcs.SPC;
+    ret+=""+actions.length+OpCd.SPC;
   else
-    ret+="0"+actions.length+Opcs.SPC;
-  ret+=nameOfTouched+Opcs.SPC;  
+    ret+="0"+actions.length+OpCd.SPC;
+  ret+=nameOfTouched+OpCd.SPC;  
   for(int i=0;i<actions.length;i++)
-    ret+=actions[i]+Opcs.SPC;
-  ret+=nf(distance)+Opcs.SPC+Opcs.EOR;  
+    ret+=actions[i]+OpCd.SPC;
+  ret+=nf(distance)+OpCd.SPC+OpCd.EOR;  
   return ret;
 }
 
 /// It decodes touch message. 
 /// @return distance
 /// The infos will be filled with name of touched object and up to 9 possible actions
-/// (or more - NOT TESTED!)
+/// (0 or more than 9 - NOT TESTED!)
 /*_inline*/ public static final float decodeTouch(String msg,String[] infos)
 {
-  String[] fields=split(msg,Opcs.SPC);
+  String[] fields=split(msg,OpCd.SPC);
   
   int dimension=fields[0].charAt(1)-'0';
   if(dimension==0)
   { 
-    dimension=Integer.parseInt(fields[0].substring(1));// TODO: TEST!
-  }
+    dimension=Integer.parseInt(fields[0].substring(1)); // NOT TESTED!
+  } //<>//
   
   if(dimension+1 != infos.length) 
         println("Invalid size",dimension,"of infos array!",infos.length,"for",fields[0],"message!");
@@ -919,10 +926,10 @@ static abstract class Opcs {
 /// @return message PREPARED to send
 /*_inline*/ public static final String sayPosition(char EUCorPOL,String objName,float coord)
 {
-  return ""+EUCorPOL+"1"+Opcs.SPC
-           +objName+Opcs.SPC
-           +coord+Opcs.SPC
-           +Opcs.EOR;
+  return ""+EUCorPOL+"1"+OpCd.SPC
+           +objName+OpCd.SPC
+           +coord+OpCd.SPC
+           +OpCd.EOR;
 }
                    
 /// It composes message about object position (2 dimensions)                   
@@ -932,11 +939,11 @@ static abstract class Opcs {
 /// @return message PREPARED to send
 /*_inline*/ public static final String sayPosition(char EUCorPOL,String objName,float coord1,float coord2)
 {
-  return ""+EUCorPOL+"2"+Opcs.SPC
-           +objName+Opcs.SPC
-           +coord1+Opcs.SPC
-           +coord2+Opcs.SPC
-           +Opcs.EOR;
+  return ""+EUCorPOL+"2"+OpCd.SPC
+           +objName+OpCd.SPC
+           +coord1+OpCd.SPC
+           +coord2+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// It composes message about object position (3 dimensions)
@@ -946,12 +953,12 @@ static abstract class Opcs {
 /// @return message PREPARED to send
 /*_inline*/ public static final String sayPosition(char EUCorPOL,String objName,float coord1,float coord2,float coord3)
 {
-  return ""+EUCorPOL+"3"+Opcs.SPC
-           +objName+Opcs.SPC
-           +coord1+Opcs.SPC
-           +coord2+Opcs.SPC
-           +coord3+Opcs.SPC
-           +Opcs.EOR;
+  return ""+EUCorPOL+"3"+OpCd.SPC
+           +objName+OpCd.SPC
+           +coord1+OpCd.SPC
+           +coord2+OpCd.SPC
+           +coord3+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// It composes message about object position (1-9 dimensions)
@@ -962,14 +969,14 @@ static abstract class Opcs {
 /*_inline*/ public static final String sayPosition(char EUCorPOL,String objName,float[] coordinates)
 {
   String ret=EUCorPOL
-            +nf(coordinates.length+1,1)+Opcs.SPC;
-  ret+=objName+Opcs.SPC;
+            +nf(coordinates.length+1,1)+OpCd.SPC;
+  ret+=objName+OpCd.SPC;
   for(int i=0;i<coordinates.length;i++)
   {
     ret+=coordinates[i];
-    ret+=Opcs.SPC;
+    ret+=OpCd.SPC;
   }
-  ret+=Opcs.EOR;
+  ret+=OpCd.EOR;
   return ret;
 }
 
@@ -977,9 +984,9 @@ static abstract class Opcs {
 /// @return name of object and also fill coordinates.
 /*_inline*/ public static final String decodePosition(String msgPosition,float[] coordinates)
 {
-  String[] fields=split(msgPosition,Opcs.SPC);
+  String[] fields=split(msgPosition,OpCd.SPC);
   if(DEBUG>2) println(fields[0],fields[1],fields[2]);
-  if(fields[0].charAt(0)==Opcs.EUC || fields[0].charAt(0)==Opcs.POL )
+  if(fields[0].charAt(0)==OpCd.EUC || fields[0].charAt(0)==OpCd.POL )
   {
     int dimension=fields[0].charAt(1)-'0';
     
@@ -989,29 +996,29 @@ static abstract class Opcs {
     for(int i=0;i<coordinates.length;i++)
       coordinates[i]=Float.parseFloat(fields[i+2]);
       
-    return fields[1];//Name
+    return fields[1]; //Name
   }
   else
-  return null;//Invalid message
+  return null; //Invalid message
 }
 
 /// For objects types management - type of object
 /// @return message PREPARED to send
 /*_inline*/ public static final String sayObjectType(String type,String objectName)
 {
-  return Opcs.OBJ+"n"+Opcs.SPC
-         +type+Opcs.SPC
-         +objectName+Opcs.SPC
-         +Opcs.EOR;  
+  return OpCd.OBJ+"n"+OpCd.SPC
+         +type+OpCd.SPC
+         +objectName+OpCd.SPC
+         +OpCd.EOR;  
 }
 
 /// For objects types management - object removing from the game world
 /// @return message PREPARED to send
 /*_inline*/ public static final String sayObjectRemove(String objectName)
 {
-  return Opcs.OBJ+"d"+Opcs.SPC
-         +objectName+Opcs.SPC
-         +Opcs.EOR;  
+  return OpCd.OBJ+"d"+OpCd.SPC
+         +objectName+OpCd.SPC
+         +OpCd.EOR;  
 }
 
 /// It decodes message of objects types management - decoding
@@ -1020,7 +1027,7 @@ static abstract class Opcs {
 /// Other actions are possible in the future.
 /*_inline*/ public static final String[] decodeObjectMng(String msg)
 {
-  String[] fields=split(msg,Opcs.SPC);
+  String[] fields=split(msg,OpCd.SPC);
   if(fields[0].charAt(1)=='n')
     fields[0]="new";
   else
@@ -1032,56 +1039,54 @@ static abstract class Opcs {
     return null;
   }
   
-  return shorten(fields);// remove one item from the end of array and @return the array
+  return shorten(fields); // remove one item from the end of array and @return the array
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
-//*  https://github.com/borkowsk/sym4processing
+///  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
+///  @author  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
+///  @project https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
-
-
-                   
 /// gameServer - more communication & game logic 
 //*//////////////////////////////////////////////////// 
 
-int   Xmargin=0;                   ///< Left margin of server screen (status column)
-boolean wholeUpdateRequested=false;///< Information about a client requesting information about the entire scene.
-                                   ///< In such a case, it is sent to all clients (in this template of the server)
+int   x_margin=0;                   ///< Left margin of server screen (status column)
+boolean wholeUpdateRequested=false; ///< Information about a client requesting information about the entire scene.
+                                    ///< In such a case, it is sent to all clients (in this template of the server)
 
 /// This function sends a full game board update to all clients
 public void sendWholeUpdate()
 {
-  noLoop();//KIND OF CRITICAL SECTION!?!?!
+  noLoop(); //KIND OF CRITICAL SECTION!?!?!
   
   GameObject curr=null;
   for(int i=0;i<gameWorld.length;i++)
   if((curr=gameWorld[i])!=null)
   {
-    curr.flags|=Masks.ALL_CHNG;
+    curr.flags|=Masks.ALL_CHANGED;
     String msg=curr.sayState();
     //sayOptAndInfos(Opts.VIS,curr.name,curr.visual);
     //msg+=sayPosition(Opts.EUC,curr.name,curr.X,curr.Y);
     //msg+=sayOptAndInfos(Opts.COL,curr.name,hex(curr.foreground));
     if(msg.length()>0)  
       mainServer.write(msg);
-    curr.flags=0;//Whatever was there, was sent
+    curr.flags=0; //Whatever was there, was sent
   }
     
-  wholeUpdateRequested=false;// Now all is sent.
+  wholeUpdateRequested=false; // Now all is sent.
   loop();
 }
 
 /// This function sends all recent changes to all clients.
 public void sendUpdateOfChangedAgents()
 {
-  noLoop();//KIND OF CRITICAL SECTION!?!?!
+  noLoop(); //KIND OF CRITICAL SECTION ;-)
   
   GameObject curr=null;
   
   for(int i=0;i<gameWorld.length;i++)
   if((curr=gameWorld[i])!=null
-  && (curr.flags & Masks.ALL_CHNG)!=0
+  && (curr.flags & Masks.ALL_CHANGED)!=0
   )
   {
       String msg=curr.sayState();
@@ -1089,25 +1094,25 @@ public void sendUpdateOfChangedAgents()
       if(msg.length()>0)  
         mainServer.write(msg);
  
-     curr.flags=0;//Whatever was there, was sent
+     curr.flags=0; //Whatever was there, was sent
   }
   
-  loop();
+  loop(); //END of CRITICAL SECTION ;-)
 }
 
 /// It reads pending messages from all players
 public void readMessagesFromPlayers()
 {
-  for(int i = 0; i < players.length; i++) // Always in the same order :-/ TODO?
+  for(int i = 0; i < players.length; i++) // Always in the same order! REIMPLEMENT WHEN IT MAY BE IMPORTANT!
   if(players[i]!=null 
   && players[i].netLink !=null
   && players[i].netLink.available()>0)
   {
-        if(DEBUG>1) print("Server is reciving from",players[i].name,":");
-        String msg = players[i].netLink.readStringUntil(Opcs.EOR);
-        if(msg==null || msg.equals("") || msg.charAt(msg.length()-1)!=Opcs.EOR)
+        if(DEBUG>1) print("Server is receiving from",players[i].name,":");
+        String msg = players[i].netLink.readStringUntil(OpCd.EOR);
+        if(msg==null || msg.equals("") || msg.charAt(msg.length()-1)!=OpCd.EOR)
         {
-          println("Server recived invalid message. IGNORED");
+          println("Server received invalid message. IGNORED");
           return;
         }
         if(DEBUG>1) println(msg);
@@ -1130,7 +1135,7 @@ public void initialiseGame()
     tmp.visual=plants[1];
     tmp.foreground=color(PApplet.parseInt(random(100)),128+PApplet.parseInt(random(128)),100+PApplet.parseInt(random(100)));
     if(DEBUG>2) println(hex(tmp.foreground));
-    tmp.flags=Masks.ALL_CHNG;
+    tmp.flags=Masks.ALL_CHANGED;
     gameWorld[i]=tmp;
   }
 }
@@ -1143,9 +1148,9 @@ public void stepOfGameMechanics()
   && players[i].netLink !=null
   && players[i].netLink.active())
   {
-    //players[i].X = (players[i].X+1)%255;//changes the value based on which client number it has (the higher client number, the fast it changes).
+    //players[i].X = (players[i].X+1)%255; //changes the value based on which client number it has (the higher client number, the fast it changes).
     //String msg=sayPosition(Opts.EUC,Opts.sYOU,players[i].X,players[i].Y);
-    //players[i].netLink.write(msg);//writes to the right client (using the byte type is not necessary)
+    //players[i].netLink.write(msg); //writes to the right client (using the byte type is not necessary)
     //players[i].changed=MOVED_MSK;
     fill(players[i].foreground); textAlign(LEFT,TOP);
     text(players[i].name,0,15*(i+1));
@@ -1174,26 +1179,26 @@ public void checkCollisions()
     int indexOfTouched=findCollision(gameWorld,indexInGameWorld,0,false);
     if(indexOfTouched>=0) //COLLISION DETECTED!
     {
-        if(players[i].interactionObject!=gameWorld[indexOfTouched])//New interaction
+        if(players[i].interactionObject!=gameWorld[indexOfTouched]) //New interaction
         {
           if(DEBUG>0)
-            println("New touch beetween",gameWorld[indexInGameWorld].name,"&",gameWorld[indexOfTouched].name);
+            println("New touch between",gameWorld[indexInGameWorld].name,"&",gameWorld[indexOfTouched].name);
           players[i].interactionObject=gameWorld[indexOfTouched];
-          String[] possib=gameWorld[indexOfTouched].possibilities();
+          String[] possible=gameWorld[indexOfTouched].possibilities();
           String msg;
-          if(possib==null)
-            msg=sayTouch(gameWorld[indexOfTouched].name,0,"defo");//DISTANCE IS IGNORED in THIS GAME
+          if(possible==null)
+            msg=sayTouch(gameWorld[indexOfTouched].name,0,"defo"); //DISTANCE IS IGNORED in THIS EXAMPLE GAME
           else
-            msg=sayTouch(gameWorld[indexOfTouched].name,0,possib);
+            msg=sayTouch(gameWorld[indexOfTouched].name,0,possible);
           players[i].netLink.write(msg);
         }
     }
     else
     {
-      //println("No collision for",gameWorld[indexInGameWorld].name);//DEBUG ONLY!
+      //println("No collision for",gameWorld[indexInGameWorld].name); //DEBUG ONLY!
       if(players[i].interactionObject!=null)
       {
-         String msg=Opcs.say(Opcs.DTC,players[i].interactionObject.name);
+         String msg=OpCd.say(OpCd.DTC,players[i].interactionObject.name);
          players[i].interactionObject=null;
          players[i].netLink.write(msg);
       }
@@ -1211,54 +1216,57 @@ public void serverGameDraw()
 {
   background(0);
   fill(255,0,255);textAlign(LEFT,TOP);
-  text(players.length,0,0);//Displays how many clients have connected to the server
+  text(players.length,0,0); //Displays how many clients have connected to the server
   
-  visualise2D(Xmargin,0,width-Xmargin,height);// current state of the game
+  visualise2D(x_margin,0,width-x_margin,height); // current state of the game
   
-  readMessagesFromPlayers();// Do what players decided to do (if doable)
+  readMessagesFromPlayers(); // Do what players decided to do (if doable)
   
-  stepOfGameMechanics();//Do what is independent of player actions!
+  stepOfGameMechanics(); //Do what is independent of player actions!
   
-  if(wholeUpdateRequested)//If any client requested update
+  if(wholeUpdateRequested) //If any client requested update
   {
      sendWholeUpdate(); //Send whole update to clients
   }
   else
   {
-     sendUpdateOfChangedAgents();// Send to clients only last changed things
+     sendUpdateOfChangedAgents(); // Send to clients only last changed things
   }
   
-  checkCollisions();// checks for collisions and sends information about them to clients
+  checkCollisions(); // checks for collisions and sends information about them to clients
 }
 
 /// This function interprets message from a particular player
 public void interpretMessage(String msg,Player player)
 {
   switch(msg.charAt(0)){
-  // Future use
-  case Opcs.OBJ: // From a neighboring server?
-  case Opcs.GET: // RESOURCES NOT IMPLEMENTED FOR NOW! TODO
+  // Future use NOT IMPLEMENTED FOR NOW!
+  case OpCd.OBJ: // What about multiserver games? Objects from a neighboring server?
+  case OpCd.GET: // GET global RESOURCES by name.
+  case OpCd.BIN: // GET binary hunk of RESOURCES
+  case OpCd.TXT: // GET TeXT hunk of RESOURCES
   //Obliq. part
-  default: println("Server recived from",player.name,"UNKNOWN MESSAGE TYPE:",msg.charAt(0));break;
-  case Opcs.EOR: println("Server recived empty record from",player.name); break;
-  case Opcs.HEL: 
-  case Opcs.IAM: // SHOULD NOT APPEAR WHEN REGULAR MESSAGE LOOP IS ACTIVE!
-      println("Server recived from",player.name,"UNEXPECTED MESSAGE TYPE:",msg.charAt(0));break;
+  default: println("Server received from",player.name,"UNKNOWN MESSAGE TYPE:",msg.charAt(0));break;
+  case OpCd.EOR: println("Server received empty record from",player.name); break;
+  case OpCd.HEL: 
+  case OpCd.IAM: // SHOULD NOT APPEAR WHEN REGULAR MESSAGE LOOP IS ACTIVE!
+      println("Server received from",player.name,"UNEXPECTED MESSAGE TYPE:",msg.charAt(0));break;
   //Normal interactions
-  case Opcs.UPD: 
+  case OpCd.UPD: 
                   wholeUpdateRequested=true; 
                 break;
-  case Opcs.NAV:{ String direction=decodeOptAndInf(msg);     
+  case OpCd.NAV:{ String direction=decodeOptAndInf(msg);     
                   playerMove(direction,player);
                   player.flags|=Masks.MOVED;
                 } break;
-  case Opcs.ACT:{ String action=decodeOptAndInf(msg);     
+  case OpCd.ACT:{ String action=decodeOptAndInf(msg);     
                   playerAction(action,player);
                 } break;
-  }//END OF MESSAGE TYPES SWITCH
+  } //END OF MESSAGE TYPES SWITCH
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
@@ -1272,3 +1280,4 @@ public void interpretMessage(String msg,Player player)
     }
   }
 }
+

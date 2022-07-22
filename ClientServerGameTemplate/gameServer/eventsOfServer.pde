@@ -17,16 +17,16 @@ void keyPressed()
 /// Event handler called when a client connects to server
 void serverEvent(Server me,Client newClient)
 {
-  noLoop();//KIND OF CRITICAL SECTION!!!
+  noLoop(); //KIND OF CRITICAL SECTION!!!
   
   while(newClient.available() <= 0) delay(10);
   
   if(DEBUG>1) print("Server is READING FROM CLIENT: ");
-  String msg=newClient.readStringUntil(Opcs.EOR);
+  String msg=newClient.readStringUntil(OpCd.EOR);
   if(DEBUG>1) println(msg);
   String playerName=decodeHELLO(msg);
   
-  msg=sayHELLO(Opcs.name);
+  msg=sayHELLO(OpCd.name);
   if(DEBUG>1) println("Server is SENDING: ",msg);
   newClient.write(msg);
     
@@ -42,7 +42,7 @@ void disconnectEvent(Client someClient)
   if(DEBUG>2) println("Disconnect event happened on server.");
   if(DEBUG>2) println(mainServer,someClient);
   
-  noLoop();//KIND OF CRITICAL SECTION!!!
+  noLoop(); //KIND OF CRITICAL SECTION!!!
   
   for(int i=0;i<players.length;i++)
   if(players[i].netLink == someClient )
@@ -69,6 +69,8 @@ void disconnectEvent(Client someClient)
 //}
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
+

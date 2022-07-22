@@ -17,36 +17,36 @@ import java.io.IOException;
 
 public class gameClient extends PApplet {
 
-///  Client for gameServer - setup() & draw() SOURCE FILE
-//*//////////////////////////////////////////////////////////
+///  Client for gameServer - MAIN SOURCE FILE (setup() & draw() defined here)
+//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-/// Losely based on:
+/// Loosely based on Processing example:
 /// --> https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
 //
 
 
 static int DEBUG=0;    ///< Level of debug logging (have to be static because of use inside static functions)
 
-int VIEWMESG=0;        ///< Game protocol message tracing level
+int VIEW_MSG=0;        ///< Game protocol message tracing level
 int INTRO_FRAMES=3;    ///< How long the intro lasts?
 int DEF_FRAME_RATE=60; ///< Desired frame rate during game
 
-String  playerName=""; ///< ASCII IDENTIFIER OF THE PLAYER. It is from player.txt file.
+String  playerName=""; ///< ASCII IDENTIFIER OF THE PLAYER. It is from "player.txt" file.
 
 Client  myClient=null; ///< Network client object representing connection to the server
     
 /// Startup of a game client. Still not connected after that.
 public void setup() 
 {
-      //Init window in particular size!
-  loadSettings();   //Loads playerName from the 'player.txt' file!
+       //Init window in particular size!
+  loadSettings();    //Loads playerName from the 'player.txt' file!
   println("PLAYER:",playerName);
   println("Expected server IP:",serverIP,"\nExpected server PORT:",servPORT);
-  frameRate(1);     //Only for intro (->INTRO_FRAMES) and establishing connection time.
-  VIS_MIN_MAX=false;//Option for visualisation - with min/max value
-  KEEP_ASPECT=true; //Option for visualisation - with proportional aspect ratio
+  frameRate(1);      //Only for intro (->INTRO_FRAMES) and establishing connection time.
+  VIS_MIN_MAX=false; //Option for visualisation - with min/max value
+  KEEP_ASPECT=true;  //Option for visualisation - with proportional aspect ratio
   INFO_LEVEL=Masks.SCORE;    //Information about objects (-1 - no information printed)
-  //textSize(16);   //... not work well with default font :-(
+  //textSize(16);    //... not work well with default font :-(
 }
 
 /// A function that is triggered many times per second, 
@@ -90,32 +90,32 @@ public void whenConnectedToServer()
 {
     println(playerName,"connected!");
     String msg=sayHELLO(playerName);
-    if(VIEWMESG>0 || DEBUG>1) println(playerName,"is sending:\n",msg);
+    if(VIEW_MSG>0 || DEBUG>1) println(playerName,"is sending:\n",msg);
     myClient.write(msg);
     
     while(myClient.available() <= 0) delay(10);
     
     if(DEBUG>1) print(playerName,"is READING FROM SERVER:");
-    msg=myClient.readStringUntil(Opcs.EOR);
-    if(VIEWMESG>0 || DEBUG>1) println(msg);
+    msg=myClient.readStringUntil(OpCd.EOR);
+    if(VIEW_MSG>0 || DEBUG>1) println(msg);
     
     String serverType=decodeHELLO(msg);
-    if(serverType.equals(Opcs.name) )
+    if(serverType.equals(OpCd.name) )
     {
-      surface.setTitle(serverIP+"//"+Opcs.name+":"+playerName);
+      surface.setTitle(serverIP+"//"+OpCd.name+":"+playerName);
       gameWorld=new GameObject[1];
-      gameWorld[0]=new Player(myClient,playerName,10,10,0,1);//float iniX,float iniY,float iniZ,float iniRadius
+      gameWorld[0]=new Player(myClient,playerName,10,10,0,1); //float iniX,float iniY,float iniZ,float iniRadius
       gameWorld[0].visual="???";
       indexOfMe=0;
-      msg=Opcs.say(Opcs.UPD);
+      msg=OpCd.say(OpCd.UPD);
       if(DEBUG>1) print(playerName,"is SENDING:");
-      if(VIEWMESG>0 || DEBUG>1) println(msg);
+      if(VIEW_MSG>0 || DEBUG>1) println(msg);
       myClient.write(msg);
     }
     else
     {
       println("Protocol mismatch: '"
-              +serverType+"'<>'"+Opcs.name+"'");
+              +serverType+"'<>'"+OpCd.name+"'");
       myClient.stop();
       exit();
     }
@@ -136,10 +136,10 @@ public void drawTryConnect()
    }
    else
    {
-      noLoop();//???
-      whenConnectedToServer();//If you can't talk to the server then it doesn't come back from this function!
-      frameRate(DEF_FRAME_RATE);//OK, it work, go fast!
-      loop();
+      noLoop(); //KIND OF CRITICAL SECTION?
+      whenConnectedToServer();   //If you can't talk to the server then it doesn't come back from this function!
+      frameRate(DEF_FRAME_RATE); //OK, it work, go fast!
+      loop(); //END OF "CRITICAL SECTION"
    }
 }
         
@@ -154,10 +154,11 @@ public void loadSettings()
     e.printStackTrace();
     playerName = "Unknown_player";
   }
-  //reader.close();//Exception?
+  //reader.close(); //Exception?
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
@@ -167,7 +168,7 @@ public void loadSettings()
 StringDict inventory=new StringDict();
 
 /// Simple object type management
-public void implementObjectMenagement(String[] cmd)
+public void implementObjectManagement(String[] cmd) ///< global?
 {
   if(cmd[0].equals("del"))
      removeObject(gameWorld,cmd[2]);
@@ -175,7 +176,7 @@ public void implementObjectMenagement(String[] cmd)
   if(cmd[0].equals("new"))
   {
      if(DEBUG>1) println("type:'"+cmd[2]+"' object:'"+cmd[1]+"'");
-     inventory.set(cmd[1],cmd[2]);//println(inventory.get(cmd[1]));
+     inventory.set(cmd[1],cmd[2]); //println(inventory.get(cmd[1]));
   }
   else
   println(playerName,"UNKNOWN object management command:",cmd[0]);
@@ -195,25 +196,25 @@ public GameObject makeGameObject(String name,float X,float Y,float Z,float R)
   }
 }
 
-/// Handle changes in visualisation type of any game object
-public void visualisationChanged(GameObject[] table,String name,String vtype)
+/// Handling changes in visual representation of any game object.
+public void visualisationChanged(GameObject[] table,String name,String visual_repr) ///< global?
 {
-  int pos=(name.equals(Opcs.sYOU)?indexOfMe:localiseByName(table,name));
-  if(pos==-1)//FIRST TIME
+  int pos=(name.equals(OpCd.sYOU)?indexOfMe:localiseByName(table,name));
+  if(pos==-1) //FIRST TIME
   {
     gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);
     pos=gameWorld.length-1;
     gameWorld[pos]=makeGameObject(name,0,0,0,0);
   }
-  gameWorld[pos].visual=vtype;
+  gameWorld[pos].visual=visual_repr;
 }
 
 /// Handle changes in colors of any game object
 public void colorChanged(GameObject[] table,String name,String hexColor)
 {
   int newColor=unhex(hexColor);
-  int pos=(name.equals(Opcs.sYOU)?indexOfMe:localiseByName(table,name));
-  if(pos==-1)//FIRST TIME
+  int pos=(name.equals(OpCd.sYOU)?indexOfMe:localiseByName(table,name));
+  if(pos==-1) //FIRST TIME
   {
     gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);
     pos=gameWorld.length-1;
@@ -226,8 +227,8 @@ public void colorChanged(GameObject[] table,String name,String hexColor)
 /// Handle changes in position of any game object
 public void positionChanged(GameObject[] table,String name,float[] inpos)
 {
-  int pos=(name.equals(Opcs.sYOU)?indexOfMe:localiseByName(table,name));
-  if(pos==-1)//FIRST TIME
+  int pos=(name.equals(OpCd.sYOU)?indexOfMe:localiseByName(table,name));
+  if(pos==-1) //FIRST TIME
   {
     gameWorld = (GameObject[]) expand(gameWorld,gameWorld.length+1);
     pos=gameWorld.length-1;
@@ -237,8 +238,8 @@ public void positionChanged(GameObject[] table,String name,float[] inpos)
   }
   else
   {
-    gameWorld[pos].X=inparr2[0];
-    gameWorld[pos].Y=inparr2[1];
+    gameWorld[pos].X=inPar2[0];
+    gameWorld[pos].Y=inPar2[1];
     if(inpos.length==3)
       gameWorld[pos].Z=inpos[2];
   }
@@ -258,43 +259,48 @@ public void stateChanged(GameObject[] table,String objectName,String field,Strin
   {
     println(objectName,"not found!");
     println("DATA INCONSISTENCY! CALL SERVER FOR FULL UPDATE");
-    String msg=Opcs.say(Opcs.UPD);
+    String msg=OpCd.say(OpCd.UPD);
     if(DEBUG>1) print(playerName,"is SENDING:");
-    if(VIEWMESG>0 || DEBUG>1) println(msg);
+    if(VIEW_MSG>0 || DEBUG>1) println(msg);
     myClient.write(msg);
   }  
 }
 
-/// Handling for getting the avatar in contact with the game object
-public void beginInteraction(GameObject[] table,String[]  objectAndActionsNames)
+/// Handling for getting the avatar in contact with the game object.
+/// @parametr distance is not used in this example method, 
+/// but may be used for more complicated interactions.
+public void beginInteraction(GameObject[] table,String[]  objectAndActionsNames,float distance)
 {
   int pos=localiseByName(table,objectAndActionsNames[0]);
+  
   if(pos>=0)
   {
     if( table[indexOfMe] instanceof ActiveGameObject )
     {
-      ActiveGameObject me=(ActiveGameObject)(table[indexOfMe]); assert me!=null;
+      ActiveGameObject me=(ActiveGameObject)(table[indexOfMe]);                   assert me!=null;
       if(me.interactionObject!=null) me.interactionObject.flags^=Masks.TOUCHED;
       me.interactionObject=table[pos];
     }
     table[pos].flags|=Masks.TOUCHED;
+    if(DEBUG>1)
+      println(objectAndActionsNames[0],".distance:",distance); //DISTANCE NOT USED FOR NOW!
   }
   else
   {
     println(objectAndActionsNames[0],"not found!");
-    println("DATA INCONSISTENCY! CALL SERVER FOR FULL UPDATE");
-    String msg=Opcs.say(Opcs.UPD);
+    println("DATA INCONSISTENCY! FULL UPDATE IS NEEDED!");
+    String msg=OpCd.say(OpCd.UPD);
     if(DEBUG>1) print(playerName,"is SENDING:");
-    if(VIEWMESG>0 || DEBUG>1) println(msg);
+    if(VIEW_MSG>0 || DEBUG>1) println(msg);
     myClient.write(msg);
   }
 }
 
-/// Handling for getting out of the avatar's contact with the game object
+/// Handling for getting out of the avatar's contact with the game object.
 public void finishInteraction(GameObject[] table,String objectName)
 {
   int pos=localiseByName(table,objectName);
-  if(pos>=0)//It may happen that in the meantime it has disappeared
+  if(pos>=0) //It may happen that in the meantime it has disappeared
   {
     table[pos].flags^=Masks.TOUCHED;
   }
@@ -307,85 +313,87 @@ public void finishInteraction(GameObject[] table,String objectName)
 }
 
 // Arrays for decoding more complicated messages
-float[] inparr1=new float[1];
-float[] inparr2=new float[2];
-float[] inparr3=new float[3];
-String[] instr1=new String[1];
-String[] instr2=new String[2];
-String[] instr3=new String[3];
+float[]  inPar1=new  float[1]; ///< global?
+float[]  inPar2=new  float[2]; ///< global?
+float[]  inPar3=new  float[3]; ///< global?
+String[] inStr1=new String[1]; ///< global?
+String[] inStr2=new String[2]; ///< global?
+String[] inStr3=new String[3]; ///< global?
 
-/// Handling interpretation of messages from server
+/// Handling interpretation of messages from server (on client side)
 public void interpretMessage(String msg)
 {
   switch(msg.charAt(0)){
-  //Obliq. part
-  default: println(playerName,"recived UNKNOWN MESSAGE TYPE:",msg.charAt(0));break;
-  case Opcs.EOR: if(DEBUG>0) println(playerName,"recived NOPE");break;
-  case Opcs.HEL:
-  case Opcs.IAM: println(playerName,"recived UNEXPECTED MESSAGE TYPE:",msg.charAt(0));break;
-  case Opcs.ERR: { String emessage=decodeOptAndInf(msg);
-                   println(playerName,"recived error:\n\t",emessage);
+  default: println(playerName,"received UNKNOWN MESSAGE TYPE:",msg.charAt(0));break;
+  // Obligatory messages:
+  case OpCd.EOR: if(DEBUG>0) println(playerName,"received NOPE");break;
+  case OpCd.HEL:
+  case OpCd.IAM: println(playerName,"received UNEXPECTED MESSAGE TYPE:",msg.charAt(0));break;
+  case OpCd.ERR: { String error_msg=decodeOptAndInf(msg);
+                   println(playerName,"received error:\n\t",error_msg);
                   } break;
-  case Opcs.OBJ: { String[] cmd=decodeObjectMng(msg);
-                   implementObjectMenagement(cmd);
+  case OpCd.OBJ: { String[] cmd=decodeObjectMng(msg);
+                   implementObjectManagement(cmd);
                  } break;
-  //Normal interactions
-  case Opcs.YOU: { playerName=decodeOptAndInf(msg);
-                 if(DEBUG>1) println(playerName,"recived confirmation from the server!");
-                 surface.setTitle(serverIP+"//"+Opcs.name+";"+playerName);
+  // Normal interactions:
+  case OpCd.YOU: { playerName=decodeOptAndInf(msg);
+                 if(DEBUG>1) println(playerName,"received confirmation from the server!");
+                 surface.setTitle(serverIP+"//"+OpCd.name+";"+playerName);
                  } break;
-  case Opcs.VIS: { String objectName=decodeInfos(msg,instr1);
-                   if(DEBUG>1) println(objectName,"change visualisation into",instr1[0]); 
-                   visualisationChanged(gameWorld,objectName,instr1[0]);
+  case OpCd.VIS: { String objectName=decodeInfos(msg,inStr1);
+                   if(DEBUG>1) println(objectName,"change visualisation into",inStr1[0]); 
+                   visualisationChanged(gameWorld,objectName,inStr1[0]);
                  } break;
-  case Opcs.COL: { String objectName=decodeInfos(msg,instr1);
-                   if(DEBUG>1) println(objectName,"change color into",instr1[0]); 
-                   colorChanged(gameWorld,objectName,instr1[0]);
+  case OpCd.COL: { String objectName=decodeInfos(msg,inStr1);
+                   if(DEBUG>1) println(objectName,"change color into",inStr1[0]); 
+                   colorChanged(gameWorld,objectName,inStr1[0]);
                  } break;   
-  case Opcs.STA: {
-                   String objectName=decodeInfos(msg,instr2);
-                   if(DEBUG>2) println(objectName,"change state",instr2[0],"<==",instr2[1]);
-                   stateChanged(gameWorld,objectName,instr2[0],instr2[1]);
+  case OpCd.STA: {
+                   String objectName=decodeInfos(msg,inStr2);
+                   if(DEBUG>2) println(objectName,"change state",inStr2[0],"<==",inStr2[1]);
+                   stateChanged(gameWorld,objectName,inStr2[0],inStr2[1]);
                  } break;
-  // interactions               
-  case Opcs.TCH: { String[] inputs;
+  // Other interactions:
+  case OpCd.TCH: { String[] inputs;
                    switch(msg.charAt(1)){
-                   case '1':inputs=instr2;break;
-                   case '2':inputs=instr3;break;
-                   default: inputs=new String[msg.charAt(1)-'0'+1];//NOT TESTED TODO!
+                   case '1':inputs=inStr2;break;
+                   case '2':inputs=inStr3;break;
+                   default: 
+                         inputs=new String[msg.charAt(1)-'0'+1]; //NOT TESTED?
+                         break;
                    }
                    float dist=decodeTouch(msg,inputs);
                    if(DEBUG>1) println(playerName,"touched",inputs[0],inputs[1]);
-                   beginInteraction(gameWorld,inputs);
+                   beginInteraction(gameWorld,inputs,dist);
                  }break;
-  case Opcs.DTC: { String objectName=decodeOptAndInf(msg);
+  case OpCd.DTC: { String objectName=decodeOptAndInf(msg);
                  if(DEBUG>1) println(playerName,"detached from",objectName);
-                 finishInteraction(gameWorld,objectName);//--> beginInteraction(inputs);
+                 finishInteraction(gameWorld,objectName); //see: beginInteraction(...);
                  }break;                  
   //... rest of message types
-  case Opcs.EUC: if(msg.charAt(1)=='1')
+  case OpCd.EUC: if(msg.charAt(1)=='1')
                  {
-                   //String who=decodePosition(msg,inparr1);//print(who);
+                   //String who=decodePosition(msg,inparr1); //print(who);
                    //positionChanged(gameWorld,who,inparr1);
                    println("Invalid position message:",msg);
                  }
                  else
                  if(msg.charAt(1)=='2')
                  {
-                   String who=decodePosition(msg,inparr2);//print(who);
-                   positionChanged(gameWorld,who,inparr2);
+                   String who=decodePosition(msg,inPar2); //print(who);
+                   positionChanged(gameWorld,who,inPar2);
                  }
                  else
                  if(msg.charAt(1)=='3')
                  {
-                   String who=decodePosition(msg,inparr3);//print(who);
-                   positionChanged(gameWorld,who,inparr3);
+                   String who=decodePosition(msg,inPar3); //print(who);
+                   positionChanged(gameWorld,who,inPar3);
                  }
                  else
                  {
                    println("Invalid dimension of position message",msg.charAt(1));
                  }
-  }//END OF MESSAGE TYPES SWITCH
+  } //END OF MESSAGE TYPES SWITCH
 }
 
 /// This function performs communication with server & visualisation of the game world 
@@ -401,17 +409,17 @@ public void clientGameDraw()
     {
       if (myClient!=null && myClient.available() > 0) 
       {
-        if(DEBUG>2) print(playerName,"is reciving:");
-        String msg = myClient.readStringUntil(Opcs.EOR);
-        if(VIEWMESG>0 || DEBUG>2) println(msg);
+        if(DEBUG>2) print(playerName,"is receiving:");
+        String msg = myClient.readStringUntil(OpCd.EOR);
+        if(VIEW_MSG>0 || DEBUG>2) println(msg);
         
-        if(msg==null || msg.equals("") || msg.charAt(msg.length()-1)!=Opcs.EOR)
+        if(msg==null || msg.equals("") || msg.charAt(msg.length()-1)!=OpCd.EOR)
         {
-          println(playerName,"recived invalid message. IGNORED");
+          println(playerName,"received invalid message. IGNORED");
           return;
         }
         
-        interpretMessage(msg);// Handling interpretation
+        interpretMessage(msg); // Handling interpretation
       }
       else
       break;
@@ -419,10 +427,11 @@ public void clientGameDraw()
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
-///  gameClient - keyboard input & other asynchronic events 
+///  gameClient - keyboard input & other asynchronous events
 //*//////////////////////////////////////////////////////////// 
 
 /// Keyboard events - mostly control of the avatar
@@ -436,7 +445,7 @@ public void keyPressed()
     return;
   }
   
-  if(key==65535)//arrows  etc...
+  if(key==65535) //arrows  etc...
   {
     if(DEBUG>2) println("keyCode:",keyCode);
     switch(keyCode){
@@ -445,34 +454,34 @@ public void keyPressed()
     case LEFT: key='a'; break;
     case RIGHT: key='d'; break;
     default:
-    return;//Other special keys is ignored in this template
-    }//end of switch
+    return; //Other special keys is ignored in this template
+    } //end of switch
   }
   
   String msg="";
   switch(key){
-  default:println(key,"is not defined for the game client");return;
-  //Navigation
+  default:println(key,"is not defined for the game client"); return;
+  // Navigation
   case 'w':
-  case 'W': msg=Opcs.say(Opcs.NAV,"f"); break;
+  case 'W': msg=OpCd.say(OpCd.NAV,"f"); break;
   case 's':
-  case 'S': msg=Opcs.say(Opcs.NAV,"b"); break;
+  case 'S': msg=OpCd.say(OpCd.NAV,"b"); break;
   case 'a':
-  case 'A': msg=Opcs.say(Opcs.NAV,"l"); break;
+  case 'A': msg=OpCd.say(OpCd.NAV,"l"); break;
   case 'd':
-  case 'D': msg=Opcs.say(Opcs.NAV,"r"); break;
-  //Perform interaction:
+  case 'D': msg=OpCd.say(OpCd.NAV,"r"); break;
+  // Perform interaction:
   case ' ': {
-              ActiveGameObject me=(ActiveGameObject)(gameWorld[indexOfMe]); assert me!=null;
+              ActiveGameObject me=(ActiveGameObject)(gameWorld[indexOfMe]);                             assert me!=null;
               if(me.interactionObject!=null)
               {
-                msg=Opcs.say(Opcs.ACT,"defo"); 
+                msg=OpCd.say(OpCd.ACT,"defo"); 
               }
             } break;
   case ESC: println(key,"is ignored for the game client");key=0; return;
-}//END of SWITCH
+} //END of SWITCH
 
-  if(VIEWMESG>0) println(playerName,"is sending:\n",msg);
+  if(VIEW_MSG>0) println(playerName,"is sending:\n",msg);
   myClient.write(msg);
 }
 
@@ -480,7 +489,7 @@ public void keyPressed()
 public void disconnectEvent(Client client) 
 {
   background(0);
-  print(playerName,"disconnected from server.");      assert client==myClient;
+  print(playerName,"disconnected from server.");                                                assert client==myClient;
   myClient=null;
   frameRate(1);
 }
@@ -493,8 +502,8 @@ public void serverEvent(Server server,Client client)
 
 /// ClientEvent message is generated when the 
 /// server sends data to an existing client.
-/// This is alternative, asynchronous way to
-/// read messages from the server.
+/// @function clientEvent is alternative, asynchronous way
+/// to read messages from the server.
 //void clientEvent(Client client) 
 //{
   //println(playerName,"got clientEvent()"); 
@@ -505,6 +514,7 @@ public void serverEvent(Server server,Client client)
 //*/////////////////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*/////////////////////////////////////////////////////////////////////////////////////////
 /// Game classes and its basic behaviours
 //* Use link_commons.sh script for make symbolic connections to gameServer & gameClient directories
@@ -516,11 +526,11 @@ float initialMaxX=100;          ///< Initial horizontal size of game "board"
 float initialMaxY=100;          ///< Initial vertical size of game "board" 
 int     indexOfMe=-1;           ///< Index of object visualising the client or the server supervisor
 
-// For very basic visualistion
+// For very basic visualisation
 String[] plants= {"_","O","...\nI","_\\|/_\nI ","|/",":","☘️"}; ///< plants... 
-String[] avatars={".","^v^" ,"o^o","@","&","😃","😐"};///< peoples...
+String[] avatars={".","^v^" ,"o^o","@","&","😃","😐"}; ///< peoples...
 
-static abstract class Masks { //Changes of GameObject atributes (rather specific for server side)
+static abstract class Masks { //Changes of GameObject attributes (rather specific for server side)
 static final int VISSWITH   = unbinary("000000001"); ///< object is invisible (but in info level name is visible)
 static final int MOVED  = unbinary("000000010"); ///< object was moved (0x1)
 static final int VISUAL = unbinary("000000100"); ///< object changed its type of view
@@ -533,12 +543,12 @@ static final int ACTRAD = unbinary("010000000"); ///< object changed its radius 
 /// To visualize the interaction between background objects
 static final int TOUCHED= unbinary("1000000000000000"); ///<16bits
 // Composed masks below:
-static final int STATES   = HPOINT | SCORE | PASRAD | ACTRAD ;///< object changed its states
-static final int ALL_CHNG = MOVED | VISUAL | COLOR | STATES ; ///< All initial changes
-}//EndOfClass Masks 
+static final int ALL_STATES  = HPOINT | SCORE | PASRAD | ACTRAD ;     ///< Object changed any of its states
+static final int ALL_CHANGED = MOVED | VISUAL | COLOR | ALL_STATES ;  ///< All initial changes
+} //EndOfClass Masks
 
 // Options for visualisation 
-int     INFO_LEVEL =1 | Masks.SCORE;///< Visualisation with information about objects (name & score by default)
+int     INFO_LEVEL =1 | Masks.SCORE; ///< Visualisation with information about objects (name & score by default)
 boolean VIS_MIN_MAX=true;    ///< Visualisation with min/max value
 boolean KEEP_ASPECT=true;    ///< Visualisation with proportional aspect ratio
 
@@ -547,22 +557,23 @@ boolean KEEP_ASPECT=true;    ///< Visualisation with proportional aspect ratio
 /// this parts.
 abstract class implNeeded 
 { 
-  int flags=0;//!< Masks. alloved here
+  int flags=0; //!< Masks. allowed here
   
-  public String myClassName()//> Shortened class name (see: https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html)
+  public String myClassName() //!< Shortened class name (see: https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html)
   {
-    String typeStr=getClass().getName(); // TODO? Use getSimpleName() ?
-    int dolar=typeStr.indexOf("$"); //println(typeStr,dolar);
+    String typeStr=getClass().getName(); // Alternatively use 'getSimpleName()'
+    int dolar=typeStr.indexOf("$"); 
+    if(DEBUG!=0) println(typeStr,dolar);
     typeStr=typeStr.substring(dolar+1);
     return typeStr;
   }
-}//EndOfClass implNeeded
+} //EndOfClass implNeeded
 
 /// Representation of 3D position in the game world
 /// However, the value of Z is not always used.
 abstract class Position extends implNeeded
 {
-  float X,Y;//!< 2D coordinates
+  float X,Y; //!< 2D coordinates
   float Z;  //!< Even on a 2D board, objects can pass each other without collision.
   
   /// constructor
@@ -581,29 +592,31 @@ abstract class Position extends implNeeded
   {
     return dist(X,Y,Z,toWhat.X,toWhat.Y,toWhat.Z);
   }
-}//EndOfClass Position
+} //EndOfClass Position
 
 /// Representation of simple game object
 class GameObject extends Position
 {
-  String name;      //!< Each object has an individual identifier necessary for communication. Better short.
-  String visual="?";//!< Text representation of the visualization. The unicode character or the name of an external file.
-  int  foreground=0xff00ff00;//> Main color of object
+  String name;       //!< Each object has an individual identifier necessary for communication. Better short.
+  String visual="?"; //!< Text representation of the visualization. The unicode character or the name of an external file.
+  int  foreground=0xff00ff00; //> Main color of object
   
-  float  hpoints=1; //!< Health points
+  float  h_points=1; //!< Health points
   
-  float[] distances=null;      //!< Array of distances to other objects. Not always in use!
+  float[] distances=null; //!< Array of distances to other objects. Not always in use!
                                
-  float  passiveRadius=1;      //!< Radius of passive interaction
+  float  passiveRadius=1; //!< Radius of passive interaction
   
-  ///constructor
+  /// constructor
   GameObject(String iniName,float iniX,float iniY,float iniZ){ super(iniX,iniY,iniZ);
     name=iniName;
   }
   
+  /// Information, what object can do.
   /// @return: List of actions that this object can performed
   /*_interfunc*/ public String[] abilities() { return null;} 
   
+  /// Information on what can be done with the object.
   /// @return: List of actions that can be performed on this object
   /*_interfunc*/ public String[] possibilities() { return null;} 
   
@@ -612,13 +625,13 @@ class GameObject extends Position
   /// @return: true if field is found
   /*_interfunc*/ public boolean  setState(String field,String val)
   {
-    if(field.charAt(0)=='h' && field.charAt(1)=='p')//hp-points
+    if(field.charAt(0)=='h' && field.charAt(1)=='p') //hp-points
     {
-       hpoints=Float.parseFloat(val);
+       h_points=Float.parseFloat(val);
        return true;
     }
     else
-    if(field.charAt(0)=='p' && field.charAt(1)=='a' && field.charAt(2)=='s')//pas-Radius
+    if(field.charAt(0)=='p' && field.charAt(1)=='a' && field.charAt(2)=='s') //pas-Radius
     {
        passiveRadius=Float.parseFloat(val);
        return true;
@@ -633,15 +646,15 @@ class GameObject extends Position
    {
      String msg="";
      if((flags & Masks.VISUAL )!=0)
-        msg+=sayOptAndInfos(Opcs.VIS,name,visual);
+        msg+=sayOptAndInfos(OpCd.VIS,name,visual);
      if((flags & Masks.MOVED )!=0)  
-        msg+=sayPosition(Opcs.EUC,name,X,Y);
+        msg+=sayPosition(OpCd.EUC,name,X,Y);
      if((flags & Masks.COLOR  )!=0)
-        msg+=sayOptAndInfos(Opcs.COL,name,hex(foreground));
+        msg+=sayOptAndInfos(OpCd.COL,name,hex(foreground));
      if((flags & Masks.HPOINT )!=0) 
-        msg+=sayOptAndInfos(Opcs.STA,name,"hp",nf(hpoints)); 
+        msg+=sayOptAndInfos(OpCd.STA,name,"hp",nf(h_points)); 
      if((flags & Masks.PASRAD )!=0)
-        msg+=sayOptAndInfos(Opcs.STA,name,"pasr",nf(passiveRadius));
+        msg+=sayOptAndInfos(OpCd.STA,name,"pasr",nf(passiveRadius));
      return msg;
    }
   
@@ -658,12 +671,12 @@ class GameObject extends Position
       ret+=";pr:"+passiveRadius;
     return ret;
   }
-}//EndOfClass GameObject
+} //EndOfClass GameObject
 
 class ActiveGameObject extends GameObject
 {
-  float activeRadius=1;             //!< Radius for active interaction with others objects
-  GameObject interactionObject=null;//!< Only one in a time
+  float activeRadius=1;              //!< Radius for active interaction with others objects
+  GameObject interactionObject=null; //!< Only one in a time
   
   ///constructor
   ActiveGameObject(String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ);
@@ -674,7 +687,7 @@ class ActiveGameObject extends GameObject
   /// over the network (mostly)
   /*_interfunc*/ public boolean  setState(String field,String val)
   {
-    if(field.charAt(0)=='a' && field.charAt(1)=='c' && field.charAt(2)=='t')//act-Radius
+    if(field.charAt(0)=='a' && field.charAt(1)=='c' && field.charAt(2)=='t') //act-Radius
     {
        activeRadius=Float.parseFloat(val);
        return true;
@@ -689,10 +702,10 @@ class ActiveGameObject extends GameObject
   {
      String msg=super.sayState();
      if((flags & Masks.ACTRAD )!=0) 
-        msg+=sayOptAndInfos(Opcs.STA,name,"actr",nf(activeRadius));
+        msg+=sayOptAndInfos(OpCd.STA,name,"actr",nf(activeRadius));
      return msg;
   }  
-}//EndOfClass ActiveGameObject
+} //EndOfClass ActiveGameObject
 
 /// Representation of generic player
 class Player extends ActiveGameObject
@@ -700,7 +713,7 @@ class Player extends ActiveGameObject
   float  score=0;  //!< Result
   Client netLink;  //!< Network connection to client application
   
-  int    indexInGameWorld=-1;//!< Index/shortcut to game board array/container
+  int    indexInGameWorld=-1; //!< Index/shortcut to game board array/container
 
   ///constructor
   Player(Client iniClient,String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ,iniRadius);
@@ -712,7 +725,7 @@ class Player extends ActiveGameObject
   /// @return: true if field is found
   /*_interfunc*/ public boolean  setState(String field,String val)
   {
-    if(field.charAt(0)=='s' && field.charAt(1)=='c')//sc-ore
+    if(field.charAt(0)=='s' && field.charAt(1)=='c') //sc-ore
     {
        score=Float.parseFloat(val);
        return true;
@@ -727,7 +740,7 @@ class Player extends ActiveGameObject
   {
      String msg=super.sayState();
      if((flags & Masks.SCORE )!=0) 
-        msg+=sayOptAndInfos(Opcs.STA,name,"sc",nf(score));
+        msg+=sayOptAndInfos(OpCd.STA,name,"sc",nf(score));
      return msg;
   }  
   
@@ -741,7 +754,7 @@ class Player extends ActiveGameObject
     return ret;
   }
   
-}//EndOfClass Player
+} //EndOfClass Player
 
 /// Determines the index of the object with the specified proper name 
 /// in an array of objects or players. 
@@ -760,8 +773,8 @@ public int localiseByName(GameObject[] table,String name)
   return -1;
 }
 
-/// It removes object reffered by name from the table.
-/// The object may remains somowhere else, so no any destruction will be performed.
+/// It removes object referred by name from the table.
+/// The object may remains somewhere else, so no any destruction will be performed.
 public void removeObject(GameObject[] table,String name)
 {
   int index=localiseByName(table,name);
@@ -772,11 +785,11 @@ public void removeObject(GameObject[] table,String name)
 /// 'indexOfMoved' is the index of the object for which we check for collisions.
 /// The first time 'startIndex' should be 0, but thanks to this parameter 
 /// you can continue searching for more collisions.
-/// Whem withZ parameter is false, only 2D distance is calculated.
-/// @returns: index or -1 if nothing collidend with object reffered by indexOfMoved
+/// When 'withZ' parameter is false, only 2D distance is calculated.
+/// @returns: index or -1 if nothing collided with object referred by 'indexOfMoved'
 public int findCollision(GameObject[] table,int indexOfMoved,int startIndex,boolean withZ)
 {
-  float activeRadius=-1;//By default active radius is disabled
+  float activeRadius=-1; //By default active radius is disabled
   
   //Is moved object of any active type?
   ActiveGameObject active=(ActiveGameObject)(table[indexOfMoved]);
@@ -799,7 +812,7 @@ public int findCollision(GameObject[] table,int indexOfMoved,int startIndex,bool
     if(activeRadius>0 && dist<=activeRadius+table[i].passiveRadius)
     return i; //ALSO DETECTED
   }
-  return -1;//NO COLLISION DETECTED!
+  return -1; //NO COLLISION DETECTED!
 }
 
 /// Prepares information about the types and names 
@@ -902,7 +915,7 @@ public void visualise2D(float startX,float startY,float width,float height)
 
 /// Moves allowed for the player. 
 /// Intended to be used on the server side.
-/// @return: false if dir string contains unknow command, otherwise true
+/// @return: false if dir string contains unknown command, otherwise true
 public boolean playerMove(String dir,Player player)
 {
   switch(dir.charAt(0)){
@@ -913,9 +926,9 @@ public boolean playerMove(String dir,Player player)
   default:
        println(player.name,"did unknown move");
        if(player.netLink!=null && player.netLink.active())
-          player.netLink.write( Opcs.say(Opcs.ERR,dir+" move is unknown in this game!") );
+          player.netLink.write( OpCd.say(OpCd.ERR,dir+" move is unknown in this game!") );
        return false;
-  }//end of moves switch
+  } //end of moves switch
   return true;
 }
 
@@ -926,7 +939,7 @@ public void playerAction(String action,Player player)
   if(player.netLink!=null && player.netLink.active())
   {
      if(player.interactionObject==null)
-       player.netLink.write( Opcs.say(Opcs.ERR,"Action "+action+" is undefined in this context!"));
+       player.netLink.write( OpCd.say(OpCd.ERR,"Action "+action+" is undefined in this context!"));
      else
        performAction(player,action,player.interactionObject);
   }
@@ -937,7 +950,7 @@ public void performAction(ActiveGameObject subject,String action,GameObject obje
 {
   if(object.visual.equals(plants[1]))
   {
-    subject.hpoints+=object.hpoints;subject.flags|=Masks.HPOINT;
+    subject.h_points+=object.h_points;subject.flags|=Masks.HPOINT;
     
     if(subject instanceof Player)
     {
@@ -945,7 +958,7 @@ public void performAction(ActiveGameObject subject,String action,GameObject obje
       pl.score++;pl.flags|=Masks.SCORE;
     }
     
-    object.hpoints=0;object.flags|=Masks.HPOINT;
+    object.h_points=0;object.flags|=Masks.HPOINT;
     object.visual=plants[0];object.flags|=Masks.VISUAL;
   }
   //println(player.name,"did undefined or not allowed action:",action);
@@ -954,45 +967,48 @@ public void performAction(ActiveGameObject subject,String action,GameObject obje
 GameObject[] gameWorld=null;    ///< MAIN ARRAY OF GameObjects
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
-/// Declaration common for client and server (op.codes and coding/decoding functions)
-//* Use link_commons.sh script for make symbolic connections to gameServer & gameClient directories
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//* NOTE: /*_inline*/ is a Processing2C directive translated to inline in C++ output
+/// Source file with declarations of common symbols for client and server. 
+/// (op.codes and coding/decoding functions).
+/// NOTE! Use "link_commons.sh" script for make symbolic connections 
+/// to "gameServer/" & "gameClient/" directories.
+//*/////////////////////////////////////////////////////////////////////////////////////////////
+//* NOTE: /*_inline*/ is a Processing2C directive translated to keyword 'inline' in C++ output
 
 
-//long pid = ProcessHandle.current().pid();//JAVA9 :-(
+//long pid = ProcessHandle.current().pid(); //JAVA9 :-(
+int     servPORT=5205;  	         ///< Theoretically it could be any above 1024
+String  serverIP="127.0.0.1";      ///< localhost
 
-//String  serverIP="192.168.55.201";///< at home 
-//String  serverIP="192.168.55.104";///< 2. 
-//String  serverIP="10.3.24.216";   ///< at work
-//String  serverIP="10.3.24.4";     ///< workstation local
-int     servPORT=5205;  	          ///< Teoretically it could be any above 1024
-String  serverIP="127.0.0.1";       ///< localhost
+//String  serverIP="192.168.55.201"; ///< at home
+//String  serverIP="192.168.55.104"; ///< 2.
+//String  serverIP="10.3.24.216";    ///< at work
+//String  serverIP="10.3.24.4";      ///< workstation local
 
 /// Protocol dictionary ("opcodes") & general code/decode methods
-static abstract class Opcs { 
-  static final String name="sampleGame";///< ASCI IDENTIFIER OF PROTOCOL
-  static final String sYOU="Y";///< REPLACER OF CORESPONDENT NAME as a ready to use String. 
-                               ///< Character.toString(YOU);<-not for static
+static abstract class OpCd { 
+  static final String name="sampleGame"; ///< ASCII IDENTIFIER OF PROTOCOL
+  static final String sYOU="Y"; ///< REPLACER OF CORESPONDENT NAME as a ready to use String.
+                                ///< Character.toString(YOU);<-not for static
   //Record defining characters
-  static final char EOR=0x03;///< End of record (EOR). EOL is not used, because of it use inside data starings.
-  static final char SPC='\t';///< Field separator
-                             ///< Maybe something less popular would be better? TODO
-  //Record headers (bidirectorial)
+  static final char EOR=0x03; ///< End of record (EOR). EOL is not used, because of it use inside data starings.
+  static final char SPC='\t'; ///< Field separator
+                              ///< Maybe something less popular would be better? Why not ';' ?
+  //Record headers (bidirectional)
   static final char ERR='e'; ///< Error message for partner
   static final char HEL='H'; ///< Hello message (client-server handshake)
   static final char IAM='I'; ///< I am "name of server/name of client"
   static final char YOU='Y'; ///< Redefining player name if not suitable
   //Named variables/resources
-  static final char GET='G'; ///< Get global resource by name TODO
-  static final char BIN='B'; ///< Binary hunk of resources (name.type\tsize\tthen data) TODO
-                             ///< Data hunk is recived exactly "as is"!
-  static final char TXT='X'; ///< Text hunk of resources (name.type\tsize\tthen data) TODO
-                             ///< Text may be recoded on the reciver side if needed!
-  static final char OBJ='O'; ///< Objects managment: "On typename objectName" or "Od objectName"
+  static final char GET='G'; ///< Get global resource by name (NOT IMPLEMENTED)
+  static final char BIN='B'; ///< Binary hunk of resources (name.type\tsize\tthen data) (NOT IMPLEMENTED)
+                             ///< Data hunk is received exactly "as is"!
+  static final char TXT='X'; ///< Text hunk of resources (name.type\tsize\tthen data) (NOT IMPLEMENTED)
+                             ///< Text may be recoded on the receiver side if needed!
+  static final char OBJ='O'; ///< Objects management: "On(-ew) typename objectName" or "Od(-elete) objectName"
   //Game scene/state 
   static final char UPD='U'; ///< Request for update about a whole scene
   static final char VIS='V'; ///< Visualisation info for a particular object
@@ -1002,15 +1018,15 @@ static abstract class Opcs {
   static final char POL='P'; ///< Polar position of an object
   //Interactions
   static final char TCH='T'; ///< Active "Touch" with other object (info about name & possible actions)
-  static final char DTC='D'; ///< Detouch with any of previously touched object (name provided)
+  static final char DTC='D'; ///< Detach with any of previously touched object (name provided)
   //Player controls of avatar
   static final char NAV='N'; ///< Navigation of the avatar (wsad and arrows in the template)
   static final char ACT='A'; ///< 'defo'(-ult) or user defined actions of the avatar
   //...
-  //static final char XXX='c';// something more...
+  //static final char XXX='c'; // something more...
   
   /// It composes one OPC info. 
-  /// For which, when recieved, only charAt(0) is important.
+  /// For which, when received, only charAt(0) is important.
   /// @return message PREPARED to send. 
   /*_inline*/ public static final String say(char opc)
   {
@@ -1028,7 +1044,7 @@ static abstract class Opcs {
   /// It composes multiple strings message. 
   /// Take care about Opcs.SPC inside parameters!!!
   /// @return message PREPARED to send.  
-  /*_inline*/ public static final String say(char opc,String... varargParam)//NOT TESTED JET
+  /*_inline*/ public static final String say(char opc,String... varargParam) //NOT TESTED JET
   {
     String ret=Character.toString(opc);
     for (int f=0; f < varargParam.length; f++)
@@ -1047,9 +1063,9 @@ static abstract class Opcs {
   /*_inline*/ public static final String[] decode(String msg) //NOT TESTED JET
   {
     String[] fields=split(msg,SPC);
-    return shorten(fields);// remove the item containing EOR from the end of array and @return the array
+    return shorten(fields); // remove the item containing EOR from the end of array and @return the array
   }
-}//EndOfClass Opcs
+} //EndOfClass Opcs
 
 // Specific code/decode functions
 //*////////////////////////////////////
@@ -1058,17 +1074,17 @@ static abstract class Opcs {
 /// @return message PREPARED to send. 
 /*_inline*/ public static final String sayHELLO(String myName)
 {
-    return ""+Opcs.HEL+Opcs.SPC+Opcs.IAM+Opcs.SPC
-             +myName+Opcs.SPC+Opcs.EOR;
+    return ""+OpCd.HEL+OpCd.SPC+OpCd.IAM+OpCd.SPC
+             +myName+OpCd.SPC+OpCd.EOR;
 }
 
 /// It decodes handshake
 /// @return Name of client or name of game implemented on server
 /*_inline*/ public static final String decodeHELLO(String msgHello)
 {
-  String[] fields=split(msgHello,Opcs.SPC);
+  String[] fields=split(msgHello,OpCd.SPC);
   if(DEBUG>2) println(fields[0],fields[1],fields[2]);
-  if(fields[0].charAt(0)==Opcs.HEL && fields[1].charAt(0)==Opcs.IAM )
+  if(fields[0].charAt(0)==OpCd.HEL && fields[1].charAt(0)==OpCd.IAM )
       return fields[2];
   else
       return null;
@@ -1088,40 +1104,40 @@ static abstract class Opcs {
 /// @return message PREPARED to send. 
 /*_inline*/ public static final String sayOptAndInfos(char opCode,String objName,String info)
 {
-  return ""+opCode+"1"+Opcs.SPC
-           +objName+Opcs.SPC
-           +info+Opcs.SPC
-           +Opcs.EOR;
+  return ""+opCode+"1"+OpCd.SPC
+           +objName+OpCd.SPC
+           +info+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// Compose many(=2) string info - SPC inside infos is NOT allowed.
 /// @return message PREPARED to send. 
 /*_inline*/ public static final String sayOptAndInfos(char opCode,String objName,String info1,String info2)
 {
-  return ""+opCode+"2"+Opcs.SPC
-           +objName+Opcs.SPC
-           +info1+Opcs.SPC
-           +info2+Opcs.SPC
-           +Opcs.EOR;
+  return ""+opCode+"2"+OpCd.SPC
+           +objName+OpCd.SPC
+           +info1+OpCd.SPC
+           +info2+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// Compose many(=3) string info - SPC inside infos is NOT allowed.
 /// @return message PREPARED to send. 
 /*_inline*/ public static final String sayOptAndInfos(char opCode,String objName,String info1,String info2,String info3)
 {
-  return ""+opCode+"3"+Opcs.SPC
-           +objName+Opcs.SPC
-           +info1+Opcs.SPC
-           +info2+Opcs.SPC
-           +info3+Opcs.SPC
-           +Opcs.EOR;
+  return ""+opCode+"3"+OpCd.SPC
+           +objName+OpCd.SPC
+           +info1+OpCd.SPC
+           +info2+OpCd.SPC
+           +info3+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// It decodes 1-9 infos message. Dimension of the array must be proper
 /// @return object name, and fill the infos
 /*_inline*/ public static final String decodeInfos(String msgInfos,String[] infos)
 {
-  String[] fields=split(msgInfos,Opcs.SPC);
+  String[] fields=split(msgInfos,OpCd.SPC);
   if(DEBUG>2) println(fields.length,fields[1]);
 
   int dimension=fields[0].charAt(1)-'0';
@@ -1131,61 +1147,61 @@ static abstract class Opcs {
         
   for(int i=0;i<infos.length;i++)
     infos[i]=fields[i+2];
-  return fields[1];//Nazwa
+  return fields[1]; //Nazwa
 }
 
 /// It constructs touch message with only one possible action
 /// @return message PREPARED to send. 
 /*_inline*/ public static final String sayTouch(String nameOfTouched,float distance,String actionDef)
 {
-  return ""+Opcs.TCH+"1"+Opcs.SPC
-           +nameOfTouched+Opcs.SPC
-           +actionDef+Opcs.SPC
-           +nf(distance)+Opcs.SPC
-           +Opcs.EOR;
+  return ""+OpCd.TCH+"1"+OpCd.SPC
+           +nameOfTouched+OpCd.SPC
+           +actionDef+OpCd.SPC
+           +nf(distance)+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// It constructs touch message with two possible actions
 /// @return message PREPARED to send
 /*_inline*/ public static final String sayTouch(String nameOfTouched,float distance,String action1,String action2)
 {
-  return ""+Opcs.TCH+"2"+Opcs.SPC
-           +nameOfTouched+Opcs.SPC
-           +action1+Opcs.SPC
-           +action2+Opcs.SPC
-           +nf(distance)+Opcs.SPC
-           +Opcs.EOR;
+  return ""+OpCd.TCH+"2"+OpCd.SPC
+           +nameOfTouched+OpCd.SPC
+           +action1+OpCd.SPC
+           +action2+OpCd.SPC
+           +nf(distance)+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// It constructs touch message with many possible actions
 /// @return message PREPARED to send
 /*_inline*/ public static final String sayTouch(String nameOfTouched,float distance,String[] actions)
 {
-  String ret=""+Opcs.TCH;
+  String ret=""+OpCd.TCH;
   if(actions.length<9)
-    ret+=""+actions.length+Opcs.SPC;
+    ret+=""+actions.length+OpCd.SPC;
   else
-    ret+="0"+actions.length+Opcs.SPC;
-  ret+=nameOfTouched+Opcs.SPC;  
+    ret+="0"+actions.length+OpCd.SPC;
+  ret+=nameOfTouched+OpCd.SPC;  
   for(int i=0;i<actions.length;i++)
-    ret+=actions[i]+Opcs.SPC;
-  ret+=nf(distance)+Opcs.SPC+Opcs.EOR;  
+    ret+=actions[i]+OpCd.SPC;
+  ret+=nf(distance)+OpCd.SPC+OpCd.EOR;  
   return ret;
 }
 
 /// It decodes touch message. 
 /// @return distance
 /// The infos will be filled with name of touched object and up to 9 possible actions
-/// (or more - NOT TESTED!)
+/// (0 or more than 9 - NOT TESTED!)
 /*_inline*/ public static final float decodeTouch(String msg,String[] infos)
 {
-  String[] fields=split(msg,Opcs.SPC);
+  String[] fields=split(msg,OpCd.SPC);
   
   int dimension=fields[0].charAt(1)-'0';
   if(dimension==0)
   { 
-    dimension=Integer.parseInt(fields[0].substring(1));// TODO: TEST!
-  }
+    dimension=Integer.parseInt(fields[0].substring(1)); // NOT TESTED!
+  } //<>//
   
   if(dimension+1 != infos.length) 
         println("Invalid size",dimension,"of infos array!",infos.length,"for",fields[0],"message!");
@@ -1202,10 +1218,10 @@ static abstract class Opcs {
 /// @return message PREPARED to send
 /*_inline*/ public static final String sayPosition(char EUCorPOL,String objName,float coord)
 {
-  return ""+EUCorPOL+"1"+Opcs.SPC
-           +objName+Opcs.SPC
-           +coord+Opcs.SPC
-           +Opcs.EOR;
+  return ""+EUCorPOL+"1"+OpCd.SPC
+           +objName+OpCd.SPC
+           +coord+OpCd.SPC
+           +OpCd.EOR;
 }
                    
 /// It composes message about object position (2 dimensions)                   
@@ -1215,11 +1231,11 @@ static abstract class Opcs {
 /// @return message PREPARED to send
 /*_inline*/ public static final String sayPosition(char EUCorPOL,String objName,float coord1,float coord2)
 {
-  return ""+EUCorPOL+"2"+Opcs.SPC
-           +objName+Opcs.SPC
-           +coord1+Opcs.SPC
-           +coord2+Opcs.SPC
-           +Opcs.EOR;
+  return ""+EUCorPOL+"2"+OpCd.SPC
+           +objName+OpCd.SPC
+           +coord1+OpCd.SPC
+           +coord2+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// It composes message about object position (3 dimensions)
@@ -1229,12 +1245,12 @@ static abstract class Opcs {
 /// @return message PREPARED to send
 /*_inline*/ public static final String sayPosition(char EUCorPOL,String objName,float coord1,float coord2,float coord3)
 {
-  return ""+EUCorPOL+"3"+Opcs.SPC
-           +objName+Opcs.SPC
-           +coord1+Opcs.SPC
-           +coord2+Opcs.SPC
-           +coord3+Opcs.SPC
-           +Opcs.EOR;
+  return ""+EUCorPOL+"3"+OpCd.SPC
+           +objName+OpCd.SPC
+           +coord1+OpCd.SPC
+           +coord2+OpCd.SPC
+           +coord3+OpCd.SPC
+           +OpCd.EOR;
 }
 
 /// It composes message about object position (1-9 dimensions)
@@ -1245,14 +1261,14 @@ static abstract class Opcs {
 /*_inline*/ public static final String sayPosition(char EUCorPOL,String objName,float[] coordinates)
 {
   String ret=EUCorPOL
-            +nf(coordinates.length+1,1)+Opcs.SPC;
-  ret+=objName+Opcs.SPC;
+            +nf(coordinates.length+1,1)+OpCd.SPC;
+  ret+=objName+OpCd.SPC;
   for(int i=0;i<coordinates.length;i++)
   {
     ret+=coordinates[i];
-    ret+=Opcs.SPC;
+    ret+=OpCd.SPC;
   }
-  ret+=Opcs.EOR;
+  ret+=OpCd.EOR;
   return ret;
 }
 
@@ -1260,9 +1276,9 @@ static abstract class Opcs {
 /// @return name of object and also fill coordinates.
 /*_inline*/ public static final String decodePosition(String msgPosition,float[] coordinates)
 {
-  String[] fields=split(msgPosition,Opcs.SPC);
+  String[] fields=split(msgPosition,OpCd.SPC);
   if(DEBUG>2) println(fields[0],fields[1],fields[2]);
-  if(fields[0].charAt(0)==Opcs.EUC || fields[0].charAt(0)==Opcs.POL )
+  if(fields[0].charAt(0)==OpCd.EUC || fields[0].charAt(0)==OpCd.POL )
   {
     int dimension=fields[0].charAt(1)-'0';
     
@@ -1272,29 +1288,29 @@ static abstract class Opcs {
     for(int i=0;i<coordinates.length;i++)
       coordinates[i]=Float.parseFloat(fields[i+2]);
       
-    return fields[1];//Name
+    return fields[1]; //Name
   }
   else
-  return null;//Invalid message
+  return null; //Invalid message
 }
 
 /// For objects types management - type of object
 /// @return message PREPARED to send
 /*_inline*/ public static final String sayObjectType(String type,String objectName)
 {
-  return Opcs.OBJ+"n"+Opcs.SPC
-         +type+Opcs.SPC
-         +objectName+Opcs.SPC
-         +Opcs.EOR;  
+  return OpCd.OBJ+"n"+OpCd.SPC
+         +type+OpCd.SPC
+         +objectName+OpCd.SPC
+         +OpCd.EOR;  
 }
 
 /// For objects types management - object removing from the game world
 /// @return message PREPARED to send
 /*_inline*/ public static final String sayObjectRemove(String objectName)
 {
-  return Opcs.OBJ+"d"+Opcs.SPC
-         +objectName+Opcs.SPC
-         +Opcs.EOR;  
+  return OpCd.OBJ+"d"+OpCd.SPC
+         +objectName+OpCd.SPC
+         +OpCd.EOR;  
 }
 
 /// It decodes message of objects types management - decoding
@@ -1303,7 +1319,7 @@ static abstract class Opcs {
 /// Other actions are possible in the future.
 /*_inline*/ public static final String[] decodeObjectMng(String msg)
 {
-  String[] fields=split(msg,Opcs.SPC);
+  String[] fields=split(msg,OpCd.SPC);
   if(fields[0].charAt(1)=='n')
     fields[0]="new";
   else
@@ -1315,16 +1331,14 @@ static abstract class Opcs {
     return null;
   }
   
-  return shorten(fields);// remove one item from the end of array and @return the array
+  return shorten(fields); // remove one item from the end of array and @return the array
 }
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
-//*  https://github.com/borkowsk/sym4processing
+///  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
+///  @author  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
+///  @project https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
-
-
-                   
   public void settings() {  size(400,400); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "gameClient" };
@@ -1335,3 +1349,4 @@ static abstract class Opcs {
     }
   }
 }
+

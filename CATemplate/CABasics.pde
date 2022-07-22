@@ -2,7 +2,7 @@
 /// Cells need to be initialised & they need rules of change 
 //*////////////////////////////////////////////////////////////////////////////////
 
-/// Initialization of cells (2D version)
+/// Initialization of cells (2D version).
 void initializeCells(int[][] cells)
 {
    for(int a=0;a<cells.length;a++)
@@ -15,8 +15,10 @@ void initializeCells(int[][] cells)
    if(density==0) 
        cells[cells.length/2][cells.length/2]=1;
 }
+
 //OR 
-/// Initialization of cells (1D version)
+
+/// Initialization of cells (1D version).
 void initializeCells(int[] cells)
 {
   for(int a=0;a<cells.length;a++)
@@ -32,8 +34,7 @@ void initializeCells(int[] cells)
 //* Example model rules implemented below
 //*///////////////////////////////////////////////
 
-/// Your cells change over time (SYNCHRONIC 2D version)
-/// (Example "modulo 5" model)
+/// The cells change over time (SYNCHRONIC 2D version). Example is "modulo 5" CA model.
 void synchChangeCellsModulo(int[][] cells,int[][] newcells)
 {
   int N=cells.length;
@@ -52,9 +53,10 @@ void synchChangeCellsModulo(int[][] cells,int[][] newcells)
     newcells[a][b]=summ%5;
   }  
 }
+
 //OR 
-/// Your cells change over time (SYNCHRONIC 1D version)
-/// (Example "modulo 5" model)
+
+/// The cells change over time (SYNCHRONIC 1D version). Example is "modulo 5" model.
 void synchChangeCellsModulo(int[] cells,int[] newcells)
 {
   int N=cells.length;
@@ -68,8 +70,7 @@ void synchChangeCellsModulo(int[] cells,int[] newcells)
   }    
 }
 
-/// Your cells change over time (ASYNCHRONIC 2D version)
-/// (Example "modulo 5" model)
+/// The cells change over time (ASYNCHRONIC 2D version). Example is "modulo 5" model.
 void  asyncChangeCellsModulo(int[][] cells)
 {
   int MC=cells.length*cells[0].length;
@@ -89,9 +90,10 @@ void  asyncChangeCellsModulo(int[][] cells)
     cells[a][b]=summ%6;
   }
 }
+
 //OR
-/// Your cells change over time (ASYNCHRONIC 1D version)
-/// (Example "modulo 5" model)
+
+/// The cells change over time(ASYNCHRONIC 1D version). Example "modulo 5" model.
 void  asyncChangeCellsModulo(int[] cells)
 {
   int MC=cells.length;

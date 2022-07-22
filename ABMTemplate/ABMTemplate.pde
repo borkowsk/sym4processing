@@ -1,32 +1,42 @@
-///   Template for AGENT BASE MODEL utilized 1D or 2D discrete geometry
-//*   implemented by Wojciech Borkowski
+///   AGENT BASE MODEL template. It utilizes 1D or 2D discrete geometry. 
+///   Designed by:
+///   @author  Wojciech Borkowski
 //*///////////////////////////////////////////////////////////////////////////////////////
 
-//Model parameters
-String modelName="ABMTemplate";///< Name of the model is used for log files
-int side=75;      ///< side of "world" main table
-float density=0.75;///< initial density of agents
+// Model parameters
+String modelName="ABMTemplate"; ///< Name of the model is used for log files
+int side=75;        ///< side of "world" main table
+float density=0.75; ///< initial density of agents
 
-World TheWorld=new World(side);///<Main table will be initialised inside setup()
+World TheWorld=new World(side); ///< Main "chessboard". It will be initialised inside 'setup()'
 
-//Parameters of visualisation etc...
-int cwidth=15;     ///< requested size of cell
-int STATUSHEIGH=40;///< height of status bar
-int STEPSperVIS=1; ///< how many model steps beetwen visualisations 
-int FRAMEFREQ=10;  ///< how many model steps per second
-boolean WITH_VIDEO=true;///< Make a movie?
+// Parameters of visualisation etc...
+int EMPTYGRAY=128;  ///< Shade of gray for background of "chessboard".
+int cwidth=15;      ///< requested size of cells.
+int cstroke=1;      ///< border of cells.
+int STATUSHEIGH=40; ///< height of status bar.
+int STEPSperVIS=1;  ///< how many model steps beetwen visualisations. 
+int FRAMEFREQ=10;   ///< how many model steps per second.
 
-boolean simulationRun=false;///< Start/stop flag
+boolean WITH_VIDEO=false; ///< Make a movie?
 
-/// Function setup() is called only once, at the beginning of run
+boolean simulationRun=true; ///< Start/stop flag
+
+/// Main function called only once. This function encloses things, 
+/// that should be done at the beginning of run.
 /// At least setup() or draw() must be present in animation program
+/// NOTE: In C++ translation it is "global" by default.
 void setup()
 {
   //Graphics
   size(750,790);
   frameRate(FRAMEFREQ);
   background(255,255,200);
-  strokeWeight(2);
+  
+  if(cstroke>0)
+    strokeWeight(cstroke);
+  else
+    noStroke();
   
   //Model
   initializeModel(TheWorld);
@@ -38,7 +48,7 @@ void setup()
   cwidth=(height-STATUSHEIGH)/side;
     
   //Optionals:
-  //setupMenu();//ISSUE: Size of MenuBar is not counted by Processing!
+  //setupMenu(); //ISSUE: Size of MenuBar is not counted by Processing!
   //...
   if(WITH_VIDEO) 
   {
@@ -47,41 +57,49 @@ void setup()
   }
   
   //Finishing setup stage
-  println("CURRENT SIZE OF PAINTING AREA IS "+width+"x"+height);//-myMenu.bounds.height???
-  visualizeModel(TheWorld);//First time visualisation
+  println("CURRENT SIZE OF PAINTING AREA IS "+width+"x"+height); //-myMenu.bounds.height???
+  visualizeModel(TheWorld); //First time visualisation
   if(!simulationRun)
     println("PRESS 'r' or 'ESC' to start simulation");
   else
     println("PRESS 's' or 'ESC' to pause simulation");
-  NextVideoFrame();//It utilise inside variable to check if is enabled
+  NextVideoFrame(); //It utilise inside variable to check if is enabled
 }
 
-/// Function draw() is called many times, to the end of run or noLoop() call.
-/// At least setup() or draw() must be present in animation program
+/// Main function called in loop. It means, in will be called many times,
+/// to the end of app. run or 'noLoop()' call.
+/// At least setup() or draw() must be present in animation program.
+/// NOTE: In C++ translation it is "global" by default.
 void draw()
 {
+   // Back to default settings, if needed.
+   //if(cstroke>0) strokeWeight(cstroke); //<>//
+   //else noStroke();
+      
+  if(!simulationRun //When simulation was stopped only visualisation should work
+  || StepCounter % STEPSperVIS == 0 ) //But when model is running, visualisation shoud be done from time to time
+  {
+    visualizeModel(TheWorld);
+    NextVideoFrame(); //It utilise inside variable to check if is enabled
+  }     
+   
+  writeStatusLine(); 
+  
   if(simulationRun)
   {
     modelStep(TheWorld);
     doStatistics(TheWorld);
   }
-  
-  writeStatusLine();
-  
-  if(!simulationRun //When simulation was stopped only visualisation should work
-  || StepCounter % STEPSperVIS == 0 ) //But when model is running, visualisation shoud be done from time to time
-  {
-    visualizeModel(TheWorld);
-    NextVideoFrame();//It utilise inside variable to check if is enabled
-  }
-
 }
 
-/// Function designed to fill the status bar with simulation statistics.
+/// Make all content of status bar. Function designed to fill the status 
+/// line/lines, typically with simulation statistics.
 void writeStatusLine()
 {
-  fill(255);rect(0,side*cwidth,width,STATUSHEIGH);
-  fill(0);noStroke();
+  fill(255);
+  if(cstroke>0) stroke(EMPTYGRAY);
+  rect(0,side*cwidth,width,STATUSHEIGH);
+  fill(0);
   textAlign(LEFT, TOP);
   text(meanDummy+"  "+liveCount,0,side*cwidth);
   textAlign(LEFT, BOTTOM);
@@ -89,6 +107,7 @@ void writeStatusLine()
 }
 
 //*////////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*////////////////////////////////////////////////////////////////////////////////////////////

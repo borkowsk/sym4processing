@@ -3,9 +3,10 @@
 //* ABM: EVENTS TEMPLATE
 //*///////////////////////////////////////////////////////////////////////
 
-/// Automatically run by Processing when any key on the 
-/// keyboard is pressed. Inside, you can use the variables 
-/// 'key' and 'keyCode'.
+/// Keyboard click handler. Automatically run by Processing 
+/// when any key on the keyboard is pressed. 
+/// Inside, you can use the variables 'key' and 'keyCode'.
+/// NOTE: In C++ translation it is "global" by default.
 void keyPressed()
 {
   println("RECIVED:'",key,"\' CODE:",int(key)); 
@@ -21,8 +22,8 @@ void keyPressed()
   case '8': STEPSperVIS=150;println("StPerV: "+STEPSperVIS);break;
   case '9': STEPSperVIS=200;println("StPerV: "+STEPSperVIS);break;
 //  case '0': STEPSperVIS=1;DeltaMC=0.2;println("DeltaMC: "+DeltaMC);break;
-  case ' ': save(modelName+"."+nf((float)StepCounter,6,5)+".PNG");// // Save the contents of the simulation window!
-            //write(world,modelName+"."+nf((float)StepCounter,6,5));// Save the current model state!
+  case ' ': save(modelName+"."+nf((float)StepCounter,6,5)+".PNG"); // // Save the contents of the simulation window!
+            //write(world,modelName+"."+nf((float)StepCounter,6,5)); // Save the current model state!
             break;
   case ESC: simulationRun=!simulationRun; break;
   case 's': simulationRun=false; break;
@@ -45,6 +46,7 @@ void keyPressed()
 
 
 //*////////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*////////////////////////////////////////////////////////////////////////////////////////////

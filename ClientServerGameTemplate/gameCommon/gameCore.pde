@@ -8,11 +8,11 @@ float initialMaxX=100;          ///< Initial horizontal size of game "board"
 float initialMaxY=100;          ///< Initial vertical size of game "board" 
 int     indexOfMe=-1;           ///< Index of object visualising the client or the server supervisor
 
-// For very basic visualistion
+// For very basic visualisation
 String[] plants= {"_","O","...\nI","_\\|/_\nI ","|/",":","☘️"}; ///< plants... 
-String[] avatars={".","^v^" ,"o^o","@","&","😃","😐"};///< peoples...
+String[] avatars={".","^v^" ,"o^o","@","&","😃","😐"}; ///< peoples...
 
-static abstract class Masks { //Changes of GameObject atributes (rather specific for server side)
+static abstract class Masks { //Changes of GameObject attributes (rather specific for server side)
 static final int VISSWITH   = unbinary("000000001"); ///< object is invisible (but in info level name is visible)
 static final int MOVED  = unbinary("000000010"); ///< object was moved (0x1)
 static final int VISUAL = unbinary("000000100"); ///< object changed its type of view
@@ -25,12 +25,12 @@ static final int ACTRAD = unbinary("010000000"); ///< object changed its radius 
 /// To visualize the interaction between background objects
 static final int TOUCHED= unbinary("1000000000000000"); ///<16bits
 // Composed masks below:
-static final int STATES   = HPOINT | SCORE | PASRAD | ACTRAD ;///< object changed its states
-static final int ALL_CHNG = MOVED | VISUAL | COLOR | STATES ; ///< All initial changes
-}//EndOfClass Masks 
+static final int ALL_STATES  = HPOINT | SCORE | PASRAD | ACTRAD ;     ///< Object changed any of its states
+static final int ALL_CHANGED = MOVED | VISUAL | COLOR | ALL_STATES ;  ///< All initial changes
+} //EndOfClass Masks
 
 // Options for visualisation 
-int     INFO_LEVEL =1 | Masks.SCORE;///< Visualisation with information about objects (name & score by default)
+int     INFO_LEVEL =1 | Masks.SCORE; ///< Visualisation with information about objects (name & score by default)
 boolean VIS_MIN_MAX=true;    ///< Visualisation with min/max value
 boolean KEEP_ASPECT=true;    ///< Visualisation with proportional aspect ratio
 
@@ -39,22 +39,23 @@ boolean KEEP_ASPECT=true;    ///< Visualisation with proportional aspect ratio
 /// this parts.
 abstract class implNeeded 
 { 
-  int flags=0;//!< Masks. alloved here
+  int flags=0; //!< Masks. allowed here
   
-  String myClassName()//> Shortened class name (see: https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html)
+  String myClassName() //!< Shortened class name (see: https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html)
   {
-    String typeStr=getClass().getName(); // TODO? Use getSimpleName() ?
-    int dolar=typeStr.indexOf("$"); //println(typeStr,dolar);
+    String typeStr=getClass().getName(); // Alternatively use 'getSimpleName()'
+    int dolar=typeStr.indexOf("$"); 
+    if(DEBUG!=0) println(typeStr,dolar);
     typeStr=typeStr.substring(dolar+1);
     return typeStr;
   }
-}//EndOfClass implNeeded
+} //EndOfClass implNeeded
 
 /// Representation of 3D position in the game world
 /// However, the value of Z is not always used.
 abstract class Position extends implNeeded
 {
-  float X,Y;//!< 2D coordinates
+  float X,Y; //!< 2D coordinates
   float Z;  //!< Even on a 2D board, objects can pass each other without collision.
   
   /// constructor
@@ -73,29 +74,31 @@ abstract class Position extends implNeeded
   {
     return dist(X,Y,Z,toWhat.X,toWhat.Y,toWhat.Z);
   }
-}//EndOfClass Position
+} //EndOfClass Position
 
 /// Representation of simple game object
 class GameObject extends Position
 {
-  String name;      //!< Each object has an individual identifier necessary for communication. Better short.
-  String visual="?";//!< Text representation of the visualization. The unicode character or the name of an external file.
-  color  foreground=0xff00ff00;//> Main color of object
+  String name;       //!< Each object has an individual identifier necessary for communication. Better short.
+  String visual="?"; //!< Text representation of the visualization. The unicode character or the name of an external file.
+  color  foreground=0xff00ff00; //> Main color of object
   
-  float  hpoints=1; //!< Health points
+  float  h_points=1; //!< Health points
   
-  float[] distances=null;      //!< Array of distances to other objects. Not always in use!
+  float[] distances=null; //!< Array of distances to other objects. Not always in use!
                                
-  float  passiveRadius=1;      //!< Radius of passive interaction
+  float  passiveRadius=1; //!< Radius of passive interaction
   
-  ///constructor
+  /// constructor
   GameObject(String iniName,float iniX,float iniY,float iniZ){ super(iniX,iniY,iniZ);
     name=iniName;
   }
   
+  /// Information, what object can do.
   /// @return: List of actions that this object can performed
   /*_interfunc*/ String[] abilities() { return null;} 
   
+  /// Information on what can be done with the object.
   /// @return: List of actions that can be performed on this object
   /*_interfunc*/ String[] possibilities() { return null;} 
   
@@ -104,13 +107,13 @@ class GameObject extends Position
   /// @return: true if field is found
   /*_interfunc*/ boolean  setState(String field,String val)
   {
-    if(field.charAt(0)=='h' && field.charAt(1)=='p')//hp-points
+    if(field.charAt(0)=='h' && field.charAt(1)=='p') //hp-points
     {
-       hpoints=Float.parseFloat(val);
+       h_points=Float.parseFloat(val);
        return true;
     }
     else
-    if(field.charAt(0)=='p' && field.charAt(1)=='a' && field.charAt(2)=='s')//pas-Radius
+    if(field.charAt(0)=='p' && field.charAt(1)=='a' && field.charAt(2)=='s') //pas-Radius
     {
        passiveRadius=Float.parseFloat(val);
        return true;
@@ -125,15 +128,15 @@ class GameObject extends Position
    {
      String msg="";
      if((flags & Masks.VISUAL )!=0)
-        msg+=sayOptAndInfos(Opcs.VIS,name,visual);
+        msg+=sayOptAndInfos(OpCd.VIS,name,visual);
      if((flags & Masks.MOVED )!=0)  
-        msg+=sayPosition(Opcs.EUC,name,X,Y);
+        msg+=sayPosition(OpCd.EUC,name,X,Y);
      if((flags & Masks.COLOR  )!=0)
-        msg+=sayOptAndInfos(Opcs.COL,name,hex(foreground));
+        msg+=sayOptAndInfos(OpCd.COL,name,hex(foreground));
      if((flags & Masks.HPOINT )!=0) 
-        msg+=sayOptAndInfos(Opcs.STA,name,"hp",nf(hpoints)); 
+        msg+=sayOptAndInfos(OpCd.STA,name,"hp",nf(h_points)); 
      if((flags & Masks.PASRAD )!=0)
-        msg+=sayOptAndInfos(Opcs.STA,name,"pasr",nf(passiveRadius));
+        msg+=sayOptAndInfos(OpCd.STA,name,"pasr",nf(passiveRadius));
      return msg;
    }
   
@@ -150,12 +153,12 @@ class GameObject extends Position
       ret+=";pr:"+passiveRadius;
     return ret;
   }
-}//EndOfClass GameObject
+} //EndOfClass GameObject
 
 class ActiveGameObject extends GameObject
 {
-  float activeRadius=1;             //!< Radius for active interaction with others objects
-  GameObject interactionObject=null;//!< Only one in a time
+  float activeRadius=1;              //!< Radius for active interaction with others objects
+  GameObject interactionObject=null; //!< Only one in a time
   
   ///constructor
   ActiveGameObject(String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ);
@@ -166,7 +169,7 @@ class ActiveGameObject extends GameObject
   /// over the network (mostly)
   /*_interfunc*/ boolean  setState(String field,String val)
   {
-    if(field.charAt(0)=='a' && field.charAt(1)=='c' && field.charAt(2)=='t')//act-Radius
+    if(field.charAt(0)=='a' && field.charAt(1)=='c' && field.charAt(2)=='t') //act-Radius
     {
        activeRadius=Float.parseFloat(val);
        return true;
@@ -181,10 +184,12 @@ class ActiveGameObject extends GameObject
   {
      String msg=super.sayState();
      if((flags & Masks.ACTRAD )!=0) 
-        msg+=sayOptAndInfos(Opcs.STA,name,"actr",nf(activeRadius));
+        msg+=sayOptAndInfos(OpCd.STA,name,"actr",nf(activeRadius));
      return msg;
   }  
-}//EndOfClass ActiveGameObject
+} //EndOfClass ActiveGameObject
+
+//<<<<<<< HEAD
 
 /// Determines the index of the object with the specified proper name 
 /// in an array of objects or players. 
@@ -203,8 +208,8 @@ int localiseByName(GameObject[] table,String name)
   return -1;
 }
 
-/// It removes object reffered by name from the table.
-/// The object may remains somowhere else, so no any destruction will be performed.
+/// It removes object referred by name from the table.
+/// The object may remains somewhere else, so no any destruction will be performed.
 void removeObject(GameObject[] table,String name)
 {
   int index=localiseByName(table,name);
@@ -215,11 +220,11 @@ void removeObject(GameObject[] table,String name)
 /// 'indexOfMoved' is the index of the object for which we check for collisions.
 /// The first time 'startIndex' should be 0, but thanks to this parameter 
 /// you can continue searching for more collisions.
-/// Whem withZ parameter is false, only 2D distance is calculated.
-/// @returns: index or -1 if nothing collidend with object reffered by indexOfMoved
+/// When 'withZ' parameter is false, only 2D distance is calculated.
+/// @returns: index or -1 if nothing collided with object referred by 'indexOfMoved'
 int findCollision(GameObject[] table,int indexOfMoved,int startIndex,boolean withZ)
 {
-  float activeRadius=-1;//By default active radius is disabled
+  float activeRadius=-1; //By default active radius is disabled
   
   //Is moved object of any active type?
   ActiveGameObject active=(ActiveGameObject)(table[indexOfMoved]);
@@ -242,7 +247,7 @@ int findCollision(GameObject[] table,int indexOfMoved,int startIndex,boolean wit
     if(activeRadius>0 && dist<=activeRadius+table[i].passiveRadius)
     return i; //ALSO DETECTED
   }
-  return -1;//NO COLLISION DETECTED!
+  return -1; //NO COLLISION DETECTED!
 }
 
 /// Prepares information about the types and names 
@@ -345,7 +350,7 @@ void visualise2D(float startX,float startY,float width,float height)
 
 /// Moves allowed for the player. 
 /// Intended to be used on the server side.
-/// @return: false if dir string contains unknow command, otherwise true
+/// @return: false if dir string contains unknown command, otherwise true
 boolean playerMove(String dir,Player player)
 {
   switch(dir.charAt(0)){
@@ -356,9 +361,9 @@ boolean playerMove(String dir,Player player)
   default:
        println(player.name,"did unknown move");
        if(player.netLink!=null && player.netLink.active())
-          player.netLink.write( Opcs.say(Opcs.ERR,dir+" move is unknown in this game!") );
+          player.netLink.write( OpCd.say(OpCd.ERR,dir+" move is unknown in this game!") );
        return false;
-  }//end of moves switch
+  } //end of moves switch
   return true;
 }
 
@@ -369,7 +374,7 @@ void playerAction(String action,Player player)
   if(player.netLink!=null && player.netLink.active())
   {
      if(player.interactionObject==null)
-       player.netLink.write( Opcs.say(Opcs.ERR,"Action "+action+" is undefined in this context!"));
+       player.netLink.write( OpCd.say(OpCd.ERR,"Action "+action+" is undefined in this context!"));
      else
        performAction(player,action,player.interactionObject);
   }
@@ -380,7 +385,7 @@ void performAction(ActiveGameObject subject,String action,GameObject object)
 {
   if(object.visual.equals(plants[1]))
   {
-    subject.hpoints+=object.hpoints;subject.flags|=Masks.HPOINT;
+    subject.h_points+=object.h_points;subject.flags|=Masks.HPOINT;
     
     if(subject instanceof Player)
     {
@@ -388,7 +393,7 @@ void performAction(ActiveGameObject subject,String action,GameObject object)
       pl.score++;pl.flags|=Masks.SCORE;
     }
     
-    object.hpoints=0;object.flags|=Masks.HPOINT;
+    object.h_points=0;object.flags|=Masks.HPOINT;
     object.visual=plants[0];object.flags|=Masks.VISUAL;
   }
   //println(player.name,"did undefined or not allowed action:",action);
@@ -397,6 +402,7 @@ void performAction(ActiveGameObject subject,String action,GameObject object)
 GameObject[] gameWorld=null;    ///< MAIN ARRAY OF GameObjects
 
 //*/////////////////////////////////////////////////////////////////////////////////////////
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////

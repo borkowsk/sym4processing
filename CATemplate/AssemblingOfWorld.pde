@@ -1,12 +1,12 @@
-/// World is a one of two central class of each CA model
+//* World is a one of two central class of each CA model
 //* CA: WORLD OF CELLS FOR FILL UP
 //*/////////////////////////////////////////////////////////////
 
-int StepCounter=0;///< Global variable for caunting real simulation steps.
-                  ///< Value may differ from frameCount.
+int StepCounter=0; ///< Global variable for caunting real simulation steps.
+                   ///< Value may differ from frameCount.
 
 
-/// The main class of simulation
+/// The main class of simulation. World is a central class any simulation model.
 class World
 {
   //int cells[];   //> One dimensional array of cells
@@ -34,47 +34,71 @@ class World
     cells=newcells;
     newcells=tmp;
   }
-}//ENDofCLASS
+}  //_EndOfClass World
 
 /// More alaborated functionalities are defined as stand-alone functions,
 /// not as methods because of not enought flexible syntax of Processing
 //*/////////////////////////////////////////////////////////////////////////
 
-/// Prepares the World class for the first step of the simulation 
+/// World initialisation. Prepares the World class for the first step of the simulation. 
 void initializeModel(World world)
 {
   initializeCells(world.cells);
   //... initilise others things
 }
 
-/// Draws a representation of the simulation world
+/// World visualisation. Draws a representation of the simulation world.
 void visualizeModel(World world)
 {
   visualizeCells(world.cells);
   //... visualise others things
 }
 
-/// Example changes of cells for testing the visualization 
+/// Example of cells dynamic. Example changes of cells for testing the visualization. 
 void exampleChange(World world)
 {
   if(synchronicMode)
   {
-    //Implement rules
+    /// Call the implemention of rules - synchronous version
     synchChangeCellsModulo(world.cells,world.newcells);
+    
     //Swap arrays
     world.swap();
   }
-  else
+  else /// OR
+  {
+    /// Call the implemention of rules - asynchronous version
     asyncChangeCellsModulo(world.cells);
+  }
 }
 
-///Full model step. Change cells and other components if present.
+/// Real dynamic. Your changes of cells! 
+void realChange(World world)
+{
+  if(synchronicMode)
+  {
+    /// Call the implemention of rules - synchronous version
+    /// synchChangeCells{....MODEL NAME.....}(world.cells,world.newcells);
+    
+    //Swap arrays
+    world.swap();
+  }
+  else /// OR
+  {
+    /// Call the implemention of rules - asynchronous version
+    /// asyncChangeCells{....MODEL NAME.....}(world.cells);
+  }
+}
+
+/// Full model step. Change cells and other components if present.
+/// Your 'realChange(world)' procedure should be called here!
 void modelStep(World world)
 {
-   //Dummy example part
+   /// Dummy example part
    exampleChange(world);
-   //OR
-   //... do real simulation on cells ... THIS PART IS FOR YOU!
+   /// OR
+   /// Do real simulation on cells ... THIS PART IS FOR YOU!
+   /// realChange(world);
    
    StepCounter++;
 }

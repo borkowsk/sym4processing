@@ -2,7 +2,7 @@
 //* CA: BASIC VISUALISATION
 //*//////////////////////////////////////////////////////////////////////////
 
-/// Visualization of cells. Two-dimensional version
+/// Visualization of cells (Two-dimensional version). NOTE: Not efficient for cwidth==1 !
 void visualizeCells(int[][] cells)
 {
   for(int a=0;a<cells.length;a++)
@@ -24,8 +24,10 @@ void visualizeCells(int[][] cells)
     rect(b*cwidth,a*cwidth,cwidth,cwidth);//'a' is vertical!
    }
 }
+
 //OR
-/// Visualization of cells. One-dimensional version
+
+/// Visualization of cells (One-dimensional version). NOTE: Not efficient for cwidth==1 !
 void visualizeCells(int[] cells)
 {
    for(int a=0;a<cells.length;a++)
