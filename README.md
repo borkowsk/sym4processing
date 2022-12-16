@@ -11,18 +11,34 @@ Processing files supporting various simulation applications and giving them sele
 
 More documentation is in the source files, prepared to generate documentation in the Doxygen format. Just use *docs/_make_docs.sh* and then see *doxDocs/* .
 
-__REPOSITORY CLONING__
+## REPOSITORY CLONING
 
-```git clone --recurse-submodules https://github.com/borkowsk/sym4processing.git```
+```
+git clone --recurse-submodules https://github.com/borkowsk/sym4processing.git
+```
 
-__DEPENDENCIES__
+## DEPENDENCIES
 
 You need to install "com.hamoid" library for **Processing** and "ffmpeg" application
 
-**Licencing**
+## PL: WYWIAD na temat symulacji społecznych na YouTube
 
-You can use this software freely for educational and research purposes, but if you feel that it would be appropriate to repay somehow, please finance me a big coffee :-)
+* FB: https://www.facebook.com/podejdzNaukovo/videos/516387107100734/
+* YT: https://www.youtube.com/watch?v=jdm_O_aWtSI
+
+
+## PL/EN: Kanały i strony
+
+* FB: https://www.facebook.com/ModelowanieProcesowSpolecznych
+* YT: https://www.youtube.com/channel/UCkPtf6-lNlCfNuUdcBgNRug
+
+## Licencing
+
+You can use this software freely for educational and research purposes, 
+but if you feel that it would be appropriate to repay somehow, 
+please finance me a big coffee :-)
 
 **COFFEE**
 
-<img src="https://pngimg.com/uploads/mug_coffee/mug_coffee_PNG97418.png" alt="drawing" width="100"/> https://www.buymeacoffee.com/wborkowsk      https://www.paypal.com/paypalme/wborkowsk
+* https://www.buymeacoffee.com/wborkowsk
+* https://www.paypal.com/paypalme/wborkowsk
