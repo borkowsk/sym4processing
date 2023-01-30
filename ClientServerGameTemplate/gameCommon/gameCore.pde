@@ -189,8 +189,6 @@ class ActiveGameObject extends GameObject
   }  
 } //EndOfClass ActiveGameObject
 
-//<<<<<<< HEAD
-
 /// Determines the index of the object with the specified proper name 
 /// in an array of objects or players. 
 /// Simple implementation for now, but you can change into dictionary or 

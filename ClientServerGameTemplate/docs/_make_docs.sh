@@ -1,1 +1,1 @@
-doxywizard Doxyfile
+doxywizard ./Doxyfile
