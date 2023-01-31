@@ -34,11 +34,26 @@ You need to install "com.hamoid" library for **Processing** and "ffmpeg" applica
 
 ## Licencing
 
-You can use this software freely for educational and research purposes, 
-but if you feel that it would be appropriate to repay somehow, 
-please finance me a big coffee :-)
+As long as you prominently display information about the authors 
+and sponsors of this repository in a prominent place on a derivative 
+project, you are free to use this code for educational and research 
+purposes, and to modify it freely.
 
-**COFFEE**
+This repository is sponsored by __Centre For Systemic Risk Analisis__, 
+and EU grants: __HumanAI__ & __GuestXR__
 
-* https://www.buymeacoffee.com/wborkowsk
-* https://www.paypal.com/paypalme/wborkowsk
+### Authors
+
+* Wojciech Tomasz Borkowski
+* Andrzej Krzysztof Nowak
+
+### Links
+
+* https://cbrs.uw.edu.pl/en/home-page/
+* https://www.humane-ai.eu/
+* https://guestxr.eu/
+
+
+
+
+
