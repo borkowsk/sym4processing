@@ -8,14 +8,48 @@ void baldhead_hor(int x,int y,int r,float direction)
   float xn=x+r*cos(direction);
   float yn=y+r*sin(direction);
   ellipse(xn,yn,D/5,D/5);  //Nos
+  
   xn=x+0.95*r*cos(direction+PI/2);
   yn=y+0.95*r*sin(direction+PI/2);
   ellipse(xn,yn,D/4,D/4);  //Ucho  1
+  
   xn=x+0.95*r*cos(direction-PI/2);
   yn=y+0.95*r*sin(direction-PI/2);
   ellipse(xn,yn,D/4,D/4);  //Ucho  2
+  
   //Glówny blok
   ellipse(x,y,D,D);
+  
+  for(int i=0;i<=10;i++)
+  {
+      float angle=PI/2+PI/10*i;
+      xn=x+0.75*r*cos(angle+direction);
+      yn=y+0.75*r*sin(angle+direction);
+      float xm=x+0.35*r*cos(angle+direction);
+      float ym=y+0.35*r*sin(angle+direction);
+      line(xm,ym,xn,yn);
+  }
+  
+  //OCZY
+  fill(200);
+  xn=x+0.75*r*cos(direction+PI/5);
+  yn=y+0.75*r*sin(direction+PI/5);
+  arc(xn,yn,D/5,D/5,-PI/2+direction,PI/2+direction,CHORD);  //Oko  1
+  
+  fill(0);
+  xn=x+0.84*r*cos(direction+PI/6);
+  yn=y+0.84*r*sin(direction+PI/6);  
+  ellipse(xn,yn,D/12,D/12);
+  
+  fill(200);
+  xn=x+0.75*r*cos(direction-PI/5);
+  yn=y+0.75*r*sin(direction-PI/5);
+  arc(xn,yn,D/5,D/5,-PI/2+direction,PI/2+direction,CHORD);  //Oko  2
+  
+  fill(0);
+  xn=x+0.84*r*cos(direction-PI/6);
+  yn=y+0.84*r*sin(direction-PI/6);
+  ellipse(xn,yn,D/12,D/12);
 }
 
 /// Vertical view on agava plant.
