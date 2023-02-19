@@ -2,7 +2,7 @@
 //*//////////////////////////////////////////////////////////////
 
 /// The bald head of a man seen from above
-void baldhead_hor(int x,int y,int r,float direction)
+void baldhead_hor(float x,float y,float r,float direction)
 {
   float D=2*r;
   float xn=x+r*cos(direction);
