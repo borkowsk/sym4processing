@@ -1,4 +1,4 @@
-/// Various shapes drawing procedures
+/// Various shapes drawing procedures.
 //*//////////////////////////////////////////////////////////////
 
 /// The bald head of a man seen from above
