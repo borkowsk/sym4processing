@@ -68,6 +68,31 @@ void agava_ver(float x,float y,float visual_size,float num_of_leafs)
   arc(x,y,visual_size/4,visual_size/4,PI,2*PI,PIE);
 }
 
+
+/// Horisontal view on agava plant.
+void agava_hor(float x,float y,float visual_size,float num_of_leafs)
+{
+  float lstep=(2*PI)/min(num_of_leafs,3)+PI/5;
+  float maxan=lstep*num_of_leafs;
+  
+  for(float angle=lstep/2;angle<=maxan;angle+=lstep)
+  {
+    visual_size*=0.966;
+    float x0=x+cos(angle+PI/2)*visual_size/8;
+    float y0=y+sin(angle+PI/2)*visual_size/8;
+    float x1=x+cos(angle-PI/2)*visual_size/8;
+    float y1=y+sin(angle-PI/2)*visual_size/8;    
+    float x2=x+cos(angle)*visual_size/2;
+    float y2=y+sin(angle)*visual_size/2;
+    triangle(x0,y0,x1,y1,x2,y2);
+    line(x,y,x2,y2);
+  }
+  
+  ellipse(x,y,visual_size/4,visual_size/4);//,PI,2*PI,PIE);
+  ellipse(x,y,1,1);
+}
+
+
 /// Vertical view of simple droid
 void gas_bottle_droid_ver(float x,float y,float visual_size,float direction)
 {
