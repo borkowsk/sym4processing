@@ -1,6 +1,6 @@
-/// COMMON INTERFACES
-/// See: "https://github.com/borkowsk/RTSI_public"
-//*//////////////////////////////////////////////////////////////////////////////
+/// Common INTERFACES like iNamed, iDescribable, iColorable, iPositioned & Function2D
+/// @date 2023.02.28 (Last modification)
+//*///////////////////////////////////////////////////////////////////////////////////
 /// USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
 /// if you need translate the code into C++ (--> Processing2C )
 
@@ -17,20 +17,6 @@ interface iNamed {
 /// Any object which have description as (potentially) long, multi line string
 interface iDescribable { 
   /*_interfunc*/ String Description() /*_forcbody*/;
-}//EndOfClass
-
-//*
-/// MATH INTERFACES:
-//*
-//*////////////////////////////////////////////////////////////////////////////
-
-final float INF_NOT_EXIST=Float.MAX_VALUE;  ///< Missing value marker
-
-/// A function of two values in the form of a class - a functor
-interface Function2D {
-  /*_interfunc*/ float calculate(float X,float Y)/*_forcbody*/;
-  /*_interfunc*/ float getMin()/*_forcbody*/;//MIN_RANGE_VALUE?
-  /*_interfunc*/ float getMax()/*_forcbody*/;//Always must be different!
 }//EndOfClass
 
 //*
@@ -51,7 +37,21 @@ interface iPositioned {
   /*_interfunc*/ float    posZ()/*_forcbody*/;
 }//EndOfClass
 
+//*
+/// MATH INTERFACES:
+//*
+//*////////////////////////////////////////////////////////////////////////////
+
+final float INF_NOT_EXIST=Float.MAX_VALUE;  ///< Missing value marker
+
+/// A function of two values in the form of a class - a functor
+interface Function2D {
+  /*_interfunc*/ float calculate(float X,float Y)/*_forcbody*/;
+  /*_interfunc*/ float getMin()/*_forcbody*/;//MIN_RANGE_VALUE?
+  /*_interfunc*/ float getMax()/*_forcbody*/;//Always must be different!
+}//EndOfClass
+
 //*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*  Last modification 2022.03.16
 //*  See: "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" - USEFULL COMMON INTERFACES
+//*  See also: "https://github.com/borkowsk/RTSI_public"
 //*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

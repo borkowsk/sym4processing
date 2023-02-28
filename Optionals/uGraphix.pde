@@ -1,5 +1,6 @@
-/// Various helpful drawing procedures.
-//*//////////////////////////////////////////////////////////////
+/// Various helpful drawing procedures, like crosses, polygons & bar3D
+/// @date 2023.02.28 (Last modification)
+//*/////////////////////////////////////////////////////////////////////
 
 /// A class to represent two-dimensional points.
 class pointxy 
@@ -20,10 +21,10 @@ class pointxy
 /// Frame drawn with a default line.
 void surround(int x1,int y1,int x2,int y2)
 {
-  line(x1,y1,x2,y1);//--->
-  line(x2,y1,x2,y2);//vvv
-  line(x1,y2,x2,y2);//<---
-  line(x1,y1,x1,y2);//^^^
+  line(x1,y1,x2,y1); //--->
+  line(x2,y1,x2,y2); //vvv
+  line(x1,y2,x2,y2); //<---
+  line(x1,y1,x1,y2); //^^^
 }
 
 /// Cross drawn with a default line.

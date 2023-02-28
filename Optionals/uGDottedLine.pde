@@ -1,15 +1,16 @@
-///  Function for drawing dotted lines.
+/// Functions for drawing dotted lines.
+/// @date 2023.02.28 (Last modification)
 //*////////////////////////////////////////////////////////////////////////////////////
 
-/// if you use a lot of dotted lines maybe something like this is usefull for you... 
+/// If you use a lot of dotted lines maybe something like this is usefull for you... 
 /// just call dottedLine() like you would call line()
 /// See: https://processing.org/discourse/beta/num_1219255354.html
 void dottedLine(float x1, float y1, float x2, float y2, int steps)
 {                                 //println("dottedLine(float,float,float,float,int steps)");
  for(int i=0; i<=steps; i++) 
  {
-   float d = i/(float)steps;      //println(d);
-   float x = lerp(x1, x2, d);//funkcja lerp() jest sednem tego rozwiązania
+   float d = i/(float)steps;  //println(d);
+   float x = lerp(x1, x2, d); //funkcja lerp() jest sednem tego rozwiązania
    float y = lerp(y1, y2, d);
    point(x,y);
    //noStroke();ellipse(x, y,2,2);//Używanie elipsy zamiast punktu nie jest zbyt wydajne
@@ -19,8 +20,8 @@ void dottedLine(float x1, float y1, float x2, float y2, int steps)
 
 /// Alternative function for drawing dotted lines.
 /// Uses 'int' as a parameter type.
-void dottedline(int x1, int y1, int x2, int y2, int dens)
-{                                  print("dottedline(int x1,int y1,int x2,int y2,int dens)");
+void dottedLine2(int x1, int y1, int x2, int y2, int dens)
+{                                  print("dottedLine2(int x1,int y1,int x2,int y2,int dens)");
   for (int i = 0; i <= dens; i++) 
   {
     float x = lerp(x1, x2, i/(float)dens);

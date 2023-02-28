@@ -1,4 +1,5 @@
-/// Pair is one of the most COMMON TEMPLATES.
+/// `Pair` is one of the very COMMONLY used and usable TEMPLATE.
+/// @date 2023.02.28 (Last modification)
 ///*////////////////////////////////////////////////////////////////////////
 
 

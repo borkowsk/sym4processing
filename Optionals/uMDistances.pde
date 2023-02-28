@@ -1,4 +1,5 @@
 /// Different ways to calculate Euclid distances in 2D (flat and torus).
+/// @date 2023.02.28 (Last modification)
 //*/////////////////////////////////////////////////////////////////////
 
 /// Default Euclidean distance on float numbers.

@@ -1,7 +1,9 @@
-/// Math basics
-//*/////////////////
+/// Some math basics: sign, upToTresh(-hold) & whichIsMax
+/// @date 2023.02.28 (Last modification)
+//*//////////////////////////////////////////////////////////
 
-/// Some of my older programs show the constant FLOAT_MAX, while MAX_FLOAT is currently available.
+/// Some of my older programs show the constant FLOAT_MAX.
+/// while MAX_FLOAT is currently available.
 final float FLOAT_MAX=MAX_FLOAT; //3.40282347E+38;
 
 /// Function for determining the sign of a integer number.

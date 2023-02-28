@@ -1,1 +1,0 @@
-Additional functionalities for simulation application templates

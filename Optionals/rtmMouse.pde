@@ -1,4 +1,5 @@
 /// Examples for handling mouse events
+/// @date 2023.02.28 (Last modification)
 //*//////////////////////////////////////
 
 /// Mouse movement support. It shouldn't be too time consuming.

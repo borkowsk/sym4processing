@@ -1,4 +1,5 @@
 /// Tool for made video from simulation 
+/// @date 2023.02.28 (Last modification)
 //* PL: Narzędzie do tworzenia wideo z symulacji
 //*////////////////////////////////////////////////////////////////////////////////////
 /// See: http://funprogramming.org/VideoExport-for-Processing/examples/basic/basic.pde

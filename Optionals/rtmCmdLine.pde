@@ -1,5 +1,6 @@
-/// Template handling of program call parameters, if available.
-//*/////////////////////////////////////////////////////////////
+/// Example of function handling of program call parameters, if available.
+/// @date 2023.02.28 (Last modification)
+//*////////////////////////////////////////////////////////////////////////////
 
 /// Parsing command line, if available.
 void checkCommandLine() 

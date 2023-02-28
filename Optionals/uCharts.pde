@@ -1,9 +1,10 @@
-/// Functions & classes for chart making
-//*/////////////////////////////////////////////////////////////////////////////////////////
+/// Functions & classes useable for making charts.
+/// @date 2023.02.28 (Last modification)
+//*///////////////////////////////////////////////////////////////////////////
 
 //final float INF_NOT_EXIST=Float.MAX_VALUE;///< needed somewhere
 
-/// A class that implements only the interface having a proper object name
+/// A class that implements only the interface having a proper object name.
 class NamedData implements iNamed
 {
   String myName;
@@ -11,23 +12,25 @@ class NamedData implements iNamed
   String name() {return myName;}
 }//EndOfClass
 
-/// Class of a NAMED range of real (float) numbers
+/// Class of a NAMED range of real (float) numbers.
 class Range extends NamedData
 {
-  float min=+Float.MAX_VALUE;//!< Current minimal value
-  float max=-Float.MAX_VALUE;//!< Current maximal value
+  float min=+Float.MAX_VALUE; //!< Current minimal value
+  float max=-Float.MAX_VALUE; //!< Current maximal value
   
   /// Constructor need only a name
   Range(String Name){ super(Name); }
   
-  /// Adding a value to a range can make it wider 
+  /// Adding a value to a range can make it wider. 
   void addValue(float value) 
   {
     if(value==INF_NOT_EXIST) return;
+    
     if(max<value)
     {
       max=value;
     }
+    
     if(min>value)
     {
       min=value;
@@ -35,7 +38,7 @@ class Range extends NamedData
   }
 }//EndOfClass
 
-/// This class represents a NAMED series of real (float) numbers
+/// This class represents a NAMED series of real (float) numbers.
 /// Should it also be a descendant of the Range? 
 /// ... Or at least implements the same interface? TODO?
 class Sample  extends NamedData
@@ -43,25 +46,25 @@ class Sample  extends NamedData
   FloatList data=null;
   
   // For statistics
-  int    count=0;              //!< How much data has been entered (not counting INF_NOT_EXIST)
-  float   min=+Float.MAX_VALUE;//!< Current minimal value
-  int   whmin=-1;              //!< Position of the current minimal value
-  float   max=-Float.MAX_VALUE;//!< Current maximal value
-  int   whmax=-1;              //!< Position of the current maximal value
-  double   sum=0;              //!< The current sum of values 
+  int    count=0;               //!< How much data has been entered (not counting INF_NOT_EXIST)
+  float   min=+Float.MAX_VALUE; //!< Current minimal value
+  int   whmin=-1;               //!< Position of the current minimal value
+  float   max=-Float.MAX_VALUE; //!< Current maximal value
+  int   whmax=-1;               //!< Position of the current maximal value
+  double   sum=0;               //!< The current sum of values 
   
-  /// Constructor need only a name
+  /// Constructor need only a name.
   Sample(String Name) { super(Name); data=new FloatList(); }
   
-  /// Adding values to a series immediately updates the base stats
+  /// Adding values to a series immediately updates the base stats.
   void addValue(float value)
   {        
     data.append(value);
     
-    if(value==INF_NOT_EXIST) return;//Nic więcej do zrobienia
+    if(value==INF_NOT_EXIST) return; //Nothing to do.
     
     sum+=value;
-    count++;//Real value, not empty one!
+    count++; //Real value, not empty one!
     
     if(max<value)
     {
@@ -75,11 +78,11 @@ class Sample  extends NamedData
     }
   }
   
-  /// Number of recorded values
-  /// Together with empty entries equal to INF_NOT_EXIST
+  /// It provides number of recorded values.
+  /// Together with empty entries equal to INF_NOT_EXIST!
   int  numOfElements() { return data.size(); }
   
-  /// Ready to start collecting data again
+  /// Ready to start collecting data again.
   void reset()
   {
     data.clear();
@@ -91,28 +94,28 @@ class Sample  extends NamedData
     count=0;
   }
   
-  /// Secured reading of the minimum
+  /// Secured reading of the minimum.
   float getMin()
   {
     if(count>0) return min;
     else return INF_NOT_EXIST;
   }
   
-  /// Secured reading of the maximum
+  /// Secured reading of the maximum.
   float getMax()
   {
     if(count>0) return max;
     else return INF_NOT_EXIST;
   }
   
-  /// Secured reading of the the mean
+  /// Secured reading of the the mean.
   float getMean()
   {
     if(count>0) return (float)(sum/count);
     else return INF_NOT_EXIST;
   }
   
-  /// Secured reading of the standard deviation
+  /// Secured reading of the standard deviation.
   float getStdDev()
   {
     if(count==0) return INF_NOT_EXIST;
@@ -131,11 +134,11 @@ class Sample  extends NamedData
   }
 }//EndOfClass
 
-/// This class represens a named histogram of frequencies 
+/// This class represens a named histogram of frequencies. 
 class Frequencies extends NamedData
 {
   private int[]   buckets=null;
-  float   sizeOfbucket=0;//(Max-Min)/N;
+  float   sizeOfbucket=0; //(Max-Min)/N;
   float   lowerb=+Float.MAX_VALUE;
   float   upperb=-Float.MAX_VALUE;
   int     outsideLow=0;
@@ -144,7 +147,7 @@ class Frequencies extends NamedData
   int     higherBucket=0;
   int     higherBucketIndex=-1;
 
-  /// Constructor needs more than a name
+  /// Constructor needs more than a name.
   Frequencies(int numberOfBuckets,float lowerBound, float upperBound,String Name)
   {
     super(Name);
@@ -154,10 +157,10 @@ class Frequencies extends NamedData
     sizeOfbucket=(upperBound-lowerBound)/numberOfBuckets;
   }
   
-  /// In this case, the items are histogram buckets
+  /// In this case, the items are histogram buckets.
   int  numOfElements() { return buckets.length;}
   
-  /// Ready to start collecting data again
+  /// Ready to start collecting data again.
   void reset()
   {
     for(int i=0;i<buckets.length;i++)
@@ -169,7 +172,7 @@ class Frequencies extends NamedData
     higherBucketIndex=-1;    
   }
   
-  /// Adding the real value updates the corresponding bucket
+  /// Adding the real value updates the corresponding bucket.
   void addValue(float value)
   {
     if(value==INF_NOT_EXIST) return;
@@ -191,7 +194,7 @@ class Frequencies extends NamedData
   }
 }//EndOfClass
 
-/// Visualizes the axes of the coordinate system
+/// Visualizes the axes of the coordinate system.
 void viewAxis(int startX,int startY,int width,int height)
 {
   line(startX,startY,startX+width,startY);
@@ -201,7 +204,7 @@ void viewAxis(int startX,int startY,int width,int height)
   line(startX-5,startY-height+5,startX,startY-height);
 }
 
-/// Visualizes a box around the area
+/// Visualizes a box around the area.
 void viewFrame(float startX,float startY,int width,int height)
 {
   line(startX,startY,startX+width,startY);
@@ -210,21 +213,21 @@ void viewFrame(float startX,float startY,int width,int height)
   line(startX,startY-height,startX+width,startY-height);
 }
 
-/// Draws tics along the vertical axis
+/// Draws tics along the vertical axis.
 void viewTicsV(int startX,int startY,int width,int height,float space)
 {
   for(int y=startY;y>startY-height;y-=space)
      line(startX,y,startX+width,y);
 }
 
-/// Draws tics along the horizontal axis
+/// Draws tics along the horizontal axis.
 void viewTicsH(float startX,float startY,float width,float height,float space)
 {
   for(int x=int(startX);x<startX+width;x+=space)
      line(x,startY,x,startY-height);
 }
 
-/// Visualizes the limits of the vertical scale
+/// Visualizes the limits of the vertical scale.
 /// NOTE: We're not drawing dashes here yet (tics)
 void viewScaleV(Range MinMax,int startX,int startY,int width,int height)//,boolean logaritm)
 {
@@ -235,40 +238,40 @@ void viewScaleV(Range MinMax,int startX,int startY,int width,int height)//,boole
    text(""+MinMax.max,startX+width,startY-height);
 }
 
-/// Visualization of data series as a series of points or a continuous line
-void viewAsPoints(Sample data,    //!< Data source. The object containing the data to be visualized
-                  int startD,     //!< Data starting point, or end-to-end number if negative
-                  float startX,   //!< The horizontal starting point of the display area 
-                  float startY,   //!< The vertical starting point of the display area 
-                  int width,      //!< The width of the display area
-                  int height,     //!< Height of the display area
-                  boolean logaritm,//!< Should the data be transformed by logarith?
-                  Range commMinMax,//!< Optionally common Range for multiple series or null
-                  boolean connect  //!< Should data points be combined into a single line?
+/// Visualization of data series as a series of points or a continuous line.
+void viewAsPoints(Sample data,      //!< Data source. The object containing the data to be visualized
+                  int startD,       //!< Data starting point, or end-to-end number if negative
+                  float startX,     //!< The horizontal starting point of the display area 
+                  float startY,     //!< The vertical starting point of the display area 
+                  int width,        //!< The width of the display area
+                  int height,       //!< Height of the display area
+                  boolean logaritm, //!< Should the data be transformed by logarith?
+                  Range commMinMax, //!< Optionally common Range for multiple series or null
+                  boolean connect   //!< Should data points be combined into a single line?
                   )
 {
   float min,max;
   if(commMinMax!=null)
   {
-    min=(logaritm?(float)Math.log10(commMinMax.min+1):commMinMax.min);//+1 wizualnie niewiele zmienia a gwarantuje obliczalność
-    max=(logaritm?(float)Math.log10(commMinMax.max+1):commMinMax.max);//+1 wizualnie niewiele zmienia a gwarantuje obliczalność    
+    min=(logaritm?(float)Math.log10(commMinMax.min+1):commMinMax.min); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
+    max=(logaritm?(float)Math.log10(commMinMax.max+1):commMinMax.max); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność    
   }
   else
   {
-    min=(logaritm?(float)Math.log10(data.min+1):data.min);//+1 wizualnie niewiele zmienia a gwarantuje obliczalność
-    max=(logaritm?(float)Math.log10(data.max+1):data.max);//+1 wizualnie niewiele zmienia a gwarantuje obliczalność
+    min=(logaritm?(float)Math.log10(data.min+1):data.min); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
+    max=(logaritm?(float)Math.log10(data.max+1):data.max); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
   }
   
-  int     N=data.numOfElements();       assert startD<N-1;
+  int     N=data.numOfElements();                          assert startD<N-1;
   if(startD<0)
   {
-      startD=-startD; //Ujemne było tylko umownie!!!
-      startD=N-startD;//Ileś od końca
+      startD=-startD;  //Ujemne było tylko umownie!!!
+      startD=N-startD; //Ileś od końca
   }
   if(startD<0) //Nadal ujemne!?
   {
-      startD=0;//Czyli zabrakło danych
-      //print("?");
+      startD=0; //Czyli zabrakło danych!
+                //print("?");
   }
   float wid=float(width)/(N-startD);  //println(width,N,startD,wid,min,max);
   float oldy=-Float.MIN_VALUE;
@@ -309,13 +312,13 @@ void viewAsPoints(Sample data,    //!< Data source. The object containing the da
   }
 }
 
-/// Bar visualization of a histogram or something similar
-float viewAsColumns(Frequencies hist,//!< Data source. The object containing the data to be visualized
-                    float startX,    //!< The horizontal starting point of the display area 
-                    float startY,    //!< The vertical starting point of the display area 
-                    int width,       //!< The width of the display area
-                    int height,      //!< The height of the display area
-                    boolean logaritm //!< Should the data be transformed by logarith?
+/// Bar visualization of a histogram or something similar.
+float viewAsColumns(Frequencies hist, //!< Data source. The object containing the data to be visualized
+                    float startX,     //!< The horizontal starting point of the display area 
+                    float startY,     //!< The vertical starting point of the display area 
+                    int width,        //!< The width of the display area
+                    int height,       //!< The height of the display area
+                    boolean logaritm  //!< Should the data be transformed by logarith?
                     )
 {
   float max=(logaritm?(float)Math.log10(hist.higherBucket+1):hist.higherBucket);//+1 wizualnie niewiele zmienia a gwarantuje obliczalność
@@ -335,6 +338,7 @@ float viewAsColumns(Frequencies hist,//!< Data source. The object containing the
   
   textAlign(LEFT,BOTTOM);
   text(""+max+(logaritm?"<="+hist.higherBucket+" @ "+hist.higherBucketIndex:" @ "+hist.higherBucketIndex),startX,startY-height);
+  
   //Real width of histogram
   float realwidth=(hist.buckets.length)*wid;//println(realwidth);noLoop();
   return realwidth;

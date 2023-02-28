@@ -1,4 +1,5 @@
-///  Function for drawing dashed lines.
+/// Function for drawing dashed lines.
+/// @date 2023.02.28 (Last modification)
 //*//////////////////////////////////////////////////////////////////
 
 ///  Draw a dashed line with given set of dashes and gap lengths. 
@@ -63,7 +64,7 @@ void dashedline(float x0, float y0, float x1, float y1,float dens)
 }
 
 /*
-/// Obsolete name 
+/// Obsolete form 
 void dashedline(float x0, float y0, float x1, float y1, float[ ] spacing) 
 { 
   float distance = dist(x0, y0, x1, y1); 

@@ -1,7 +1,10 @@
-/// "Active rectangles" - proprietary application interface module in Processing
+/// "Active rectangles" - proprietary application interface module in Processing.
+/// @date 2023.02.28 (Last modification)
+/// @author Wojciech Borkowski
 //*////////////////////////////////////////////////////////////////////////////////
-/// USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
-/// if you need translate the code into C++ (--> Processing2C )
+
+// USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
+// if you need translate the code into C++ (--> Processing2C )
 
 ArrayList<RectArea>   allAreas = new ArrayList<RectArea>();     ///< Global list of areas to be displayed.
 ArrayList<TextButton> allButtons = new ArrayList<TextButton>(); ///< Global button list.
@@ -47,11 +50,11 @@ void view_all_areas()
   }
 }
 
-/// Rectangular screen area class as the basis for various active areas
+/// Rectangular screen area class as the basis for various active areas.
 class RectArea
 {
-  int    x1,y1,x2,y2;//!< Corners of the area
-  color  back;       //!< Colour of background
+  int    x1,y1,x2,y2; //!< Corners of the area
+  color  back;        //!< Colour of background
   
   /// Constructor. 
   /// Requires data on the corners of the area.
@@ -74,7 +77,7 @@ class RectArea
         rect(x1,y1,x2,y2);
   }
   
-  /// The function of checking if you click on an area
+  /// The function of checking if you click on an area.
   /*_interfunc*/ boolean hitted(int x,int y)
   {
     return x1<=x && x<=x2
@@ -82,7 +85,7 @@ class RectArea
   }
 }//EndOfClass
 
-/// A class of a panel that contains many buttons
+/// A class of a panel that contains many buttons.
 class PanelOfTextButtons extends RectArea
 {
   ArrayList<TextButton> list; 
@@ -117,7 +120,7 @@ class PanelOfTextButtons extends RectArea
   
 }//EndOfClass
 
-/// Rectangular button with text content
+/// Rectangular button with text content.
 class TextButton extends RectArea implements iNamed
 {
   color  txt,strok;
@@ -129,7 +132,7 @@ class TextButton extends RectArea implements iNamed
   protected int state;
   
   /// Constructor.
-  /// Requires data on the corners of the area and text content ("title")
+  /// Requires data on the corners of the area and text content ("title").
   TextButton(String iTitle,float iX1,float iY1,float iX2,float iY2)
   {
     super(iX1,iY1,iX2,iY2);
@@ -165,7 +168,7 @@ class TextButton extends RectArea implements iNamed
     text(title,x1,y1,x2,y2); 
   }
   
-  /// Change to the opposite state (0 to 1, other to 0) and possibly visualize
+  /// Change to the opposite state (0 to 1, other to 0) and possibly visualize.
   /*_interfunc*/ void flip_state(boolean visual)
   {
     if(state==0) state=1;
@@ -174,7 +177,7 @@ class TextButton extends RectArea implements iNamed
         view();
   }
   
-  /// It changes the state to 0 or 1 and optionally visualizes
+  /// It changes the state to 0 or 1 and optionally visualizes.
   /*_interfunc*/ void set_state(int new_state,boolean visual)
   {
     if(new_state!=state)
@@ -188,8 +191,8 @@ class TextButton extends RectArea implements iNamed
 }//EndOfClass
 
 
-/// A pseudo-button class that displays the state, not the name, 
-/// Also ignores flip_state() and that changes to state through set_state() are "protected"
+/// A pseudo-button class that displays the state, not the name. 
+/// Also ignores flip_state() and that changes to state through set_state() are "protected".
 class StateLabel extends TextButton 
 {
   /// Normally using set_state() in this class does not change anything. 
@@ -223,14 +226,14 @@ class StateLabel extends TextButton
     text(state+"",x1,y1,x2,y2); 
   }
  
-  /// A function that allows you to change the state
+  /// A function that allows you to change the state.
   /*_interfunc*/ void allow()
   {
     allowChng=true;
     view();
   }
   
-  /// Specific for the class. It does not change the state by flip, 
+  /// Specific for the class - It does not change the state by flip, 
   /// at most it repeats the display - although it is probably useless
   void flip_state(boolean visual)   
   { 
@@ -248,7 +251,7 @@ class StateLabel extends TextButton
         state=new_state;
       }
       
-      allowChng=false;// Whether there was an actual change or not, it will no longer be possible
+      allowChng=false; // Whether there was an actual change or not, it will no longer be possible
       
       if(visual)
           view();
@@ -256,8 +259,8 @@ class StateLabel extends TextButton
   }
 }//EndOfClass
 
-/// A button class that increments a state label, 
-/// possibly undoing the operation of the opposite pair
+/// A button class that increments a state label. 
+/// It possibly undoes the operation of the opposite pair.
 class StateLabelInc extends TextButton
 {
   StateLabel     target;
@@ -274,7 +277,7 @@ class StateLabelInc extends TextButton
     target=iTarget;opponent=iOpponent;
   }
   
-  /// Class-specific overlay of the inherited method.
+  /// Class-specific implementation of the inherited method.
   /// It increases or decreses the state.
   void flip_state(boolean visual)
   { 
@@ -286,7 +289,7 @@ class StateLabelInc extends TextButton
            else target.set_state(target.state-1,visual);
    } 
    
-   /// The method that undoes state increments, i.e. decreases the "counter"
+   /// The method that undoes state increments, i.e. decreases the "counter".
    void decrement(boolean visual)
    {
      state=0;view();
@@ -296,7 +299,7 @@ class StateLabelInc extends TextButton
 }//EndOfClass
 
 /// Unique button. 
-/// The class of the button, which when clicked, resets the state of all the others on the list
+/// The class of the button, which when clicked, resets the state of all the others on the list.
 class UniqTextButton extends TextButton 
 {
   ArrayList<TextButton> siblings; //!< List of mutually exclusive buttons
@@ -309,7 +312,8 @@ class UniqTextButton extends TextButton
     siblings=iSibl;
   }
   
-  /// Normally the method changes the state to the opposite (0 to 1, other to 0) and possibly visualizes.
+  /// This method changes the state to the opposite (0 to 1, other to 0) 
+  /// and possibly visualizes.
   /// However, if the button state changes to other than 0 then
   /// his companions (siblings) on the list must be reset.
   void flip_state(boolean visual)   
@@ -327,7 +331,7 @@ class UniqTextButton extends TextButton
   }
 }//EndOfClass
 
-/// A button that remembers the column to which its unique marker is to be saved
+/// A button that remembers the column to which its unique marker is to be saved.
 class WrTextButton extends TextButton 
 {   
   int column;
@@ -343,7 +347,7 @@ class WrTextButton extends TextButton
   }
 }//EndOfClass
 
-/// UniqButton additionally remembers the column to which it is to save its unique marker
+/// UniqButton additionally remembers the column to which it is to save its unique marker.
 class WrUniqTextButton extends UniqTextButton 
 {   
   int column;
@@ -361,7 +365,6 @@ class WrUniqTextButton extends UniqTextButton
 }//EndOfClass
 
 //*///////////////////////////////////////////////////////////////////////////////////////////////////
-///  @Author Wojciech Borkowski
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
 //*///////////////////////////////////////////////////////////////////////////////////////////////////

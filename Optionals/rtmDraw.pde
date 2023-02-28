@@ -1,9 +1,11 @@
-/// draw() template with possibility of non-visible window
-//*///////////////////////////////////////////////////////////////////////////////////////// 
+/// `draw()` example with possibility of non-visible window.
+/// @date 2023.02.28 (Last modification)
+//*////////////////////////////////////////////////////////////////////////////////////
 
 /// Console only apps. is possible when draw() function set window visibility to false, 
 /// then can do anything but drawing :-D
-/// final boolean WINDOW_INVISIBLE=true; ... is used in template draw() for swith on window invisibility
+/// Need extern definition of:
+///  final boolean WINDOW_INVISIBLE=true; ///< ... is used in template draw() for swith on window invisibility.
 void draw() 
 {
   if(WINDOW_INVISIBLE && frameCount==1)
@@ -11,7 +13,7 @@ void draw()
     surface.setVisible(false);//Console only applet? - Does it work?
     println("Windows is set to invisible in draw function!");
   }
-  //... Your code here or in event handlers!
+  //... Your code here or in event handlers. But... WITHOUT ANY DRAWING.
 }
 
 //*///////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,5 @@
 /// Various shapes drawing procedures.
+/// @date 2023.02.28 (Last modification)
 //*//////////////////////////////////////////////////////////////
 
 /// Horizontal view of a bald head of a man seen from above.
@@ -68,8 +69,7 @@ void agava_ver(float x,float y,float visual_size,float num_of_leafs)
   arc(x,y,visual_size/4,visual_size/4,PI,2*PI,PIE);
 }
 
-
-/// Horisontal view on agava plant.
+/// Horizontal view on agava plant.
 void agava_hor(float x,float y,float visual_size,float num_of_leafs)
 {
   float lstep=(2*PI)/min(num_of_leafs,3)+PI/5;
@@ -93,7 +93,7 @@ void agava_hor(float x,float y,float visual_size,float num_of_leafs)
 }
 
 
-/// Vertical view of simple droid
+/// Vertical view of simple droid.
 void gas_bottle_droid_ver(float x,float y,float visual_size,float direction)
 {
   rect(x-visual_size/4, y-visual_size,     visual_size/2,   visual_size-3*visual_size/5,   visual_size/10); //Głowa
@@ -170,16 +170,16 @@ void gas_bottle_droid_ver(float x,float y,float visual_size,float direction)
 //*
 //*////////////////////////////////////////
 
-float def_arrow_size=15; ///< Default size of arrows heads
-float def_arrow_theta=PI/6.0+PI;///< Default arrowhead spacing //3.6651914291881
+float def_arrow_size=15;         ///< Default size of arrows heads
+float def_arrow_theta=PI/6.0+PI; ///< Default arrowhead spacing //3.6651914291881
 
-/// Function that draws an arrow with default settings
+/// Function that draws an arrow with default settings.
 void arrow(float x1,float y1,float x2,float y2)
 {
   arrow_d(int(x1),int(y1),int(x2),int(y2),def_arrow_size,def_arrow_theta);
 }
 
-/// Function that draws an arrow with changable settings
+/// Function that draws an arrow with changable settings.
 void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)
 {
   // CALCULATION METHOD FROM ROTATION OF THE ARROW AXIS
