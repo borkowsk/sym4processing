@@ -1,7 +1,7 @@
 /// Various shapes drawing procedures.
 //*//////////////////////////////////////////////////////////////
 
-/// The bald head of a man seen from above
+/// Horizontal view of a bald head of a man seen from above.
 void baldhead_hor(float x,float y,float r,float direction)
 {
   float D=2*r;
@@ -68,6 +68,7 @@ void agava_ver(float x,float y,float visual_size,float num_of_leafs)
   arc(x,y,visual_size/4,visual_size/4,PI,2*PI,PIE);
 }
 
+/// Vertical view of simple droid
 void gas_bottle_droid_ver(float x,float y,float visual_size,float direction)
 {
   rect(x-visual_size/4, y-visual_size,     visual_size/2,   visual_size-3*visual_size/5,   visual_size/10); //Głowa

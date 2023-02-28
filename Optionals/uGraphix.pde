@@ -61,7 +61,7 @@ void regularpoly(float x, float y, float radius, int npoints)
 }
 
 /// Drawing a polygon. 
-/// It utilises vertices given as an array of points
+/// This function utilises vertices given as an array of points
 void polygon(pointxy[] lst/*+1*/)
 {
   int N= lst.length;
