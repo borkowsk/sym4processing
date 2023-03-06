@@ -1,5 +1,6 @@
+/// @file uGraphix.pde
 /// Various helpful drawing procedures, like crosses, polygons & bar3D
-/// @date 2023.02.28 (Last modification)
+/// @date 2023.03.04 (Last modification)
 //*/////////////////////////////////////////////////////////////////////
 
 /// A class to represent two-dimensional points.
@@ -19,7 +20,7 @@ class pointxy
 }//EndOfClass
 
 /// Frame drawn with a default line.
-void surround(int x1,int y1,int x2,int y2)
+void surround(int x1,int y1,int x2,int y2)                     ///< Global namespace.
 {
   line(x1,y1,x2,y1); //--->
   line(x2,y1,x2,y2); //vvv
@@ -28,7 +29,7 @@ void surround(int x1,int y1,int x2,int y2)
 }
 
 /// Cross drawn with a default line.
-void cross(float x,float y,float cross_width)
+void cross(float x,float y,float cross_width)                  ///< Global namespace.
 {
   line(x-cross_width,y,x+cross_width,y);
   line(x,y-cross_width,x,y+cross_width);
@@ -36,7 +37,7 @@ void cross(float x,float y,float cross_width)
 
 /// Cross drawn with a default line.
 /// The version that uses parameters of type int.
-void cross(int x,int y,int cross_width)
+void cross(int x,int y,int cross_width)                        ///< Global namespace.
 {
   line(x-cross_width,y,x+cross_width,y);
   line(x,y-cross_width,x,y+cross_width);
@@ -48,7 +49,7 @@ void cross(int x,int y,int cross_width)
 //*/////////////////////
 
 /// A regular polygon with a given radius and number of vertices.
-void regularpoly(float x, float y, float radius, int npoints) 
+void regularpoly(float x, float y, float radius, int npoints)  ///< Global namespace.
 {
   float angle = TWO_PI / npoints;
   beginShape();
@@ -63,7 +64,7 @@ void regularpoly(float x, float y, float radius, int npoints)
 
 /// Drawing a polygon. 
 /// This function utilises vertices given as an array of points
-void polygon(pointxy[] lst/*+1*/)
+void polygon(pointxy[] lst/*+1*/)                               ///< Global namespace.
 {
   int N= lst.length;
   beginShape();
@@ -77,7 +78,7 @@ void polygon(pointxy[] lst/*+1*/)
 /// Drawing a polygon. 
 /// It utilises vertices given as an array of points
 /// @param N, size of list, could be smaller than 'lst.lenght'
-void polygon(pointxy[] lst/*+1*/,int N)
+void polygon(pointxy[] lst/*+1*/,int N)                        ///< Global namespace.
 {
   beginShape();
   for (int a = 0; a < N; a ++) 
@@ -105,13 +106,13 @@ color back=color(0,0,0); //Informacja o kolorze tla
 }//EndOfClass
 
 /// Default configuration set of BAR3D visualisation.
-settings_bar3d bar3dsett=new settings_bar3d();///< Default settings of bar3d
+settings_bar3d bar3dsett=new settings_bar3d();                       ///< Default settings of bar3d
 
 /// Rhomb polygon used for draving bar3D
-pointxy bar3dromb[]={new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy()};
+pointxy bar3dromb[]={new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy()};  ///< Global namespace.
 
 /// Function which draving bar3d using current configuration.
-void bar3dRGB(float x,float y,float h,int R,int G,int B,int Shad)
+void bar3dRGB(float x,float y,float h,int R,int G,int B,int Shad)    ///< Global namespace.
 {
                                                     /*      6 ------ 5    */
   bar3dromb[0].x= x;                                /*     /        / |   */

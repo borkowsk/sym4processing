@@ -1,4 +1,5 @@
-/// Some 2D Geometry calculations: nearestPoints and so...
+/// @file uMGeom2D.pde
+/// Some 2D Geometry calculations: nearestPoints and so on.
 /// @date 2023.02.28 (Last modification)
 //*///////////////////////////////////////////////////////////
 
@@ -8,10 +9,11 @@
 /// Nearest points of two polygons.
 /// @param listA - first polygon as a list of points
 /// @param listB - second polygon as a list of points
-Pair<pointxy,pointxy> nearestPoints(final pointxy[] listA,final pointxy[] listB)
+Pair<pointxy,pointxy> nearestPoints(final pointxy[] listA,
+                                    final pointxy[] listB )
 {                                                         
-                                                          assert(listA.length>0);
-                                                          assert(listB.length>0);
+                                    assert(listA.length>0);
+                                    assert(listB.length>0);
   float mindist=MAX_FLOAT;
   int   minA=-1;
   int   minB=-1;

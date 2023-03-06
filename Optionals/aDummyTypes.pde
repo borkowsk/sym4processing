@@ -1,8 +1,11 @@
-/// Classes for making an object from a simple types as `int`, `boolean`, `float` & `double`.
-/// Useful when you need a REFERENCE to a value.
-/// @date 2023.02.28 (Last modification)
-//*///////////////////////////////////////////////////////////////////////////////////////////
-
+/// @file aDummyTypes.pde
+/// @brief Classes for making an object from a simple types as 
+/// `int`, `boolean`, `float` & `double`.
+/// @note They are useful, when you need a REFERENCE to a value of such types.
+/// @date 2023.03.04 (Last modification)
+//*/////////////////////////////////////////////////////////////////////////////
+///
+/// @details
 /// In Processing as hell :-) I can't find how to pass something other than an 
 /// object by reference. However, the existing Integer or Float classes are not 
 /// suitable for this because they are "final". 
@@ -15,17 +18,17 @@
 class DummyBool
 { boolean val=false; }
 
-/// A class for taking an object from a simple variable of type int. 
+/// A class for taking an object from a simple variable of type `int`. 
 /// Needed for common configuration values or to pass to functions by reference.
 class DummyInt
 {int val=0;}
 
-/// A class for taking an object from a simple variable of type float. 
+/// A class for taking an object from a simple variable of type `float`. 
 /// Needed for common configuration values or to pass to functions by reference.
 class DummyFloat
 { float val=0; }
 
-/// A class for taking an object from a simple variable of type double. 
+/// A class for taking an object from a simple variable of type `double`. 
 /// Needed for common configuration values or to pass to functions by reference.
 class DummyDouble
 { double val=0; }

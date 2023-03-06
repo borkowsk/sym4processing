@@ -1,12 +1,12 @@
-/// Common INTERFACES like iNamed, iDescribable, iColorable, iPositioned & Function2D
-/// @date 2023.02.28 (Last modification)
+/// @file aInterfaces.pde 
+/// Common INTERFACES like iNamed, iDescribable, iColorable, iPositioned & Function2D.
+/// @date 2023.03.04 (Last modification)
 //*///////////////////////////////////////////////////////////////////////////////////
-/// USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
-/// if you need translate the code into C++ (--> Processing2C )
+//* USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
+//* if you need translate the code into C++ (--> Processing2C )
 
 //*
-/// Generally useable interfaces:
-//*
+//* Generally useable interfaces:
 //*//////////////////////////////
 
 /// Forcing name available as String (planty of usage)
@@ -51,7 +51,7 @@ interface Function2D {
   /*_interfunc*/ float getMax()/*_forcbody*/;//Always must be different!
 }//EndOfClass
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////////////////////
 //*  See: "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" - USEFULL COMMON INTERFACES
 //*  See also: "https://github.com/borkowsk/RTSI_public"
-//*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////////////////////

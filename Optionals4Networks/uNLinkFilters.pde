@@ -1,20 +1,24 @@
-/// Different filters of links and other link tools for a (social) network
-//*/////////////////////////////////////////////////////////////////////////
-/// Available filters: 
+/// @file uNLinkFilters.pde
+/// @date 2023.03.04 (Last modification)
+/// @brief Different filters of links and other link tools for a (social) network
+//*/////////////////////////////////////////////////////////////////////////////
+/// @details
+///   Available filters: 
+///   ------------------
 ///   AllLinks, AndFilter, OrFilter, TypeFilter,
 ///   LowPassFilter,   HighPassFilter,
-///   AbsLowPassFilter, AbsHighPassFilter
-///   TypeAndAbsHighPassFilter - special type for efficient visualisation
+///   AbsLowPassFilter, AbsHighPassFilter,
+///   TypeAndAbsHighPassFilter (special type for efficient visualisation).
 
-/// Simplest link filtering class which accepts all links
+/// Simplest link filtering class which accepts all links.
 class AllLinks extends LinkFilter
 {
   boolean meetsTheAssumptions(iLink l) { return true;}
 }//EndOfClass
 
-final AllLinks allLinks=new AllLinks();  ///< Such type of filter is used very frequently
+final AllLinks allLinks=new AllLinks();  ///< Such type of filter is used very frequently.
 
-/// Special type of filter for efficient visualisation
+/// Special type of filter for efficient visualisation.
 class TypeAndAbsHighPassFilter  extends LinkFilter
 {
   int ltype;
@@ -25,8 +29,8 @@ class TypeAndAbsHighPassFilter  extends LinkFilter
   boolean meetsTheAssumptions(iLink l) { return l.getTypeMarker()==ltype && abs(l.getWeight())>treshold;}
 }//EndOfClass
 
-/// AND two filters assembly class.
-/// A class for logically joining two filters with the AND operator.
+/// `AND` on two filters assembling class.
+/// A class for logically joining two filters with the `AND` operator.
 class AndFilter extends LinkFilter
 {
    LinkFilter a;
@@ -38,7 +42,7 @@ class AndFilter extends LinkFilter
    }
 }//EndOfClass
 
-/// OR two filters assembly class.
+/// `OR` on two filters assembly class.
 /// A class for logically joining two filters with the OR operator.
 class OrFilter extends LinkFilter
 {
@@ -52,7 +56,7 @@ class OrFilter extends LinkFilter
 }//EndOfClass
 
 /// Type of link filter.
-/// Class which filters links of specific "color"/"type"
+/// Class which filters links of specific "color"/"type".
 class TypeFilter extends LinkFilter
 {
   int ltype;
@@ -61,7 +65,7 @@ class TypeFilter extends LinkFilter
 }//EndOfClass
 
 /// Low Pass Filter.
-/// Class which filters links with lower weights
+/// Class which filters links with lower weights.
 class LowPassFilter extends LinkFilter
 {
   float treshold;
@@ -70,7 +74,7 @@ class LowPassFilter extends LinkFilter
 }//EndOfClass
 
 /// High Pass Filter.
-/// Class which filters links with higher weights
+/// Class which filters links with higher weights.
 class HighPassFilter extends LinkFilter
 {
   float treshold;
@@ -79,7 +83,7 @@ class HighPassFilter extends LinkFilter
 }//EndOfClass
 
 /// Absolute Low Pass Filter.
-/// lowPassFilter filtering links with lower absolute value of weight
+/// lowPassFilter filtering links with lower absolute value of weight.
 class AbsLowPassFilter extends LinkFilter
 {
   float treshold;
@@ -88,7 +92,7 @@ class AbsLowPassFilter extends LinkFilter
 }//EndOfClass
 
 /// Absolute High Pass Filter.
-/// highPassFilter filtering links with higher absolute value of weight
+/// highPassFilter filtering links with higher absolute value of weight.
 class AbsHighPassFilter extends LinkFilter
 {
   float treshold;
@@ -96,7 +100,8 @@ class AbsHighPassFilter extends LinkFilter
   boolean meetsTheAssumptions(iLink l) { return abs(l.getWeight())>treshold;}
 }//EndOfClass
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*////////////////////////////////////////////////////////////////////////////

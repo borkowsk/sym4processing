@@ -1,118 +1,116 @@
-/// Generic (social) network classes
-//*////////////////////////////////////////////////////////////
-// Classes:
-//*/////////
-// class Link extends Colorable implements iLink //USER CAN MODIFY FOR THE SAKE OF EFFICIENCY
-// class NodeList extends Node
-// class NodeMap extends Node
-//
-//   INTERFACES:
-//*///////////////////
-// interface iLink 
-// interface iNode
-//
-//   Abstractions:
-//*///////////////////
-// abstract class Node extends Positioned 
-//
-// abstract class LinkFilter
-// abstract class LinkFactory
-//
-// abstract class Named implements iNamed
-// abstract class Colorable extends Named implements iColorable
-// abstract class Positioned extends Colorable implements iPositioned
-//
-//
-// Network generators: 
-//*////////////////////
-// void makeRingNet(Node[] nodes,LinkFactory links,int neighborhood);
-// void makeTorusNet(Node[] nodes,LinkFactory links,int neighborhood);
-// void makeTorusNet(Node[][] nodes,LinkFactory links,int neighborhood);
-// 
-// void makeFullNet(Node[] nodes,LinkFactory links);
-// void makeFullNet(Node[][] nodes,LinkFactory links);
-// 
-// void makeRandomNet(Node[] nodes,LinkFactory links,float probability, boolean reciprocal);
-// void makeRandomNet(Node[][] nodes,LinkFactory links,float probability, boolean reciprocal);
-//
-// void makeOrphansAdoption(Node[] nodes,LinkFactory links, boolean reciprocal);
-// 
-// void makeSmWorldNet(Node[] nodes,LinkFactory links,int neighborhood,float probability, boolean reciprocal);
-// void makeImSmWorldNet(Node[] nodes,LinkFactory links,int neighborhood,float probability, boolean reciprocal);
-// 
-//
+/// @file aNetwork.pde
+/// @date 2023.03.04 (Last modification)
+/// @brief Generic (social) network classes.
+//*/////////////////////////////////////////////////////////////////////////////
+/// @details
+///   Classes:
+///   ========
+///   - `class Link extends Colorable implements iLink`
+///   - `class NodeList extends Node`
+///   - `class NodeMap extends Node`
+///
+///   Abstractions:
+///   =============
+///   - `abstract class Node extends Positioned` 
+///   - `abstract class LinkFilter`
+///   - `abstract class LinkFactory`
+///
+///   - `abstract class Named implements iNamed`
+///   - `abstract class Colorable extends Named implements iColorable`
+///   - `abstract class Positioned extends Colorable implements iPositioned`
+///
+///   Network generators: 
+///   ===================
+///   - `void makeRingNet(Node[] nodes,LinkFactory links,int neighborhood)`
+///   - `void makeTorusNet(Node[] nodes,LinkFactory links,int neighborhood)`
+///   - `void makeTorusNet(Node[][] nodes,LinkFactory links,int neighborhood)`
+/// 
+///   - `void makeFullNet(Node[] nodes,LinkFactory links)`
+///   - `void makeFullNet(Node[][] nodes,LinkFactory links)`
+/// 
+///   - `void makeRandomNet(Node[] nodes,LinkFactory links,float probability, boolean reciprocal)`
+///   - `void makeRandomNet(Node[][] nodes,LinkFactory links,float probability, boolean reciprocal)`
+///
+///   - `void makeOrphansAdoption(Node[] nodes,LinkFactory links, boolean reciprocal)`
+/// 
+///   - `void makeSmWorldNet(Node[] nodes,LinkFactory links,int neighborhood,float probability, boolean reciprocal)`
+///   - `void makeImSmWorldNet(Node[] nodes,LinkFactory links,int neighborhood,float probability, boolean reciprocal)`
+///
 
 import java.util.Map;
 
-int debug_level=1;  ///< DEBUG level for network. Visible autside this file!
+/// int NET_DEBUG_LEV=1;  ///< DEBUG level for network. Should be defined autside this file!
 
-// ABSTRACT BASE CLASSES
-///////////////////////////////////
+//  ABSTRACT BASE CLASSES
+//*/////////////////////////////////
 
-/// 
+/// Abstraction of link filtering class.
 abstract class LinkFilter implements iLinkFilter {
   /*_interfunc*/ boolean meetsTheAssumptions(iLink l)
-                  {assert false : "Pure interface meetsTheAssumptions(Link) called"; return false;}
-};
+                  {assert false : "Pure abstract meetsTheAssumptions(Link) called"; return false;}
+}//EndOfClass
 
-/// 
-abstract class LinkFactory {
-  /*_interfunc*/ Link  makeLink(Node Source,Node Target)
-                  {assert false : "Pure interface make(Node,Node) called"; return null;}
-                 Link  makeSelfLink(Node Self)
-                  {assert false : "Pure interface make(Node) called"; return null;}
-};
+/// Abstraction of link factory class. Forcing `makeLink()` and `makeSalfLink()` methods.
+abstract class LinkFactory implements iLinkFactory {
+  /*_interfunc*/ iLink  makeLink(iNode Source,iNode Target)
+                  {assert false : "Pure abstract make(Node,Node) called"; return null;}
+                 iLink  makeSelfLink(iNode Self)
+                  {assert false : "Pure abstract make(Node) called"; return null;}
+}//EndOfClass
 
-/// Forcing name() method for visualisation and mapping 
+/// Abstraction of string-named class. Forcing `name()` method for visualisation and mapping. 
 abstract class Named implements iNamed {       
   /*_interfunc*/ String    name(){assert false : "Pure interface name() called"; return null;}
-};
+}//EndOfClass
 
-/// Only for visualisation
+/// Abstraction for any colorable object. Only for visualisation.
 abstract class Colorable extends Named implements iColorable {
-  /*_interfunc*/ void setFill(float modifier){assert false : "Pure interface setFill() called";}
-  /*_interfunc*/ void setStroke(float modifier){assert false : "Pure interface setStroke() called";}
-};
+  /*_interfunc*/ void setFill(float modifier)  {assert false : "Pure abstract setFill() called";}
+  /*_interfunc*/ void setStroke(float modifier){assert false : "Pure abstract setStroke() called";}
+}//EndOfClass
 
-/// Forcing posX() & posY() & posZ() methods for visualisation and mapping  
+/// Forcing posX() & posY() & posZ() methods for visualisation and mapping.  
 abstract class Positioned extends Colorable implements iPositioned {
-  /*_interfunc*/ float    posX(){assert false : "Pure interface posX() called"; return 0;}
-  /*_interfunc*/ float    posY(){assert false : "Pure interface posY() called"; return 0;}
-  /*_interfunc*/ float    posZ(){assert false : "Pure interface posZ() called"; return 0;}
-};
+  /*_interfunc*/ float    posX(){assert false : "Pure abstract posX() called"; return 0;}
+  /*_interfunc*/ float    posY(){assert false : "Pure abstract posY() called"; return 0;}
+  /*_interfunc*/ float    posZ(){assert false : "Pure abstract posZ() called"; return 0;}
+}//EndOfClass
 
-///INFO: 
+/// Abstraction class for any network node.
 abstract class Node extends Positioned implements iNode {
-  /*_interfunc*/ int     addConn(Link   l){assert false : "Pure interface addConn(Link "+l+") called"; return   -1;}
-  /*_interfunc*/ int     delConn(Link   l){assert false : "Pure interface delConn(Link "+l+") called"; return   -1;}
-  /*_interfunc*/ int     numOfConn()      {assert false : "Pure interface numOfConn() called"; return   -1;}
-  /*_interfunc*/ Link    getConn(int    i){assert false : "Pure interface getConn(int "+i+")  called"; return null;}
-  /*_interfunc*/ Link    getConn(Node   n){assert false : "Pure interface getConn(Node "+n+") called"; return null;}
-  /*_interfunc*/ Link    getConn(String k){assert false : "Pure method  getConn(String '"+k+"') called"; return null;}
-  /*_interfunc*/ Link[]  getConns(LinkFilter f)
-                  {assert false : "Pure interface getConns(LinkFilter "+f+") called"; return null;}
-};
+  /*_interfunc*/ int      addConn(iLink   l){assert false : "Pure abstract addConn(Link "+l+") called"; return   -1;}
+  /*_interfunc*/ int      delConn(iLink   l){assert false : "Pure abstract delConn(Link "+l+") called"; return   -1;}
+  /*_interfunc*/ int      numOfConn()       {assert false : "Pure abstract numOfConn() called"; return   -1;}
+  /*_interfunc*/ iLink    getConn(int    i) {assert false : "Pure abstract getConn(int "+i+")  called"; return null;}
+  /*_interfunc*/ iLink    getConn(iNode   n){assert false : "Pure abstract getConn(Node "+n+") called"; return null;}
+  /*_interfunc*/ iLink    getConn(String k) {assert false : "Pure abstract getConn(String '"+k+"') called"; return null;}
+  /*_interfunc*/ iLink[]  getConns(iLinkFilter f)
+                  { assert false : "Pure abstract getConns(LinkFilter "+f+") called"; return null;}
+}//EndOfClass
 
 //   CLASS FOR MODIFICATION:
 //*//////////////////////////
 
-/// This class is available for user modifications
+/// Real link implementation. This class is available for user modifications.
 class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
-  Node  target;
-  float weight;//importance/trust
-  int   ltype;//"color"
-  //... add something, if you need in derived classes
+  Node  target;  //!< targetet node.
+  float weight;  //!< importance/trust
+  int   ltype;   //!< "color"
   
-  //Constructor (may vary)
+  //... add something, if you need in derived classes.
+  
+  /// Constructor.
   Link(Node targ,float we,int ty){ target=targ;weight=we;ltype=ty;}
   
+  /// Text formated data from the object.
   String fullInfo(String fieldSeparator)
   {
     return "W:"+weight+fieldSeparator+"Tp:"+ltype+fieldSeparator+"->"+target;
   }
   
-  //For sorting. Much weighted link should be at the begining of the array!
-  int  compareTo(Link o)//Compares this object with the specified object for order.
+  /// For sorting. Much weighted link should be at the begining of the array!
+  /// Compares this object with the specified object for order.
+  int  compareTo(Link o) 
   {
      if(o==this || o.weight==weight) return 0;
      else
@@ -120,12 +118,24 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
      else return -1;
   }
   
-  //For visualisation and mapping  
+  /// For visualisation and mapping.  
   String name(){ return target.name(); }
   
+  /// Read only access to `weight`.
   float getWeight() { return weight;}
+  
+  /// Provide target node
+  iNode getTarget() { return target;}
+
+  /// Provide target casted on visualisable node.
+  iVisNode  getVisTarget() { return (iVisNode)target;}
+  
+  void  setTarget(iNode tar) { target=(Node)(tar); }
+  
+  /// 
   int   getTypeMarker() { return ltype; }
   
+  /// How object should be collored.
   color     defColor()
   {
      switch ( ltype )
@@ -138,6 +148,8 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
      }   
   }
   
+  /// Setting `stroke` for this object. 
+  /// @param Intensity - used for alpha channel.
   void setStroke(float Intensity)
   {  //float   MAX_LINK_WEIGHT=2;   ///Use maximal strokeWidth for links
      strokeWeight(abs(weight)*MAX_LINK_WEIGHT);
@@ -151,9 +163,9 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
              break;
      }
   }
-};
+}//EndOfClass
 
-/// Simplest link factory creates identical links except for the targets
+/// Simplest link factory creates identical links except for the targets.
 /// It also serves as an example of designing factories.
 class basicLinkFactory extends LinkFactory
 {
@@ -166,21 +178,22 @@ class basicLinkFactory extends LinkFactory
   {
     return new Link(Target,default_weight,default_type);
   }
-}
+}//EndOfClass
 
 //   IMPLEMENTATIONS:
 //*////////////////////
 
-/// Ring network
-void makeRingNet(Node[] nodes,LinkFactory linkfac,int neighborhood) {
+/// Ring network.
+void makeRingNet(iNode[] nodes,iLinkFactory linkfac,int neighborhood)  ///< Global namespace.
+{
   int n=nodes.length;
   for(int i=0;i<n;i++)
   {
-    Node Source=nodes[i];
+    iNode Source=nodes[i];
     
     if(Source!=null)
     {
-      if(debug_level>2) println("i="+i,"Source="+Source,' ');
+      if(DEBUG_LEVEL>2) println("i="+i,"Source="+Source,' ');
       
       for(int j=1;j<=neighborhood;j++)
       {
@@ -189,40 +202,42 @@ void makeRingNet(Node[] nodes,LinkFactory linkfac,int neighborhood) {
         
         if(nodes[g]!=null)
         {
-          if(debug_level>2) print("i="+i,"g="+g,' ');
+          if(DEBUG_LEVEL>2) print("i="+i,"g="+g,' ');
           Source.addConn( linkfac.makeLink(Source,nodes[g]) );
         }
         
         if(nodes[h]!=null)
         {
-          if(debug_level>2) print("i="+i,"h="+h,' ');
+          if(DEBUG_LEVEL>2) print("i="+i,"h="+h,' ');
           Source.addConn( linkfac.makeLink(Source,nodes[h]) );
         }    
         
-        if(debug_level>2) println();
+        if(DEBUG_LEVEL>2) println();
       }
     }
   }
 }
 
-/// Torus lattice 1D - It is alias for Ring net only
-void makeTorusNet(Node[] nodes,LinkFactory links,int neighborhood) {  
+/// Torus lattice 1D - It is alias for Ring net only.
+void makeTorusNet(iNode[] nodes,iLinkFactory links,int neighborhood)      ///< Global namespace.
+{  
    makeRingNet(nodes,links,neighborhood);
 }
 
-/// Torus lattice 2D
-void makeTorusNet(Node[][] nodes,LinkFactory linkfac,int neighborhood) {
+/// Torus lattice 2D.
+void makeTorusNet(iNode[][] nodes,iLinkFactory linkfac,int neighborhood)  ///< Global namespace.
+{
   int s=nodes.length;   
   for(int i=0;i<s;i++)
   {
     int z=nodes[i].length;
     for(int k=0;k<z;k++)
     {
-      Node Source=nodes[i][k];
+      iNode Source=nodes[i][k];
       
       if(Source!=null)
       {
-        if(debug_level>2) println("i="+i,"k="+k,"Source="+Source,' ');
+        if(DEBUG_LEVEL>2) println("i="+i,"k="+k,"Source="+Source,' ');
         
         for(int j=-neighborhood;j<=neighborhood;j++)
         {
@@ -232,15 +247,15 @@ void makeTorusNet(Node[][] nodes,LinkFactory linkfac,int neighborhood) {
           {
             int hor=(z+k+m)%z;//right index
             
-            Node Target;
+            iNode Target;
             
             if((Target=nodes[vert][hor])!=null && Target!=Source)
             {
-              if(debug_level>2) print("Vert="+vert,"Hor="+hor,' ');
+              if(DEBUG_LEVEL>2) print("Vert="+vert,"Hor="+hor,' ');
               Source.addConn( linkfac.makeLink(Source,Target) );
             }
   
-            if(debug_level>2) println();
+            if(DEBUG_LEVEL>2) println();
           }
         }
       }
@@ -248,18 +263,19 @@ void makeTorusNet(Node[][] nodes,LinkFactory linkfac,int neighborhood) {
   }
 }
 
-/// Rewire some connection for Small World 1D
-void rewireLinksRandomly(Node[] nodes,float probability, boolean reciprocal) { 
+/// Rewire some connection for Small World 1D.
+void rewireLinksRandomly(iNode[] nodes,float probability, boolean reciprocal)  ///< Global namespace.
+{ 
   for(int i=0;i<nodes.length;i++)
   {
-    Node Source=nodes[i];
+    iNode Source=nodes[i];
     if(Source==null) 
                   continue;
                   
     if(random(1.0)<probability)
     {
       int j=(int)random(nodes.length);
-      Node Target=nodes[j];
+      iNode Target=nodes[j];
       
       if(Target==null || Source==Target 
          || Source.getConn(Target)!=null 
@@ -269,31 +285,32 @@ void rewireLinksRandomly(Node[] nodes,float probability, boolean reciprocal) {
       //if(debug_level>2) print("i="+i,"g="+g,"j="+j);
        
       int index=(int)random(Source.numOfConn());  assert index<Source.numOfConn(); 
-      Link l=Source.getConn(index);
+      iLink l=Source.getConn(index);
       
       if(reciprocal)
       {
-        Link r=l.target.getConn(Source);
+        iLink r=l.getTarget().getConn(Source);
         if(r!=null) 
         {
-          l.target.delConn(r);//Usunięcie zwrotnego linku jesli był
-          r.target=Source;//Poprawienie linku
+          l.getTarget().delConn(r);//Usunięcie zwrotnego linku jesli był
+          r.setTarget(Source);//Poprawienie linku
           Target.addConn(r);//Dodanie nowego zwrotnego linku w Targecie
         }  
       }
       
-      l.target=Target;//Replacing target!    
+      l.setTarget(Target);//Replacing target!    
       //if(debug_level>2) println();
     }  
   }
 }
 
-/// Rewire some connection for Small World 2D
-void rewireLinksRandomly(Node[][] nodes,float probability, boolean reciprocal) { 
+/// Rewire some connection for Small World 2D.
+void rewireLinksRandomly(iNode[][] nodes,float probability, boolean reciprocal)  ///< Global namespace.
+{ 
   for(int i=0;i<nodes.length;i++)
   for(int g=0;g<nodes[i].length;g++)
   {
-    Node Source=nodes[i][g];
+    iNode Source=nodes[i][g];
     if(Source==null) 
                   continue;                  
     //Czy tu jakiś link zostanie przerobiony?
@@ -302,7 +319,7 @@ void rewireLinksRandomly(Node[][] nodes,float probability, boolean reciprocal) {
       //Nowy target - trzeba trafić           
       int j=(int)random(nodes.length);
       int h=(int)random(nodes[j].length);
-      Node Target=nodes[j][h];
+      iNode Target=nodes[j][h];
       if(Target==null || Source==Target 
          || Source.getConn(Target)!=null 
          )
@@ -311,104 +328,111 @@ void rewireLinksRandomly(Node[][] nodes,float probability, boolean reciprocal) {
       //if(debug_level>2) print("i="+i,"g="+g,"j="+j,"h="+h);
        
       int index=(int)random(Source.numOfConn());      assert index<Source.numOfConn();       
-      Link l=Source.getConn(index);
+      iLink l=Source.getConn(index);
  
       if(reciprocal)
       {
-        Link r=l.target.getConn(Source);
+        iLink r=l.getTarget().getConn(Source);
         if(r!=null) 
         {
-          l.target.delConn(r);//Usunięcie zwrotnego linku jesli był
-          r.target=Source;//Poprawienie linku
+          l.getTarget().delConn(r);//Usunięcie zwrotnego linku jesli był
+          r.setTarget(Source);//Poprawienie linku
           Target.addConn(r);//Dodanie nowego zwrotnego linku w Targecie
         }  
       }
       
-      l.target=Target;//Replacing target!
+      l.setTarget(Target); //Replacing target!
       //if(debug_level>2) println();
     }  
   }
 }
 
-/// Classic Small World 1D
-void makeSmWorldNet(Node[] nodes,LinkFactory links,int neighborhood,float probability, boolean reciprocal) { 
+/// Classic Small World 1D.
+void makeSmWorldNet(iNode[] nodes,iLinkFactory links,int neighborhood,float probability, boolean reciprocal)  ///< Global namespace.
+{ 
   makeTorusNet(nodes,links,neighborhood);
   rewireLinksRandomly(nodes,probability,  reciprocal);
 }
 
-/// Classic Small World 2D
-void makeSmWorldNet(Node[][] nodes,LinkFactory links,int neighborhood,float probability, boolean reciprocal) { 
+/// Classic Small World 2D.
+void makeSmWorldNet(iNode[][] nodes,iLinkFactory links,int neighborhood,float probability, boolean reciprocal)  ///< Global namespace.
+{ 
   makeTorusNet(nodes,links,neighborhood);
   rewireLinksRandomly(nodes,probability,  reciprocal);
 }
 
-/// Improved Small World 2D
-void makeImSmWorldNet(Node[][] nodes,LinkFactory links,int neighborhood,float probability, boolean reciprocal) { 
+/// Improved Small World 2D.
+void makeImSmWorldNet(iNode[][] nodes,iLinkFactory links,int neighborhood,float probability, boolean reciprocal)  ///< Global namespace.
+{ 
   makeTorusNet(nodes,links,neighborhood);
   makeRandomNet(nodes,links,probability,  reciprocal);
 }
 
-/// Improved Small World 1D
-void makeImSmWorldNet(Node[] nodes,LinkFactory links,int neighborhood,float probability, boolean reciprocal) { 
+/// Improved Small World 1D.
+void makeImSmWorldNet(iNode[] nodes,iLinkFactory links,int neighborhood,float probability, boolean reciprocal)  ///< Global namespace.
+{ 
   makeTorusNet(nodes,links,neighborhood);
   makeRandomNet(nodes,links,probability,  reciprocal);
 }
 
-/*_inline*/ boolean inCluster(Node[] cluster,Node what)
+/// It tests if node `what` is in `cluster`.
+/*_inline*/ boolean inCluster(iNode[] cluster,iNode what)
 {
   for(int j=0;j<cluster.length;j++)
    if(cluster[j]==what) //juz jest w cluster'ze
    {
-     if(debug_level>2) 
+     if(DEBUG_LEVEL>2) 
          println("node",what,"already on list!!!");
      return true; //<>//
    }
   return false;
 }
 
-/// Scale Free 1D
-void makeScaleFree(Node[] nodes,LinkFactory linkfac,int sizeOfFirstCluster,int numberOfNewLinkPerAgent, boolean reciprocal) {
-  if(debug_level>1) println("MAKING SCALE FREE",sizeOfFirstCluster,numberOfNewLinkPerAgent,reciprocal);
-  Node[] cluster=new Node[sizeOfFirstCluster];//if(debug_level>3) println("Initial:",(Node[])cluster);//Nodes for initial cluster
+/// Scale Free 1D.
+void makeScaleFree(iNode[] nodes,iLinkFactory linkfac,int sizeOfFirstCluster,int numberOfNewLinkPerNode, boolean reciprocal)  ///< Global namespace.
+{
+  if(DEBUG_LEVEL>1) println("MAKING SCALE FREE",sizeOfFirstCluster,numberOfNewLinkPerNode,reciprocal);
+  iNode[] cluster=new iNode[sizeOfFirstCluster]; //if(debug_level>3) println("Initial:",(Node[])cluster);//Nodes for initial cluster
   
   for(int i=0;i<sizeOfFirstCluster;)
   {
     int  pos=(int)random(nodes.length);
-    Node pom=nodes[pos];
+    iNode pom=nodes[pos];
     if(inCluster(cluster,pom))
             continue;
     cluster[i]=pom;     
     i++;
   }
-  makeFullNet(cluster,linkfac);//Linking of initial cluster
+  
+  makeFullNet(cluster,linkfac); //Linking of initial cluster
   
   float numberOfLinks=0;
-  for(Node nod:nodes )
+  for(iNode nod:nodes )
     if(nod!=null)
       numberOfLinks+=nod.numOfConn();
       
-  float EPS=1e-45f;//Najmniejszy możliwy float
+  float EPS=1e-45f; //Najmniejszy możliwy float
   println("Initial number of links is",numberOfLinks,EPS);
   
-  for(int i=0;i<numberOfNewLinkPerAgent;i++)
+  for(int i=0;i<numberOfNewLinkPerNode;i++)
     for(int j=0;j<nodes.length;)//Próbujemy każdego przyłączyć do czegoś
     {
-        Node source=nodes[j];
+        iNode source=nodes[j];
         if(source==null)
             continue;
             
-        float where=EPS+random(1.0);                      assert(where>0.0f);//"where" okresli do którego węzła się przyłączymy
-        float start=0;                                    if(debug_level>2) print(j,where,"->");
+        float where=EPS+random(1.0);                      assert(where>0.0f); //"where" okresli do którego węzła się przyłączymy
+        float start=0;                                    if(DEBUG_LEVEL>2) print(j,where,"->");
         for(int k=0;k<nodes.length;k++)
         {
-          Node target=nodes[k];
+          iNode target=nodes[k];
           if(target==null)
             continue;  
             
-          float pwindow=target.numOfConn()/numberOfLinks; if(debug_level>3) print(pwindow,"; ");
+          float pwindow=target.numOfConn()/numberOfLinks; if(DEBUG_LEVEL>3) print(pwindow,"; ");
           if(start<where && where<=start+pwindow)         //Czy trafił w przedział?
           {
-                                                          if(debug_level>2) print(k,"!");
+                                                          if(DEBUG_LEVEL>2) print(k,"!");
             if(source!=target)
             {
               int success=source.addConn( linkfac.makeLink(source,target) );
@@ -418,72 +442,75 @@ void makeScaleFree(Node[] nodes,LinkFactory linkfac,int sizeOfFirstCluster,int n
                 if(reciprocal)
                   if(target.addConn( linkfac.makeLink(target,source) )==1)//OK TYLKO GDY NOWY LINK
                       numberOfLinks++;
-                j++;//Można przejść do podłączania nastepnego agenta
+                j++; //Można przejść do podłączania nastepnego agenta
               }
             }
             
-            break;//Znaleziono potencjalny target. Jeśli nie nastąpiło podłączenie to i tak trzeba losować od nowa
+            break; //Znaleziono potencjalny target. Jeśli nie nastąpiło podłączenie to i tak trzeba losować od nowa
           }
           else
           {
-            start+=pwindow;//To jeszcze nie ten
+            start+=pwindow; //To jeszcze nie ten
           }
-        }                                                  if(debug_level>2) println();
+        }                                                  if(DEBUG_LEVEL>2) println();
     }
-    if(debug_level>1) println("DONE! SCALE FREE HAS MADE");
+    if(DEBUG_LEVEL>1) println("DONE! SCALE FREE HAS MADE");
 }
 
-/// Full connected network 1D
-void makeFullNet(Node[] nodes,LinkFactory linkfac) {
+/// Full connected network 1D.
+void makeFullNet(iNode[] nodes,iLinkFactory linkfac)         ///< Global namespace.
+{
   int n=nodes.length;
   for(int i=0;i<n;i++)
   {
-    Node Source=nodes[i];
+    iNode Source=nodes[i];
     if(Source!=null)
       for(int j=0;j<n;j++)
         if(i!=j && nodes[j]!=null )
         {
-          if(debug_level>4) print("i="+i,"j="+j);
+          if(DEBUG_LEVEL>4) print("i="+i,"j="+j);
           
           Source.addConn( linkfac.makeLink(Source,nodes[j]) );
           
-          if(debug_level>4) println();
+          if(DEBUG_LEVEL>4) println();
         }
   }
 }
 
-/// Full connected network 2D
-void makeFullNet(Node[][] nodes,LinkFactory linkfac) {
+/// Full connected network 2D.
+void makeFullNet(iNode[][] nodes,iLinkFactory linkfac)      ///< Global namespace.
+{
   for(int i=0;i<nodes.length;i++)
   for(int g=0;g<nodes[i].length;g++)
   {
-    Node Source=nodes[i][g];
+    iNode Source=nodes[i][g];
     
     if(Source!=null)
       for(int j=0;j<nodes.length;j++)
       for(int h=0;h<nodes[j].length;h++)
       {
-        Node Target=nodes[j][h];
+        iNode Target=nodes[j][h];
         
         if(Target!=null && Source!=Target)
         {
-          if(debug_level>4) print("i="+i,"g="+g,"j="+j,"h="+h);
+          if(DEBUG_LEVEL>4) print("i="+i,"g="+g,"j="+j,"h="+h);
           
           Source.addConn( linkfac.makeLink(Source,Target) );
           
-          if(debug_level>4) println();
+          if(DEBUG_LEVEL>4) println();
         }
       }
   }
 }
 
-/// Randomly connected network 1D
-void makeRandomNet(Node[] nodes,LinkFactory linkfac,float probability, boolean reciprocal) {  
+/// Randomly connected network 1D.
+void makeRandomNet(iNode[] nodes,iLinkFactory linkfac,float probability, boolean reciprocal)  ///< Global namespace.
+{  
   //NO ERROR!: rings in visualisation are because agents may have sometimes exactly same position!!!
   int n=nodes.length;
   for(int i=0;i<n;i++)
   {
-    Node Source=nodes[i];
+    iNode Source=nodes[i];
     if(Source==null)
         continue;
         
@@ -491,16 +518,16 @@ void makeRandomNet(Node[] nodes,LinkFactory linkfac,float probability, boolean r
     {
       for(int j=i+1;j<n;j++)
       {
-        Node Target=nodes[j];
+        iNode Target=nodes[j];
         if(Target!=null && Source!=Target && random(1.0)<probability)
         {
-          if(debug_level>2) print("i="+i,"j="+j);
+          if(DEBUG_LEVEL>2) print("i="+i,"j="+j);
                                                                 
           int success=Source.addConn( linkfac.makeLink( Source, Target ) );
           if(success==1)
             Target.addConn( linkfac.makeLink( Target, Source ) );
           
-          if(debug_level>2) println();
+          if(DEBUG_LEVEL>2) println();
         }
       }   
     }
@@ -508,34 +535,36 @@ void makeRandomNet(Node[] nodes,LinkFactory linkfac,float probability, boolean r
     {
       for(int j=0;j<n;j++)
       {
-        Node Target=nodes[j];
+        iNode Target=nodes[j];
         if(Target!=null && Source!=Target && random(1.0)<probability)
         {
-          if(debug_level>2) print("i="+i,"j="+j);
+          if(DEBUG_LEVEL>2) print("i="+i,"j="+j);
                                                                 
           //int success=
           Source.addConn( linkfac.makeLink( Source, Target ) );
           
-          if(debug_level>2) println();
+          if(DEBUG_LEVEL>2) println();
         }
       }       
     }
   }
 }
 
-/// Connect all orphaned nodes with at least one link
-void makeOrphansAdoption(Node[] nodes,LinkFactory linkfac, boolean reciprocal) {
+/// Connect all orphaned nodes with at least one link.
+void makeOrphansAdoption(iNode[] nodes,iLinkFactory linkfac, boolean reciprocal)    ///< Global namespace.
+{
   int n=nodes.length;
   for(int i=0;i<n;i++)
   {
-    Node Source=nodes[i];
+    iNode Source=nodes[i];
     if(Source==null || Source.numOfConn() > 0)
         continue;
         
     //Only if exists and is orphaned
-                                                                      if(debug_level>0) print("Orphan",nf(i,3),":");
-    Node Target=null;int Ntry=n;
-    while(Target==null)//Searching for foster parent
+                                                                      if(DEBUG_LEVEL>0) print("Orphan",nf(i,3),":");
+    iNode Target=null;
+    int Ntry=n;
+    while(Target==null) //Searching for foster parent
     {
       int t=(int)random(n);
       if( t==i                //candidate is not self
@@ -544,8 +573,8 @@ void makeOrphansAdoption(Node[] nodes,LinkFactory linkfac, boolean reciprocal) {
            && Ntry-- > 0  )   //but not when all are orphans!
       ) continue;
                                                                        
-      Target=nodes[t];//Candidate ok
-                                                                      if(debug_level>0) print("(",Ntry,")",nf(t,3),"is a chosen one ", Target.name() ); 
+      Target=nodes[t]; //Candidate ok
+                                                                      if(DEBUG_LEVEL>0) print("(",Ntry,")",nf(t,3),"is a chosen one ", Target.name() ); 
     }
                                                                       //if(debug_level>1) print(" S has ", Source.numOfConn() ," links");
     int success=Source.addConn( linkfac.makeLink( Source, Target ) ); 
@@ -561,18 +590,19 @@ void makeOrphansAdoption(Node[] nodes,LinkFactory linkfac, boolean reciprocal) {
                                                                       //if(debug_level>1) print(" Now T has", Target.numOfConn() ," ");
     }
     
-                                                                      if(debug_level>0)
+                                                                      if(DEBUG_LEVEL>0)
                                                                         if(success==1)  println(" --> Not any more orphaned!");
                                                                         else  println("???",success);
   }
 }
 
-/// Randomly connected network 2D
-void makeRandomNet(Node[][] nodes,LinkFactory linkfac,float probability, boolean reciprocal) {
+/// Randomly connected network 2D.
+void makeRandomNet(iNode[][] nodes,iLinkFactory linkfac,float probability, boolean reciprocal)  ///< Global namespace.
+{
   for(int i=0;i<nodes.length;i++)
   for(int g=0;g<nodes[i].length;g++)
   {
-    Node Source=nodes[i][g];
+    iNode Source=nodes[i][g];
     
     if(Source==null)
       continue;
@@ -582,17 +612,17 @@ void makeRandomNet(Node[][] nodes,LinkFactory linkfac,float probability, boolean
       for(int j=i+1;j<nodes.length;j++)
       for(int h=g+1;h<nodes[j].length;h++)
       {
-        Node Target=nodes[j][h];
+        iNode Target=nodes[j][h];
         
         if(Target!=null && Source!=Target && random(1)<probability)
         {
-          if(debug_level>2) print("i="+i,"g="+g,"j="+j,"h="+h);
+          if(DEBUG_LEVEL>2) print("i="+i,"g="+g,"j="+j,"h="+h);
                                                                
           int success=Source.addConn( linkfac.makeLink(Source,Target) );
           if(success==1)
             Target.addConn( linkfac.makeLink(Target,Source) );
             
-          if(debug_level>2) println();
+          if(DEBUG_LEVEL>2) println();
         }
       }
     }
@@ -601,61 +631,62 @@ void makeRandomNet(Node[][] nodes,LinkFactory linkfac,float probability, boolean
       for(int j=0;j<nodes.length;j++)
       for(int h=0;h<nodes[j].length;h++)
       {
-        Node Target=nodes[j][h];
+        iNode Target=nodes[j][h];
         
         if(Target!=null && Source!=Target && random(1)<probability)
         {
-          if(debug_level>2) print("i="+i,"g="+g,"j="+j,"h="+h);
+          if(DEBUG_LEVEL>2) print("i="+i,"g="+g,"j="+j,"h="+h);
                                                                
           //int success=
           Source.addConn( linkfac.makeLink(Source,Target) );
             
-          if(debug_level>2) println();
+          if(DEBUG_LEVEL>2) println();
         }
       }
     }
   }
 }
 
-/// Node implementation based on list
-class NodeList extends Node {
-  ArrayList<Link> connections;//https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html
+/// Node implementation based on ArrayList.
+/// See: //https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html
+class NodeAsList extends Node  implements iVisNode {
+  ArrayList<Link> connections; 
   
-  NodeList()
+  NodeAsList()
   {
     connections=new ArrayList<Link>();
   }
   
-  int     numOfConn()      { return connections.size();}
+  int     numOfConn()  //!< By interface required.    
+  { return connections.size(); }
   
   int     addConn(iLink   l)
   {
-    println("NodeList.addConn(iLink   l) not implemented");
-    return -1;
+     return addConn((Link)l);
   }
   
-  int     addConn(Link   l)
+  int     addConn(Link   l) //!< By interface required.
   {
-    assert l!=null : "Empty link in "+this.getClass().getName()+".addConn(Link)?"; 
-    if(debug_level>2 && l.target==this) //It may not be expected!
-            print("Self connecting of",l.target.name()); //<>//
+                                          assert l!=null : "Empty link in "+this.getClass().getName()+".addConn(Link)?";
+    if(NET_DEBUG_LEV>2 && l.getTarget()==this)   //It may not be expected!
+            print("Self connecting of",l.getTarget().name());
             
     boolean res=false;
     
-    if(getConn(l.target)==null)
+    if(getConn(l.getTarget())==null)
     {
         res=connections.add(l);
-        if(debug_level>4) print('|');
+        if(NET_DEBUG_LEV>0) print('|');
     }
-    else if(debug_level>0) println("Link",this.name(),"->",l.target.name(),"already exist");
-        
-    if(res)
-      return   1;
-    else
-      return   0;
+    else if(NET_DEBUG_LEV>1) println("Link",this.name(),
+                                   "->",l.target.name(), // new line for C++ sed-translator
+                                   "already exist"); // '.' should not be between '"' 
+
+    if(res) return   1;
+    else    return   0;
   }
   
-  int     delConn(iLink   l)
+  int     delConn(iLink   l) //!< By interface required.
   {
     if(connections.remove(l))
       return 1;
@@ -663,15 +694,15 @@ class NodeList extends Node {
       return 0;
   }
   
-  Link    getConn(int    i)
+  Link    getConn(int    i) //!< By interface required.
   {
     assert i<connections.size(): "Index '"+i+"' out of bound '"+connections.size()+"' in "+this.getClass().getName()+".getConn(int)"; 
     return connections.get(i);
   }
   
-  Link    getConn(iNode   n)
+  Link    getConn(iNode   n) //!< By interface required.
   {
-    assert n!=null : "Empty node in "+this.getClass().getName()+".getConn(Node)"; 
+                                           assert n!=null : "Empty node in "+this.getClass().getName()+".getConn(Node)";
     for(Link l:connections)
     {
       if(l.target==n) 
@@ -680,9 +711,9 @@ class NodeList extends Node {
     return null;
   }
   
-  Link    getConn(String k)
+  Link    getConn(String k) //!< By interface required.
   {
-    assert k==null || k=="" : "Empty string in "+this.getClass().getName()+".getConn(String)"; 
+                              assert k==null || k=="" : "Empty string in "+this.getClass().getName()+".getConn(String)";
     for(Link l:connections)
     {
       if(l.target.name()==k) 
@@ -691,9 +722,9 @@ class NodeList extends Node {
     return null;
   }
   
-  Link[]  getConns(iLinkFilter f)
+  Link[]  getConns(iLinkFilter f) //!< By interface required.
   {
-    //assert f!=null : "Empty LinkFilter in "+this.getClass().getName()+".getConns(LinkFilter)"; 
+                            //assert f!=null : "Empty LinkFilter in "+this.getClass().getName()+".getConns(LinkFilter)";
     ArrayList<Link> selected=new ArrayList<Link>();
     for(Link l:connections)
     {
@@ -704,15 +735,16 @@ class NodeList extends Node {
     Link[] ret=new Link[selected.size()];
     selected.toArray(ret);
     return ret;
-  }
+  } //<>//
 };
 
-/// Node implementation based on hash map
-class NodeMap extends Node {  
-  //HashMap<Integer,Link> connections;//TODO using Object.hashCode(). Should be a bit faster than String
-  HashMap<String,Link> connections;//https://docs.oracle.com/javase/6/docs/api/java/util/HashMap.html
+/// Node implementation based on hash map.
+/// See: //https://docs.oracle.com/javase/6/docs/api/java/util/HashMap.html
+class NodeAsMap extends Node implements iVisNode {  
+  //HashMap<Integer,Link> connections; //TODO using Object.hashCode(). Could be a bit faster than String
+  HashMap<String,Link> connections; 
   
-  NodeMap()
+  NodeAsMap()
   {
     connections=new HashMap<String,Link>(); 
   }
@@ -721,14 +753,13 @@ class NodeMap extends Node {
   
   int     addConn(iLink   l)
   {
-    println("NodeMap.addConn(iLink   l) not implemented");
-    return -1;
+     return addConn((Link)l);
   }
   
   int     addConn(Link   l)
   {
     assert l!=null : "Empty link in "+this.getClass().getName()+".addConn(Link)?"; 
-    if(debug_level>2 && l.target==this) //It may not be expected!
+    if(DEBUG_LEVEL>2 && l.target==this) //It may not be expected!
             print("Self connecting of",l.target.name());
             
     //int hash=l.target.hashCode();//((Object)this).hashCode() for HashMap<Integer,Link>      
@@ -789,7 +820,8 @@ class NodeMap extends Node {
   }
 };
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES  - NETWORKS TOOLBOX
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*////////////////////////////////////////////////////////////////////////////

@@ -16,39 +16,62 @@ import java.io.IOException;
 
 public class Optionals4Networks extends PApplet {
 
-//static int debug_level=0;
-final int    LINK_INTENSITY=2;    ///< For network visualisation
-final float  MAX_LINK_WEIGHT=1.0f; ///< Also for network visualisation
-final int    MASKBITS=0xffffffff; ///< Redefine, when smaller width is required
+/// @file Optionals4Networks.pde
+/// @date 2023.03.04 (Last modification)
+/// @brief Minimal program for testing linking of networks optionals.
+//*/////////////////////////////////////////////////////////////////////////////
 
+static int   DEBUG_LEVEL=0;       ///< General DEBUG level.
+static int   NET_DEBUG_LEV=1;     ///< DEBUG level for network.
+final int    LINK_INTENSITY=128;  ///< For network visualisation.
+final float  MAX_LINK_WEIGHT=1.0f; ///< Also for network visualisation.
+final int    MASKBITS=0xffffffff; ///< Redefine, when smaller width is required.
+
+Visual2DNodeAsList[]  AllNodes;   ///< Nodes have to be visualisable!!!
+AllLinks vfilter;
+float defX=1;
+float defY=1;
+
+/// Mandatory Processing function.
 public void setup()
 {
   
+  
+  AllNodes=new Visual2DNodeAsList[10];
+  for(int i=0;i<AllNodes.length;i++)
+  {
+    AllNodes[i]=new Visual2DNodeAsList(random(width),random(height));
+  }
+  
+  randomWeightLinkFactory factory=new randomWeightLinkFactory(-1,1,1);
+  makeFullNet(AllNodes,factory);
+  
+  int neighborhood=1;
+  //makeRingNet(AllNodes,factory,neighborhood);
+  
+  int sizeOfFirstCluster=4;
+  int numberOfNewLinkPerNode=1;
+  boolean reciprocal=true; 
+  //makeScaleFree(AllNodes,factory,sizeOfFirstCluster,numberOfNewLinkPerNode,reciprocal); //It works only sometime!
 }
-/// COMMON TEMPLATES 
-///*/////////////////////////////////////////////////////////////////////////////////////////
-/// USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
-/// if you need translate the code into C++ (--> Processing2C )
 
-/// Simple version of Pair template useable for returning a pair of values
-public class Pair<A,B> {
-    public final A a;
-    public final B b;
+public void draw()
+{
+  float cellside=1;
+  visualiseLinks2D(AllNodes,vfilter,defX,defY,cellside,true);
+  //visualiseLinks1D(AllNodes,vfilter,defX,defY,cellside,true);
+}
 
-    public Pair(A a, B b) 
-    {
-        this.a = a;
-        this.b = b;
-    }
-}//EndOfClass
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-/// COMMON INTERFACES
-/// See: "https://github.com/borkowsk/RTSI_public"
-//*//////////////////////////////////////////////////////////////////////////////
+//*////////////////////////////////////////////////////////////////////////////
+/// @file aInterfaces.pde 
+/// Common INTERFACES like iNamed, iDescribable, iColorable, iPositioned & Function2D.
+/// @date 2023.03.04 (Last modification)
+//*///////////////////////////////////////////////////////////////////////////////////
 /// USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
 /// if you need translate the code into C++ (--> Processing2C )
 
@@ -65,20 +88,6 @@ interface iNamed {
 /// Any object which have description as (potentially) long, multi line string
 interface iDescribable { 
   /*_interfunc*/ public String Description() /*_forcbody*/;
-}//EndOfClass
-
-//*
-/// MATH INTERFACES:
-//*
-//*////////////////////////////////////////////////////////////////////////////
-
-final float INF_NOT_EXIST=Float.MAX_VALUE;  ///< Missing value marker
-
-/// A function of two values in the form of a class - a functor
-interface Function2D {
-  /*_interfunc*/ public float calculate(float X,float Y)/*_forcbody*/;
-  /*_interfunc*/ public float getMin()/*_forcbody*/;//MIN_RANGE_VALUE?
-  /*_interfunc*/ public float getMax()/*_forcbody*/;//Always must be different!
 }//EndOfClass
 
 //*
@@ -99,27 +108,45 @@ interface iPositioned {
   /*_interfunc*/ public float    posZ()/*_forcbody*/;
 }//EndOfClass
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*  Last modification 2022.03.16
+//*
+/// MATH INTERFACES:
+//*
+//*////////////////////////////////////////////////////////////////////////////
+
+final float INF_NOT_EXIST=Float.MAX_VALUE;  ///< Missing value marker
+
+/// A function of two values in the form of a class - a functor
+interface Function2D {
+  /*_interfunc*/ public float calculate(float X,float Y)/*_forcbody*/;
+  /*_interfunc*/ public float getMin()/*_forcbody*/;//MIN_RANGE_VALUE?
+  /*_interfunc*/ public float getMax()/*_forcbody*/;//Always must be different!
+}//EndOfClass
+
+//*/////////////////////////////////////////////////////////////////////////////////////////////
 //*  See: "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" - USEFULL COMMON INTERFACES
-//*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Different filters of links and other link tools for a (social) network
-//*/////////////////////////////////////////////////////////////////////////
-/// Available filters: 
+//*  See also: "https://github.com/borkowsk/RTSI_public"
+//*/////////////////////////////////////////////////////////////////////////////////////////////
+/// @file 
+/// @date 2023.03.04 (Last modification)
+/// @brief Different filters of links and other link tools for a (social) network
+//*/////////////////////////////////////////////////////////////////////////////
+/// @details
+///   Available filters: 
+///   ------------------
 ///   AllLinks, AndFilter, OrFilter, TypeFilter,
 ///   LowPassFilter,   HighPassFilter,
-///   AbsLowPassFilter, AbsHighPassFilter
-///   TypeAndAbsHighPassFilter - special type for efficient visualisation
+///   AbsLowPassFilter, AbsHighPassFilter,
+///   TypeAndAbsHighPassFilter (special type for efficient visualisation).
 
-/// Simplest link filtering class which accepts all links
+/// Simplest link filtering class which accepts all links.
 class AllLinks extends LinkFilter
 {
   public boolean meetsTheAssumptions(iLink l) { return true;}
 }//EndOfClass
 
-final AllLinks allLinks=new AllLinks();  ///< Such type of filter is used very frequently
+final AllLinks allLinks=new AllLinks();  ///< Such type of filter is used very frequently.
 
-/// Special type of filter for efficient visualisation
+/// Special type of filter for efficient visualisation.
 class TypeAndAbsHighPassFilter  extends LinkFilter
 {
   int ltype;
@@ -130,8 +157,8 @@ class TypeAndAbsHighPassFilter  extends LinkFilter
   public boolean meetsTheAssumptions(iLink l) { return l.getTypeMarker()==ltype && abs(l.getWeight())>treshold;}
 }//EndOfClass
 
-/// AND two filters assembly class.
-/// A class for logically joining two filters with the AND operator.
+/// `AND` on two filters assembling class.
+/// A class for logically joining two filters with the `AND` operator.
 class AndFilter extends LinkFilter
 {
    LinkFilter a;
@@ -143,7 +170,7 @@ class AndFilter extends LinkFilter
    }
 }//EndOfClass
 
-/// OR two filters assembly class.
+/// `OR` on two filters assembly class.
 /// A class for logically joining two filters with the OR operator.
 class OrFilter extends LinkFilter
 {
@@ -157,7 +184,7 @@ class OrFilter extends LinkFilter
 }//EndOfClass
 
 /// Type of link filter.
-/// Class which filters links of specific "color"/"type"
+/// Class which filters links of specific "color"/"type".
 class TypeFilter extends LinkFilter
 {
   int ltype;
@@ -166,7 +193,7 @@ class TypeFilter extends LinkFilter
 }//EndOfClass
 
 /// Low Pass Filter.
-/// Class which filters links with lower weights
+/// Class which filters links with lower weights.
 class LowPassFilter extends LinkFilter
 {
   float treshold;
@@ -175,7 +202,7 @@ class LowPassFilter extends LinkFilter
 }//EndOfClass
 
 /// High Pass Filter.
-/// Class which filters links with higher weights
+/// Class which filters links with higher weights.
 class HighPassFilter extends LinkFilter
 {
   float treshold;
@@ -184,7 +211,7 @@ class HighPassFilter extends LinkFilter
 }//EndOfClass
 
 /// Absolute Low Pass Filter.
-/// lowPassFilter filtering links with lower absolute value of weight
+/// lowPassFilter filtering links with lower absolute value of weight.
 class AbsLowPassFilter extends LinkFilter
 {
   float treshold;
@@ -193,7 +220,7 @@ class AbsLowPassFilter extends LinkFilter
 }//EndOfClass
 
 /// Absolute High Pass Filter.
-/// highPassFilter filtering links with higher absolute value of weight
+/// highPassFilter filtering links with higher absolute value of weight.
 class AbsHighPassFilter extends LinkFilter
 {
   float treshold;
@@ -201,32 +228,35 @@ class AbsHighPassFilter extends LinkFilter
   public boolean meetsTheAssumptions(iLink l) { return abs(l.getWeight())>treshold;}
 }//EndOfClass
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-/// Network Only Interfaces
-//*///////////////////////////////////////////
+//*////////////////////////////////////////////////////////////////////////////
+/// @file 
+/// @date 2023.03.04 (Last modification)
+/// @brief Network Only Interfaces.
+//*/////////////////////////////////////////////////////////////////////////////
 
-// NETWORK INTERFACES:
-/////////////////////////////////////////////////////////////////////////////////
-
-/// Network connection/link interface
+/// Network connection/link interface.
 /// Is iLink interface really needed?
 interface iLink { 
   /*_interfunc*/ public float getWeight()/*_forcbody*/;
   /*_interfunc*/ public int   getTypeMarker()/*_forcbody*/;
+  /*_interfunc*/ public iNode getTarget()/*_forcbody*/;
+  /*_interfunc*/ public void  setTarget(iNode tar)/*_forcbody*/;
 }//EndOfClass
 
+/// Interface for any filter for links.
 interface iLinkFilter
 {
   /*_interfunc*/ public boolean meetsTheAssumptions(iLink l)/*_forcbody*/;
 }//EndOfClass
 
-/// Network node interface
+/// Network node interface.
 /// "Conn" below is a shortage from Connection.
+/// @note Somewhere may uses class Link not interface iLink because of efficiency!
 interface iNode extends iNamed { 
-  //using class Link not interface iLink because of efficiency!
   /*_interfunc*/ public int      addConn(iLink  l)/*_forcbody*/;
   /*_interfunc*/ public int      delConn(iLink  l)/*_forcbody*/;
   /*_interfunc*/ public int      numOfConn()      /*_forcbody*/;
@@ -236,134 +266,145 @@ interface iNode extends iNamed {
   /*_interfunc*/ public iLink[]  getConns(iLinkFilter f)/*_forcbody*/;
 }//EndOfClass
 
-/// Visualisable network node
+/// Visualisable network node.
 interface iVisNode extends iNode,iNamed,iColorable,iPositioned {
 }//EndOfClass
 
-/// Visualisable network connection
+/// Visualisable network connection.
 interface  iVisLink extends iLink,iNamed,iColorable {
   /*_interfunc*/ public int     defColor()/*_forcebody*/;
+  /*_interfunc*/ public iVisNode  getVisTarget()/*_forcbody*/;
 }//EndOfClass
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*  Last modification 2022.03.16
-//*  See: "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" - NETWORKS INTERFACES
-//*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Generic (social) network classes
-//*////////////////////////////////////////////////////////////
-// Classes:
-//*/////////
-// class Link extends Colorable implements iLink //USER CAN MODIFY FOR THE SAKE OF EFFICIENCY
-// class NodeList extends Node
-// class NodeMap extends Node
-//
-//   INTERFACES:
-//*///////////////////
-// interface iLink 
-// interface iNode
-//
-//   Abstractions:
-//*///////////////////
-// abstract class Node extends Positioned 
-//
-// abstract class LinkFilter
-// abstract class LinkFactory
-//
-// abstract class Named implements iNamed
-// abstract class Colorable extends Named implements iColorable
-// abstract class Positioned extends Colorable implements iPositioned
-//
-//
-// Network generators: 
-//*////////////////////
-// void makeRingNet(Node[] nodes,LinkFactory links,int neighborhood);
-// void makeTorusNet(Node[] nodes,LinkFactory links,int neighborhood);
-// void makeTorusNet(Node[][] nodes,LinkFactory links,int neighborhood);
-// 
-// void makeFullNet(Node[] nodes,LinkFactory links);
-// void makeFullNet(Node[][] nodes,LinkFactory links);
-// 
-// void makeRandomNet(Node[] nodes,LinkFactory links,float probability, boolean reciprocal);
-// void makeRandomNet(Node[][] nodes,LinkFactory links,float probability, boolean reciprocal);
-//
-// void makeOrphansAdoption(Node[] nodes,LinkFactory links, boolean reciprocal);
-// 
-// void makeSmWorldNet(Node[] nodes,LinkFactory links,int neighborhood,float probability, boolean reciprocal);
-// void makeImSmWorldNet(Node[] nodes,LinkFactory links,int neighborhood,float probability, boolean reciprocal);
-// 
-//
+/// Any factory producing links.
+interface  iLinkFactory {
+  /*_interfunc*/ public iLink  makeLink(iNode Source,iNode Target)/*_forcebody*/;
+  /*_interfunc*/ public iLink  makeSelfLink(iNode Self)/*_forcebody*/;     
+}//EndOfClass
 
-
-
-int debug_level=1;  ///< DEBUG level for network. Visible autside this file!
-
-// ABSTRACT BASE CLASSES
-///////////////////////////////////
-
+//*////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES  - NETWORKS INTERFACES
+//*  https://github.com/borkowsk/sym4processing
+//*////////////////////////////////////////////////////////////////////////////
+/// @file 
+/// @date 2023.03.04 (Last modification)
+/// @brief Generic (social) network classes.
+//*/////////////////////////////////////////////////////////////////////////////
+/// @details
+///   Classes:
+///   ========
+///   - `class Link extends Colorable implements iLink`
+///   - `class NodeList extends Node`
+///   - `class NodeMap extends Node`
+///
+///   INTERFACES:
+///   ===========
+///   - `interface iLink`
+///   - `interface iNode`
+///
+///   Abstractions:
+///   =============
+///   - `abstract class Node extends Positioned` 
+///   - `abstract class LinkFilter`
+///   - `abstract class LinkFactory`
+///
+///   - `abstract class Named implements iNamed`
+///   - `abstract class Colorable extends Named implements iColorable`
+///   - `abstract class Positioned extends Colorable implements iPositioned`
+///
+///   Network generators: 
+///   ===================
+///   - `void makeRingNet(Node[] nodes,LinkFactory links,int neighborhood)`
+///   - `void makeTorusNet(Node[] nodes,LinkFactory links,int neighborhood)`
+///   - `void makeTorusNet(Node[][] nodes,LinkFactory links,int neighborhood)`
 /// 
+///   - `void makeFullNet(Node[] nodes,LinkFactory links)`
+///   - `void makeFullNet(Node[][] nodes,LinkFactory links)`
+/// 
+///   - `void makeRandomNet(Node[] nodes,LinkFactory links,float probability, boolean reciprocal)`
+///   - `void makeRandomNet(Node[][] nodes,LinkFactory links,float probability, boolean reciprocal)`
+///
+///   - `void makeOrphansAdoption(Node[] nodes,LinkFactory links, boolean reciprocal)`
+/// 
+///   - `void makeSmWorldNet(Node[] nodes,LinkFactory links,int neighborhood,float probability, boolean reciprocal)`
+///   - `void makeImSmWorldNet(Node[] nodes,LinkFactory links,int neighborhood,float probability, boolean reciprocal)`
+///
+
+
+
+/// int NET_DEBUG_LEV=1;  ///< DEBUG level for network. Should be defined autside this file!
+
+//  ABSTRACT BASE CLASSES
+//*/////////////////////////////////
+
+/// Abstraction of link filtering class.
 abstract class LinkFilter implements iLinkFilter {
   /*_interfunc*/ public boolean meetsTheAssumptions(iLink l)
-                  {assert false : "Pure interface meetsTheAssumptions(Link) called"; return false;}
-};
+                  {assert false : "Pure abstract meetsTheAssumptions(Link) called"; return false;}
+}//EndOfClass
 
-/// 
-abstract class LinkFactory {
-  /*_interfunc*/ public Link  makeLink(Node Source,Node Target)
-                  {assert false : "Pure interface make(Node,Node) called"; return null;}
-                 public Link  makeSelfLink(Node Self)
-                  {assert false : "Pure interface make(Node) called"; return null;}
-};
+/// Abstraction of link factory class. Forcing `makeLink()` and `makeSalfLink()` methods.
+abstract class LinkFactory implements iLinkFactory {
+  /*_interfunc*/ public iLink  makeLink(iNode Source,iNode Target)
+                  {assert false : "Pure abstract make(Node,Node) called"; return null;}
+                 public iLink  makeSelfLink(iNode Self)
+                  {assert false : "Pure abstract make(Node) called"; return null;}
+}//EndOfClass
 
-/// Forcing name() method for visualisation and mapping 
+/// Abstraction of string-named class. Forcing `name()` method for visualisation and mapping. 
 abstract class Named implements iNamed {       
   /*_interfunc*/ public String    name(){assert false : "Pure interface name() called"; return null;}
-};
+}//EndOfClass
 
-/// Only for visualisation
+/// Abstraction for any colorable object. Only for visualisation.
 abstract class Colorable extends Named implements iColorable {
-  /*_interfunc*/ public void setFill(float modifier){assert false : "Pure interface setFill() called";}
-  /*_interfunc*/ public void setStroke(float modifier){assert false : "Pure interface setStroke() called";}
-};
+  /*_interfunc*/ public void setFill(float modifier)  {assert false : "Pure abstract setFill() called";}
+  /*_interfunc*/ public void setStroke(float modifier){assert false : "Pure abstract setStroke() called";}
+}//EndOfClass
 
-/// Forcing posX() & posY() & posZ() methods for visualisation and mapping  
+/// Forcing posX() & posY() & posZ() methods for visualisation and mapping.  
 abstract class Positioned extends Colorable implements iPositioned {
-  /*_interfunc*/ public float    posX(){assert false : "Pure interface posX() called"; return 0;}
-  /*_interfunc*/ public float    posY(){assert false : "Pure interface posY() called"; return 0;}
-  /*_interfunc*/ public float    posZ(){assert false : "Pure interface posZ() called"; return 0;}
-};
+  /*_interfunc*/ public float    posX(){assert false : "Pure abstract posX() called"; return 0;}
+  /*_interfunc*/ public float    posY(){assert false : "Pure abstract posY() called"; return 0;}
+  /*_interfunc*/ public float    posZ(){assert false : "Pure abstract posZ() called"; return 0;}
+}//EndOfClass
 
-///INFO: 
+/// Abstraction class for any network node.
 abstract class Node extends Positioned implements iNode {
-  /*_interfunc*/ public int     addConn(Link   l){assert false : "Pure interface addConn(Link "+l+") called"; return   -1;}
-  /*_interfunc*/ public int     delConn(Link   l){assert false : "Pure interface delConn(Link "+l+") called"; return   -1;}
-  /*_interfunc*/ public int     numOfConn()      {assert false : "Pure interface numOfConn() called"; return   -1;}
-  /*_interfunc*/ public Link    getConn(int    i){assert false : "Pure interface getConn(int "+i+")  called"; return null;}
-  /*_interfunc*/ public Link    getConn(Node   n){assert false : "Pure interface getConn(Node "+n+") called"; return null;}
-  /*_interfunc*/ public Link    getConn(String k){assert false : "Pure method  getConn(String '"+k+"') called"; return null;}
-  /*_interfunc*/ public Link[]  getConns(LinkFilter f)
-                  {assert false : "Pure interface getConns(LinkFilter "+f+") called"; return null;}
-};
+  /*_interfunc*/ public int      addConn(iLink   l){assert false : "Pure abstract addConn(Link "+l+") called"; return   -1;}
+  /*_interfunc*/ public int      delConn(iLink   l){assert false : "Pure abstract delConn(Link "+l+") called"; return   -1;}
+  /*_interfunc*/ public int      numOfConn()       {assert false : "Pure abstract numOfConn() called"; return   -1;}
+  /*_interfunc*/ public iLink    getConn(int    i) {assert false : "Pure abstract getConn(int "+i+")  called"; return null;}
+  /*_interfunc*/ public iLink    getConn(iNode   n){assert false : "Pure abstract getConn(Node "+n+") called"; return null;}
+  /*_interfunc*/ public iLink    getConn(String k) {assert false : "Pure abstract getConn(String '"+k+"') called"; return null;}
+  /*_interfunc*/ public iLink[]  getConns(iLinkFilter f)
+                  { assert false : "Pure abstract getConns(LinkFilter "+f+") called"; return null;}
+}//EndOfClass
 
 //   CLASS FOR MODIFICATION:
 //*//////////////////////////
 
-/// This class is available for user modifications
+/// Real link implementation. This class is available for user modifications.
 class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
-  Node  target;
-  float weight;//importance/trust
-  int   ltype;//"color"
-  //... add something, if you need in derived classes
+  Node  target;  //!< targetet node.
+  float weight;  //!< importance/trust
+  int   ltype;   //!< "color"
   
-  //Constructor (may vary)
+  //... add something, if you need in derived classes.
+  
+  /// Constructor.
   Link(Node targ,float we,int ty){ target=targ;weight=we;ltype=ty;}
   
+  /// Text formated data from the object.
   public String fullInfo(String fieldSeparator)
   {
     return "W:"+weight+fieldSeparator+"Tp:"+ltype+fieldSeparator+"->"+target;
   }
   
-  //For sorting. Much weighted link should be at the begining of the array!
-  public int  compareTo(Link o)//Compares this object with the specified object for order.
+  /// For sorting. Much weighted link should be at the begining of the array!
+  /// Compares this object with the specified object for order.
+  public int  compareTo(Link o) 
   {
      if(o==this || o.weight==weight) return 0;
      else
@@ -371,12 +412,24 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
      else return -1;
   }
   
-  //For visualisation and mapping  
+  /// For visualisation and mapping.  
   public String name(){ return target.name(); }
   
+  /// Read only access to `weight`.
   public float getWeight() { return weight;}
+  
+  /// Provide target node
+  public iNode getTarget() { return target;}
+
+  /// Provide target casted on visualisable node.
+  public iVisNode  getVisTarget() { return (iVisNode)target;}
+  
+  public void  setTarget(iNode tar) { target=(Node)(tar); }
+  
+  /// 
   public int   getTypeMarker() { return ltype; }
   
+  /// How object should be collored.
   public int     defColor()
   {
      switch ( ltype )
@@ -389,6 +442,8 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
      }   
   }
   
+  /// Setting `stroke` for this object. 
+  /// @param Intensity - used for alpha channel.
   public void setStroke(float Intensity)
   {  //float   MAX_LINK_WEIGHT=2;   ///Use maximal strokeWidth for links
      strokeWeight(abs(weight)*MAX_LINK_WEIGHT);
@@ -402,9 +457,9 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
              break;
      }
   }
-};
+}//EndOfClass
 
-/// Simplest link factory creates identical links except for the targets
+/// Simplest link factory creates identical links except for the targets.
 /// It also serves as an example of designing factories.
 class basicLinkFactory extends LinkFactory
 {
@@ -417,21 +472,22 @@ class basicLinkFactory extends LinkFactory
   {
     return new Link(Target,default_weight,default_type);
   }
-}
+}//EndOfClass
 
 //   IMPLEMENTATIONS:
 //*////////////////////
 
-/// Ring network
-public void makeRingNet(Node[] nodes,LinkFactory linkfac,int neighborhood) {
+/// Ring network.
+public void makeRingNet(iNode[] nodes,iLinkFactory linkfac,int neighborhood)  ///< Global namespace.
+{
   int n=nodes.length;
   for(int i=0;i<n;i++)
   {
-    Node Source=nodes[i];
+    iNode Source=nodes[i];
     
     if(Source!=null)
     {
-      if(debug_level>2) println("i="+i,"Source="+Source,' ');
+      if(DEBUG_LEVEL>2) println("i="+i,"Source="+Source,' ');
       
       for(int j=1;j<=neighborhood;j++)
       {
@@ -440,40 +496,42 @@ public void makeRingNet(Node[] nodes,LinkFactory linkfac,int neighborhood) {
         
         if(nodes[g]!=null)
         {
-          if(debug_level>2) print("i="+i,"g="+g,' ');
+          if(DEBUG_LEVEL>2) print("i="+i,"g="+g,' ');
           Source.addConn( linkfac.makeLink(Source,nodes[g]) );
         }
         
         if(nodes[h]!=null)
         {
-          if(debug_level>2) print("i="+i,"h="+h,' ');
+          if(DEBUG_LEVEL>2) print("i="+i,"h="+h,' ');
           Source.addConn( linkfac.makeLink(Source,nodes[h]) );
         }    
         
-        if(debug_level>2) println();
+        if(DEBUG_LEVEL>2) println();
       }
     }
   }
 }
 
-/// Torus lattice 1D - It is alias for Ring net only
-public void makeTorusNet(Node[] nodes,LinkFactory links,int neighborhood) {  
+/// Torus lattice 1D - It is alias for Ring net only.
+public void makeTorusNet(iNode[] nodes,iLinkFactory links,int neighborhood)      ///< Global namespace.
+{  
    makeRingNet(nodes,links,neighborhood);
 }
 
-/// Torus lattice 2D
-public void makeTorusNet(Node[][] nodes,LinkFactory linkfac,int neighborhood) {
+/// Torus lattice 2D.
+public void makeTorusNet(iNode[][] nodes,iLinkFactory linkfac,int neighborhood)  ///< Global namespace.
+{
   int s=nodes.length;   
   for(int i=0;i<s;i++)
   {
     int z=nodes[i].length;
     for(int k=0;k<z;k++)
     {
-      Node Source=nodes[i][k];
+      iNode Source=nodes[i][k];
       
       if(Source!=null)
       {
-        if(debug_level>2) println("i="+i,"k="+k,"Source="+Source,' ');
+        if(DEBUG_LEVEL>2) println("i="+i,"k="+k,"Source="+Source,' ');
         
         for(int j=-neighborhood;j<=neighborhood;j++)
         {
@@ -483,15 +541,15 @@ public void makeTorusNet(Node[][] nodes,LinkFactory linkfac,int neighborhood) {
           {
             int hor=(z+k+m)%z;//right index
             
-            Node Target;
+            iNode Target;
             
             if((Target=nodes[vert][hor])!=null && Target!=Source)
             {
-              if(debug_level>2) print("Vert="+vert,"Hor="+hor,' ');
+              if(DEBUG_LEVEL>2) print("Vert="+vert,"Hor="+hor,' ');
               Source.addConn( linkfac.makeLink(Source,Target) );
             }
   
-            if(debug_level>2) println();
+            if(DEBUG_LEVEL>2) println();
           }
         }
       }
@@ -499,18 +557,19 @@ public void makeTorusNet(Node[][] nodes,LinkFactory linkfac,int neighborhood) {
   }
 }
 
-/// Rewire some connection for Small World 1D
-public void rewireLinksRandomly(Node[] nodes,float probability, boolean reciprocal) { 
+/// Rewire some connection for Small World 1D.
+public void rewireLinksRandomly(iNode[] nodes,float probability, boolean reciprocal)  ///< Global namespace.
+{ 
   for(int i=0;i<nodes.length;i++)
   {
-    Node Source=nodes[i];
+    iNode Source=nodes[i];
     if(Source==null) 
                   continue;
                   
     if(random(1.0f)<probability)
     {
       int j=(int)random(nodes.length);
-      Node Target=nodes[j];
+      iNode Target=nodes[j];
       
       if(Target==null || Source==Target 
          || Source.getConn(Target)!=null 
@@ -520,31 +579,32 @@ public void rewireLinksRandomly(Node[] nodes,float probability, boolean reciproc
       //if(debug_level>2) print("i="+i,"g="+g,"j="+j);
        
       int index=(int)random(Source.numOfConn());  assert index<Source.numOfConn(); 
-      Link l=Source.getConn(index);
+      iLink l=Source.getConn(index);
       
       if(reciprocal)
       {
-        Link r=l.target.getConn(Source);
+        iLink r=l.getTarget().getConn(Source);
         if(r!=null) 
         {
-          l.target.delConn(r);//Usunięcie zwrotnego linku jesli był
-          r.target=Source;//Poprawienie linku
+          l.getTarget().delConn(r);//Usunięcie zwrotnego linku jesli był
+          r.setTarget(Source);//Poprawienie linku
           Target.addConn(r);//Dodanie nowego zwrotnego linku w Targecie
         }  
       }
       
-      l.target=Target;//Replacing target!    
+      l.setTarget(Target);//Replacing target!    
       //if(debug_level>2) println();
     }  
   }
 }
 
-/// Rewire some connection for Small World 2D
-public void rewireLinksRandomly(Node[][] nodes,float probability, boolean reciprocal) { 
+/// Rewire some connection for Small World 2D.
+public void rewireLinksRandomly(iNode[][] nodes,float probability, boolean reciprocal)  ///< Global namespace.
+{ 
   for(int i=0;i<nodes.length;i++)
   for(int g=0;g<nodes[i].length;g++)
   {
-    Node Source=nodes[i][g];
+    iNode Source=nodes[i][g];
     if(Source==null) 
                   continue;                  
     //Czy tu jakiś link zostanie przerobiony?
@@ -553,7 +613,7 @@ public void rewireLinksRandomly(Node[][] nodes,float probability, boolean recipr
       //Nowy target - trzeba trafić           
       int j=(int)random(nodes.length);
       int h=(int)random(nodes[j].length);
-      Node Target=nodes[j][h];
+      iNode Target=nodes[j][h];
       if(Target==null || Source==Target 
          || Source.getConn(Target)!=null 
          )
@@ -562,104 +622,111 @@ public void rewireLinksRandomly(Node[][] nodes,float probability, boolean recipr
       //if(debug_level>2) print("i="+i,"g="+g,"j="+j,"h="+h);
        
       int index=(int)random(Source.numOfConn());      assert index<Source.numOfConn();       
-      Link l=Source.getConn(index);
+      iLink l=Source.getConn(index);
  
       if(reciprocal)
       {
-        Link r=l.target.getConn(Source);
+        iLink r=l.getTarget().getConn(Source);
         if(r!=null) 
         {
-          l.target.delConn(r);//Usunięcie zwrotnego linku jesli był
-          r.target=Source;//Poprawienie linku
+          l.getTarget().delConn(r);//Usunięcie zwrotnego linku jesli był
+          r.setTarget(Source);//Poprawienie linku
           Target.addConn(r);//Dodanie nowego zwrotnego linku w Targecie
         }  
       }
       
-      l.target=Target;//Replacing target!
+      l.setTarget(Target); //Replacing target!
       //if(debug_level>2) println();
     }  
   }
 }
 
-/// Classic Small World 1D
-public void makeSmWorldNet(Node[] nodes,LinkFactory links,int neighborhood,float probability, boolean reciprocal) { 
+/// Classic Small World 1D.
+public void makeSmWorldNet(iNode[] nodes,iLinkFactory links,int neighborhood,float probability, boolean reciprocal)  ///< Global namespace.
+{ 
   makeTorusNet(nodes,links,neighborhood);
   rewireLinksRandomly(nodes,probability,  reciprocal);
 }
 
-/// Classic Small World 2D
-public void makeSmWorldNet(Node[][] nodes,LinkFactory links,int neighborhood,float probability, boolean reciprocal) { 
+/// Classic Small World 2D.
+public void makeSmWorldNet(iNode[][] nodes,iLinkFactory links,int neighborhood,float probability, boolean reciprocal)  ///< Global namespace.
+{ 
   makeTorusNet(nodes,links,neighborhood);
   rewireLinksRandomly(nodes,probability,  reciprocal);
 }
 
-/// Improved Small World 2D
-public void makeImSmWorldNet(Node[][] nodes,LinkFactory links,int neighborhood,float probability, boolean reciprocal) { 
+/// Improved Small World 2D.
+public void makeImSmWorldNet(iNode[][] nodes,iLinkFactory links,int neighborhood,float probability, boolean reciprocal)  ///< Global namespace.
+{ 
   makeTorusNet(nodes,links,neighborhood);
   makeRandomNet(nodes,links,probability,  reciprocal);
 }
 
-/// Improved Small World 1D
-public void makeImSmWorldNet(Node[] nodes,LinkFactory links,int neighborhood,float probability, boolean reciprocal) { 
+/// Improved Small World 1D.
+public void makeImSmWorldNet(iNode[] nodes,iLinkFactory links,int neighborhood,float probability, boolean reciprocal)  ///< Global namespace.
+{ 
   makeTorusNet(nodes,links,neighborhood);
   makeRandomNet(nodes,links,probability,  reciprocal);
 }
 
-/*_inline*/ public boolean inCluster(Node[] cluster,Node what)
+/// It tests if node `what` is in `cluster`.
+/*_inline*/ public boolean inCluster(iNode[] cluster,iNode what)
 {
   for(int j=0;j<cluster.length;j++)
    if(cluster[j]==what) //juz jest w cluster'ze
    {
-     if(debug_level>2) 
+     if(DEBUG_LEVEL>2) 
          println("node",what,"already on list!!!");
      return true;
    }
   return false;
 }
 
-/// Scale Free 1D
-public void makeScaleFree(Node[] nodes,LinkFactory linkfac,int sizeOfFirstCluster,int numberOfNewLinkPerAgent, boolean reciprocal) {
-  if(debug_level>1) println("MAKING SCALE FREE",sizeOfFirstCluster,numberOfNewLinkPerAgent,reciprocal);
-  Node[] cluster=new Node[sizeOfFirstCluster];//if(debug_level>3) println("Initial:",(Node[])cluster);//Nodes for initial cluster
+/// Scale Free 1D.
+public void makeScaleFree(iNode[] nodes,iLinkFactory linkfac,int sizeOfFirstCluster,int numberOfNewLinkPerNode, boolean reciprocal)  ///< Global namespace.
+{
+  if(DEBUG_LEVEL>1) println("MAKING SCALE FREE",sizeOfFirstCluster,numberOfNewLinkPerNode,reciprocal);
+  iNode[] cluster=new iNode[sizeOfFirstCluster]; //if(debug_level>3) println("Initial:",(Node[])cluster);//Nodes for initial cluster
   
   for(int i=0;i<sizeOfFirstCluster;)
   {
     int  pos=(int)random(nodes.length);
-    Node pom=nodes[pos];
+    iNode pom=nodes[pos];
     if(inCluster(cluster,pom))
             continue;
     cluster[i]=pom;     
     i++;
   }
-  makeFullNet(cluster,linkfac);//Linking of initial cluster
+  
+  makeFullNet(cluster,linkfac); //Linking of initial cluster
   
   float numberOfLinks=0;
-  for(Node nod:nodes )
+  for(iNode nod:nodes )
     if(nod!=null)
       numberOfLinks+=nod.numOfConn();
       
-  float EPS=1e-45f;//Najmniejszy możliwy float
+  float EPS=1e-45f; //Najmniejszy możliwy float
   println("Initial number of links is",numberOfLinks,EPS);
   
-  for(int i=0;i<numberOfNewLinkPerAgent;i++)
+  for(int i=0;i<numberOfNewLinkPerNode;i++)
     for(int j=0;j<nodes.length;)//Próbujemy każdego przyłączyć do czegoś
     {
-        Node source=nodes[j];
+        iNode source=nodes[j];
         if(source==null)
             continue;
             
-        float where=EPS+random(1.0f);                      assert(where>0.0f);//"where" okresli do którego węzła się przyłączymy
-        float start=0;                                    if(debug_level>2) print(j,where,"->");
+        float where=EPS+random(1.0f);                      assert(where>0.0f); //"where" okresli do którego węzła się przyłączymy
+        float start=0;                                    if(DEBUG_LEVEL>2) print(j,where,"->");
         for(int k=0;k<nodes.length;k++)
         {
-          Node target=nodes[k];
+          iNode target=nodes[k];
           if(target==null)
             continue;  
             
-          float pwindow=target.numOfConn()/numberOfLinks; if(debug_level>3) print(pwindow,"; ");
+          float pwindow=target.numOfConn()/numberOfLinks; if(DEBUG_LEVEL>3) print(pwindow,"; ");
           if(start<where && where<=start+pwindow)         //Czy trafił w przedział?
           {
-                                                          if(debug_level>2) print(k,"!");
+                                                          if(DEBUG_LEVEL>2) print(k,"!");
             if(source!=target)
             {
               int success=source.addConn( linkfac.makeLink(source,target) );
@@ -669,72 +736,75 @@ public void makeScaleFree(Node[] nodes,LinkFactory linkfac,int sizeOfFirstCluste
                 if(reciprocal)
                   if(target.addConn( linkfac.makeLink(target,source) )==1)//OK TYLKO GDY NOWY LINK
                       numberOfLinks++;
-                j++;//Można przejść do podłączania nastepnego agenta
+                j++; //Można przejść do podłączania nastepnego agenta
               }
             }
             
-            break;//Znaleziono potencjalny target. Jeśli nie nastąpiło podłączenie to i tak trzeba losować od nowa
+            break; //Znaleziono potencjalny target. Jeśli nie nastąpiło podłączenie to i tak trzeba losować od nowa
           }
           else
           {
-            start+=pwindow;//To jeszcze nie ten
+            start+=pwindow; //To jeszcze nie ten
           }
-        }                                                  if(debug_level>2) println();
+        }                                                  if(DEBUG_LEVEL>2) println();
     }
-    if(debug_level>1) println("DONE! SCALE FREE HAS MADE");
+    if(DEBUG_LEVEL>1) println("DONE! SCALE FREE HAS MADE");
 }
 
-/// Full connected network 1D
-public void makeFullNet(Node[] nodes,LinkFactory linkfac) {
+/// Full connected network 1D.
+public void makeFullNet(iNode[] nodes,iLinkFactory linkfac)         ///< Global namespace.
+{
   int n=nodes.length;
   for(int i=0;i<n;i++)
   {
-    Node Source=nodes[i];
+    iNode Source=nodes[i];
     if(Source!=null)
       for(int j=0;j<n;j++)
         if(i!=j && nodes[j]!=null )
         {
-          if(debug_level>4) print("i="+i,"j="+j);
+          if(DEBUG_LEVEL>4) print("i="+i,"j="+j);
           
           Source.addConn( linkfac.makeLink(Source,nodes[j]) );
           
-          if(debug_level>4) println();
+          if(DEBUG_LEVEL>4) println();
         }
   }
 }
 
-/// Full connected network 2D
-public void makeFullNet(Node[][] nodes,LinkFactory linkfac) {
+/// Full connected network 2D.
+public void makeFullNet(iNode[][] nodes,iLinkFactory linkfac)      ///< Global namespace.
+{
   for(int i=0;i<nodes.length;i++)
   for(int g=0;g<nodes[i].length;g++)
   {
-    Node Source=nodes[i][g];
+    iNode Source=nodes[i][g];
     
     if(Source!=null)
       for(int j=0;j<nodes.length;j++)
       for(int h=0;h<nodes[j].length;h++)
       {
-        Node Target=nodes[j][h];
+        iNode Target=nodes[j][h];
         
         if(Target!=null && Source!=Target)
         {
-          if(debug_level>4) print("i="+i,"g="+g,"j="+j,"h="+h);
+          if(DEBUG_LEVEL>4) print("i="+i,"g="+g,"j="+j,"h="+h);
           
           Source.addConn( linkfac.makeLink(Source,Target) );
           
-          if(debug_level>4) println();
+          if(DEBUG_LEVEL>4) println();
         }
       }
   }
 }
 
-/// Randomly connected network 1D
-public void makeRandomNet(Node[] nodes,LinkFactory linkfac,float probability, boolean reciprocal) {  
+/// Randomly connected network 1D.
+public void makeRandomNet(iNode[] nodes,iLinkFactory linkfac,float probability, boolean reciprocal)  ///< Global namespace.
+{  
   //NO ERROR!: rings in visualisation are because agents may have sometimes exactly same position!!!
   int n=nodes.length;
   for(int i=0;i<n;i++)
   {
-    Node Source=nodes[i];
+    iNode Source=nodes[i];
     if(Source==null)
         continue;
         
@@ -742,16 +812,16 @@ public void makeRandomNet(Node[] nodes,LinkFactory linkfac,float probability, bo
     {
       for(int j=i+1;j<n;j++)
       {
-        Node Target=nodes[j];
+        iNode Target=nodes[j];
         if(Target!=null && Source!=Target && random(1.0f)<probability)
         {
-          if(debug_level>2) print("i="+i,"j="+j);
+          if(DEBUG_LEVEL>2) print("i="+i,"j="+j);
                                                                 
           int success=Source.addConn( linkfac.makeLink( Source, Target ) );
           if(success==1)
             Target.addConn( linkfac.makeLink( Target, Source ) );
           
-          if(debug_level>2) println();
+          if(DEBUG_LEVEL>2) println();
         }
       }   
     }
@@ -759,34 +829,36 @@ public void makeRandomNet(Node[] nodes,LinkFactory linkfac,float probability, bo
     {
       for(int j=0;j<n;j++)
       {
-        Node Target=nodes[j];
+        iNode Target=nodes[j];
         if(Target!=null && Source!=Target && random(1.0f)<probability)
         {
-          if(debug_level>2) print("i="+i,"j="+j);
+          if(DEBUG_LEVEL>2) print("i="+i,"j="+j);
                                                                 
           //int success=
           Source.addConn( linkfac.makeLink( Source, Target ) );
           
-          if(debug_level>2) println();
+          if(DEBUG_LEVEL>2) println();
         }
       }       
     }
   }
 }
 
-/// Connect all orphaned nodes with at least one link
-public void makeOrphansAdoption(Node[] nodes,LinkFactory linkfac, boolean reciprocal) {
+/// Connect all orphaned nodes with at least one link.
+public void makeOrphansAdoption(iNode[] nodes,iLinkFactory linkfac, boolean reciprocal)    ///< Global namespace.
+{
   int n=nodes.length;
   for(int i=0;i<n;i++)
   {
-    Node Source=nodes[i];
+    iNode Source=nodes[i];
     if(Source==null || Source.numOfConn() > 0)
         continue;
         
     //Only if exists and is orphaned
-                                                                      if(debug_level>0) print("Orphan",nf(i,3),":");
-    Node Target=null;int Ntry=n;
-    while(Target==null)//Searching for foster parent
+                                                                      if(DEBUG_LEVEL>0) print("Orphan",nf(i,3),":");
+    iNode Target=null;
+    int Ntry=n;
+    while(Target==null) //Searching for foster parent
     {
       int t=(int)random(n);
       if( t==i                //candidate is not self
@@ -795,8 +867,8 @@ public void makeOrphansAdoption(Node[] nodes,LinkFactory linkfac, boolean recipr
            && Ntry-- > 0  )   //but not when all are orphans!
       ) continue;
                                                                        
-      Target=nodes[t];//Candidate ok
-                                                                      if(debug_level>0) print("(",Ntry,")",nf(t,3),"is a chosen one ", Target.name() ); 
+      Target=nodes[t]; //Candidate ok
+                                                                      if(DEBUG_LEVEL>0) print("(",Ntry,")",nf(t,3),"is a chosen one ", Target.name() ); 
     }
                                                                       //if(debug_level>1) print(" S has ", Source.numOfConn() ," links");
     int success=Source.addConn( linkfac.makeLink( Source, Target ) ); 
@@ -812,18 +884,19 @@ public void makeOrphansAdoption(Node[] nodes,LinkFactory linkfac, boolean recipr
                                                                       //if(debug_level>1) print(" Now T has", Target.numOfConn() ," ");
     }
     
-                                                                      if(debug_level>0)
+                                                                      if(DEBUG_LEVEL>0)
                                                                         if(success==1)  println(" --> Not any more orphaned!");
                                                                         else  println("???",success);
   }
 }
 
-/// Randomly connected network 2D
-public void makeRandomNet(Node[][] nodes,LinkFactory linkfac,float probability, boolean reciprocal) {
+/// Randomly connected network 2D.
+public void makeRandomNet(iNode[][] nodes,iLinkFactory linkfac,float probability, boolean reciprocal)  ///< Global namespace.
+{
   for(int i=0;i<nodes.length;i++)
   for(int g=0;g<nodes[i].length;g++)
   {
-    Node Source=nodes[i][g];
+    iNode Source=nodes[i][g];
     
     if(Source==null)
       continue;
@@ -833,17 +906,17 @@ public void makeRandomNet(Node[][] nodes,LinkFactory linkfac,float probability, 
       for(int j=i+1;j<nodes.length;j++)
       for(int h=g+1;h<nodes[j].length;h++)
       {
-        Node Target=nodes[j][h];
+        iNode Target=nodes[j][h];
         
         if(Target!=null && Source!=Target && random(1)<probability)
         {
-          if(debug_level>2) print("i="+i,"g="+g,"j="+j,"h="+h);
+          if(DEBUG_LEVEL>2) print("i="+i,"g="+g,"j="+j,"h="+h);
                                                                
           int success=Source.addConn( linkfac.makeLink(Source,Target) );
           if(success==1)
             Target.addConn( linkfac.makeLink(Target,Source) );
             
-          if(debug_level>2) println();
+          if(DEBUG_LEVEL>2) println();
         }
       }
     }
@@ -852,61 +925,62 @@ public void makeRandomNet(Node[][] nodes,LinkFactory linkfac,float probability, 
       for(int j=0;j<nodes.length;j++)
       for(int h=0;h<nodes[j].length;h++)
       {
-        Node Target=nodes[j][h];
+        iNode Target=nodes[j][h];
         
         if(Target!=null && Source!=Target && random(1)<probability)
         {
-          if(debug_level>2) print("i="+i,"g="+g,"j="+j,"h="+h);
+          if(DEBUG_LEVEL>2) print("i="+i,"g="+g,"j="+j,"h="+h);
                                                                
           //int success=
           Source.addConn( linkfac.makeLink(Source,Target) );
             
-          if(debug_level>2) println();
+          if(DEBUG_LEVEL>2) println();
         }
       }
     }
   }
 }
 
-/// Node implementation based on list
-class NodeList extends Node {
-  ArrayList<Link> connections;//https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html
+/// Node implementation based on ArrayList.
+/// See: //https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html
+class NodeAsList extends Node  implements iVisNode {
+  ArrayList<Link> connections; 
   
-  NodeList()
+  NodeAsList()
   {
     connections=new ArrayList<Link>();
   }
   
-  public int     numOfConn()      { return connections.size();}
+  public int     numOfConn()  //!< By interface required.    
+  { return connections.size(); }
   
   public int     addConn(iLink   l)
   {
-    println("NodeList.addConn(iLink   l) not implemented");
-    return -1;
+     return addConn((Link)l);
   }
   
-  public int     addConn(Link   l)
+  public int     addConn(Link   l) //!< By interface required.
   {
-    assert l!=null : "Empty link in "+this.getClass().getName()+".addConn(Link)?"; 
-    if(debug_level>2 && l.target==this) //It may not be expected!
-            print("Self connecting of",l.target.name());
+                                          assert l!=null : "Empty link in "+this.getClass().getName()+".addConn(Link)?";
+    if(NET_DEBUG_LEV>2 && l.getTarget()==this)   //It may not be expected!
+            print("Self connecting of",l.getTarget().name());
             
     boolean res=false;
     
-    if(getConn(l.target)==null)
+    if(getConn(l.getTarget())==null)
     {
         res=connections.add(l);
-        if(debug_level>4) print('|');
+        if(NET_DEBUG_LEV>0) print('|');
     }
-    else if(debug_level>0) println("Link",this.name(),"->",l.target.name(),"already exist");
-        
-    if(res)
-      return   1;
-    else
-      return   0;
+    else if(NET_DEBUG_LEV>1) println("Link",this.name(),
+                                   "->",l.target.name(), // new line for C++ sed-translator
+                                   "already exist"); // '.' should not be between '"' 
+
+    if(res) return   1;
+    else    return   0;
   }
   
-  public int     delConn(iLink   l)
+  public int     delConn(iLink   l) //!< By interface required.
   {
     if(connections.remove(l))
       return 1;
@@ -914,15 +988,15 @@ class NodeList extends Node {
       return 0;
   }
   
-  public Link    getConn(int    i)
+  public Link    getConn(int    i) //!< By interface required.
   {
     assert i<connections.size(): "Index '"+i+"' out of bound '"+connections.size()+"' in "+this.getClass().getName()+".getConn(int)"; 
     return connections.get(i);
   }
   
-  public Link    getConn(iNode   n)
+  public Link    getConn(iNode   n) //!< By interface required.
   {
-    assert n!=null : "Empty node in "+this.getClass().getName()+".getConn(Node)"; 
+                                           assert n!=null : "Empty node in "+this.getClass().getName()+".getConn(Node)";
     for(Link l:connections)
     {
       if(l.target==n) 
@@ -931,9 +1005,9 @@ class NodeList extends Node {
     return null;
   }
   
-  public Link    getConn(String k)
+  public Link    getConn(String k) //!< By interface required.
   {
-    assert k==null || k=="" : "Empty string in "+this.getClass().getName()+".getConn(String)"; 
+                              assert k==null || k=="" : "Empty string in "+this.getClass().getName()+".getConn(String)";
     for(Link l:connections)
     {
       if(l.target.name()==k) 
@@ -942,9 +1016,9 @@ class NodeList extends Node {
     return null;
   }
   
-  public Link[]  getConns(iLinkFilter f)
+  public Link[]  getConns(iLinkFilter f) //!< By interface required.
   {
-    //assert f!=null : "Empty LinkFilter in "+this.getClass().getName()+".getConns(LinkFilter)"; 
+                            //assert f!=null : "Empty LinkFilter in "+this.getClass().getName()+".getConns(LinkFilter)";
     ArrayList<Link> selected=new ArrayList<Link>();
     for(Link l:connections)
     {
@@ -958,12 +1032,13 @@ class NodeList extends Node {
   }
 };
 
-/// Node implementation based on hash map
-class NodeMap extends Node {  
-  //HashMap<Integer,Link> connections;//TODO using Object.hashCode(). Should be a bit faster than String
-  HashMap<String,Link> connections;//https://docs.oracle.com/javase/6/docs/api/java/util/HashMap.html
+/// Node implementation based on hash map.
+/// See: //https://docs.oracle.com/javase/6/docs/api/java/util/HashMap.html
+class NodeAsMap extends Node implements iVisNode {  
+  //HashMap<Integer,Link> connections; //TODO using Object.hashCode(). Could be a bit faster than String
+  HashMap<String,Link> connections; 
   
-  NodeMap()
+  NodeAsMap()
   {
     connections=new HashMap<String,Link>(); 
   }
@@ -972,14 +1047,13 @@ class NodeMap extends Node {
   
   public int     addConn(iLink   l)
   {
-    println("NodeMap.addConn(iLink   l) not implemented");
-    return -1;
+     return addConn((Link)l);
   }
   
   public int     addConn(Link   l)
   {
     assert l!=null : "Empty link in "+this.getClass().getName()+".addConn(Link)?"; 
-    if(debug_level>2 && l.target==this) //It may not be expected!
+    if(DEBUG_LEVEL>2 && l.target==this) //It may not be expected!
             print("Self connecting of",l.target.name());
             
     //int hash=l.target.hashCode();//((Object)this).hashCode() for HashMap<Integer,Link>      
@@ -1040,74 +1114,237 @@ class NodeMap extends Node {
   }
 };
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES  - NETWORKS TOOLBOX
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-/// Various helpful drawing procedures
+//*////////////////////////////////////////////////////////////////////////////
+/// @file uFigures.pde
+/// Various shapes drawing procedures.
+/// @date 2023.03.04 (Last modification)
 //*//////////////////////////////////////////////////////////////
 
-/// Frame drawn with a default line
-public void surround(int x1,int y1,int x2,int y2)
-{
-  line(x1,y1,x2,y1);//--->
-  line(x2,y1,x2,y2);//vvv
-  line(x1,y2,x2,y2);//<---
-  line(x1,y1,x1,y2);//^^^
-}
-
-/// Cross drawn with a default line
-public void cross(float x,float y,float cross_width)
-{
-  line(x-cross_width,y,x+cross_width,y);
-  line(x,y-cross_width,x,y+cross_width);
-}
-
-/// Cross drawn with a default line 
-/// The version that uses parameters of type int.
-public void cross(int x,int y,int cross_width)
-{
-  line(x-cross_width,y,x+cross_width,y);
-  line(x,y-cross_width,x,y+cross_width);
-}
-
-/// The bald head of a man seen from above
-public void baldhead(int x,int y,int r,float direction)
+/// Horizontal view of a bald head of a man seen from above.
+public void baldhead_hor(float x,float y,float r,float direction)         ///< Global namespace.
 {
   float D=2*r;
   float xn=x+r*cos(direction);
   float yn=y+r*sin(direction);
   ellipse(xn,yn,D/5,D/5);  //Nos
+  
   xn=x+0.95f*r*cos(direction+PI/2);
   yn=y+0.95f*r*sin(direction+PI/2);
   ellipse(xn,yn,D/4,D/4);  //Ucho  1
+  
   xn=x+0.95f*r*cos(direction-PI/2);
   yn=y+0.95f*r*sin(direction-PI/2);
   ellipse(xn,yn,D/4,D/4);  //Ucho  2
+  
   //Glówny blok
   ellipse(x,y,D,D);
-}
-
-//*
-/// POLYGONS
-//*
-//*/////////////////////
-
-/// A regular polygon with a given radius and number of vertices
-public void regularpoly(float x, float y, float radius, int npoints) 
-{
-  float angle = TWO_PI / npoints;
-  beginShape();
-  for (float a = 0; a < TWO_PI; a += angle) 
+  
+  for(int i=0;i<=10;i++)
   {
-    float sx = x + cos(a) * radius;
-    float sy = y + sin(a) * radius;
-    vertex(sx, sy);
+      float angle=PI/2+PI/10*i;
+      xn=x+0.75f*r*cos(angle+direction);
+      yn=y+0.75f*r*sin(angle+direction);
+      float xm=x+0.35f*r*cos(angle+direction);
+      float ym=y+0.35f*r*sin(angle+direction);
+      line(xm,ym,xn,yn);
   }
-  endShape(CLOSE);
+  
+  //OCZY
+  fill(200);
+  xn=x+0.75f*r*cos(direction+PI/5);
+  yn=y+0.75f*r*sin(direction+PI/5);
+  arc(xn,yn,D/5,D/5,-PI/2+direction,PI/2+direction,CHORD);  //Oko  1
+  
+  fill(0);
+  xn=x+0.84f*r*cos(direction+PI/6);
+  yn=y+0.84f*r*sin(direction+PI/6);  
+  ellipse(xn,yn,D/12,D/12);
+  
+  fill(200);
+  xn=x+0.75f*r*cos(direction-PI/5);
+  yn=y+0.75f*r*sin(direction-PI/5);
+  arc(xn,yn,D/5,D/5,-PI/2+direction,PI/2+direction,CHORD);  //Oko  2
+  
+  fill(0);
+  xn=x+0.84f*r*cos(direction-PI/6);
+  yn=y+0.84f*r*sin(direction-PI/6);
+  ellipse(xn,yn,D/12,D/12);
 }
 
-/// A class to represent two-dimensional points
+/// Vertical view on agava plant.
+public void agava_ver(float x,float y,float visual_size,float num_of_leafs)    ///< Global namespace.
+{
+  float lstep=PI/(num_of_leafs);
+  
+  for(float angle=PI+lstep/2;angle<2*PI;angle+=lstep)
+  {
+    float x2=x+cos(angle)*visual_size/2;
+    float y2=y+sin(angle)*visual_size/2;
+    triangle(x-visual_size/8,y,x+visual_size/8,y,x2,y2);
+    line(x,y,x2,y2);
+  }
+  
+  arc(x,y,visual_size/4,visual_size/4,PI,2*PI,PIE);
+}
+
+/// Horizontal view on agava plant.
+public void agava_hor(float x,float y,float visual_size,float num_of_leafs)      ///< Global namespace.
+{
+  float lstep=(2*PI)/min(num_of_leafs,3)+PI/5;
+  float maxan=lstep*num_of_leafs;
+  
+  for(float angle=lstep/2;angle<=maxan;angle+=lstep)
+  {
+    visual_size*=0.966f;
+    float x0=x+cos(angle+PI/2)*visual_size/8;
+    float y0=y+sin(angle+PI/2)*visual_size/8;
+    float x1=x+cos(angle-PI/2)*visual_size/8;
+    float y1=y+sin(angle-PI/2)*visual_size/8;    
+    float x2=x+cos(angle)*visual_size/2;
+    float y2=y+sin(angle)*visual_size/2;
+    triangle(x0,y0,x1,y1,x2,y2);
+    line(x,y,x2,y2);
+  }
+  
+  ellipse(x,y,visual_size/4,visual_size/4);//,PI,2*PI,PIE);
+  ellipse(x,y,1,1);
+}
+
+
+/// Vertical view of simple droid.
+public void gas_bottle_droid_ver(float x,float y,float visual_size,float direction)       ///< Global namespace.
+{
+  rect(x-visual_size/4, y-visual_size,     visual_size/2,   visual_size-3*visual_size/5,   visual_size/10); //Głowa
+  rect(x-visual_size/3, y-3*visual_size/5, 2*visual_size/3, 3*visual_size/5-visual_size/10,visual_size/10); //Tułów
+  rect(x-visual_size/4, y-visual_size/10,  visual_size/2,   visual_size/10);  //Stopy
+  
+  if(-.25f*PI<=direction && direction<=PI*1.25f) //Przód
+  {
+    float rotx=x+cos(direction)*visual_size/4.f;
+    float rots=visual_size/8.f*sin(direction);
+
+    fill(200);
+    arc(rotx,y-visual_size+visual_size/5.f,rots,visual_size/10.f,1.f/2.f*PI,6.f/4.f*PI,PIE); //nos lewo
+    arc(rotx,y-visual_size+visual_size/5.f,rots,visual_size/10.f,6.f/4.f*PI,  2.5f*PI,PIE); //nos prawo
+        
+    float lefte=(direction - PI/4 >0  ? x+cos(direction-PI/4)*visual_size/4 : x + visual_size/4);
+    float rigte=(direction + PI/4 <PI ? x+cos(direction+PI/4)*visual_size/4 : x-visual_size/4);
+    
+    stroke(64,0,0);
+    line(lefte,y-visual_size+visual_size/5+visual_size/10,rigte,y-visual_size+visual_size/5+visual_size/10); //usta
+    stroke(0,0,64);
+    line(lefte,y-visual_size+visual_size/16,lefte,y-visual_size+visual_size/8); //jego lewe oko
+    line(rigte,y-visual_size+visual_size/16,rigte,y-visual_size+visual_size/8); //jego prawe oko
+    
+    float lefth=(direction - PI/4 >0  ? x+cos(direction-PI/4)*visual_size/3 : x + visual_size/3);
+    float lefts=(direction - PI/5 >0  ? x+cos(direction-PI/5)*visual_size/3 : x + visual_size/3);
+    float rigth=(direction + PI/4 <PI ? x+cos(direction+PI/4)*visual_size/3 : x - visual_size/3);
+    float rigts=(direction + PI/5 <PI ? x+cos(direction+PI/5)*visual_size/3 : x - visual_size/3);
+    
+    stroke(0);
+    triangle(lefts,y-3*visual_size/5+visual_size/8,lefth,y-3*visual_size/5+visual_size/8,lefth,y-3*visual_size/5+visual_size/3); //jego lewa ręka
+    triangle(rigts,y-3*visual_size/5+visual_size/8,rigth,y-3*visual_size/5+visual_size/8,rigth,y-3*visual_size/5+visual_size/3); //jego prawa ręka
+  }
+  
+  if(PI<=direction && direction<=2*PI)
+  {
+    float leftb=x+cos(direction+PI-PI/10)*visual_size/3; //(direction+PI - PI/4 >0  ? x+cos(direction+PI-PI/4)*visual_size/3 : x + visual_size/3);
+    float rigtb=x+cos(direction+PI+PI/10)*visual_size/3; 
+    
+    fill(64);
+    quad(leftb, y-3*visual_size/5+visual_size/8, 
+         rigtb, y-3*visual_size/5+visual_size/8,
+         rigtb, y-3*visual_size/5+visual_size/4, 
+         leftb, y-3*visual_size/5+visual_size/4); 
+       
+    fill(110);
+    leftb=x+cos(direction+PI-PI/10)*visual_size/4;     
+    rigtb=x+cos(direction+PI+PI/10)*visual_size/4;
+    quad(leftb, y-visual_size+visual_size/8, 
+         rigtb, y-visual_size+visual_size/8,
+         rigtb, y-visual_size+visual_size/5, 
+         leftb, y-visual_size+visual_size/5); 
+  }
+  
+  if(0<=direction && direction<=PI)
+  {
+    float rotx=x+cos(direction)*visual_size/4.f;
+    float rots=visual_size/8.f*sin(direction);
+    fill(0);
+    triangle(rotx-rots/2,y-visual_size/10,rotx+rots/2,y-visual_size/10,rotx,y-1);  // granica stóp
+  }
+  else //Tył
+  {
+    float rotx0=x+cos(direction+PI)*visual_size/4;
+    float rots=visual_size/8.f*sin(direction+PI);
+    fill(128);
+    triangle(rotx0-rots/2,y,rotx0+rots/2,y,rotx0,y-visual_size/10+1);  // granica stóp
+  }
+  
+}
+
+//*
+/// ARROW IN ANY DIRECTION
+//*
+//*////////////////////////////////////////
+
+float def_arrow_size=15;         ///< Default size of arrows heads
+float def_arrow_theta=PI/6.0f+PI; ///< Default arrowhead spacing //3.6651914291881
+
+/// Function that draws an arrow with default settings.
+public void arrow(float x1,float y1,float x2,float y2)                           ///< Global namespace.
+{
+  arrow_d(PApplet.parseInt(x1),PApplet.parseInt(y1),PApplet.parseInt(x2),PApplet.parseInt(y2),def_arrow_size,def_arrow_theta);
+}
+
+/// Function that draws an arrow with changable settings.
+public void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)          ///< Global namespace.
+{
+  // CALCULATION METHOD FROM ROTATION OF THE ARROW AXIS
+  float A=(size>=1 ? size : size * sqrt( (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2) ));
+  float poY=PApplet.parseFloat(y2-y1);
+  float poX=PApplet.parseFloat(x2-x1);
+
+  if(poY==0 && poX==0)
+  {
+    // Rare error, but big problem
+    float cross_width=def_arrow_size/2;
+    line(x1-cross_width,y1,x1+cross_width,y1);
+    line(x1,y1-cross_width,x1,y1+cross_width);
+    ellipse(x1+def_arrow_size/sqrt(2.0f),y1-def_arrow_size/sqrt(2.0f)+1,
+            def_arrow_size,def_arrow_size);
+    return;
+  }
+                                            assert(!(poY==0 && poX==0));
+  float alfa=atan2(poY,poX);                if(abs(alfa)>PI+0.0000001f)
+                                                 println("Alfa=%e\n",alfa);
+                                          //assert(fabs(alfa)<=M_PI);//cerr<<alfa<<endl;
+  float xo1=A*cos(theta+alfa);
+  float yo1=A*sin(theta+alfa);
+  float xo2=A*cos(alfa-theta);
+  float yo2=A*sin(alfa-theta);            //cross(x2,y2,128);DEBUG!
+
+  line(PApplet.parseInt(x2+xo1),PApplet.parseInt(y2+yo1),x2,y2);
+  line(PApplet.parseInt(x2+xo2),PApplet.parseInt(y2+yo2),x2,y2);
+  line(x1,y1,x2,y2);
+}
+
+
+//*////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
+//*  https://github.com/borkowsk/sym4processing
+//*////////////////////////////////////////////////////////////////////////////
+/// @file uGraphix.pde
+/// Various helpful drawing procedures, like crosses, polygons & bar3D
+/// @date 2023.03.04 (Last modification)
+//*/////////////////////////////////////////////////////////////////////
+
+/// A class to represent two-dimensional points.
 class pointxy 
 {
   float x,y;
@@ -1123,9 +1360,52 @@ class pointxy
   }
 }//EndOfClass
 
+/// Frame drawn with a default line.
+public void surround(int x1,int y1,int x2,int y2)                     ///< Global namespace.
+{
+  line(x1,y1,x2,y1); //--->
+  line(x2,y1,x2,y2); //vvv
+  line(x1,y2,x2,y2); //<---
+  line(x1,y1,x1,y2); //^^^
+}
+
+/// Cross drawn with a default line.
+public void cross(float x,float y,float cross_width)                  ///< Global namespace.
+{
+  line(x-cross_width,y,x+cross_width,y);
+  line(x,y-cross_width,x,y+cross_width);
+}
+
+/// Cross drawn with a default line.
+/// The version that uses parameters of type int.
+public void cross(int x,int y,int cross_width)                        ///< Global namespace.
+{
+  line(x-cross_width,y,x+cross_width,y);
+  line(x,y-cross_width,x,y+cross_width);
+}
+
+//*
+/// POLYGONS
+//*
+//*/////////////////////
+
+/// A regular polygon with a given radius and number of vertices.
+public void regularpoly(float x, float y, float radius, int npoints)  ///< Global namespace.
+{
+  float angle = TWO_PI / npoints;
+  beginShape();
+  for (float a = 0; a < TWO_PI; a += angle) 
+  {
+    float sx = x + cos(a) * radius;
+    float sy = y + sin(a) * radius;
+    vertex(sx, sy);
+  }
+  endShape(CLOSE);
+}
+
 /// Drawing a polygon. 
-/// It utilises vertices given as an array of points
-public void polygon(pointxy[] lst/*+1*/)
+/// This function utilises vertices given as an array of points
+public void polygon(pointxy[] lst/*+1*/)                               ///< Global namespace.
 {
   int N= lst.length;
   beginShape();
@@ -1139,7 +1419,7 @@ public void polygon(pointxy[] lst/*+1*/)
 /// Drawing a polygon. 
 /// It utilises vertices given as an array of points
 /// @param N, size of list, could be smaller than 'lst.lenght'
-public void polygon(pointxy[] lst/*+1*/,int N)
+public void polygon(pointxy[] lst/*+1*/,int N)                        ///< Global namespace.
 {
   beginShape();
   for (int a = 0; a < N; a ++) 
@@ -1149,34 +1429,14 @@ public void polygon(pointxy[] lst/*+1*/,int N)
   endShape(CLOSE);
 }
 
-/// Nearest points of two polygons.
-public Pair<pointxy,pointxy> nearestPoints(final pointxy[] listA,final pointxy[] listB)
-{                                    
-                                    assert(listA.length>0);
-                                    assert(listB.length>0);
-  float mindist=MAX_FLOAT;
-  int   minA=-1;
-  int   minB=-1;
-  for(int i=0;i<listA.length;i++)
-    for(int j=0;j<listB.length;j++) //Pętla nadmiarowa (?)
-    {
-      float x2=(listA[i].x-listB[j].x)*(listA[i].x-listB[j].x);
-      float y2=(listA[i].y-listB[j].y)*(listA[i].y-listB[j].y);
-      
-      if(x2+y2 < mindist)
-      {
-        mindist=x2+y2;
-        minA=i; minB=j;
-      }
-    }
-  return new Pair<pointxy,pointxy>(listA[minA],listB[minB]);
-}
+
 
 //*
-/// BAR3D 
+//* Visualisation of BAR3D.
 //*
 //*/////////////////////////////////////////
 
+/// Configuration set of BAR3D visualisation.
 class settings_bar3d
 {
 int a=10;
@@ -1186,11 +1446,14 @@ int wire=color(255,255,255); //Kolor ramek
 int back=color(0,0,0); //Informacja o kolorze tla
 }//EndOfClass
 
-settings_bar3d bar3dsett=new settings_bar3d();///< Default settings of bar3d
+/// Default configuration set of BAR3D visualisation.
+settings_bar3d bar3dsett=new settings_bar3d();                       ///< Default settings of bar3d
 
-pointxy bar3dromb[]={new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy()};
+/// Rhomb polygon used for draving bar3D
+pointxy bar3dromb[]={new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy()};  ///< Global namespace.
 
-public void bar3dRGB(float x,float y,float h,int R,int G,int B,int Shad)
+/// Function which draving bar3d using current configuration.
+public void bar3dRGB(float x,float y,float h,int R,int G,int B,int Shad)    ///< Global namespace.
 {
                                                     /*      6 ------ 5    */
   bar3dromb[0].x= x;                                /*     /        / |   */
@@ -1229,96 +1492,117 @@ public void bar3dRGB(float x,float y,float h,int R,int G,int B,int Shad)
 }/* end of bar3dRGB */
 
  
-//*
-/// ARROW IN ANY DIRECTION
-//*
-//*////////////////////////////////////////
 
-float def_arrow_size=15; ///< Default size of arrows heads
-float def_arrow_theta=PI/6.0f+PI;///< Default arrowhead spacing //3.6651914291881
-
-/// Function that draws an arrow with default settings
-public void arrow(float x1,float y1,float x2,float y2)
-{
-  arrow_d(PApplet.parseInt(x1),PApplet.parseInt(y1),PApplet.parseInt(x2),PApplet.parseInt(y2),def_arrow_size,def_arrow_theta);
-}
-
-/// Function that draws an arrow with changable settings
-public void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)
-{
-  // CALCULATION METHOD FROM ROTATION OF THE ARROW AXIS
-  float A=(size>=1 ? size : size * sqrt( (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2) ));
-  float poY=PApplet.parseFloat(y2-y1);
-  float poX=PApplet.parseFloat(x2-x1);
-
-  if(poY==0 && poX==0)
-  {
-    // Rare error, but big problem
-    float cross_width=def_arrow_size/2;
-    line(x1-cross_width,y1,x1+cross_width,y1);
-    line(x1,y1-cross_width,x1,y1+cross_width);
-    ellipse(x1+def_arrow_size/sqrt(2.0f),y1-def_arrow_size/sqrt(2.0f)+1,
-            def_arrow_size,def_arrow_size);
-    return;
-  }
-                                        assert(!(poY==0 && poX==0));
-  float alfa=atan2(poY,poX);            if(abs(alfa)>PI+0.0000001f)
-                                             println("Alfa=%e\n",alfa);
-                                      //assert(fabs(alfa)<=M_PI);//cerr<<alfa<<endl;
-  float xo1=A*cos(theta+alfa);
-  float yo1=A*sin(theta+alfa);
-  float xo2=A*cos(alfa-theta);
-  float yo2=A*sin(alfa-theta);        //cross(x2,y2,128);DEBUG!
-
-  line(PApplet.parseInt(x2+xo1),PApplet.parseInt(y2+yo1),x2,y2);
-  line(PApplet.parseInt(x2+xo2),PApplet.parseInt(y2+yo2),x2,y2);
-  line(x1,y1,x2,y2);
-}
-
-//*/////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - HANDY FUNCTIONS & CLASSES
-//*/////////////////////////////////////////////////////////////////////////////////////////
-/// Others factories for fabrication of links for a (social) network
-//*///////////////////////////////////////////////////////////////////
+//*////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
+//*  https://github.com/borkowsk/sym4processing
+//*////////////////////////////////////////////////////////////////////////////
+/// @file 
+/// @date 2023.03.04 (Last modification)
+/// @brief Others factories for fabrication of links for a (social) network
+//*/////////////////////////////////////////////////////////////////////////////
 
 /// Random link factory.
-/// It creates links with random weights
-class randomWeightLinkFactory extends LinkFactory
+/// It creates links with random weights.
+class randomWeightLinkFactory implements iLinkFactory
 {
   float min_weight,max_weight;
   int   default_type;
   
+  /// Constructor for setting up requirements.
   randomWeightLinkFactory(float min_we,float max_we,int def_type)
   { 
     min_weight=min_we;max_weight=max_we;
     default_type=def_type;
   }
   
-  public Link  makeLink(Node Source,Node Target)
+  /// Real factory job.
+  public Link  makeLink(iNode Source,iNode Target)
   {
-    return new Link(Target,random(min_weight,max_weight),default_type);
+    return new Link((Node)Target,random(min_weight,max_weight),default_type);
+  }
+  
+  public Link  makeSelfLink(iNode Self)
+  {
+    return new Link((Node)Self,random(min_weight,max_weight),default_type);
   }
   
 }//EndOfClass
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - SOCIAL NETWORK TEMPLATE
-///////////////////////////////////////////////////////////////////////////////////////////
-/// Generic visualisations of a (social) network
-//*/////////////////////////////////////////////////////////
+//*////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES  - NETWORKS TOOLBOX
+//*  https://github.com/borkowsk/sym4processing
+//*////////////////////////////////////////////////////////////////////////////
+/// @file 
+/// @date 2023.03.04 (Last modification)
+/// @brief Generic visualisations of a (social) network
+//*/////////////////////////////////////////////////////////////////////////////
+///
+/// @details
+///   CLASSES:
+///   ========
+///   - `class Visual2DNodeAsList extends NodeAsList implements iVisNode` 
+///      -> Visualisable node based on `NodeAsList` core.
+///   - `class Visual2DNodeAsMap extends NodeAsMap implements iVisNode` 
+///      -> Visualisable node based on `NodeAsMap` core.
+///
+///   FUNCTIONS:
+///   ==========
+///   - `void visualiseLinks(iVisNode[]   nodes,float defX,float defY,float cellside)`
+///   - `void visualiseLinks(iVisNode[][] nodes,float defX,float defY,float cellside)`
+///
+
 float XSPREAD=0.01f;   ///< how far is target point of link of type 1, from center of the cell
 int   linkCounter=0;  ///< number od=f links visualised last time
 
-//   FUNCTIONS:
-//*/////////////
-//void visualiseLinks(iVisNode[]   nodes,float defX,float defY,float cellside);
-//void visualiseLinks(iVisNode[][] nodes,float defX,float defY,float cellside);
+/// Visualisable node based on `NodeAsList` core.
+/// It implements all things needed for visualisation.
+class Visual2DNodeAsList extends NodeAsList implements iVisNode
+{
+  float X=0;
+  float Y=0;
+  int fillc=0x0;
+  int strok=0x0;
+  
+  Visual2DNodeAsList(float x, float y) { super();
+    X=x; Y=y;  
+  }
+ 
+  public void setFill(float intensity) { fill(fillc,intensity); }
+  public void setStroke(float intensity) { stroke(strok,intensity); }
+  public float  posX() { return X;}
+  public float  posY() { return Y;}
+  public String name() { return ("("+X+","+Y+")"+this);}
+}//EndOfClass
+
+/// Visualisable node based on `NodeAsMap` core.
+/// It implements all things needed for visualisation.
+class Visual2DNodeAsMap extends NodeAsMap implements iVisNode
+{
+  float X=0;
+  float Y=0;
+  int fillc=0x0;
+  int strok=0x0;
+  
+  Visual2DNodeAsMap(float x, float y) { super();
+    X=x; Y=y;  
+  }
+ 
+  public void setFill(float intensity) { fill(fillc,intensity); }
+  public void setStroke(float intensity) { stroke(strok,intensity); }
+  public float  posX() { return X;}
+  public float  posY() { return Y;}
+  public String name() { return ("("+X+","+Y+")"+this);}
+}//EndOfClass
+
 
 //   IMPLEMENTATIONS:
 //*///////////////////
 
-/// One dimensional visualisation using arcs()
-public void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode) 
+/// One dimensional visualisation using arcs().
+public void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode)  ///< Global namespace.
 { 
   noFill();strokeCap(ROUND);
   linkCounter=0;
@@ -1335,18 +1619,18 @@ public void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float
     if(Source!=null)
     {
       float X=Source.posX(); 
-      Link[] links=(Link[])Source.getConns(filter); assert links!=null;
+      iVisLink[] links=(iVisLink[])Source.getConns(filter);    assert links!=null;
       
       int m=links.length;
       for(int j=0;j<m;j++)
       {
-        float Xt=links[j].target.posX();
+        float Xt=links[j].getVisTarget().posX();
         //print(X,Xt,"; "); 
         float R=abs(Xt-X)*cellside;
         float C=(X+Xt)/2;
         
-        if(X<Xt) { Xt+=links[j].ltype*XSPREAD;}
-        else    { Xt-=links[j].ltype*XSPREAD;}
+        if(X<Xt) { Xt+=links[j].getTypeMarker()*XSPREAD;}
+        else     { Xt-=links[j].getTypeMarker()*XSPREAD;}
         C*=cellside;
         
         links[j].setStroke(LINK_INTENSITY);
@@ -1360,8 +1644,9 @@ public void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float
   }
 }
 
-/// Two dimensional visualisation using arrows()
-public void visualiseLinks2D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode) { ///
+/// Two dimensional visualisation using arrows().
+public void visualiseLinks2D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode)  ///< Global namespace.
+{
   noFill();strokeCap(ROUND);
   linkCounter=0;
   ellipseMode(CENTER);
@@ -1379,21 +1664,25 @@ public void visualiseLinks2D(iVisNode[] nodes,LinkFilter filter,float defX,float
     if(Source!=null)
     {
       float X=Source.posX();
-      float Y=Source.posY();
-      Link[] links=(Link[])Source.getConns(filter); assert links!=null;
+      float Y=Source.posY();                                       //circle(X,Y,1);
+      iLink[] links=Source.getConns(filter);                       assert links!=null;
       
       int l=links.length;
       for(int k=0;k<l;k++)
       {
-        float Xt=links[k].target.posX();
-        float Yt=links[k].target.posY();
-                                                  if(debug_level>4 && Source==links[k].target)//Będzie kółko!
-                                                        println(Source.name(),"-o-",links[k].target.name());
-        if(X<Xt) { Xt+=links[k].ltype*XSPREAD;}
-        else    { Xt-=links[k].ltype*XSPREAD;}
-                                                  if(debug_level>1 && X==Xt && Y==Yt)//TEŻ będzie kółko!!!
-                                                        println("Connection",Source.name(),"->-",links[k].target.name(),"visualised as circle");
-        links[k].setStroke(LINK_INTENSITY);
+        iVisLink k_link=(iVisLink)links[k];
+        iVisNode k_node=(iVisNode)k_link.getTarget();
+        float Xt=k_node.posX();                                   //strokeWeight(1);stroke(10);
+        float Yt=k_node.posY();                                   //circle(Xt,Yt,k+1*2);
+                                                  if(DEBUG_LEVEL>4 && Source==links[k].getTarget())//Będzie kółko!
+                                                        println(Source.name(),"-o-",links[k].getTarget().name());
+                                                        
+        if(X<Xt) { Xt+=links[k].getTypeMarker()*XSPREAD;}
+        else    { Xt-=links[k].getTypeMarker()*XSPREAD;}
+                                                  if(DEBUG_LEVEL>1 && X==Xt && Y==Yt)//TEŻ będzie kółko!!!
+                                                        println("Connection",Source.name(),"->-",links[k].getTarget().name(),"visualised as circle");
+        k_link.setStroke(LINK_INTENSITY);
+        
         arrow(defX+(X*cellside)+1,defY+(Y*cellside)+1,defX+(Xt*cellside)-1,defY+(Yt*cellside)-1);
         
         stroke(255);point(defX+(Xt*cellside),defY+(Yt*cellside));
@@ -1408,14 +1697,14 @@ public void visualiseLinks2D(iVisNode[] nodes,LinkFilter filter,float defX,float
   }
 }
 
-/// Alternative 2D links visualisation
-public void visualiseLinks(iVisNode[][] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode) 
+/// Alternative 2D links visualisation.
+public void visualiseLinks(iVisNode[][] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode) ///< Global namespace.
 { 
   noFill();
   linkCounter=0;
   
-  if(intMode) defX+=0.5f*cellside;//WYSTARCZY DODAĆ RAZ!
-  if(intMode) defY+=0.5f*cellside;//W tym miejscu.
+  if(intMode) defX+=0.5f*cellside; //WYSTARCZY DODAĆ RAZ!
+  if(intMode) defY+=0.5f*cellside; //W tym miejscu.
   
   for(int i=0;i<nodes.length;i++)
   for(int j=0;j<nodes[i].length;j++)
@@ -1426,16 +1715,17 @@ public void visualiseLinks(iVisNode[][] nodes,LinkFilter filter,float defX,float
     {
       float X=Source.posX();
       float Y=Source.posY();
-      Link[] links=(Link[])Source.getConns(filter); assert links!=null;
+      iVisLink[] links=(iVisLink[])Source.getConns(filter);                  assert links!=null;
       int n=links.length;
       
       for(int k=0;k<n;k++)
       {
-        float Xt=links[k].target.posX();
-        float Yt=links[k].target.posY();
+        iVisNode visTarget=links[k].getVisTarget();
+        float Xt=visTarget.posX();
+        float Yt=visTarget.posY();
 
-        if(X<Xt) { Xt+=links[k].ltype*XSPREAD;}
-        else    { Xt-=links[k].ltype*XSPREAD;}
+        if(X<Xt) { Xt+=links[k].getTypeMarker()*XSPREAD;}
+        else    { Xt-=links[k].getTypeMarker()*XSPREAD;}
         
         links[k].setStroke(LINK_INTENSITY);
         arrow(defX+(X*cellside),defY+(Y*cellside),defX+(Xt*cellside),defY+(Yt*cellside));
@@ -1457,9 +1747,11 @@ public void visualiseLinks(iVisNode[][] nodes,LinkFilter filter,float defX,float
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - SOCIAL NETWORK TEMPLATE mod.
-///////////////////////////////////////////////////////////////////////////////////////////
+//*////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES  - NETWORKS TOOLBOX
+//*  https://github.com/borkowsk/sym4processing
+//*////////////////////////////////////////////////////////////////////////////
   public void settings() {  size(500,500); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "Optionals4Networks" };

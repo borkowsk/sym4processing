@@ -1,20 +1,73 @@
-/// Generic visualisations of a (social) network
-//*/////////////////////////////////////////////////////////
+/// @file uNetVisual.pde
+/// @date 2023.03.04 (Last modification)
+/// @brief Generic visualisations of a (social) network
+//*/////////////////////////////////////////////////////////////////////////////
+///
+/// @details
+///   CLASSES:
+///   ========
+///   - `class Visual2DNodeAsList extends NodeAsList implements iVisNode` 
+///      -> Visualisable node based on `NodeAsList` core.
+///   - `class Visual2DNodeAsMap extends NodeAsMap implements iVisNode` 
+///      -> Visualisable node based on `NodeAsMap` core.
+///
+///   FUNCTIONS:
+///   ==========
+///   - `void visualiseLinks(iVisNode[]   nodes,float defX,float defY,float cellside)`
+///   - `void visualiseLinks(iVisNode[][] nodes,float defX,float defY,float cellside)`
+///
+
 float XSPREAD=0.01;   ///< how far is target point of link of type 1, from center of the cell
 int   linkCounter=0;  ///< number od=f links visualised last time
 
-//   FUNCTIONS:
-//*/////////////
-//void visualiseLinks(iVisNode[]   nodes,float defX,float defY,float cellside);
-//void visualiseLinks(iVisNode[][] nodes,float defX,float defY,float cellside);
+/// Visualisable node based on `NodeAsList` core.
+/// It implements all things needed for visualisation.
+class Visual2DNodeAsList extends NodeAsList implements iVisNode
+{
+  float X=0;
+  float Y=0;
+  color fillc=0x0;
+  color strok=0x0;
+  
+  Visual2DNodeAsList(float x, float y) { super();
+    X=x; Y=y;  
+  }
+ 
+  void setFill(float intensity) { fill(fillc,intensity); }
+  void setStroke(float intensity) { stroke(strok,intensity); }
+  float  posX() { return X;}
+  float  posY() { return Y;}
+  String name() { return ("("+X+","+Y+")"+this);}
+}//EndOfClass
+
+/// Visualisable node based on `NodeAsMap` core.
+/// It implements all things needed for visualisation.
+class Visual2DNodeAsMap extends NodeAsMap implements iVisNode
+{
+  float X=0;
+  float Y=0;
+  color fillc=0x0;
+  color strok=0x0;
+  
+  Visual2DNodeAsMap(float x, float y) { super();
+    X=x; Y=y;  
+  }
+ 
+  void setFill(float intensity) { fill(fillc,intensity); }
+  void setStroke(float intensity) { stroke(strok,intensity); }
+  float  posX() { return X;}
+  float  posY() { return Y;}
+  String name() { return ("("+X+","+Y+")"+this);}
+}//EndOfClass
+
 
 //   IMPLEMENTATIONS:
 //*///////////////////
 
-/// One dimensional visualisation using arcs()
-void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode) 
+/// One dimensional visualisation using arcs().
+void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode)  ///< Global namespace.
 { 
-  noFill();strokeCap(ROUND);
+  noFill();strokeCap(ROUND); //<>//
   linkCounter=0;
   ellipseMode(CENTER);
   
@@ -29,18 +82,18 @@ void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,f
     if(Source!=null)
     {
       float X=Source.posX(); 
-      Link[] links=(Link[])Source.getConns(filter); assert links!=null;
+      iVisLink[] links=(iVisLink[])Source.getConns(filter);    assert links!=null;
       
       int m=links.length;
       for(int j=0;j<m;j++)
       {
-        float Xt=links[j].target.posX();
+        float Xt=links[j].getVisTarget().posX();
         //print(X,Xt,"; "); 
         float R=abs(Xt-X)*cellside;
         float C=(X+Xt)/2;
         
-        if(X<Xt) { Xt+=links[j].ltype*XSPREAD;}
-        else    { Xt-=links[j].ltype*XSPREAD;}
+        if(X<Xt) { Xt+=links[j].getTypeMarker()*XSPREAD;}
+        else     { Xt-=links[j].getTypeMarker()*XSPREAD;}
         C*=cellside;
         
         links[j].setStroke(LINK_INTENSITY);
@@ -54,8 +107,9 @@ void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,f
   }
 }
 
-/// Two dimensional visualisation using arrows()
-void visualiseLinks2D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode) { ///
+/// Two dimensional visualisation using arrows().
+void visualiseLinks2D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode)  ///< Global namespace.
+{
   noFill();strokeCap(ROUND);
   linkCounter=0;
   ellipseMode(CENTER);
@@ -73,21 +127,25 @@ void visualiseLinks2D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,f
     if(Source!=null)
     {
       float X=Source.posX();
-      float Y=Source.posY();
-      Link[] links=(Link[])Source.getConns(filter); assert links!=null;
+      float Y=Source.posY();                                       //circle(X,Y,1);
+      iLink[] links=Source.getConns(filter);                       assert links!=null;
       
       int l=links.length;
       for(int k=0;k<l;k++)
       {
-        float Xt=links[k].target.posX();
-        float Yt=links[k].target.posY();
-                                                  if(debug_level>4 && Source==links[k].target)//Będzie kółko!
-                                                        println(Source.name(),"-o-",links[k].target.name());
-        if(X<Xt) { Xt+=links[k].ltype*XSPREAD;}
-        else    { Xt-=links[k].ltype*XSPREAD;}
-                                                  if(debug_level>1 && X==Xt && Y==Yt)//TEŻ będzie kółko!!!
-                                                        println("Connection",Source.name(),"->-",links[k].target.name(),"visualised as circle");
-        links[k].setStroke(LINK_INTENSITY);
+        iVisLink k_link=(iVisLink)links[k];
+        iVisNode k_node=(iVisNode)k_link.getTarget();
+        float Xt=k_node.posX();                                   //strokeWeight(1);stroke(10);
+        float Yt=k_node.posY();                                   //circle(Xt,Yt,k+1*2);
+                                                  if(DEBUG_LEVEL>4 && Source==links[k].getTarget())//Będzie kółko!
+                                                        println(Source.name(),"-o-",links[k].getTarget().name());
+                                                        
+        if(X<Xt) { Xt+=links[k].getTypeMarker()*XSPREAD;}
+        else    { Xt-=links[k].getTypeMarker()*XSPREAD;}
+                                                  if(DEBUG_LEVEL>1 && X==Xt && Y==Yt)//TEŻ będzie kółko!!!
+                                                        println("Connection",Source.name(),"->-",links[k].getTarget().name(),"visualised as circle");
+        k_link.setStroke(LINK_INTENSITY); //<>//
+        
         arrow(defX+(X*cellside)+1,defY+(Y*cellside)+1,defX+(Xt*cellside)-1,defY+(Yt*cellside)-1);
         
         stroke(255);point(defX+(Xt*cellside),defY+(Yt*cellside));
@@ -102,14 +160,14 @@ void visualiseLinks2D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,f
   }
 }
 
-/// Alternative 2D links visualisation
-void visualiseLinks(iVisNode[][] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode) 
+/// Alternative 2D links visualisation.
+void visualiseLinks(iVisNode[][] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode) ///< Global namespace.
 { 
   noFill();
   linkCounter=0;
   
-  if(intMode) defX+=0.5*cellside;//WYSTARCZY DODAĆ RAZ!
-  if(intMode) defY+=0.5*cellside;//W tym miejscu.
+  if(intMode) defX+=0.5*cellside; //WYSTARCZY DODAĆ RAZ!
+  if(intMode) defY+=0.5*cellside; //W tym miejscu.
   
   for(int i=0;i<nodes.length;i++)
   for(int j=0;j<nodes[i].length;j++)
@@ -120,16 +178,17 @@ void visualiseLinks(iVisNode[][] nodes,LinkFilter filter,float defX,float defY,f
     {
       float X=Source.posX();
       float Y=Source.posY();
-      Link[] links=(Link[])Source.getConns(filter); assert links!=null;
+      iVisLink[] links=(iVisLink[])Source.getConns(filter);                  assert links!=null;
       int n=links.length;
       
       for(int k=0;k<n;k++)
       {
-        float Xt=links[k].target.posX();
-        float Yt=links[k].target.posY();
+        iVisNode visTarget=links[k].getVisTarget();
+        float Xt=visTarget.posX();
+        float Yt=visTarget.posY();
 
-        if(X<Xt) { Xt+=links[k].ltype*XSPREAD;}
-        else    { Xt-=links[k].ltype*XSPREAD;}
+        if(X<Xt) { Xt+=links[k].getTypeMarker()*XSPREAD;}
+        else    { Xt-=links[k].getTypeMarker()*XSPREAD;}
         
         links[k].setStroke(LINK_INTENSITY);
         arrow(defX+(X*cellside),defY+(Y*cellside),defX+(Xt*cellside),defY+(Yt*cellside));
@@ -151,6 +210,8 @@ void visualiseLinks(iVisNode[][] nodes,LinkFilter filter,float defX,float defY,f
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
-//  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - SOCIAL NETWORK TEMPLATE mod.
-///////////////////////////////////////////////////////////////////////////////////////////
+//*////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES  - NETWORKS TOOLBOX
+//*  https://github.com/borkowsk/sym4processing
+//*////////////////////////////////////////////////////////////////////////////

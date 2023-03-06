@@ -1,5 +1,6 @@
+/// @file rtmCmdLine.pde
 /// Example of function handling of program call parameters, if available.
-/// @date 2023.02.28 (Last modification)
+/// @date 2023.03.04 (Last modification)
 //*////////////////////////////////////////////////////////////////////////////
 
 /// Parsing command line, if available.
@@ -10,11 +11,11 @@ void checkCommandLine()
     //Is passing parameters possible?
     if(args==null)
     {
-       if(debug_level>0) println("Command line parameters not available");
+       if(DEBUG_LEVEL>0) println("Command line parameters not available");
        return; //Not available!!!
     }
 
-    if(debug_level>0)
+    if(DEBUG_LEVEL>0)
     {
       println("args length is " + args.length);
       for(int a=0;a<args.length;a++)
@@ -27,7 +28,7 @@ void checkCommandLine()
     for(int a=0;a<args.length;a++)
     {
       String[] list = split(args[a], ':');
-      if(debug_level>1)
+      if(DEBUG_LEVEL>1)
       {
         for(String s:list) 
           print("'"+s+"'"+' ');
@@ -51,8 +52,8 @@ void checkCommandLine()
       if(list[0].equals("DEBUG"))
       {
         //*_extern* int           debug_level=0;/// level of debugging messages
-        debug_level=Integer.parseInt(list[1]);
-        println("debug_level:",debug_level);
+        DEBUG_LEVEL=Integer.parseInt(list[1]);
+        println("debug_level:",DEBUG_LEVEL);
       }
       else
       /* if(list[0].equals("PARAMETER"))
@@ -74,7 +75,8 @@ void checkCommandLine()
     if(Fcount>0 ) println("Failed to understand",Fcount,"parameters");
 }
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////

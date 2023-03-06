@@ -1,11 +1,12 @@
-/// Example of a handling of exit from aplication (mainly closing open files!) 
-/// @date 2023.02.28 (Last modification)
+/// @file rtmExit.pde
+/// Example of a handling of exit from aplication (mainly closing open files!). 
+/// @date 2023.03.04 (Last modification)
 //*/////////////////////////////////////////////////////////////////////////////////
 
 /// It is called whenever a window is closed. 
 void exit()          
 {
-  noLoop();          //For to be sure...
+  noLoop();          // For to be sure...
   delay(100);        // it is possible to close window when function draw( ) is still working!
   
   //Close any open global files!

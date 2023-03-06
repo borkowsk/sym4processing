@@ -24,27 +24,34 @@ import java.io.IOException;
 
 public class Optionals extends PApplet {
 
-//* File forcing all "optionales" to be loaded from this folder 
-//*///////////////////////////////////////////////////////////////////////
+/// @file Optionals.pde
+/// This file forcing all "optionales" to be loaded from this folder 
+/// @date 2023.03.04 (Last modification)
+//*/////////////////////////////////////////////////////////////////////////////
 
 /// mandatory globals
+int          RANDSEED=0;          ///< For initialisation of pseudo-random 
+                                  ///< numbers generator.
+                                  
 int          FRAMEFREQ=10;        ///< application speed
 int          VISFREQ=1;           ///< how often full visualisation is performed
-int          debug_level=0; ///< or DEBUG or DEBUG_LEVEL ???
+int          DEBUG_LEVEL=0;       ///< or DEBUG or DEBUG_LEVEL ???
 
-final boolean WINDOW_INVISIBLE=false; ///< used in template draw for swith on window invisibility
 final int    LINK_INTENSITY=2;    ///< For network visualisation
 final float  MAX_LINK_WEIGHT=1.0f; ///< Also for network visualisation
 final int    MASKBITS=0xffffffff; ///< Redefine, when smaller width is required
 
+final boolean WINDOW_INVISIBLE=false; ///< used in template draw for swith on 
+                                      ///< window invisibility.
+
 /// Dummy class of Agent neded for makeHistogramOfA()
 class Agent { float A; }
 
-/// Dummy setup - some gr. primitives are tested here:
+/// Dummy setup - some gr. primitives are tested here.
 public void setup()
 {
   
-  //setupMenu();//Have error in size of draweable area!
+  //setupMenu(); //Made error in hight of draweable area!
   dashedline(0,0,width,height,3);
   arrow_d(0,100,100,200,5,PI*0.75f);
   arrow_d(100,200,200,250,5,PI*0.66f);
@@ -52,70 +59,54 @@ public void setup()
   dottedLine(0.0f,0.0f,300.0f,200.0f,55);
 }
 
-//*////////////////////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS
 //*  https://github.com/borkowsk/sym4processing
-//*////////////////////////////////////////////////////////////////////////////////////////////
-/// COMMON TEMPLATES 
-///*/////////////////////////////////////////////////////////////////////////////////////////
-/// USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
-/// if you need translate the code into C++ (--> Processing2C )
-
-/// Templates:
-//*/////////////////////////////////
-
-/// Simple version of Pair template useable for returning a pair of values
-public class Pair<A,B> {
-    public final A a;
-    public final B b;
-
-    public Pair(A a, B b) 
-    {
-        this.a = a;
-        this.b = b;
-    }
-}//EndOfClass
-
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
-//*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-/// Classes for taking an object from a simple variable of type int, boolean, float & double.
-/// Useful when you need a REFERENCE to a value.
-//*///////////////////////////////////////////////////////////////////////////////////////////
-
-/// In Processing as hell :-) I can't find how to pass something other than an object by reference
-/// However, the existing Integer or Float classes are not suitable for this because they are "final". 
-/// They will behave like constants.
-/// And sometimes such an opportunity is needed!
-
-/// A class for taking an object from a simple variable of type int. 
-/// Needed for common configuration values or to pass to functions by reference.
-class DummyInt
-{int val=0;}
+//*/////////////////////////////////////////////////////////////////////////////
+/// @file aDummyTypes.pde
+/// @brief Classes for making an object from a simple types as 
+/// `int`, `boolean`, `float` & `double`.
+/// @note They are useful, when you need a REFERENCE to a value of such types.
+/// @date 2023.03.04 (Last modification)
+//*/////////////////////////////////////////////////////////////////////////////
+///
+/// @details
+/// In Processing as hell :-) I can't find how to pass something other than an 
+/// object by reference. However, the existing Integer or Float classes are not 
+/// suitable for this because they are "final". 
+/// They will behave like constants!!!
+/// And sometimes such an opportunity for REFERENCE parameter is needed!
+//*/////////////////////////////////////////////////////////////////////////////
 
 /// A class for taking an object from a simple logic variable (true-false). 
 /// Needed for common configuration values or to pass to functions by reference.
 class DummyBool
 { boolean val=false; }
 
-/// A class for taking an object from a simple variable of type float. 
+/// A class for taking an object from a simple variable of type `int`. 
+/// Needed for common configuration values or to pass to functions by reference.
+class DummyInt
+{int val=0;}
+
+/// A class for taking an object from a simple variable of type `float`. 
 /// Needed for common configuration values or to pass to functions by reference.
 class DummyFloat
 { float val=0; }
 
-/// A class for taking an object from a simple variable of type double. 
+/// A class for taking an object from a simple variable of type `double`. 
 /// Needed for common configuration values or to pass to functions by reference.
 class DummyDouble
 { double val=0; }
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-/// COMMON INTERFACES
-/// See: "https://github.com/borkowsk/RTSI_public"
-//*//////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////
+/// @file aInterfaces.pde 
+/// Common INTERFACES like iNamed, iDescribable, iColorable, iPositioned & Function2D.
+/// @date 2023.03.04 (Last modification)
+//*///////////////////////////////////////////////////////////////////////////////////
 /// USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
 /// if you need translate the code into C++ (--> Processing2C )
 
@@ -132,20 +123,6 @@ interface iNamed {
 /// Any object which have description as (potentially) long, multi line string
 interface iDescribable { 
   /*_interfunc*/ public String Description() /*_forcbody*/;
-}//EndOfClass
-
-//*
-/// MATH INTERFACES:
-//*
-//*////////////////////////////////////////////////////////////////////////////
-
-final float INF_NOT_EXIST=Float.MAX_VALUE;  ///< Missing value marker
-
-/// A function of two values in the form of a class - a functor
-interface Function2D {
-  /*_interfunc*/ public float calculate(float X,float Y)/*_forcbody*/;
-  /*_interfunc*/ public float getMin()/*_forcbody*/;//MIN_RANGE_VALUE?
-  /*_interfunc*/ public float getMax()/*_forcbody*/;//Always must be different!
 }//EndOfClass
 
 //*
@@ -166,12 +143,54 @@ interface iPositioned {
   /*_interfunc*/ public float    posZ()/*_forcbody*/;
 }//EndOfClass
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*  Last modification 2022.03.16
+//*
+/// MATH INTERFACES:
+//*
+//*////////////////////////////////////////////////////////////////////////////
+
+final float INF_NOT_EXIST=Float.MAX_VALUE;  ///< Missing value marker
+
+/// A function of two values in the form of a class - a functor
+interface Function2D {
+  /*_interfunc*/ public float calculate(float X,float Y)/*_forcbody*/;
+  /*_interfunc*/ public float getMin()/*_forcbody*/;//MIN_RANGE_VALUE?
+  /*_interfunc*/ public float getMax()/*_forcbody*/;//Always must be different!
+}//EndOfClass
+
+//*/////////////////////////////////////////////////////////////////////////////////////////////
 //*  See: "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" - USEFULL COMMON INTERFACES
-//*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Template handling of program call parameters, if available.
-//*/////////////////////////////////////////////////////////////
+//*  See also: "https://github.com/borkowsk/RTSI_public"
+//*/////////////////////////////////////////////////////////////////////////////////////////////
+/// @file aPair.pde
+/// `Pair` is one of the very COMMONLY used and usable TEMPLATE.
+/// @date 2023.03.04 (Last modification)
+///*////////////////////////////////////////////////////////////////////////////
+
+
+// USE /*_interfunc*/ &  /*_forcebody*/ for interchangeable function 
+// if you need translate the code into C++ (--> Processing2C )
+
+/// Simple version of Pair template useable for returning a pair of values.
+public class Pair<A,B> {
+    public final A a;
+    public final B b;
+
+    public Pair(A a, B b) 
+    {
+        this.a = a;
+        this.b = b;
+    }
+}//EndOfClass
+
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
+//*  https://github.com/borkowsk/sym4processing
+//*/////////////////////////////////////////////////////////////////////////////
+/// @file rtmCmdLine.pde
+/// Example of function handling of program call parameters, if available.
+/// @date 2023.03.04 (Last modification)
+//*////////////////////////////////////////////////////////////////////////////
 
 /// Parsing command line, if available.
 public void checkCommandLine() 
@@ -181,11 +200,11 @@ public void checkCommandLine()
     //Is passing parameters possible?
     if(args==null)
     {
-       if(debug_level>0) println("Command line parameters not available");
+       if(DEBUG_LEVEL>0) println("Command line parameters not available");
        return; //Not available!!!
     }
 
-    if(debug_level>0)
+    if(DEBUG_LEVEL>0)
     {
       println("args length is " + args.length);
       for(int a=0;a<args.length;a++)
@@ -198,13 +217,20 @@ public void checkCommandLine()
     for(int a=0;a<args.length;a++)
     {
       String[] list = split(args[a], ':');
-      if(debug_level>1)
+      if(DEBUG_LEVEL>1)
       {
         for(String s:list) 
           print("'"+s+"'"+' ');
         println();
       }
       
+      if(list[0].equals("RANDSEED"))
+      {
+        //RANDSEED
+        RANDSEED=Integer.parseInt(list[1]);
+        println("RANDSEED is:",RANDSEED);
+      }
+      else
       if(list[0].equals("FRAMEFREQ"))
       {
         //*_extern* int           FRAMEFREQ=10;/// simulation speed
@@ -215,8 +241,8 @@ public void checkCommandLine()
       if(list[0].equals("DEBUG"))
       {
         //*_extern* int           debug_level=0;/// level of debugging messages
-        debug_level=Integer.parseInt(list[1]);
-        println("debug_level:",debug_level);
+        DEBUG_LEVEL=Integer.parseInt(list[1]);
+        println("debug_level:",DEBUG_LEVEL);
       }
       else
       /* if(list[0].equals("PARAMETER"))
@@ -238,16 +264,20 @@ public void checkCommandLine()
     if(Fcount>0 ) println("Failed to understand",Fcount,"parameters");
 }
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-/// draw() template with possibility of non-visible window
-//*///////////////////////////////////////////////////////////////////////////////////////// 
+//*/////////////////////////////////////////////////////////////////////////////
+/// @file rtmDraw.pde
+/// `draw()` example with possibility of non-visible window.
+/// @date 2023.03.04 (Last modification)
+//*////////////////////////////////////////////////////////////////////////////////////
 
 /// Console only apps. is possible when draw() function set window visibility to false, 
 /// then can do anything but drawing :-D
-/// final boolean WINDOW_INVISIBLE=true; ... is used in template draw() for swith on window invisibility
+/// Need extern definition of:
+///  final boolean WINDOW_INVISIBLE=true; ///< ... is used in template draw() for swith on window invisibility.
 public void draw() 
 {
   if(WINDOW_INVISIBLE && frameCount==1)
@@ -255,17 +285,21 @@ public void draw()
     surface.setVisible(false);//Console only applet? - Does it work?
     println("Windows is set to invisible in draw function!");
   }
-  //... Your code here or in event handlers!
+  //... Your code here or in event handlers. But... WITHOUT ANY DRAWING.
 }
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-///  Keyboard Event Handling.
-/////////////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////
 
-/// The handler called every time when keyboard key is pressed
+/// @file 
+/// Example of a keyboard event handling.
+/// @date 2023.03.04 (Last modification)
+//*///////////////////////////////////////////////////////////////////////////////////
+
+/// The handler called every time when keyboard key is pressed.
 /// You can use 'key' and 'keyCode' Processing variable inside. 
 public void keyPressed() 
 {
@@ -316,18 +350,19 @@ public void keyPressed()
   }
 }
 
-//*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*  Last modification 2022.03.16
+//*////////////////////////////////////////////////////////////////////////////////////////////
 //*  https://github.com/borkowsk/sym4processing
 //*  See: "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" - KEYBOARD EVENTS TEMPLATE
-//*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///  Handling of exit from aplication - mainly closing open files! 
-//*///////////////////////////////////////////////////////////////////////////////////
+//*////////////////////////////////////////////////////////////////////////////////////////////
+/// @file rtmExit.pde
+/// Example of a handling of exit from aplication (mainly closing open files!). 
+/// @date 2023.03.04 (Last modification)
+//*/////////////////////////////////////////////////////////////////////////////////
 
 /// It is called whenever a window is closed. 
 public void exit()          
 {
-  noLoop();          //For to be sure...
+  noLoop();          // For to be sure...
   delay(100);        // it is possible to close window when function draw( ) is still working!
   
   //Close any open global files!
@@ -342,13 +377,14 @@ public void exit()
   super.exit();       //What library superclass have to do at exit
 } 
 
-//*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//*  Last modification 2022.03.16
+//*/////////////////////////////////////////////////////////////////////////////////////
 //*  https://github.com/borkowsk/sym4processing
 //*  See: "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" - EXIT from TEMPLATE
-//*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// Template of the function that allows to construct the window menu in the setup. 
+//*/////////////////////////////////////////////////////////////////////////////////////
+/// @file rtmMenu.pde
+/// Example of the function that allows to construct the window menu in the setup. 
 /// Unfortunately, this breaks the calculation of the built-in variable height in Processing!
+/// @date 2023.03.04 (Last modification)
 //*///////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -358,7 +394,7 @@ public void exit()
 
 
 
-MenuBar myMenu;///!< Handle to menu. 
+MenuBar myMenu; ///!< Handle to menu. 
                
 /// A function that constructs an example menu.
 /// Processig does not see the height of MenuBar added to Window!
@@ -383,14 +419,17 @@ public void setupMenu()
   smoothCanvas.getFrame().setMenuBar(myMenu);
 }
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////
 
  
-/// Examples for handling mouse events
-//*//////////////////////////////////////
+/// @file rtmMouse.pde
+/// Examples for handling mouse events.
+/// @date 2023.03.04 (Last modification)
+//*/////////////////////////////////////////////////////////////////////////
 
 /// Mouse movement support. It shouldn't be too time consuming.
 /// see: //https://processing.org/reference/mouseMoved_.html
@@ -412,11 +451,15 @@ void mouseReleased()
 }
 */
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-/// Tool for made video from simulation 
+//*/////////////////////////////////////////////////////////////////////////////
+/// @file rtmVideo.pde
+/// Tool for made video from simulation.
+/// @date 2023.03.04 (Last modification)
+//*////////////////////////////////////////////////////////////////////////////////////
 //* PL: Narzędzie do tworzenia wideo z symulacji
 //*////////////////////////////////////////////////////////////////////////////////////
 /// See: http://funprogramming.org/VideoExport-for-Processing/examples/basic/basic.pde
@@ -520,16 +563,19 @@ public void CloseVideo()
   }
 }
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-/// Functions & classes for chart making
-//*/////////////////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////
+/// @file uCharts.pde
+/// Functions & classes useable for making charts.
+/// @date 2023.03.04 (Last modification)
+//*///////////////////////////////////////////////////////////////////////////
 
 //final float INF_NOT_EXIST=Float.MAX_VALUE;///< needed somewhere
 
-/// A class that implements only the interface having a proper object name
+/// A class that implements only the interface having a proper object name.
 class NamedData implements iNamed
 {
   String myName;
@@ -537,23 +583,25 @@ class NamedData implements iNamed
   public String name() {return myName;}
 }//EndOfClass
 
-/// Class of a NAMED range of real (float) numbers
+/// Class of a NAMED range of real (float) numbers.
 class Range extends NamedData
 {
-  float min=+Float.MAX_VALUE;//!< Current minimal value
-  float max=-Float.MAX_VALUE;//!< Current maximal value
+  float min=+Float.MAX_VALUE; //!< Current minimal value
+  float max=-Float.MAX_VALUE; //!< Current maximal value
   
   /// Constructor need only a name
   Range(String Name){ super(Name); }
   
-  /// Adding a value to a range can make it wider 
+  /// Adding a value to a range can make it wider. 
   public void addValue(float value) 
   {
     if(value==INF_NOT_EXIST) return;
+    
     if(max<value)
     {
       max=value;
     }
+    
     if(min>value)
     {
       min=value;
@@ -561,7 +609,7 @@ class Range extends NamedData
   }
 }//EndOfClass
 
-/// This class represents a NAMED series of real (float) numbers
+/// This class represents a NAMED series of real (float) numbers.
 /// Should it also be a descendant of the Range? 
 /// ... Or at least implements the same interface? TODO?
 class Sample  extends NamedData
@@ -569,25 +617,25 @@ class Sample  extends NamedData
   FloatList data=null;
   
   // For statistics
-  int    count=0;              //!< How much data has been entered (not counting INF_NOT_EXIST)
-  float   min=+Float.MAX_VALUE;//!< Current minimal value
-  int   whmin=-1;              //!< Position of the current minimal value
-  float   max=-Float.MAX_VALUE;//!< Current maximal value
-  int   whmax=-1;              //!< Position of the current maximal value
-  double   sum=0;              //!< The current sum of values 
+  int    count=0;               //!< How much data has been entered (not counting INF_NOT_EXIST)
+  float   min=+Float.MAX_VALUE; //!< Current minimal value
+  int   whmin=-1;               //!< Position of the current minimal value
+  float   max=-Float.MAX_VALUE; //!< Current maximal value
+  int   whmax=-1;               //!< Position of the current maximal value
+  double   sum=0;               //!< The current sum of values 
   
-  /// Constructor need only a name
+  /// Constructor need only a name.
   Sample(String Name) { super(Name); data=new FloatList(); }
   
-  /// Adding values to a series immediately updates the base stats
+  /// Adding values to a series immediately updates the base stats.
   public void addValue(float value)
   {        
     data.append(value);
     
-    if(value==INF_NOT_EXIST) return;//Nic więcej do zrobienia
+    if(value==INF_NOT_EXIST) return; //Nothing to do.
     
     sum+=value;
-    count++;//Real value, not empty one!
+    count++; //Real value, not empty one!
     
     if(max<value)
     {
@@ -601,11 +649,11 @@ class Sample  extends NamedData
     }
   }
   
-  /// Number of recorded values
-  /// Together with empty entries equal to INF_NOT_EXIST
+  /// It provides number of recorded values.
+  /// Together with empty entries equal to INF_NOT_EXIST!
   public int  numOfElements() { return data.size(); }
   
-  /// Ready to start collecting data again
+  /// Ready to start collecting data again.
   public void reset()
   {
     data.clear();
@@ -617,28 +665,28 @@ class Sample  extends NamedData
     count=0;
   }
   
-  /// Secured reading of the minimum
+  /// Secured reading of the minimum.
   public float getMin()
   {
     if(count>0) return min;
     else return INF_NOT_EXIST;
   }
   
-  /// Secured reading of the maximum
+  /// Secured reading of the maximum.
   public float getMax()
   {
     if(count>0) return max;
     else return INF_NOT_EXIST;
   }
   
-  /// Secured reading of the the mean
+  /// Secured reading of the the mean.
   public float getMean()
   {
     if(count>0) return (float)(sum/count);
     else return INF_NOT_EXIST;
   }
   
-  /// Secured reading of the standard deviation
+  /// Secured reading of the standard deviation.
   public float getStdDev()
   {
     if(count==0) return INF_NOT_EXIST;
@@ -657,11 +705,11 @@ class Sample  extends NamedData
   }
 }//EndOfClass
 
-/// This class represens a named histogram of frequencies 
+/// This class represens a named histogram of frequencies. 
 class Frequencies extends NamedData
 {
   private int[]   buckets=null;
-  float   sizeOfbucket=0;//(Max-Min)/N;
+  float   sizeOfbucket=0; //(Max-Min)/N;
   float   lowerb=+Float.MAX_VALUE;
   float   upperb=-Float.MAX_VALUE;
   int     outsideLow=0;
@@ -670,7 +718,7 @@ class Frequencies extends NamedData
   int     higherBucket=0;
   int     higherBucketIndex=-1;
 
-  /// Constructor needs more than a name
+  /// Constructor needs more than a name.
   Frequencies(int numberOfBuckets,float lowerBound, float upperBound,String Name)
   {
     super(Name);
@@ -680,10 +728,10 @@ class Frequencies extends NamedData
     sizeOfbucket=(upperBound-lowerBound)/numberOfBuckets;
   }
   
-  /// In this case, the items are histogram buckets
+  /// In this case, the items are histogram buckets.
   public int  numOfElements() { return buckets.length;}
   
-  /// Ready to start collecting data again
+  /// Ready to start collecting data again.
   public void reset()
   {
     for(int i=0;i<buckets.length;i++)
@@ -695,7 +743,7 @@ class Frequencies extends NamedData
     higherBucketIndex=-1;    
   }
   
-  /// Adding the real value updates the corresponding bucket
+  /// Adding the real value updates the corresponding bucket.
   public void addValue(float value)
   {
     if(value==INF_NOT_EXIST) return;
@@ -717,7 +765,7 @@ class Frequencies extends NamedData
   }
 }//EndOfClass
 
-/// Visualizes the axes of the coordinate system
+/// Visualizes the axes of the coordinate system.
 public void viewAxis(int startX,int startY,int width,int height)
 {
   line(startX,startY,startX+width,startY);
@@ -727,7 +775,7 @@ public void viewAxis(int startX,int startY,int width,int height)
   line(startX-5,startY-height+5,startX,startY-height);
 }
 
-/// Visualizes a box around the area
+/// Visualizes a box around the area.
 public void viewFrame(float startX,float startY,int width,int height)
 {
   line(startX,startY,startX+width,startY);
@@ -736,21 +784,21 @@ public void viewFrame(float startX,float startY,int width,int height)
   line(startX,startY-height,startX+width,startY-height);
 }
 
-/// Draws tics along the vertical axis
+/// Draws tics along the vertical axis.
 public void viewTicsV(int startX,int startY,int width,int height,float space)
 {
   for(int y=startY;y>startY-height;y-=space)
      line(startX,y,startX+width,y);
 }
 
-/// Draws tics along the horizontal axis
+/// Draws tics along the horizontal axis.
 public void viewTicsH(float startX,float startY,float width,float height,float space)
 {
   for(int x=PApplet.parseInt(startX);x<startX+width;x+=space)
      line(x,startY,x,startY-height);
 }
 
-/// Visualizes the limits of the vertical scale
+/// Visualizes the limits of the vertical scale.
 /// NOTE: We're not drawing dashes here yet (tics)
 public void viewScaleV(Range MinMax,int startX,int startY,int width,int height)//,boolean logaritm)
 {
@@ -761,40 +809,40 @@ public void viewScaleV(Range MinMax,int startX,int startY,int width,int height)/
    text(""+MinMax.max,startX+width,startY-height);
 }
 
-/// Visualization of data series as a series of points or a continuous line
-public void viewAsPoints(Sample data,    //!< Data source. The object containing the data to be visualized
-                  int startD,     //!< Data starting point, or end-to-end number if negative
-                  float startX,   //!< The horizontal starting point of the display area 
-                  float startY,   //!< The vertical starting point of the display area 
-                  int width,      //!< The width of the display area
-                  int height,     //!< Height of the display area
-                  boolean logaritm,//!< Should the data be transformed by logarith?
-                  Range commMinMax,//!< Optionally common Range for multiple series or null
-                  boolean connect  //!< Should data points be combined into a single line?
+/// Visualization of data series as a series of points or a continuous line.
+public void viewAsPoints(Sample data,      //!< Data source. The object containing the data to be visualized
+                  int startD,       //!< Data starting point, or end-to-end number if negative
+                  float startX,     //!< The horizontal starting point of the display area 
+                  float startY,     //!< The vertical starting point of the display area 
+                  int width,        //!< The width of the display area
+                  int height,       //!< Height of the display area
+                  boolean logaritm, //!< Should the data be transformed by logarith?
+                  Range commMinMax, //!< Optionally common Range for multiple series or null
+                  boolean connect   //!< Should data points be combined into a single line?
                   )
 {
   float min,max;
   if(commMinMax!=null)
   {
-    min=(logaritm?(float)Math.log10(commMinMax.min+1):commMinMax.min);//+1 wizualnie niewiele zmienia a gwarantuje obliczalność
-    max=(logaritm?(float)Math.log10(commMinMax.max+1):commMinMax.max);//+1 wizualnie niewiele zmienia a gwarantuje obliczalność    
+    min=(logaritm?(float)Math.log10(commMinMax.min+1):commMinMax.min); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
+    max=(logaritm?(float)Math.log10(commMinMax.max+1):commMinMax.max); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność    
   }
   else
   {
-    min=(logaritm?(float)Math.log10(data.min+1):data.min);//+1 wizualnie niewiele zmienia a gwarantuje obliczalność
-    max=(logaritm?(float)Math.log10(data.max+1):data.max);//+1 wizualnie niewiele zmienia a gwarantuje obliczalność
+    min=(logaritm?(float)Math.log10(data.min+1):data.min); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
+    max=(logaritm?(float)Math.log10(data.max+1):data.max); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
   }
   
-  int     N=data.numOfElements();       assert startD<N-1;
+  int     N=data.numOfElements();                          assert startD<N-1;
   if(startD<0)
   {
-      startD=-startD; //Ujemne było tylko umownie!!!
-      startD=N-startD;//Ileś od końca
+      startD=-startD;  //Ujemne było tylko umownie!!!
+      startD=N-startD; //Ileś od końca
   }
   if(startD<0) //Nadal ujemne!?
   {
-      startD=0;//Czyli zabrakło danych
-      //print("?");
+      startD=0; //Czyli zabrakło danych!
+                //print("?");
   }
   float wid=PApplet.parseFloat(width)/(N-startD);  //println(width,N,startD,wid,min,max);
   float oldy=-Float.MIN_VALUE;
@@ -835,13 +883,13 @@ public void viewAsPoints(Sample data,    //!< Data source. The object containing
   }
 }
 
-/// Bar visualization of a histogram or something similar
-public float viewAsColumns(Frequencies hist,//!< Data source. The object containing the data to be visualized
-                    float startX,    //!< The horizontal starting point of the display area 
-                    float startY,    //!< The vertical starting point of the display area 
-                    int width,       //!< The width of the display area
-                    int height,      //!< The height of the display area
-                    boolean logaritm //!< Should the data be transformed by logarith?
+/// Bar visualization of a histogram or something similar.
+public float viewAsColumns(Frequencies hist, //!< Data source. The object containing the data to be visualized
+                    float startX,     //!< The horizontal starting point of the display area 
+                    float startY,     //!< The vertical starting point of the display area 
+                    int width,        //!< The width of the display area
+                    int height,       //!< The height of the display area
+                    boolean logaritm  //!< Should the data be transformed by logarith?
                     )
 {
   float max=(logaritm?(float)Math.log10(hist.higherBucket+1):hist.higherBucket);//+1 wizualnie niewiele zmienia a gwarantuje obliczalność
@@ -861,25 +909,870 @@ public float viewAsColumns(Frequencies hist,//!< Data source. The object contain
   
   textAlign(LEFT,BOTTOM);
   text(""+max+(logaritm?"<="+hist.higherBucket+" @ "+hist.higherBucketIndex:" @ "+hist.higherBucketIndex),startX,startY-height);
+  
   //Real width of histogram
   float realwidth=(hist.buckets.length)*wid;//println(realwidth);noLoop();
   return realwidth;
 }
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////
+/// @file uEngNames.pde
+/// Tables of English names popular in 1880
+/// @date 2023.03.04 (Last modification)
+//*//////////////////////////////////////////////////
+
+/// Male & Female english names from USA Census 1880
+final String[] EnglishNames1880={
+"John","Mary",
+"William","Anna",
+"James","Emma",
+"George","Elizabeth",
+"Charles","Margaret",
+"Frank","Minnie",
+"Joseph","Ida",
+"Henry","Bertha",
+"Robert","Clara",
+"Thomas","Alice",
+"Edward","Annie",
+"Harry","Florence",
+"Walter","Bessie",
+"Arthur","Grace",
+"Fred","Ethel",
+"Albert","Sarah",
+"Samuel","Ella",
+"Clarence","Martha",
+"Louis","Nellie",
+"David","Mabel",
+"Joe","Laura",
+"Charlie","Carrie",
+"Richard","Cora",
+"Ernest","Helen",
+"Roy","Maude",
+"Will","Lillian",
+"Andrew","Gertrude",
+"Jesse","Rose",
+"Oscar","Edna",
+"Willie","Pearl",
+"Daniel","Edith",
+"Benjamin","Jennie",
+"Carl","Hattie",
+"Sam","Mattie",
+"Alfred","Eva",
+"Earl","Julia",
+"Peter","Myrtle",
+"Elmer","Louise",
+"Frederick","Lillie",
+"Howard","Jessie",
+"Lewis","Frances",
+"Ralph","Catherine",
+"Herbert","Lula",
+"Paul","Lena",
+"Lee","Marie",
+"Tom","Ada",
+"Herman","Josephine",
+"Martin","Fannie",
+"Jacob","Lucy",
+"Michael","Dora",
+"Jim","Agnes",
+"Claude","Maggie",
+"Ben","Blanche",
+"Eugene","Katherine",
+"Francis","Elsie",
+"Grover","Nora",
+"Raymond","Mamie",
+"Harvey","Rosa",
+"Clyde","Stella",
+"Edwin","Daisy",
+"Edgar","May",
+"Ed","Effie",
+"Lawrence","Mae",
+"Bert","Ellen",
+"Chester","Nettie",
+"Jack","Ruth",
+"Otto","Alma",
+"Luther","Della",
+"Charley","Lizzie",
+"Guy","Sadie",
+"Floyd","Sallie",
+"Ira","Nancy",
+"Ray","Susie",
+"Hugh","Maud",
+"Isaac","Flora",
+"Oliver","Irene",
+"Patrick","Etta",
+"Homer","Katie",
+"Theodore","Lydia",
+"Leonard","Lottie",
+"Leo","Viola",
+"Alexander","Caroline",
+"August","Addie",
+"Harold","Hazel",
+"Allen","Georgia",
+"Jessie","Esther",
+"Archie","Mollie",
+"Philip","Olive",
+"Stephen","Willie",
+"Horace","Harriet",
+"Marion","Emily",
+"Bernard","Charlotte",
+"Anthony","Amanda",
+"Julius","Kathryn",
+"Warren","Lulu",
+"Leroy","Susan",
+"Clifford","Kate",
+"Eddie","Nannie",
+"Sidney","Jane",
+"Milton","Amelia",
+"Leon","Virginia",
+"Alex","Mildred",
+"Lester","Beulah",
+"Emil","Eliza",
+"Dan","Rebecca",
+"Willis","Ollie",
+"Everett","Belle",
+"Dave","Ruby",
+"Leslie","Pauline",
+"Rufus","Matilda",
+"Alvin","Theresa",
+"Perry","Hannah",
+"Lloyd","Henrietta",
+"Victor","Ora",
+"Calvin","Estella",
+"Harrison","Leona",
+"Norman","Augusta",
+"Wesley","Eleanor",
+"Jess","Rachel",
+"Percy","Amy",
+"Amos","Sara",
+"Dennis","Anne",
+"Jerry","Marion",
+"Nathan","Iva",
+"Franklin","Ann",
+"Alonzo","Nina",
+"Matthew","Dorothy",
+"Mack","Lola",
+"Earnest","Lela",
+"Gus","Beatrice",
+"Russell","Josie",
+"Adam","Sophia",
+"Jay","Estelle",
+"Wallace","Mayme",
+"Otis","Barbara",
+"Stanley","Evelyn",
+"Adolph","Maria",
+"Jake","Inez",
+"Roscoe","Allie",
+"Maurice","Essie",
+"Melvin","Delia",
+"Gilbert","Mable",
+"Ross","Millie",
+"Willard","Alta",
+"Mark","Betty",
+"Levi","Callie",
+"Wilbur","Janie",
+"Cornelius","Rosie",
+"Aaron","Victoria",
+"Jose","Ola",
+"Elbert","Gladys",
+"Emmett","Louisa",
+"Phillip","Ina",
+"Morris","Eula",
+"Noah","Luella",
+"Claud","Vera",
+"Clinton","Lou",
+"Felix","Celia",
+"Moses","Nell",
+"Elijah","Goldie",
+"Nelson","Winifred",
+"Simon","Bettie",
+"Lonnie","Hilda",
+"Virgil","Sophie",
+"Hiram","Christine",
+"Jasper","Marguerite",
+"Marshall","Tillie",
+"Manuel","Birdie",
+"Sylvester","Rena",
+"Fredrick","Eunice",
+"Mike","Bertie",
+"Abraham","Olga",
+"Silas","Sylvia",
+"Irvin","Lucille",
+"Max","Bess",
+"Owen","Isabelle",
+"Christopher","Genevieve",
+"Reuben","Leila",
+"Glenn","Mathilda",
+"Nicholas","Dollie",
+"Ellis","Isabel",
+"Marvin","Verna",
+"Wiley","Bernice",
+"Eli","Loretta",
+"Edmund","Rhoda",
+"Ollie","Cornelia",
+"Cecil","Sally",
+"Cleveland","Jean",
+"Curtis","Alberta",
+"Timothy","Winnie",
+"Harley","Lelia",
+"Jeff","Lois",
+"Anton","Myra",
+"Alva","Harriett",
+"Wilson","Roxie",
+"Irving","Adeline",
+"Clayton","Abbie",
+"Rudolph","Flossie",
+"Vernon","Sue",
+"Hubert","Christina"
+};
+
+/// Female english names from USA Census 1880
+final String[] FemaleEnglishNames1880={
+"Mary",
+"Anna",
+"Emma",
+"Elizabeth",
+"Margaret",
+"Minnie",
+"Ida",
+"Bertha",
+"Clara",
+"Alice",
+"Annie",
+"Florence",
+"Bessie",
+"Grace",
+"Ethel",
+"Sarah",
+"Ella",
+"Martha",
+"Nellie",
+"Mabel",
+"Laura",
+"Carrie",
+"Cora",
+"Helen",
+"Maude",
+"Lillian",
+"Gertrude",
+"Rose",
+"Edna",
+"Pearl",
+"Edith",
+"Jennie",
+"Hattie",
+"Mattie",
+"Eva",
+"Julia",
+"Myrtle",
+"Louise",
+"Lillie",
+"Jessie",
+"Frances",
+"Catherine",
+"Lula",
+"Lena",
+"Marie",
+"Ada",
+"Josephine",
+"Fannie",
+"Lucy",
+"Dora",
+"Agnes",
+"Maggie",
+"Blanche",
+"Katherine",
+"Elsie",
+"Nora",
+"Mamie",
+"Rosa",
+"Stella",
+"Daisy",
+"May",
+"Effie",
+"Mae",
+"Ellen",
+"Nettie",
+"Ruth",
+"Alma",
+"Della",
+"Lizzie",
+"Sadie",
+"Sallie",
+"Nancy",
+"Susie",
+"Maud",
+"Flora",
+"Irene",
+"Etta",
+"Katie",
+"Lydia",
+"Lottie",
+"Viola",
+"Caroline",
+"Addie",
+"Hazel",
+"Georgia",
+"Esther",
+"Mollie",
+"Olive",
+"Willie",
+"Harriet",
+"Emily",
+"Charlotte",
+"Amanda",
+"Kathryn",
+"Lulu",
+"Susan",
+"Kate",
+"Nannie",
+"Jane",
+"Amelia",
+"Virginia",
+"Mildred",
+"Beulah",
+"Eliza",
+"Rebecca",
+"Ollie",
+"Belle",
+"Ruby",
+"Pauline",
+"Matilda",
+"Theresa",
+"Hannah",
+"Henrietta",
+"Ora",
+"Estella",
+"Leona",
+"Augusta",
+"Eleanor",
+"Rachel",
+"Amy",
+"Sara",
+"Anne",
+"Marion",
+"Iva",
+"Ann",
+"Nina",
+"Dorothy",
+"Lola",
+"Lela",
+"Beatrice",
+"Josie",
+"Sophia",
+"Estelle",
+"Mayme",
+"Barbara",
+"Evelyn",
+"Maria",
+"Inez",
+"Allie",
+"Essie",
+"Delia",
+"Mable",
+"Millie",
+"Alta",
+"Betty",
+"Callie",
+"Janie",
+"Rosie",
+"Victoria",
+"Ola",
+"Gladys",
+"Louisa",
+"Ina",
+"Eula",
+"Luella",
+"Vera",
+"Lou",
+"Celia",
+"Nell",
+"Goldie",
+"Winifred",
+"Bettie",
+"Hilda",
+"Sophie",
+"Christine",
+"Marguerite",
+"Tillie",
+"Birdie",
+"Rena",
+"Eunice",
+"Bertie",
+"Olga",
+"Sylvia",
+"Lucille",
+"Bess",
+"Isabelle",
+"Genevieve",
+"Leila",
+"Mathilda",
+"Dollie",
+"Isabel",
+"Verna",
+"Bernice",
+"Loretta",
+"Rhoda",
+"Cornelia",
+"Sally",
+"Jean",
+"Alberta",
+"Winnie",
+"Lelia",
+"Lois",
+"Myra",
+"Harriett",
+"Roxie",
+"Adeline",
+"Abbie",
+"Flossie",
+"Sue",
+"Christina"
+};
+
+/// Male english names from USA Census 1880
+final String[] MaleEnglishNames1880={
+"John",
+"William",
+"James",
+"George",
+"Charles",
+"Frank",
+"Joseph",
+"Henry",
+"Robert",
+"Thomas",
+"Edward",
+"Harry",
+"Walter",
+"Arthur",
+"Fred",
+"Albert",
+"Samuel",
+"Clarence",
+"Louis",
+"David",
+"Joe",
+"Charlie",
+"Richard",
+"Ernest",
+"Roy",
+"Will",
+"Andrew",
+"Jesse",
+"Oscar",
+"Willie",
+"Daniel",
+"Benjamin",
+"Carl",
+"Sam",
+"Alfred",
+"Earl",
+"Peter",
+"Elmer",
+"Frederick",
+"Howard",
+"Lewis",
+"Ralph",
+"Herbert",
+"Paul",
+"Lee",
+"Tom",
+"Herman",
+"Martin",
+"Jacob",
+"Michael",
+"Jim",
+"Claude",
+"Ben",
+"Eugene",
+"Francis",
+"Grover",
+"Raymond",
+"Harvey",
+"Clyde",
+"Edwin",
+"Edgar",
+"Ed",
+"Lawrence",
+"Bert",
+"Chester",
+"Jack",
+"Otto",
+"Luther",
+"Charley",
+"Guy",
+"Floyd",
+"Ira",
+"Ray",
+"Hugh",
+"Isaac",
+"Oliver",
+"Patrick",
+"Homer",
+"Theodore",
+"Leonard",
+"Leo",
+"Alexander",
+"August",
+"Harold",
+"Allen",
+"Jessie",
+"Archie",
+"Philip",
+"Stephen",
+"Horace",
+"Marion",
+"Bernard",
+"Anthony",
+"Julius",
+"Warren",
+"Leroy",
+"Clifford",
+"Eddie",
+"Sidney",
+"Milton",
+"Leon",
+"Alex",
+"Lester",
+"Emil",
+"Dan",
+"Willis",
+"Everett",
+"Dave",
+"Leslie",
+"Rufus",
+"Alvin",
+"Perry",
+"Lloyd",
+"Victor",
+"Calvin",
+"Harrison",
+"Norman",
+"Wesley",
+"Jess",
+"Percy",
+"Amos",
+"Dennis",
+"Jerry",
+"Nathan",
+"Franklin",
+"Alonzo",
+"Matthew",
+"Mack",
+"Earnest",
+"Gus",
+"Russell",
+"Adam",
+"Jay",
+"Wallace",
+"Otis",
+"Stanley",
+"Adolph",
+"Jake",
+"Roscoe",
+"Maurice",
+"Melvin",
+"Gilbert",
+"Ross",
+"Willard",
+"Mark",
+"Levi",
+"Wilbur",
+"Cornelius",
+"Aaron",
+"Jose",
+"Elbert",
+"Emmett",
+"Phillip",
+"Morris",
+"Noah",
+"Claud",
+"Clinton",
+"Felix",
+"Moses",
+"Elijah",
+"Nelson",
+"Simon",
+"Lonnie",
+"Virgil",
+"Hiram",
+"Jasper",
+"Marshall",
+"Manuel",
+"Sylvester",
+"Fredrick",
+"Mike",
+"Abraham",
+"Silas",
+"Irvin",
+"Max",
+"Owen",
+"Christopher",
+"Reuben",
+"Glenn",
+"Nicholas",
+"Ellis",
+"Marvin",
+"Wiley",
+"Eli",
+"Edmund",
+"Ollie",
+"Cecil",
+"Cleveland",
+"Curtis",
+"Timothy",
+"Harley",
+"Jeff",
+"Anton",
+"Alva",
+"Wilson",
+"Irving",
+"Clayton",
+"Rudolph",
+"Vernon",
+"Hubert"
+};
+
+//*//////////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS & DATA
+//*  https://github.com/borkowsk/sym4processing
+//*//////////////////////////////////////////////////////////////////////////////////
+/// @file uFigures.pde
+/// Various shapes drawing procedures.
+/// @date 2023.03.04 (Last modification)
+//*//////////////////////////////////////////////////////////////
+
+/// Horizontal view of a bald head of a man seen from above.
+public void baldhead_hor(float x,float y,float r,float direction)
+{
+  float D=2*r;
+  float xn=x+r*cos(direction);
+  float yn=y+r*sin(direction);
+  ellipse(xn,yn,D/5,D/5);  //Nos
+  
+  xn=x+0.95f*r*cos(direction+PI/2);
+  yn=y+0.95f*r*sin(direction+PI/2);
+  ellipse(xn,yn,D/4,D/4);  //Ucho  1
+  
+  xn=x+0.95f*r*cos(direction-PI/2);
+  yn=y+0.95f*r*sin(direction-PI/2);
+  ellipse(xn,yn,D/4,D/4);  //Ucho  2
+  
+  //Glówny blok
+  ellipse(x,y,D,D);
+  
+  for(int i=0;i<=10;i++)
+  {
+      float angle=PI/2+PI/10*i;
+      xn=x+0.75f*r*cos(angle+direction);
+      yn=y+0.75f*r*sin(angle+direction);
+      float xm=x+0.35f*r*cos(angle+direction);
+      float ym=y+0.35f*r*sin(angle+direction);
+      line(xm,ym,xn,yn);
+  }
+  
+  //OCZY
+  fill(200);
+  xn=x+0.75f*r*cos(direction+PI/5);
+  yn=y+0.75f*r*sin(direction+PI/5);
+  arc(xn,yn,D/5,D/5,-PI/2+direction,PI/2+direction,CHORD);  //Oko  1
+  
+  fill(0);
+  xn=x+0.84f*r*cos(direction+PI/6);
+  yn=y+0.84f*r*sin(direction+PI/6);  
+  ellipse(xn,yn,D/12,D/12);
+  
+  fill(200);
+  xn=x+0.75f*r*cos(direction-PI/5);
+  yn=y+0.75f*r*sin(direction-PI/5);
+  arc(xn,yn,D/5,D/5,-PI/2+direction,PI/2+direction,CHORD);  //Oko  2
+  
+  fill(0);
+  xn=x+0.84f*r*cos(direction-PI/6);
+  yn=y+0.84f*r*sin(direction-PI/6);
+  ellipse(xn,yn,D/12,D/12);
+}
+
+/// Vertical view on agava plant.
+public void agava_ver(float x,float y,float visual_size,float num_of_leafs)
+{
+  float lstep=PI/(num_of_leafs);
+  
+  for(float angle=PI+lstep/2;angle<2*PI;angle+=lstep)
+  {
+    float x2=x+cos(angle)*visual_size/2;
+    float y2=y+sin(angle)*visual_size/2;
+    triangle(x-visual_size/8,y,x+visual_size/8,y,x2,y2);
+    line(x,y,x2,y2);
+  }
+  
+  arc(x,y,visual_size/4,visual_size/4,PI,2*PI,PIE);
+}
+
+/// Horizontal view on agava plant.
+public void agava_hor(float x,float y,float visual_size,float num_of_leafs)
+{
+  float lstep=(2*PI)/min(num_of_leafs,3)+PI/5;
+  float maxan=lstep*num_of_leafs;
+  
+  for(float angle=lstep/2;angle<=maxan;angle+=lstep)
+  {
+    visual_size*=0.966f;
+    float x0=x+cos(angle+PI/2)*visual_size/8;
+    float y0=y+sin(angle+PI/2)*visual_size/8;
+    float x1=x+cos(angle-PI/2)*visual_size/8;
+    float y1=y+sin(angle-PI/2)*visual_size/8;    
+    float x2=x+cos(angle)*visual_size/2;
+    float y2=y+sin(angle)*visual_size/2;
+    triangle(x0,y0,x1,y1,x2,y2);
+    line(x,y,x2,y2);
+  }
+  
+  ellipse(x,y,visual_size/4,visual_size/4);//,PI,2*PI,PIE);
+  ellipse(x,y,1,1);
+}
+
+
+/// Vertical view of simple droid.
+public void gas_bottle_droid_ver(float x,float y,float visual_size,float direction)
+{
+  rect(x-visual_size/4, y-visual_size,     visual_size/2,   visual_size-3*visual_size/5,   visual_size/10); //Głowa
+  rect(x-visual_size/3, y-3*visual_size/5, 2*visual_size/3, 3*visual_size/5-visual_size/10,visual_size/10); //Tułów
+  rect(x-visual_size/4, y-visual_size/10,  visual_size/2,   visual_size/10);  //Stopy
+  
+  if(-.25f*PI<=direction && direction<=PI*1.25f) //Przód
+  {
+    float rotx=x+cos(direction)*visual_size/4.f;
+    float rots=visual_size/8.f*sin(direction);
+
+    fill(200);
+    arc(rotx,y-visual_size+visual_size/5.f,rots,visual_size/10.f,1.f/2.f*PI,6.f/4.f*PI,PIE); //nos lewo
+    arc(rotx,y-visual_size+visual_size/5.f,rots,visual_size/10.f,6.f/4.f*PI,  2.5f*PI,PIE); //nos prawo
+        
+    float lefte=(direction - PI/4 >0  ? x+cos(direction-PI/4)*visual_size/4 : x + visual_size/4);
+    float rigte=(direction + PI/4 <PI ? x+cos(direction+PI/4)*visual_size/4 : x-visual_size/4);
+    
+    stroke(64,0,0);
+    line(lefte,y-visual_size+visual_size/5+visual_size/10,rigte,y-visual_size+visual_size/5+visual_size/10); //usta
+    stroke(0,0,64);
+    line(lefte,y-visual_size+visual_size/16,lefte,y-visual_size+visual_size/8); //jego lewe oko
+    line(rigte,y-visual_size+visual_size/16,rigte,y-visual_size+visual_size/8); //jego prawe oko
+    
+    float lefth=(direction - PI/4 >0  ? x+cos(direction-PI/4)*visual_size/3 : x + visual_size/3);
+    float lefts=(direction - PI/5 >0  ? x+cos(direction-PI/5)*visual_size/3 : x + visual_size/3);
+    float rigth=(direction + PI/4 <PI ? x+cos(direction+PI/4)*visual_size/3 : x - visual_size/3);
+    float rigts=(direction + PI/5 <PI ? x+cos(direction+PI/5)*visual_size/3 : x - visual_size/3);
+    
+    stroke(0);
+    triangle(lefts,y-3*visual_size/5+visual_size/8,lefth,y-3*visual_size/5+visual_size/8,lefth,y-3*visual_size/5+visual_size/3); //jego lewa ręka
+    triangle(rigts,y-3*visual_size/5+visual_size/8,rigth,y-3*visual_size/5+visual_size/8,rigth,y-3*visual_size/5+visual_size/3); //jego prawa ręka
+  }
+  
+  if(PI<=direction && direction<=2*PI)
+  {
+    float leftb=x+cos(direction+PI-PI/10)*visual_size/3; //(direction+PI - PI/4 >0  ? x+cos(direction+PI-PI/4)*visual_size/3 : x + visual_size/3);
+    float rigtb=x+cos(direction+PI+PI/10)*visual_size/3; 
+    
+    fill(64);
+    quad(leftb, y-3*visual_size/5+visual_size/8, 
+         rigtb, y-3*visual_size/5+visual_size/8,
+         rigtb, y-3*visual_size/5+visual_size/4, 
+         leftb, y-3*visual_size/5+visual_size/4); 
+       
+    fill(110);
+    leftb=x+cos(direction+PI-PI/10)*visual_size/4;     
+    rigtb=x+cos(direction+PI+PI/10)*visual_size/4;
+    quad(leftb, y-visual_size+visual_size/8, 
+         rigtb, y-visual_size+visual_size/8,
+         rigtb, y-visual_size+visual_size/5, 
+         leftb, y-visual_size+visual_size/5); 
+  }
+  
+  if(0<=direction && direction<=PI)
+  {
+    float rotx=x+cos(direction)*visual_size/4.f;
+    float rots=visual_size/8.f*sin(direction);
+    fill(0);
+    triangle(rotx-rots/2,y-visual_size/10,rotx+rots/2,y-visual_size/10,rotx,y-1);  // granica stóp
+  }
+  else //Tył
+  {
+    float rotx0=x+cos(direction+PI)*visual_size/4;
+    float rots=visual_size/8.f*sin(direction+PI);
+    fill(128);
+    triangle(rotx0-rots/2,y,rotx0+rots/2,y,rotx0,y-visual_size/10+1);  // granica stóp
+  }
+  
+}
+
+//*
+/// ARROW IN ANY DIRECTION
+//*
+//*////////////////////////////////////////
+
+float def_arrow_size=15;         ///< Default size of arrows heads
+float def_arrow_theta=PI/6.0f+PI; ///< Default arrowhead spacing //3.6651914291881
+
+/// Function that draws an arrow with default settings.
+public void arrow(float x1,float y1,float x2,float y2)
+{
+  arrow_d(PApplet.parseInt(x1),PApplet.parseInt(y1),PApplet.parseInt(x2),PApplet.parseInt(y2),def_arrow_size,def_arrow_theta);
+}
+
+/// Function that draws an arrow with changable settings.
+public void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)
+{
+  // CALCULATION METHOD FROM ROTATION OF THE ARROW AXIS
+  float A=(size>=1 ? size : size * sqrt( (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2) ));
+  float poY=PApplet.parseFloat(y2-y1);
+  float poX=PApplet.parseFloat(x2-x1);
+
+  if(poY==0 && poX==0)
+  {
+    // Rare error, but big problem
+    float cross_width=def_arrow_size/2;
+    line(x1-cross_width,y1,x1+cross_width,y1);
+    line(x1,y1-cross_width,x1,y1+cross_width);
+    ellipse(x1+def_arrow_size/sqrt(2.0f),y1-def_arrow_size/sqrt(2.0f)+1,
+            def_arrow_size,def_arrow_size);
+    return;
+  }
+                                        assert(!(poY==0 && poX==0));
+  float alfa=atan2(poY,poX);            if(abs(alfa)>PI+0.0000001f)
+                                             println("Alfa=%e\n",alfa);
+                                      //assert(fabs(alfa)<=M_PI);//cerr<<alfa<<endl;
+  float xo1=A*cos(theta+alfa);
+  float yo1=A*sin(theta+alfa);
+  float xo2=A*cos(alfa-theta);
+  float yo2=A*sin(alfa-theta);        //cross(x2,y2,128);DEBUG!
+
+  line(PApplet.parseInt(x2+xo1),PApplet.parseInt(y2+yo1),x2,y2);
+  line(PApplet.parseInt(x2+xo2),PApplet.parseInt(y2+yo2),x2,y2);
+  line(x1,y1,x2,y2);
+}
+
+
+//*////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
+//*  https://github.com/borkowsk/sym4processing
+//*////////////////////////////////////////////////////////////////////////////
+/// @file uFileAppend.pde
 /// Tools for CSV files.
-/// See: https://stackoverflow.com/questions/17010222/how-do-i-append-text-to-a-csv-txt-file-in-processing
-//*/////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @date 2023.03.04 (Last modification)
+//*///////////////////////////////////////////////////////////////////////
 
 
 
-/// Appends text to the end of a text file located in the data directory, 
-/// creates the file if it does not exist.
+/// Appends text to the end of a text file located in the data directory. 
+/// @note It creates the file if it does not exist!
 /// Can be used for big files with lots of rows, 
-/// existing lines will not be rewritten
+/// existing lines will not be rewritten.
+/// See: https://stackoverflow.com/questions/17010222/how-do-i-append-text-to-a-csv-txt-file-in-processing
 public void appendTextToFile(String filename, String text)
 {
   File f = new File(dataPath(filename));
@@ -895,7 +1788,7 @@ public void appendTextToFile(String filename, String text)
   }
 }
 
-/// Creates a new file including all subfolders in the path
+/// Creates a new file including all subfolders in the path.
 public void createFile(File f)
 {
   File parentDir = f.getParentFile();
@@ -907,11 +1800,14 @@ public void createFile(File f)
   }
 }    
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-///  Function for drawing dashed lines.
+//*/////////////////////////////////////////////////////////////////////////////
+/// @file uGDashedLine.pde
+/// Function for drawing dashed lines.
+/// @date 2023.03.04 (Last modification)
 //*//////////////////////////////////////////////////////////////////
 
 ///  Draw a dashed line with given set of dashes and gap lengths. 
@@ -976,7 +1872,7 @@ public void dashedline(float x0, float y0, float x1, float y1,float dens)
 }
 
 /*
-/// Obsolete name 
+/// Obsolete form 
 void dashedline(float x0, float y0, float x1, float y1, float[ ] spacing) 
 { 
   float distance = dist(x0, y0, x1, y1); 
@@ -1016,25 +1912,28 @@ void dashedline(float x0, float y0, float x1, float y1, float[ ] spacing)
 } 
 */
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////
 
 
  
-///  Function for drawing dotted lines.
+/// @file uGDottedLine.pde
+/// Functions for drawing dotted lines.
+/// @date 2023.03.04 (Last modification)
 //*////////////////////////////////////////////////////////////////////////////////////
 
-/// if you use a lot of dotted lines maybe something like this is usefull for you... 
+/// If you use a lot of dotted lines maybe something like this is usefull for you... 
 /// just call dottedLine() like you would call line()
 /// See: https://processing.org/discourse/beta/num_1219255354.html
 public void dottedLine(float x1, float y1, float x2, float y2, int steps)
 {                                 //println("dottedLine(float,float,float,float,int steps)");
  for(int i=0; i<=steps; i++) 
  {
-   float d = i/(float)steps;      //println(d);
-   float x = lerp(x1, x2, d);//funkcja lerp() jest sednem tego rozwiązania
+   float d = i/(float)steps;  //println(d);
+   float x = lerp(x1, x2, d); //funkcja lerp() jest sednem tego rozwiązania
    float y = lerp(y1, y2, d);
    point(x,y);
    //noStroke();ellipse(x, y,2,2);//Używanie elipsy zamiast punktu nie jest zbyt wydajne
@@ -1044,8 +1943,8 @@ public void dottedLine(float x1, float y1, float x2, float y2, int steps)
 
 /// Alternative function for drawing dotted lines.
 /// Uses 'int' as a parameter type.
-public void dottedline(int x1, int y1, int x2, int y2, int dens)
-{                                  print("dottedline(int x1,int y1,int x2,int y2,int dens)");
+public void dottedLine2(int x1, int y1, int x2, int y2, int dens)
+{                                  print("dottedLine2(int x1,int y1,int x2,int y2,int dens)");
   for (int i = 0; i <= dens; i++) 
   {
     float x = lerp(x1, x2, i/(float)dens);
@@ -1054,15 +1953,19 @@ public void dottedline(int x1, int y1, int x2, int y2, int dens)
   }
 }
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// "Active rectangles" - proprietary application interface module in Processing
+//*/////////////////////////////////////////////////////////////////////////////
+/// @file uGRectAreas.pde
+/// "Active rectangles" - proprietary application interface module in Processing.
+/// @date 2023.03.04 (Last modification)
+/// @author Wojciech Borkowski
 //*////////////////////////////////////////////////////////////////////////////////
-/// USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
-/// if you need translate the code into C++ (--> Processing2C )
+
+// USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
+// if you need translate the code into C++ (--> Processing2C )
 
 ArrayList<RectArea>   allAreas = new ArrayList<RectArea>();     ///< Global list of areas to be displayed.
 ArrayList<TextButton> allButtons = new ArrayList<TextButton>(); ///< Global button list.
@@ -1108,11 +2011,11 @@ public void view_all_areas()
   }
 }
 
-/// Rectangular screen area class as the basis for various active areas
+/// Rectangular screen area class as the basis for various active areas.
 class RectArea
 {
-  int    x1,y1,x2,y2;//!< Corners of the area
-  int  back;       //!< Colour of background
+  int    x1,y1,x2,y2; //!< Corners of the area
+  int  back;        //!< Colour of background
   
   /// Constructor. 
   /// Requires data on the corners of the area.
@@ -1135,7 +2038,7 @@ class RectArea
         rect(x1,y1,x2,y2);
   }
   
-  /// The function of checking if you click on an area
+  /// The function of checking if you click on an area.
   /*_interfunc*/ public boolean hitted(int x,int y)
   {
     return x1<=x && x<=x2
@@ -1143,7 +2046,7 @@ class RectArea
   }
 }//EndOfClass
 
-/// A class of a panel that contains many buttons
+/// A class of a panel that contains many buttons.
 class PanelOfTextButtons extends RectArea
 {
   ArrayList<TextButton> list; 
@@ -1178,7 +2081,7 @@ class PanelOfTextButtons extends RectArea
   
 }//EndOfClass
 
-/// Rectangular button with text content
+/// Rectangular button with text content.
 class TextButton extends RectArea implements iNamed
 {
   int  txt,strok;
@@ -1190,7 +2093,7 @@ class TextButton extends RectArea implements iNamed
   protected int state;
   
   /// Constructor.
-  /// Requires data on the corners of the area and text content ("title")
+  /// Requires data on the corners of the area and text content ("title").
   TextButton(String iTitle,float iX1,float iY1,float iX2,float iY2)
   {
     super(iX1,iY1,iX2,iY2);
@@ -1226,7 +2129,7 @@ class TextButton extends RectArea implements iNamed
     text(title,x1,y1,x2,y2); 
   }
   
-  /// Change to the opposite state (0 to 1, other to 0) and possibly visualize
+  /// Change to the opposite state (0 to 1, other to 0) and possibly visualize.
   /*_interfunc*/ public void flip_state(boolean visual)
   {
     if(state==0) state=1;
@@ -1235,7 +2138,7 @@ class TextButton extends RectArea implements iNamed
         view();
   }
   
-  /// It changes the state to 0 or 1 and optionally visualizes
+  /// It changes the state to 0 or 1 and optionally visualizes.
   /*_interfunc*/ public void set_state(int new_state,boolean visual)
   {
     if(new_state!=state)
@@ -1249,8 +2152,8 @@ class TextButton extends RectArea implements iNamed
 }//EndOfClass
 
 
-/// A pseudo-button class that displays the state, not the name, 
-/// Also ignores flip_state() and that changes to state through set_state() are "protected"
+/// A pseudo-button class that displays the state, not the name. 
+/// Also ignores flip_state() and that changes to state through set_state() are "protected".
 class StateLabel extends TextButton 
 {
   /// Normally using set_state() in this class does not change anything. 
@@ -1284,14 +2187,14 @@ class StateLabel extends TextButton
     text(state+"",x1,y1,x2,y2); 
   }
  
-  /// A function that allows you to change the state
+  /// A function that allows you to change the state.
   /*_interfunc*/ public void allow()
   {
     allowChng=true;
     view();
   }
   
-  /// Specific for the class. It does not change the state by flip, 
+  /// Specific for the class - It does not change the state by flip, 
   /// at most it repeats the display - although it is probably useless
   public void flip_state(boolean visual)   
   { 
@@ -1309,7 +2212,7 @@ class StateLabel extends TextButton
         state=new_state;
       }
       
-      allowChng=false;// Whether there was an actual change or not, it will no longer be possible
+      allowChng=false; // Whether there was an actual change or not, it will no longer be possible
       
       if(visual)
           view();
@@ -1317,8 +2220,8 @@ class StateLabel extends TextButton
   }
 }//EndOfClass
 
-/// A button class that increments a state label, 
-/// possibly undoing the operation of the opposite pair
+/// A button class that increments a state label. 
+/// It possibly undoes the operation of the opposite pair.
 class StateLabelInc extends TextButton
 {
   StateLabel     target;
@@ -1335,7 +2238,7 @@ class StateLabelInc extends TextButton
     target=iTarget;opponent=iOpponent;
   }
   
-  /// Class-specific overlay of the inherited method.
+  /// Class-specific implementation of the inherited method.
   /// It increases or decreses the state.
   public void flip_state(boolean visual)
   { 
@@ -1347,7 +2250,7 @@ class StateLabelInc extends TextButton
            else target.set_state(target.state-1,visual);
    } 
    
-   /// The method that undoes state increments, i.e. decreases the "counter"
+   /// The method that undoes state increments, i.e. decreases the "counter".
    public void decrement(boolean visual)
    {
      state=0;view();
@@ -1357,7 +2260,7 @@ class StateLabelInc extends TextButton
 }//EndOfClass
 
 /// Unique button. 
-/// The class of the button, which when clicked, resets the state of all the others on the list
+/// The class of the button, which when clicked, resets the state of all the others on the list.
 class UniqTextButton extends TextButton 
 {
   ArrayList<TextButton> siblings; //!< List of mutually exclusive buttons
@@ -1370,7 +2273,8 @@ class UniqTextButton extends TextButton
     siblings=iSibl;
   }
   
-  /// Normally the method changes the state to the opposite (0 to 1, other to 0) and possibly visualizes.
+  /// This method changes the state to the opposite (0 to 1, other to 0) 
+  /// and possibly visualizes.
   /// However, if the button state changes to other than 0 then
   /// his companions (siblings) on the list must be reset.
   public void flip_state(boolean visual)   
@@ -1388,7 +2292,7 @@ class UniqTextButton extends TextButton
   }
 }//EndOfClass
 
-/// A button that remembers the column to which its unique marker is to be saved
+/// A button that remembers the column to which its unique marker is to be saved.
 class WrTextButton extends TextButton 
 {   
   int column;
@@ -1404,7 +2308,7 @@ class WrTextButton extends TextButton
   }
 }//EndOfClass
 
-/// UniqButton additionally remembers the column to which it is to save its unique marker
+/// UniqButton additionally remembers the column to which it is to save its unique marker.
 class WrUniqTextButton extends UniqTextButton 
 {   
   int column;
@@ -1421,75 +2325,17 @@ class WrUniqTextButton extends UniqTextButton
   }
 }//EndOfClass
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-///  @Author Wojciech Borkowski
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-/// Various helpful drawing procedures
-//*//////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////
+/// @file uGraphix.pde
+/// Various helpful drawing procedures, like crosses, polygons & bar3D
+/// @date 2023.03.04 (Last modification)
+//*/////////////////////////////////////////////////////////////////////
 
-/// Frame drawn with a default line
-public void surround(int x1,int y1,int x2,int y2)
-{
-  line(x1,y1,x2,y1);//--->
-  line(x2,y1,x2,y2);//vvv
-  line(x1,y2,x2,y2);//<---
-  line(x1,y1,x1,y2);//^^^
-}
-
-/// Cross drawn with a default line
-public void cross(float x,float y,float cross_width)
-{
-  line(x-cross_width,y,x+cross_width,y);
-  line(x,y-cross_width,x,y+cross_width);
-}
-
-/// Cross drawn with a default line 
-/// The version that uses parameters of type int.
-public void cross(int x,int y,int cross_width)
-{
-  line(x-cross_width,y,x+cross_width,y);
-  line(x,y-cross_width,x,y+cross_width);
-}
-
-/// The bald head of a man seen from above
-public void baldhead(int x,int y,int r,float direction)
-{
-  float D=2*r;
-  float xn=x+r*cos(direction);
-  float yn=y+r*sin(direction);
-  ellipse(xn,yn,D/5,D/5);  //Nos
-  xn=x+0.95f*r*cos(direction+PI/2);
-  yn=y+0.95f*r*sin(direction+PI/2);
-  ellipse(xn,yn,D/4,D/4);  //Ucho  1
-  xn=x+0.95f*r*cos(direction-PI/2);
-  yn=y+0.95f*r*sin(direction-PI/2);
-  ellipse(xn,yn,D/4,D/4);  //Ucho  2
-  //Glówny blok
-  ellipse(x,y,D,D);
-}
-
-//*
-/// POLYGONS
-//*
-//*/////////////////////
-
-/// A regular polygon with a given radius and number of vertices
-public void regularpoly(float x, float y, float radius, int npoints) 
-{
-  float angle = TWO_PI / npoints;
-  beginShape();
-  for (float a = 0; a < TWO_PI; a += angle) 
-  {
-    float sx = x + cos(a) * radius;
-    float sy = y + sin(a) * radius;
-    vertex(sx, sy);
-  }
-  endShape(CLOSE);
-}
-
-/// A class to represent two-dimensional points
+/// A class to represent two-dimensional points.
 class pointxy 
 {
   float x,y;
@@ -1505,8 +2351,51 @@ class pointxy
   }
 }//EndOfClass
 
+/// Frame drawn with a default line.
+public void surround(int x1,int y1,int x2,int y2)
+{
+  line(x1,y1,x2,y1); //--->
+  line(x2,y1,x2,y2); //vvv
+  line(x1,y2,x2,y2); //<---
+  line(x1,y1,x1,y2); //^^^
+}
+
+/// Cross drawn with a default line.
+public void cross(float x,float y,float cross_width)
+{
+  line(x-cross_width,y,x+cross_width,y);
+  line(x,y-cross_width,x,y+cross_width);
+}
+
+/// Cross drawn with a default line.
+/// The version that uses parameters of type int.
+public void cross(int x,int y,int cross_width)
+{
+  line(x-cross_width,y,x+cross_width,y);
+  line(x,y-cross_width,x,y+cross_width);
+}
+
+//*
+/// POLYGONS
+//*
+//*/////////////////////
+
+/// A regular polygon with a given radius and number of vertices.
+public void regularpoly(float x, float y, float radius, int npoints) 
+{
+  float angle = TWO_PI / npoints;
+  beginShape();
+  for (float a = 0; a < TWO_PI; a += angle) 
+  {
+    float sx = x + cos(a) * radius;
+    float sy = y + sin(a) * radius;
+    vertex(sx, sy);
+  }
+  endShape(CLOSE);
+}
+
 /// Drawing a polygon. 
-/// It utilises vertices given as an array of points
+/// This function utilises vertices given as an array of points
 public void polygon(pointxy[] lst/*+1*/)
 {
   int N= lst.length;
@@ -1531,34 +2420,14 @@ public void polygon(pointxy[] lst/*+1*/,int N)
   endShape(CLOSE);
 }
 
-/// Nearest points of two polygons.
-public Pair<pointxy,pointxy> nearestPoints(final pointxy[] listA,final pointxy[] listB)
-{                                    
-                                    assert(listA.length>0);
-                                    assert(listB.length>0);
-  float mindist=MAX_FLOAT;
-  int   minA=-1;
-  int   minB=-1;
-  for(int i=0;i<listA.length;i++)
-    for(int j=0;j<listB.length;j++) //Pętla nadmiarowa (?)
-    {
-      float x2=(listA[i].x-listB[j].x)*(listA[i].x-listB[j].x);
-      float y2=(listA[i].y-listB[j].y)*(listA[i].y-listB[j].y);
-      
-      if(x2+y2 < mindist)
-      {
-        mindist=x2+y2;
-        minA=i; minB=j;
-      }
-    }
-  return new Pair<pointxy,pointxy>(listA[minA],listB[minB]);
-}
+
 
 //*
-/// BAR3D 
+//* Visualisation of BAR3D.
 //*
 //*/////////////////////////////////////////
 
+/// Configuration set of BAR3D visualisation.
 class settings_bar3d
 {
 int a=10;
@@ -1568,10 +2437,13 @@ int wire=color(255,255,255); //Kolor ramek
 int back=color(0,0,0); //Informacja o kolorze tla
 }//EndOfClass
 
+/// Default configuration set of BAR3D visualisation.
 settings_bar3d bar3dsett=new settings_bar3d();///< Default settings of bar3d
 
+/// Rhomb polygon used for draving bar3D
 pointxy bar3dromb[]={new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy()};
 
+/// Function which draving bar3d using current configuration.
 public void bar3dRGB(float x,float y,float h,int R,int G,int B,int Shad)
 {
                                                     /*      6 ------ 5    */
@@ -1611,61 +2483,20 @@ public void bar3dRGB(float x,float y,float h,int R,int G,int B,int Shad)
 }/* end of bar3dRGB */
 
  
-//*
-/// ARROW IN ANY DIRECTION
-//*
-//*////////////////////////////////////////
 
-float def_arrow_size=15; ///< Default size of arrows heads
-float def_arrow_theta=PI/6.0f+PI;///< Default arrowhead spacing //3.6651914291881
-
-/// Function that draws an arrow with default settings
-public void arrow(float x1,float y1,float x2,float y2)
-{
-  arrow_d(PApplet.parseInt(x1),PApplet.parseInt(y1),PApplet.parseInt(x2),PApplet.parseInt(y2),def_arrow_size,def_arrow_theta);
-}
-
-/// Function that draws an arrow with changable settings
-public void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)
-{
-  // CALCULATION METHOD FROM ROTATION OF THE ARROW AXIS
-  float A=(size>=1 ? size : size * sqrt( (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2) ));
-  float poY=PApplet.parseFloat(y2-y1);
-  float poX=PApplet.parseFloat(x2-x1);
-
-  if(poY==0 && poX==0)
-  {
-    // Rare error, but big problem
-    float cross_width=def_arrow_size/2;
-    line(x1-cross_width,y1,x1+cross_width,y1);
-    line(x1,y1-cross_width,x1,y1+cross_width);
-    ellipse(x1+def_arrow_size/sqrt(2.0f),y1-def_arrow_size/sqrt(2.0f)+1,
-            def_arrow_size,def_arrow_size);
-    return;
-  }
-                                        assert(!(poY==0 && poX==0));
-  float alfa=atan2(poY,poX);            if(abs(alfa)>PI+0.0000001f)
-                                             println("Alfa=%e\n",alfa);
-                                      //assert(fabs(alfa)<=M_PI);//cerr<<alfa<<endl;
-  float xo1=A*cos(theta+alfa);
-  float yo1=A*sin(theta+alfa);
-  float xo2=A*cos(alfa-theta);
-  float yo2=A*sin(alfa-theta);        //cross(x2,y2,128);DEBUG!
-
-  line(PApplet.parseInt(x2+xo1),PApplet.parseInt(y2+yo1),x2,y2);
-  line(PApplet.parseInt(x2+xo2),PApplet.parseInt(y2+yo2),x2,y2);
-  line(x1,y1,x2,y2);
-}
-
-//*/////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - HANDY FUNCTIONS & CLASSES
-//*/////////////////////////////////////////////////////////////////////////////////////////
-/// Different ways to calculate Euclid distances in 2D (flat and torus)
+//*////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
+//*  https://github.com/borkowsk/sym4processing
+//*////////////////////////////////////////////////////////////////////////////
+/// @file uMDistances.pde
+/// Different ways to calculate Euclid distances in 2D (flat and torus).
+/// @date 2023.02.28 (Last modification)
 //*/////////////////////////////////////////////////////////////////////
 
-/// Default Euclidean distance on float numbers
-/// Often needed in simulation programs
-/// Actually the same as dist already shipped in Processing 3.xx
+/// Default Euclidean distance on float numbers.
+/// Often needed in simulation programs.
+/// Actually the same as dist already shipped in Processing 3.xx. but slower.
 public float distance(float X1,float X2,float Y1,float Y2)
 {
   float dX=X2-X1;
@@ -1676,9 +2507,9 @@ public float distance(float X1,float X2,float Y1,float Y2)
     return 0;
 }
 
-/// 2D Euclidean distance on float numbers
-/// Often needed in simulation programs
-/// Version compatible with int and double versions
+/// 2D Euclidean distance on float numbers.
+/// Often needed in simulation programs.
+/// Version compatible with int and double versions.
 public float distanceEucl(float X1,float X2,float Y1,float Y2)
 {
   float dX=X2-X1;
@@ -1689,9 +2520,9 @@ public float distanceEucl(float X1,float X2,float Y1,float Y2)
     return 0;
 }
 
-/// 2D Euclidean distance on double numbers
-/// Sometimes needed in simulation programs
-/// Version compatible with int and float versions
+/// 2D Euclidean distance on double numbers.
+/// Sometimes needed in simulation programs.
+/// Version compatible with `int` and `float` versions.
 public double distanceEucl(double X1,double X2,double Y1,double Y2)
 {
   double dX=X2-X1;
@@ -1703,9 +2534,9 @@ public double distanceEucl(double X1,double X2,double Y1,double Y2)
     return 0;
 }
 
-/// Euclidean like distance on torus (float numbers)
-/// Sometimes needed in simulation programs
-/// Version compatible with int and double versions
+/// Euclidean like distance on torus (float numbers).
+/// Sometimes needed in simulation programs.
+/// Version compatible with `int` and `double` versions
 /// @param Xdd & @param Ydd are the horizontal and vertical perimeter of the torus
 public float distanceTorus(float X1,float X2,float Y1,float Y2,float Xdd,float Ydd)
 { //println("float torus dist");
@@ -1719,10 +2550,10 @@ public float distanceTorus(float X1,float X2,float Y1,float Y2,float Xdd,float Y
     return 0;
 }
 
-/// Euclidean like distance on torus (double numbers)
-/// Sometimes needed in simulation programs
-/// Version compatible with int and float versions
-/// @param Xdd & @param Ydd are the horizontal and vertical perimeter of the torus
+/// Euclidean like distance on torus (double numbers).
+/// Sometimes needed in simulation programs.
+/// Version compatible with `int` and `float` versions.
+/// @param Xdd & @param Ydd are the horizontal and vertical perimeter of the torus.
 public double distanceTorus(double X1,double X2,double Y1,double Y2,double Xdd,double Ydd)
 { //println("double torus dist");
   double dX=Math.abs(X2-X1);
@@ -1735,10 +2566,10 @@ public double distanceTorus(double X1,double X2,double Y1,double Y2,double Xdd,d
     return 0;
 }
 
-/// Euclidean like distance on torus (int numbers)
-/// Sometimes needed in simulation programs
-/// Version compatible with float and double versions
-/// @param Xdd & @param Ydd are the horizontal and vertical perimeter of the torus
+/// Euclidean like distance on torus (int numbers).
+/// Sometimes needed in simulation programs.
+/// Version compatible with float and double versions.
+/// @param Xdd & @param Ydd are the horizontal and vertical perimeter of the torus.
 public double distanceTorusInt(int X1,int X2,int Y1,int Y2,int Xdd,int Ydd)
 { //println("int torus dist");
   int dX=abs(X2-X1);
@@ -1752,8 +2583,8 @@ public double distanceTorusInt(int X1,int X2,int Y1,int Y2,int Xdd,int Ydd)
 }
 
 /* 
-/// Domyslnie Euklidesowy, z uwzględnieniem długości okna
-/// ale dlaczego nie szerokości?
+/// Default Euclidean.
+/// It is considering window length but why not width?
 double distance(double X1,double X2,double Y1,double Y2)
 {
   double dX=X2-X1;
@@ -1769,14 +2600,58 @@ double distance(double X1,double X2,double Y1,double Y2)
 }
 */
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-/// Math basics
-//*/////////////////
+//*////////////////////////////////////////////////////////////////////////////
+/// @file uMGeom2D.pde
+/// Some 2D Geometry calculations: nearestPoints and so on.
+/// @date 2023.02.28 (Last modification)
+//*///////////////////////////////////////////////////////////
 
-/// Some of my older programs show the constant FLOAT_MAX, while MAX_FLOAT is currently available.
+/// @note Required uPair &
+///       Required pointxy from uGraphix.
+
+/// Nearest points of two polygons.
+/// @param listA - first polygon as a list of points
+/// @param listB - second polygon as a list of points
+public Pair<pointxy,pointxy> nearestPoints(final pointxy[] listA,
+                                    final pointxy[] listB )
+{                                                         
+                                    assert(listA.length>0);
+                                    assert(listB.length>0);
+  float mindist=MAX_FLOAT;
+  int   minA=-1;
+  int   minB=-1;
+  for(int i=0;i<listA.length;i++)
+    for(int j=0;j<listB.length;j++) //Pętla nadmiarowa (?)
+    {
+      float x2=(listA[i].x-listB[j].x)*(listA[i].x-listB[j].x);
+      float y2=(listA[i].y-listB[j].y)*(listA[i].y-listB[j].y);
+      
+      if(x2+y2 < mindist)
+      {
+        mindist=x2+y2;
+        minA=i; minB=j;
+      }
+    }
+    
+  return new Pair<pointxy,pointxy>(listA[minA],listB[minB]);
+}
+
+//*////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
+//*  https://github.com/borkowsk/sym4processing
+//*////////////////////////////////////////////////////////////////////////////
+/// @file uMathBasic.pde
+/// Some math basics: sign, upToTresh(-hold) & whichIsMax
+/// @date 2023.03.04 (Last modification)
+//*//////////////////////////////////////////////////////////
+
+/// Some of my older programs show the constant FLOAT_MAX.
+/// while MAX_FLOAT is currently available.
 final float FLOAT_MAX=MAX_FLOAT; //3.40282347E+38;
 
 /// Function for determining the sign of a integer number.
@@ -1819,12 +2694,15 @@ public int whichIsMax(float v0,float v1,float v2)
   else return -1;//żaden nie jest dominujący
 }
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-///  Bit tools
-//*///////////////////
+//*/////////////////////////////////////////////////////////////////////////////
+/// @file uMathBits.pde
+/// Bit tools.
+/// @date 2023.03.04 (Last modification)
+//*///////////////////////////////////////////////////////////////
 
 /// Function for mutating integer bits.
 /// Flip-flop the bit at the given position
@@ -1857,11 +2735,14 @@ public int countbits(int u)
   return sum;
 }
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*///////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//* Handy logarithms and around
+//*///////////////////////////////////////////////////////////////////////////
+/// @file uMathLog.pde
+/// Handy logarithms and around.
+/// @date 2023.03.04 (Last modification)
 //*/////////////////////////////////////////////
 
 /// Calculates the base-10 logarithm of a number
@@ -1888,11 +2769,14 @@ public double log10 (double x)
   return  Math.log10(x);//  (Math.log(x) / Math.log(10));
 }
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-/// Functions for easy and READABLE in squaring expressions
+//*/////////////////////////////////////////////////////////////////////////////
+/// @file uMathSqr.pde
+/// Functions for easy and READABLE in squaring expressions.
+/// @date 2023.03.04 (Last modification)
 //*//////////////////////////////////////////////////////////////////////
 
 /// A square of an int number
@@ -1913,11 +2797,14 @@ public double sqr(double a)
   return a*a;
 }
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-/// Functions that improve the use of pseudo-random numbers
+//*/////////////////////////////////////////////////////////////////////////////
+/// @file uRandoms.pde
+/// Functions that improve the use of pseudo-random numbers.
+/// @date 2023.03.04 (Last modification)
 ///*/////////////////////////////////////////////////////////////
 
 /// Function generates pseudo random number with non-flat distribution.
@@ -1984,31 +2871,43 @@ double RandomPareto()
 }
 */
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-/// A template of making a histogram from an example agent with "A" field
-/// It would be difficult to generalize to any field.
-/// Easier you can just rename the field as needed.
+//*/////////////////////////////////////////////////////////////////////////////
+/// @file uStatOfAgents.pde
+/// @brief A template of making a histogram from an example agent with "A" field.
+///        It would be difficult to generalize to any field.
+///        Easier you can just rename the field as needed.
+/// @date 2023.03.04 (Last modification)
+///*/////////////////////////////////////////////////////////////////////////////
 //* PL: Szablon wykonania histogramu z przykładowego pola .A agenta 
 //* PL: Trudno by to było uogólnić na dowolne pola. 
 //* PL: Łatwiej po prostu zmieniać nazwę pola w razie potrzeby.
-//*/////////////////////////////////////////////////////////////////////////////////////////////////////
+//*//////////////////////////////////////////////////////////////////////////////
 
-/// Version for a two-dimensional array of agents
-public int[] makeHistogramOfA(Agent[][] Ags, //!< Two-dimensional "world" of agents - a two-dimensional array  
-                       int N,         //!< Number of buckets in the histogram
-                       double Min,    //!< Possibility to give the minimum known from other calculations
-                       double Max,    //!< Possibility to give the maximum known from other calculations
-                       DummyInt Counter, //!< [out] How many values counted in this statistic
-                       DummyDouble CMin, //!< [out] MIN calculated - for reference
-                       DummyDouble CMax  //!< [out] MAX calculated - for reference
+/// @brief Version for a two-dimensional array of agents.
+/// @param Ags - Two-dimensional "world" of agents - a two-dimensional array.
+/// @param N   - Number of buckets in the histogram.
+/// @param Min - Possibility to give the minimum known from other calculations.
+/// @param Max - Possibility to give the maximum known from other calculations.
+/// @param Counter - [out] How many values counted in this statistic.
+/// @param CMin    - [out] MIN calculated - for reference.
+/// @param CMax    - [out] MAX calculated - for reference.
+///
+public int[] makeHistogramOfA(Agent[][] Ags,  
+                       int N,
+                       double Min,
+                       double Max,
+                       DummyInt Counter,
+                       DummyDouble CMin,
+                       DummyDouble CMax
                        )
 {
   CMin.val=FLOAT_MAX;
   CMax.val=-FLOAT_MAX;
-  if(Min==FLOAT_MAX || Max==-FLOAT_MAX)//Jesli trzeba określić Min i Max
+  if(Min==FLOAT_MAX || Max==-FLOAT_MAX) //Jesli trzeba określić Min i Max
   {
     for(Agent[] Ar: Ags)
       for(Agent  Ag: Ar )
@@ -2027,7 +2926,8 @@ public int[] makeHistogramOfA(Agent[][] Ags, //!< Two-dimensional "world" of age
   int Count=0;
   double Basket=(Max-Min)/N;
   //println("Basket width: "+Basket+" MinMax: "+Min+"-"+Max);
-   for(Agent[] Ar: Ags)
+  
+  for(Agent[] Ar: Ags)
       for(Agent  Ag: Ar)
       {
         double val=Ag.A; //Example of getting value - REPLACE WITH YOUR OWN CODE
@@ -2050,7 +2950,8 @@ public int[] makeHistogramOfA(Agent[][] Ags, //!< Two-dimensional "world" of age
   return Hist;
 }
 
-/// Version for a two-dimensional array of agents
+/// @brief Version for a two-dimensional array of agents.
+/// @param Ags - One-dimensional "world" of agents - a simple array.
 public int[] makeHistogramOfA(Agent[] Ags,   
                        int N,
                        double Min,
@@ -2063,7 +2964,7 @@ public int[] makeHistogramOfA(Agent[] Ags,
 {
   CMin.val=FLOAT_MAX;
   CMax.val=-FLOAT_MAX;
-  if(Min==FLOAT_MAX || Max==-FLOAT_MAX)//Jesli trzeba określić Min i Max
+  if(Min==FLOAT_MAX || Max==-FLOAT_MAX) //Jesli trzeba określić Min i Max
   {
       for(Agent  Ag: Ags )
       {
@@ -2081,6 +2982,7 @@ public int[] makeHistogramOfA(Agent[] Ags,
   int Count=0;
   double Basket=(Max-Min)/N;
   //println("Basket width: "+Basket+" MinMax: "+Min+"-"+Max);
+  
       for(Agent  Ag: Ags)
       {
         double val=Ag.A; //Example of getting value - REPLACE WITH YOUR OWN CODE
@@ -2103,21 +3005,25 @@ public int[] makeHistogramOfA(Agent[] Ags,
   return Hist;
 }
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////
+/// @file uStatics.pde
 ///  Various simple statistics for one-dimensional arrays
+/// @date 2023.03.04 (Last modification)
+///
 //*  PL: Różne proste statystyki dla tablic jednowymiarowych
-//*/////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////
 
-/// EN: Arithmetic mean of the float data
+/// Arithmetic mean of the float data.
 //* PL: Średnia arytmetyczna z danych typu float
 /// See: https://en.wikipedia.org/wiki/Arithmetic_mean
 public float meanArithmetic(float data[],int offset,int limit)
 {                       
-                                  assert(offset<limit);
-                                  assert(limit<data.length);
+                                                           assert(offset<limit);
+                                                      assert(limit<data.length);
   double sum = 0;
   
   for (int i = offset ; i < limit; i++)
@@ -2128,13 +3034,13 @@ public float meanArithmetic(float data[],int offset,int limit)
   return (float)(sum/(limit-offset)); 
 }
 
-/// Arithmetic mean of the "double" precision data
+/// Arithmetic mean of the "double" precision data.
 //* PL: Średnia arytmetyczna z danych o "podwójnej" precyzji
 /// See: https://en.wikipedia.org/wiki/Arithmetic_mean
 public double meanArithmetic(double data[],int offset,int limit)
 {                       
-                                    assert(offset<limit);
-                                    assert(limit<data.length);
+                                                           assert(offset<limit);
+                                                      assert(limit<data.length);
   double sum = 0;
   
   for (int i = offset ; i < limit; i++)
@@ -2145,12 +3051,10 @@ public double meanArithmetic(double data[],int offset,int limit)
   return sum/(limit-offset);
 }
 
-/// Pearson's correlation
+/// Pearson's correlation.
 //* PL: Korelacja Pearsona
 /// https://pl.wikipedia.org/wiki/Wsp%C3%B3%C5%82czynnik_korelacji_Pearsona
-public double correlation(float data1[],float data2[],
-                   int offset1,int offset2,
-                   int limit)
+public double correlation(float data1[],float data2[],int offset1,int offset2,int limit)
 {
   double X_s=0,Y_s=0;
   double summ1=0,summ2=0,summ3=0,corelation=0;
@@ -2159,7 +3063,7 @@ public double correlation(float data1[],float data2[],
   if(offset1==offset2)
   {
     start=offset1;
-    offset1=offset2=0;//Niepotrzebne
+    offset1=offset2=0; //Niepotrzebne
   }
   else if(offset1>offset2)
   {
@@ -2167,7 +3071,7 @@ public double correlation(float data1[],float data2[],
     offset2=0;
     offset1-=start;
   }
-  else// offset1 < offset2
+  else // offset1 < offset2
   {
     start=offset1;
     offset1=0;
@@ -2195,22 +3099,24 @@ public double correlation(float data1[],float data2[],
   }
      
   if(summ2==0 || summ3==0)
-    corelation=-0;//Umownie, bo tak naprawdę nie da się wtedy policzyć
+    corelation=-0; //Umownie, bo tak naprawdę nie da się wtedy policzyć
   else
     corelation=summ1/( Math.sqrt(summ2) * Math.sqrt(summ3) );
-                                             // assert(fabs(corelation)<=1.01);//+0.01 bo moga byc bledy floating-point
+                                             // assert(fabs(corelation)<=1.01);
+                                       //PL: +0.01 bo moga byc błędy reprezentacji
   return corelation;
 }
 
-/// Mean of the correlation using Z
+/// Mean of the correlations using Z.
+/// One need to change the correlations to Z to be able to legally add them.
 /// Unfortunately, the = 1 and = -1 correlations are not transformable, so we cheat a bit
 //* Średnia z korelacji za pomocą Z
 //* Trzeba zmienić korelacje na Z żeby móc je legalnie dodawać. 
 //* Niestety korelacje =1 i =-1 są nietransformowalne więc trochę oszukujemy
 public double meanCorrelations(double data[],int offset,int limit)
 {
-                                            assert(offset<limit);
-                                            assert(limit<data.length);
+                                                           assert(offset<limit);
+                                                      assert(limit<data.length);
   double PomCorrelation=0;          
   
   for (int i = offset ; i < limit; i++)
@@ -2218,26 +3124,29 @@ public double meanCorrelations(double data[],int offset,int limit)
     double pom = data[i];
     if (pom >= 0.999999f) pom = 0.999999f;
     if (pom <= -0.999999f) pom = -0.999999f;
-    double  Z = 0.5f * Math.log( (1.0f + pom) / (1.0f - pom) ); // robimy transformacje w Z/we do Z transformations
+    
+    // robimy transformacje w Z / We do Z transformations
+    double  Z = 0.5f * Math.log( (1.0f + pom) / (1.0f - pom) ); 
     PomCorrelation += Z; //Sumujemy kolejne Z
   }
 
-  PomCorrelation /= limit - offset; //Uśredniamy Z
+  PomCorrelation /= limit - offset; //Uśredniamy Z/averaging of Z
 
+  // And we're changing Z back to correlations
+  // PL: I z powrotem zmieniamy na korelacje 
   PomCorrelation = ( Math.exp(2 * PomCorrelation) - 1 ) 
                               / 
-                   ( Math.exp(2 * PomCorrelation) + 1 ); //I z powrotem zmieniamy w korelacje/And we're changing Z back to correlations
-      
+                   ( Math.exp(2 * PomCorrelation) + 1 );       
   return PomCorrelation;
 }
 
-/// Informational entropy from the histogram
+/// Informational entropy from the histogram.
 //* PL: Entropia informacyjna z histogramu
 public double entropyFromHist(int[] histogram)
 {
   double sum=0; //Ile przypadków. 
                 //Double żeby wymusić dokładne dzielenie zmiennoprzecinkowe
-  if(sum==0)
+  //if(sum==0)
     for(int val: histogram)
       sum+=val;
     
@@ -2252,10 +3161,11 @@ public double entropyFromHist(int[] histogram)
   return -sumlog;
 }
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////
   public void settings() {  size(500,500); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "Optionals" };

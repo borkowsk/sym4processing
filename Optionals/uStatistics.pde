@@ -1,8 +1,11 @@
+/// @file uStatics.pde
 ///  Various simple statistics for one-dimensional arrays
+/// @date 2023.03.04 (Last modification)
+///
 //*  PL: Różne proste statystyki dla tablic jednowymiarowych
 //*/////////////////////////////////////////////////////////////////////////////
 
-/// Arithmetic mean of the float data
+/// Arithmetic mean of the float data.
 //* PL: Średnia arytmetyczna z danych typu float
 /// See: https://en.wikipedia.org/wiki/Arithmetic_mean
 float meanArithmetic(float data[],int offset,int limit)
@@ -19,7 +22,7 @@ float meanArithmetic(float data[],int offset,int limit)
   return (float)(sum/(limit-offset)); 
 }
 
-/// Arithmetic mean of the "double" precision data
+/// Arithmetic mean of the "double" precision data.
 //* PL: Średnia arytmetyczna z danych o "podwójnej" precyzji
 /// See: https://en.wikipedia.org/wiki/Arithmetic_mean
 double meanArithmetic(double data[],int offset,int limit)
@@ -36,7 +39,7 @@ double meanArithmetic(double data[],int offset,int limit)
   return sum/(limit-offset);
 }
 
-/// Pearson's correlation
+/// Pearson's correlation.
 //* PL: Korelacja Pearsona
 /// https://pl.wikipedia.org/wiki/Wsp%C3%B3%C5%82czynnik_korelacji_Pearsona
 double correlation(float data1[],float data2[],int offset1,int offset2,int limit)
@@ -92,7 +95,7 @@ double correlation(float data1[],float data2[],int offset1,int offset2,int limit
   return corelation;
 }
 
-/// Mean of the correlation using Z
+/// Mean of the correlations using Z.
 /// One need to change the correlations to Z to be able to legally add them.
 /// Unfortunately, the = 1 and = -1 correlations are not transformable, so we cheat a bit
 //* Średnia z korelacji za pomocą Z
@@ -125,7 +128,7 @@ double meanCorrelations(double data[],int offset,int limit)
   return PomCorrelation;
 }
 
-/// Informational entropy from the histogram
+/// Informational entropy from the histogram.
 //* PL: Entropia informacyjna z histogramu
 double entropyFromHist(int[] histogram)
 {
@@ -151,4 +154,3 @@ double entropyFromHist(int[] histogram)
 //*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////
-

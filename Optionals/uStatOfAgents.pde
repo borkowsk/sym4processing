@@ -1,24 +1,35 @@
-/// A template of making a histogram from an example agent with "A" field
-/// It would be difficult to generalize to any field.
-/// Easier you can just rename the field as needed.
+/// @file uStatOfAgents.pde
+/// @brief A template of making a histogram from an example agent with "A" field.
+///        It would be difficult to generalize to any field.
+///        Easier you can just rename the field as needed.
+/// @date 2023.03.04 (Last modification)
+///*/////////////////////////////////////////////////////////////////////////////
 //* PL: Szablon wykonania histogramu z przykładowego pola .A agenta 
 //* PL: Trudno by to było uogólnić na dowolne pola. 
 //* PL: Łatwiej po prostu zmieniać nazwę pola w razie potrzeby.
-//*/////////////////////////////////////////////////////////////////////////////////////////////////////
+//*//////////////////////////////////////////////////////////////////////////////
 
-/// Version for a two-dimensional array of agents
-int[] makeHistogramOfA(Agent[][] Ags, //!< Two-dimensional "world" of agents - a two-dimensional array  
-                       int N,         //!< Number of buckets in the histogram
-                       double Min,    //!< Possibility to give the minimum known from other calculations
-                       double Max,    //!< Possibility to give the maximum known from other calculations
-                       DummyInt Counter, //!< [out] How many values counted in this statistic
-                       DummyDouble CMin, //!< [out] MIN calculated - for reference
-                       DummyDouble CMax  //!< [out] MAX calculated - for reference
+/// @brief Version for a two-dimensional array of agents.
+/// @param Ags - Two-dimensional "world" of agents - a two-dimensional array.
+/// @param N   - Number of buckets in the histogram.
+/// @param Min - Possibility to give the minimum known from other calculations.
+/// @param Max - Possibility to give the maximum known from other calculations.
+/// @param Counter - [out] How many values counted in this statistic.
+/// @param CMin    - [out] MIN calculated - for reference.
+/// @param CMax    - [out] MAX calculated - for reference.
+///
+int[] makeHistogramOfA(Agent[][] Ags,  
+                       int N,
+                       double Min,
+                       double Max,
+                       DummyInt Counter,
+                       DummyDouble CMin,
+                       DummyDouble CMax
                        )
 {
   CMin.val=FLOAT_MAX;
   CMax.val=-FLOAT_MAX;
-  if(Min==FLOAT_MAX || Max==-FLOAT_MAX)//Jesli trzeba określić Min i Max
+  if(Min==FLOAT_MAX || Max==-FLOAT_MAX) //Jesli trzeba określić Min i Max
   {
     for(Agent[] Ar: Ags)
       for(Agent  Ag: Ar )
@@ -37,7 +48,8 @@ int[] makeHistogramOfA(Agent[][] Ags, //!< Two-dimensional "world" of agents - a
   int Count=0;
   double Basket=(Max-Min)/N;
   //println("Basket width: "+Basket+" MinMax: "+Min+"-"+Max);
-   for(Agent[] Ar: Ags)
+  
+  for(Agent[] Ar: Ags)
       for(Agent  Ag: Ar)
       {
         double val=Ag.A; //Example of getting value - REPLACE WITH YOUR OWN CODE
@@ -60,7 +72,8 @@ int[] makeHistogramOfA(Agent[][] Ags, //!< Two-dimensional "world" of agents - a
   return Hist;
 }
 
-/// Version for a two-dimensional array of agents
+/// @brief Version for a two-dimensional array of agents.
+/// @param Ags - One-dimensional "world" of agents - a simple array.
 int[] makeHistogramOfA(Agent[] Ags,   
                        int N,
                        double Min,
@@ -73,7 +86,7 @@ int[] makeHistogramOfA(Agent[] Ags,
 {
   CMin.val=FLOAT_MAX;
   CMax.val=-FLOAT_MAX;
-  if(Min==FLOAT_MAX || Max==-FLOAT_MAX)//Jesli trzeba określić Min i Max
+  if(Min==FLOAT_MAX || Max==-FLOAT_MAX) //Jesli trzeba określić Min i Max
   {
       for(Agent  Ag: Ags )
       {
@@ -91,6 +104,7 @@ int[] makeHistogramOfA(Agent[] Ags,
   int Count=0;
   double Basket=(Max-Min)/N;
   //println("Basket width: "+Basket+" MinMax: "+Min+"-"+Max);
+  
       for(Agent  Ag: Ags)
       {
         double val=Ag.A; //Example of getting value - REPLACE WITH YOUR OWN CODE
@@ -113,7 +127,8 @@ int[] makeHistogramOfA(Agent[] Ags,
   return Hist;
 }
 
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS - FUNCTIONS & CLASSES
+//*/////////////////////////////////////////////////////////////////////////////
+//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
-//*///////////////////////////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////
