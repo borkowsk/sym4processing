@@ -1,10 +1,11 @@
 /// @file uEngNames.pde
 /// Tables of English names popular in 1880
-/// @date 2023.03.04 (Last modification)
+/// @date 2023.03.07 (Last modification)
 //*//////////////////////////////////////////////////
 
 /// Male & Female english names from USA Census 1880
-final String[] EnglishNames1880={
+final String[] EnglishNames1880 =    ///< @note Global namespace!
+{
 "John","Mary",
 "William","Anna",
 "James","Emma",
@@ -208,7 +209,7 @@ final String[] EnglishNames1880={
 };
 
 /// Female english names from USA Census 1880
-final String[] FemaleEnglishNames1880={
+final String[] FemaleEnglishNames1880={    ///< @note Global namespace!
 "Mary",
 "Anna",
 "Emma",
@@ -412,7 +413,7 @@ final String[] FemaleEnglishNames1880={
 };
 
 /// Male english names from USA Census 1880
-final String[] MaleEnglishNames1880={
+final String[] MaleEnglishNames1880 = {    ///< @note Global namespace!
 "John",
 "William",
 "James",

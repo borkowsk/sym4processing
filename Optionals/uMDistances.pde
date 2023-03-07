@@ -1,12 +1,12 @@
 /// @file uMDistances.pde
 /// Different ways to calculate Euclid distances in 2D (flat and torus).
-/// @date 2023.02.28 (Last modification)
+/// @date 2023.03.07 (Last modification)
 //*/////////////////////////////////////////////////////////////////////
 
 /// Default Euclidean distance on float numbers.
 /// Often needed in simulation programs.
 /// Actually the same as dist already shipped in Processing 3.xx. but slower.
-float distance(float X1,float X2,float Y1,float Y2)
+float distance(float X1,float X2,float Y1,float Y2)                    ///< @note Global namespace!  
 {
   float dX=X2-X1;
   float dY=Y2-Y1;
@@ -19,7 +19,7 @@ float distance(float X1,float X2,float Y1,float Y2)
 /// 2D Euclidean distance on float numbers.
 /// Often needed in simulation programs.
 /// Version compatible with int and double versions.
-float distanceEucl(float X1,float X2,float Y1,float Y2)
+float distanceEucl(float X1,float X2,float Y1,float Y2)                ///< @note Global namespace!  
 {
   float dX=X2-X1;
   float dY=Y2-Y1;
@@ -32,7 +32,7 @@ float distanceEucl(float X1,float X2,float Y1,float Y2)
 /// 2D Euclidean distance on double numbers.
 /// Sometimes needed in simulation programs.
 /// Version compatible with `int` and `float` versions.
-double distanceEucl(double X1,double X2,double Y1,double Y2)
+double distanceEucl(double X1,double X2,double Y1,double Y2)            ///< @note Global namespace!  
 {
   double dX=X2-X1;
   double dY=Y2-Y1;
@@ -47,7 +47,7 @@ double distanceEucl(double X1,double X2,double Y1,double Y2)
 /// Sometimes needed in simulation programs.
 /// Version compatible with `int` and `double` versions
 /// @param Xdd & @param Ydd are the horizontal and vertical perimeter of the torus
-float distanceTorus(float X1,float X2,float Y1,float Y2,float Xdd,float Ydd)
+float distanceTorus(float X1,float X2,float Y1,float Y2,float Xdd,float Ydd)     ///< @note Global namespace!  
 { //println("float torus dist");
   float dX=abs(X2-X1);
   float dY=abs(Y2-Y1);
@@ -63,7 +63,7 @@ float distanceTorus(float X1,float X2,float Y1,float Y2,float Xdd,float Ydd)
 /// Sometimes needed in simulation programs.
 /// Version compatible with `int` and `float` versions.
 /// @param Xdd & @param Ydd are the horizontal and vertical perimeter of the torus.
-double distanceTorus(double X1,double X2,double Y1,double Y2,double Xdd,double Ydd)
+double distanceTorus(double X1,double X2,double Y1,double Y2,double Xdd,double Ydd) ///< @note Global namespace!  
 { //println("double torus dist");
   double dX=Math.abs(X2-X1);
   double dY=Math.abs(Y2-Y1);
@@ -79,7 +79,7 @@ double distanceTorus(double X1,double X2,double Y1,double Y2,double Xdd,double Y
 /// Sometimes needed in simulation programs.
 /// Version compatible with float and double versions.
 /// @param Xdd & @param Ydd are the horizontal and vertical perimeter of the torus.
-double distanceTorusInt(int X1,int X2,int Y1,int Y2,int Xdd,int Ydd)
+double distanceTorusInt(int X1,int X2,int Y1,int Y2,int Xdd,int Ydd)                ///< @note Global namespace!  
 { //println("int torus dist");
   int dX=abs(X2-X1);
   int dY=abs(Y2-Y1);

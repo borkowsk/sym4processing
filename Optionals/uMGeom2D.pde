@@ -1,6 +1,6 @@
 /// @file uMGeom2D.pde
 /// Some 2D Geometry calculations: nearestPoints and so on.
-/// @date 2023.02.28 (Last modification)
+/// @date 2023.03.07 (Last modification)
 //*///////////////////////////////////////////////////////////
 
 /// @note Required uPair &
@@ -9,8 +9,9 @@
 /// Nearest points of two polygons.
 /// @param listA - first polygon as a list of points
 /// @param listB - second polygon as a list of points
-Pair<pointxy,pointxy> nearestPoints(final pointxy[] listA,
-                                    final pointxy[] listB )
+/// @note Templates are currently not supported in Processing2C++ !
+/*_OnlyProcessingBlockBegin*/
+Pair<pointxy,pointxy> nearestPoints(final pointxy[] listA,final pointxy[] listB )  ///< global?
 {                                                         
                                     assert(listA.length>0);
                                     assert(listB.length>0);
@@ -32,6 +33,7 @@ Pair<pointxy,pointxy> nearestPoints(final pointxy[] listA,
     
   return new Pair<pointxy,pointxy>(listA[minA],listB[minB]);
 }
+/*_OnlyProcessingBlockEnd*/
 
 //*////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 

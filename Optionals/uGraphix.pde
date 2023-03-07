@@ -1,6 +1,6 @@
 /// @file uGraphix.pde
 /// Various helpful drawing procedures, like crosses, polygons & bar3D
-/// @date 2023.03.04 (Last modification)
+/// @date 2023.03.07 (Last modification)
 //*/////////////////////////////////////////////////////////////////////
 
 /// A class to represent two-dimensional points.
@@ -17,10 +17,10 @@ class pointxy
   {
     x=ix;y=iy;
   }
-}//EndOfClass
+} //EndOfClass
 
 /// Frame drawn with a default line.
-void surround(int x1,int y1,int x2,int y2)                     ///< Global namespace.
+void surround(int x1,int y1,int x2,int y2)                     ///< @note Global namespace!.
 {
   line(x1,y1,x2,y1); //--->
   line(x2,y1,x2,y2); //vvv
@@ -29,7 +29,7 @@ void surround(int x1,int y1,int x2,int y2)                     ///< Global names
 }
 
 /// Cross drawn with a default line.
-void cross(float x,float y,float cross_width)                  ///< Global namespace.
+void cross(float x,float y,float cross_width)                  ///< @note Global namespace!
 {
   line(x-cross_width,y,x+cross_width,y);
   line(x,y-cross_width,x,y+cross_width);
@@ -37,7 +37,7 @@ void cross(float x,float y,float cross_width)                  ///< Global names
 
 /// Cross drawn with a default line.
 /// The version that uses parameters of type int.
-void cross(int x,int y,int cross_width)                        ///< Global namespace.
+void cross(int x,int y,int cross_width)                        ///< @note Global namespace!
 {
   line(x-cross_width,y,x+cross_width,y);
   line(x,y-cross_width,x,y+cross_width);
@@ -49,7 +49,7 @@ void cross(int x,int y,int cross_width)                        ///< Global names
 //*/////////////////////
 
 /// A regular polygon with a given radius and number of vertices.
-void regularpoly(float x, float y, float radius, int npoints)  ///< Global namespace.
+void regularpoly(float x, float y, float radius, int npoints)  ///< @note Global namespace!
 {
   float angle = TWO_PI / npoints;
   beginShape();
@@ -64,7 +64,7 @@ void regularpoly(float x, float y, float radius, int npoints)  ///< Global names
 
 /// Drawing a polygon. 
 /// This function utilises vertices given as an array of points
-void polygon(pointxy[] lst/*+1*/)                               ///< Global namespace.
+void polygon(pointxy[] lst/*+1*/)                               ///< @note Global namespace!
 {
   int N= lst.length;
   beginShape();
@@ -78,7 +78,7 @@ void polygon(pointxy[] lst/*+1*/)                               ///< Global name
 /// Drawing a polygon. 
 /// It utilises vertices given as an array of points
 /// @param N, size of list, could be smaller than 'lst.lenght'
-void polygon(pointxy[] lst/*+1*/,int N)                        ///< Global namespace.
+void polygon(pointxy[] lst/*+1*/,int N)                        ///< @note Global namespace!
 {
   beginShape();
   for (int a = 0; a < N; a ++) 
@@ -87,8 +87,6 @@ void polygon(pointxy[] lst/*+1*/,int N)                        ///< Global names
   }
   endShape(CLOSE);
 }
-
-
 
 //*
 //* Visualisation of BAR3D.
@@ -103,16 +101,17 @@ int b=6;
 int c=6;
 color wire=color(255,255,255); //Kolor ramek
 color back=color(0,0,0); //Informacja o kolorze tla
-}//EndOfClass
+} //EndOfClass
 
 /// Default configuration set of BAR3D visualisation.
 settings_bar3d bar3dsett=new settings_bar3d();                       ///< Default settings of bar3d
 
 /// Rhomb polygon used for draving bar3D
-pointxy bar3dromb[]={new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy()};  ///< Global namespace.
+pointxy[] bar3dromb =                                                ///< @note Global namespace!
+  {new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy()};
 
 /// Function which draving bar3d using current configuration.
-void bar3dRGB(float x,float y,float h,int R,int G,int B,int Shad)    ///< Global namespace.
+void bar3dRGB(float x,float y,float h,int R,int G,int B,int Shad)    ///< @note Global namespace!
 {
                                                     /*      6 ------ 5    */
   bar3dromb[0].x= x;                                /*     /        / |   */
@@ -135,20 +134,20 @@ void bar3dRGB(float x,float y,float h,int R,int G,int B,int Shad)    ///< Global
   polygon(bar3dromb/*+1*/,6);              //bok i gora
 
   stroke(bar3dsett.wire);
-  //rect(bar3dromb[1-1].x,bar3dromb[1-1].y,bar3dromb[2-1].x+1,bar3dromb[2-1].y+1);//gorny poziom
+  //rect(bar3dromb[1-1].x,bar3dromb[1-1].y,bar3dromb[2-1].x+1,bar3dromb[2-1].y+1); //gorny poziom
   //rect(x,y,bar3dromb[3-1].x+1,bar3dromb[3-1].y+1);       //dolny poziom
 
   line(bar3dromb[2-1].x,bar3dromb[2-1].y,bar3dromb[5-1].x,bar3dromb[5-1].y); //blik?
 
   //point(bar3dromb[5].x,bar3dromb[5].y,wire_col-1);
-  line(bar3dromb[1-1].x,bar3dromb[1-1].y,bar3dromb[6-1].x,bar3dromb[6-1].y);//lewy ukos
-  line(bar3dromb[2-1].x,bar3dromb[2-1].y,bar3dromb[3-1].x,bar3dromb[3-1].y);//prawy ukos
-  line(bar3dromb[3-1].x,bar3dromb[3-1].y,bar3dromb[4-1].x,bar3dromb[4-1].y);//dolny ukos
-  line(bar3dromb[4-1].x,bar3dromb[4-1].y,bar3dromb[5-1].x,bar3dromb[5-1].y);//tyl bok
-  line(bar3dromb[5-1].x,bar3dromb[5-1].y,bar3dromb[6-1].x,bar3dromb[6-1].y);//tyl bok
+  line(bar3dromb[1-1].x,bar3dromb[1-1].y,bar3dromb[6-1].x,bar3dromb[6-1].y); //lewy ukos
+  line(bar3dromb[2-1].x,bar3dromb[2-1].y,bar3dromb[3-1].x,bar3dromb[3-1].y); //prawy ukos
+  line(bar3dromb[3-1].x,bar3dromb[3-1].y,bar3dromb[4-1].x,bar3dromb[4-1].y); //dolny ukos
+  line(bar3dromb[4-1].x,bar3dromb[4-1].y,bar3dromb[5-1].x,bar3dromb[5-1].y); //tyl bok
+  line(bar3dromb[5-1].x,bar3dromb[5-1].y,bar3dromb[6-1].x,bar3dromb[6-1].y); //tyl bok
 
  // rect(x,y-h,1,h+1,wire_col);       // the left vertical edge is additionally marked
-}/* end of bar3dRGB */
+} /* end of bar3dRGB */
 
  
 

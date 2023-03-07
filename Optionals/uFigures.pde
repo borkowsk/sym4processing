@@ -1,10 +1,10 @@
 /// @file uFigures.pde
 /// Various shapes drawing procedures.
-/// @date 2023.03.04 (Last modification)
+/// @date 2023.03.07 (Last modification)
 //*//////////////////////////////////////////////////////////////
 
 /// Horizontal view of a bald head of a man seen from above.
-void baldhead_hor(float x,float y,float r,float direction)         ///< Global namespace.
+void baldhead_hor(float x,float y,float r,float direction)         ///< @note Global namespace!
 {
   float D=2*r;
   float xn=x+r*cos(direction);
@@ -55,7 +55,7 @@ void baldhead_hor(float x,float y,float r,float direction)         ///< Global n
 }
 
 /// Vertical view on agava plant.
-void agava_ver(float x,float y,float visual_size,float num_of_leafs)    ///< Global namespace.
+void agava_ver(float x,float y,float visual_size,float num_of_leafs)    ///< @note Global namespace!
 {
   float lstep=PI/(num_of_leafs);
   
@@ -71,9 +71,9 @@ void agava_ver(float x,float y,float visual_size,float num_of_leafs)    ///< Glo
 }
 
 /// Horizontal view on agava plant.
-void agava_hor(float x,float y,float visual_size,float num_of_leafs)      ///< Global namespace.
+void agava_hor(float x,float y,float visual_size,float num_of_leafs)      ///< @note Global namespace!
 {
-  float lstep=(2*PI)/min(num_of_leafs,3)+PI/5;
+  float lstep=(2*PI) / min(num_of_leafs,3)+PI/5;
   float maxan=lstep*num_of_leafs;
   
   for(float angle=lstep/2;angle<=maxan;angle+=lstep)
@@ -89,13 +89,13 @@ void agava_hor(float x,float y,float visual_size,float num_of_leafs)      ///< G
     line(x,y,x2,y2);
   }
   
-  ellipse(x,y,visual_size/4,visual_size/4);//,PI,2*PI,PIE);
+  ellipse(x,y,visual_size/4,visual_size/4); //,PI,2*PI,PIE);
   ellipse(x,y,1,1);
 }
 
 
 /// Vertical view of simple droid.
-void gas_bottle_droid_ver(float x,float y,float visual_size,float direction)       ///< Global namespace.
+void gas_bottle_droid_ver(float x,float y,float visual_size,float direction)      ///< @note Global namespace!
 {
   rect(x-visual_size/4, y-visual_size,     visual_size/2,   visual_size-3*visual_size/5,   visual_size/10); //Głowa
   rect(x-visual_size/3, y-3*visual_size/5, 2*visual_size/3, 3*visual_size/5-visual_size/10,visual_size/10); //Tułów
@@ -107,8 +107,8 @@ void gas_bottle_droid_ver(float x,float y,float visual_size,float direction)    
     float rots=visual_size/8.*sin(direction);
 
     fill(200);
-    arc(rotx,y-visual_size+visual_size/5.,rots,visual_size/10.,1./2.*PI,6./4.*PI,PIE); //nos lewo
-    arc(rotx,y-visual_size+visual_size/5.,rots,visual_size/10.,6./4.*PI,  2.5*PI,PIE); //nos prawo
+    arc(rotx,y-visual_size+visual_size/5.,rots,visual_size/10.,1. / 2.0*PI,6.0/4.0*PI,PIE); //nos lewo
+    arc(rotx,y-visual_size+visual_size/5.,rots,visual_size/10.,6. / 4.0*PI,2.5*PI,PIE); //nos prawo
         
     float lefte=(direction - PI/4 >0  ? x+cos(direction-PI/4)*visual_size/4 : x + visual_size/4);
     float rigte=(direction + PI/4 <PI ? x+cos(direction+PI/4)*visual_size/4 : x-visual_size/4);
@@ -171,17 +171,17 @@ void gas_bottle_droid_ver(float x,float y,float visual_size,float direction)    
 //*
 //*////////////////////////////////////////
 
-float def_arrow_size=15;         ///< Default size of arrows heads
-float def_arrow_theta=PI/6.0+PI; ///< Default arrowhead spacing //3.6651914291881
+float def_arrow_size=15;                   ///< Default size of arrows heads
+float def_arrow_theta=PI/6.0+PI;           ///< Default arrowhead spacing //3.6651914291881
 
 /// Function that draws an arrow with default settings.
-void arrow(float x1,float y1,float x2,float y2)                           ///< Global namespace.
+void arrow(float x1,float y1,float x2,float y2)                          ///< @note Global namespace!
 {
   arrow_d(int(x1),int(y1),int(x2),int(y2),def_arrow_size,def_arrow_theta);
 }
 
 /// Function that draws an arrow with changable settings.
-void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)          ///< Global namespace.
+void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)          ///< @note Global namespace!
 {
   // CALCULATION METHOD FROM ROTATION OF THE ARROW AXIS
   float A=(size>=1 ? size : size * sqrt( (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2) ));
@@ -201,7 +201,7 @@ void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)          ///< G
                                             assert(!(poY==0 && poX==0));
   float alfa=atan2(poY,poX);                if(abs(alfa)>PI+0.0000001)
                                                  println("Alfa=%e\n",alfa);
-                                          //assert(fabs(alfa)<=M_PI);//cerr<<alfa<<endl;
+                                          //assert(fabs(alfa)<=M_PI); //cerr<<alfa<<endl;
   float xo1=A*cos(theta+alfa);
   float yo1=A*sin(theta+alfa);
   float xo2=A*cos(alfa-theta);
