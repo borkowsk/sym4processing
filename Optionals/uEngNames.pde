@@ -3,7 +3,7 @@
 /// @date 2023.03.07 (Last modification)
 //*//////////////////////////////////////////////////
 
-/// Male & Female english names from USA Census 1880
+/// @brief Male & Female english names from USA Census 1880.
 final String[] EnglishNames1880 =    ///< @note Global namespace!
 {
 "John","Mary",
@@ -208,7 +208,7 @@ final String[] EnglishNames1880 =    ///< @note Global namespace!
 "Hubert","Christina"
 };
 
-/// Female english names from USA Census 1880
+/// @brief Female english names from USA Census 1880.
 final String[] FemaleEnglishNames1880={    ///< @note Global namespace!
 "Mary",
 "Anna",
@@ -412,7 +412,7 @@ final String[] FemaleEnglishNames1880={    ///< @note Global namespace!
 "Christina"
 };
 
-/// Male english names from USA Census 1880
+/// @brief Male english names from USA Census 1880.
 final String[] MaleEnglishNames1880 = {    ///< @note Global namespace!
 "John",
 "William",
