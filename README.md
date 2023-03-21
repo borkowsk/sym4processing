@@ -1,15 +1,19 @@
 # sym4processing - various simulation resources in processing
 
-Processing files supporting various simulation applications and giving them selected possibilities and properties:
+Processing files supporting various simulation applications and giving them 
+selected possibilities and properties:
 
 * __Cellular Automata__ application design template
-* Design template for an __ABM__ simulation application with the possibility of expanding with a network structure, suitable for many purposes
+* Design template for an __ABM__ simulation application with the possibility of 
+  expanding with a network structure, suitable for many purposes
 * Network game template for **one server - many clients** games
 * Additional tool codes for working with application templates 
 * Sample simulations written using these templates
-* As a submodule, it imports a repository with materials for the course "Processing in education and simulation" (**bookProcessingPL**)
+* As a submodule, it imports a repository with materials for the course 
+  "Processing in education and simulation" (**bookProcessingPL**)
 
-More documentation is in the source files, prepared to generate documentation in the Doxygen format. Just use *docs/_make_docs.sh* and then see *doxDocs/* .
+More documentation is in the source files, prepared to generate documentation 
+in the Doxygen format. Just use *docs/_make_docs.sh* and then see *doxDocs/* .
 
 ## REPOSITORY CLONING
 
@@ -19,7 +23,8 @@ git clone --recurse-submodules https://github.com/borkowsk/sym4processing.git
 
 ## DEPENDENCIES
 
-You need to install "com.hamoid" library for **Processing** and "ffmpeg" application
+You need to install "com.hamoid" library for **Processing** and "ffmpeg" 
+application.
 
 ## PL: WYWIAD na temat symulacji społecznych na YouTube
 
