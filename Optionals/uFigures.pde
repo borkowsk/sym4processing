@@ -1,4 +1,4 @@
-/// @file uFigures.pde
+/// @file "uFigures.pde"
 /// Various shapes drawing procedures.
 /// @date 2023.03.07 (Last modification)
 //*//////////////////////////////////////////////////////////////
@@ -54,7 +54,7 @@ void baldhead_hor(float x,float y,float r,float direction)         ///< @note Gl
   ellipse(xn,yn,D/12,D/12);
 }
 
-/// Vertical view on agava plant.
+/// Vertical view on agave plant.
 void agava_ver(float x,float y,float visual_size,float num_of_leafs)    ///< @note Global namespace!
 {
   float lstep=PI/(num_of_leafs);
@@ -70,7 +70,7 @@ void agava_ver(float x,float y,float visual_size,float num_of_leafs)    ///< @no
   arc(x,y,visual_size/4,visual_size/4,PI,2*PI,PIE);
 }
 
-/// Horizontal view on agava plant.
+/// Horizontal view on agave plant.
 void agava_hor(float x,float y,float visual_size,float num_of_leafs)      ///< @note Global namespace!
 {
   float lstep=(2*PI) / min(num_of_leafs,3)+PI/5;
@@ -180,7 +180,7 @@ void arrow(float x1,float y1,float x2,float y2)                          ///< @n
   arrow_d(int(x1),int(y1),int(x2),int(y2),def_arrow_size,def_arrow_theta);
 }
 
-/// Function that draws an arrow with changable settings.
+/// Function that draws an arrow with changeable settings.
 void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)          ///< @note Global namespace!
 {
   // CALCULATION METHOD FROM ROTATION OF THE ARROW AXIS
@@ -212,9 +212,8 @@ void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)          ///< @
   line(x1,y1,x2,y2);
 }
 
-
-//*////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*///////////////////////////////////////////////////////////////////////////////
+//*  ->"https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" - OPTIONAL TOOLS
 //*  - FUNCTIONS & CLASSES
-//*  https://github.com/borkowsk/sym4processing
-//*////////////////////////////////////////////////////////////////////////////
+//*  ->"https://github.com/borkowsk/sym4processing"
+//*///////////////////////////////////////////////////////////////////////////////
