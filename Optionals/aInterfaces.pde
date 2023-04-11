@@ -9,9 +9,23 @@
 //* Generally useable interfaces:
 //*//////////////////////////////
 
-/// Forcing name available as String (planty of usage)
-interface iNamed {
-  /*_interfunc*/ String    name() /*_forcbody*/;
+/**
+ @brief Interface for any true referable class usable as a flag or switch.
+ @details Ani typ 'Boolean', ani tym bardziej 'boolean' nie może
+ w Processingu i JAVA'ie być przekazywany przez referencje!
+ Stąd potrzebne są typy użytkownika, które mogą tak działać.
+*/
+interface iFlag 
+{
+  /*_interfunc*/ boolean isEnabled() /*_forcebody*/;
+}//EndOfClass
+
+/**
+  @brief Forcing name of an object available as String (planty of usage).
+*/
+interface iNamed 
+{
+  /*_interfunc*/ String    name() /*_forcebody*/;
 }//EndOfClass
 
 /// Any object which have description as (potentially) long, multi line string
@@ -42,7 +56,7 @@ interface iPositioned {
 //*
 //*////////////////////////////////////////////////////////////////////////////
 
-final float INF_NOT_EXIST=Float.MAX_VALUE;  ///< Missing value marker
+//final float INF_NOT_EXIST=Float.MAX_VALUE;  ///< Missing value marker
 
 /// A function of two values in the form of a class - a functor
 interface Function2D {

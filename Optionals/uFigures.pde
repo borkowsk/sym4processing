@@ -1,5 +1,5 @@
 /// @file "uFigures.pde"
-/// Various shapes drawing procedures.
+/// @brief Various shapes drawing procedures.
 /// @date 2023.03.07 (Last modification)
 //*//////////////////////////////////////////////////////////////
 
@@ -212,8 +212,8 @@ void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)          ///< @
   line(x1,y1,x2,y2);
 }
 
-//*///////////////////////////////////////////////////////////////////////////////
-//*  ->"https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" - OPTIONAL TOOLS
-//*  - FUNCTIONS & CLASSES
-//*  ->"https://github.com/borkowsk/sym4processing"
-//*///////////////////////////////////////////////////////////////////////////////
+//*////////////////////////////////////////////////////////////////////////////
+//*  -> "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" 
+//*   - OPTIONAL TOOLS: FUNCTIONS & CLASSES
+//*  -> "https://github.com/borkowsk/sym4processing"
+//*////////////////////////////////////////////////////////////////////////////
