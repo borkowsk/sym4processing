@@ -1,7 +1,7 @@
 /// @file "uGraphix.pde"
-/// Various helpful drawing procedures, like crosses, polygons & bar3D
+/// @brief Various helpful drawing procedures, like crosses, polygons & bar3D
 /// @date 2023.03.07 (Last modification)
-//*/////////////////////////////////////////////////////////////////////
+//*///////////////////////////////////////////////////////////////////////////
 
 /// A class to represent two-dimensional points.
 class pointxy 
@@ -152,7 +152,7 @@ void bar3dRGB(float x,float y,float h,int R,int G,int B,int Shad)    ///< @note 
  
 
 //*////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
-//*  - FUNCTIONS & CLASSES
-//*  https://github.com/borkowsk/sym4processing
+//*  -> "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" 
+//*   - OPTIONAL TOOLS: FUNCTIONS & CLASSES
+//*  -> "https://github.com/borkowsk/sym4processing"
 //*////////////////////////////////////////////////////////////////////////////

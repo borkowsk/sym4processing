@@ -1,7 +1,7 @@
 /// @file "uMGeom2D.pde"
-/// Some 2D Geometry calculations: nearestPoints and so on.
+/// @brief Some 2D Geometry calculations: nearestPoints and so on.
 /// @date 2023.03.07 (Last modification)
-//*///////////////////////////////////////////////////////////
+//*////////////////////////////////////////////////////////////////
 
 /// @note Required uPair &
 ///       Required pointxy from uGraphix.
@@ -36,7 +36,7 @@ Pair<pointxy,pointxy> nearestPoints(final pointxy[] listA,final pointxy[] listB 
 /*_OnlyProcessingBlockEnd*/
 
 //*////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
-//*  - FUNCTIONS & CLASSES
-//*  https://github.com/borkowsk/sym4processing
+//*  -> "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" 
+//*   - OPTIONAL TOOLS: FUNCTIONS & CLASSES
+//*  -> "https://github.com/borkowsk/sym4processing"
 //*////////////////////////////////////////////////////////////////////////////
