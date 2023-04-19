@@ -1,6 +1,6 @@
 [submodule "bookProcessingPL"]
 	path = bookProcessingPL
-	url = https://github.com/borkowsk/bookProcessingPL.git
+	url = git://github.com/borkowsk/bookProcessingPL.git
 	
 [submodule "anticonformistsModel"]
         path = anticonformistsModel
