@@ -26,6 +26,14 @@ git clone --recurse-submodules https://github.com/borkowsk/sym4processing.git
 You need to install "com.hamoid" library for **Processing** and "ffmpeg" 
 application.
 
+# More materials
+
+## GitHub resources:
+
+* https://github.com/borkowsk/Boca_anticonformists_model
+* https://github.com/borkowsk/bookProcessingPL
+* https://github.com/borkowsk/bookProcessingEN
+
 ## PL: WYWIAD na temat symulacji społecznych na YouTube
 
 * FB: https://www.facebook.com/podejdzNaukovo/videos/516387107100734/
