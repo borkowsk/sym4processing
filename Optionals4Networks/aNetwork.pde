@@ -1,7 +1,8 @@
 /// @file aNetwork.pde
-/// @date 2023.03.04 (Last modification)
+/// @date 2023.04.28 (last modification)
 /// @brief Generic (social) network classes.
 //*/////////////////////////////////////////////////////////////////////////////
+
 /// @details
 ///   Classes:
 ///   ========
@@ -41,42 +42,54 @@ import java.util.Map;
 
 /// int NET_DEBUG_LEV=1;  ///< DEBUG level for network. Should be defined autside this file!
 
-//  ABSTRACT BASE CLASSES
-//*/////////////////////////////////
+///  ABSTRACT BASE CLASSES:
+//*////////////////////////
 
-/// Abstraction of link filtering class.
+/**
+* @brief Abstraction of link filtering class.
+*/
 abstract class LinkFilter implements iLinkFilter {
   /*_interfunc*/ boolean meetsTheAssumptions(iLink l)
                   {assert false : "Pure abstract meetsTheAssumptions(Link) called"; return false;}
-}//EndOfClass
+} //_EndOfClass
 
-/// Abstraction of link factory class. Forcing `makeLink()` and `makeSalfLink()` methods.
+/**
+* @brief Abstraction of link factory class. Forcing `makeLink()` and `makeSalfLink()` methods.
+*/
 abstract class LinkFactory implements iLinkFactory {
   /*_interfunc*/ iLink  makeLink(iNode Source,iNode Target)
                   {assert false : "Pure abstract make(Node,Node) called"; return null;}
                  iLink  makeSelfLink(iNode Self)
                   {assert false : "Pure abstract make(Node) called"; return null;}
-}//EndOfClass
+} //EndOfClass
 
-/// Abstraction of string-named class. Forcing `name()` method for visualisation and mapping. 
+/**
+* @brief Abstraction of string-named class. Forcing `name()` method for visualisation and mapping.
+*/
 abstract class Named implements iNamed {       
   /*_interfunc*/ String    name(){assert false : "Pure interface name() called"; return null;}
-}//EndOfClass
+} //EndOfClass
 
-/// Abstraction for any colorable object. Only for visualisation.
+/**
+* @brief Abstraction for any colorable object. Only for visualisation.
+*/
 abstract class Colorable extends Named implements iColorable {
   /*_interfunc*/ void setFill(float modifier)  {assert false : "Pure abstract setFill() called";}
   /*_interfunc*/ void setStroke(float modifier){assert false : "Pure abstract setStroke() called";}
-}//EndOfClass
+} //EndOfClass
 
-/// Forcing posX() & posY() & posZ() methods for visualisation and mapping.  
+/**
+* @brief Forcing `posX()` & `posY()` & `posZ()` methods for visualisation and mapping.
+*/
 abstract class Positioned extends Colorable implements iPositioned {
   /*_interfunc*/ float    posX(){assert false : "Pure abstract posX() called"; return 0;}
   /*_interfunc*/ float    posY(){assert false : "Pure abstract posY() called"; return 0;}
   /*_interfunc*/ float    posZ(){assert false : "Pure abstract posZ() called"; return 0;}
-}//EndOfClass
+} //EndOfClass
 
-/// Abstraction class for any network node.
+/**
+* @brief Abstraction class for any network node.
+*/
 abstract class Node extends Positioned implements iNode {
   /*_interfunc*/ int      addConn(iLink   l){assert false : "Pure abstract addConn(Link "+l+") called"; return   -1;}
   /*_interfunc*/ int      delConn(iLink   l){assert false : "Pure abstract delConn(Link "+l+") called"; return   -1;}
@@ -86,12 +99,14 @@ abstract class Node extends Positioned implements iNode {
   /*_interfunc*/ iLink    getConn(String k) {assert false : "Pure abstract getConn(String '"+k+"') called"; return null;}
   /*_interfunc*/ iLink[]  getConns(iLinkFilter f)
                   { assert false : "Pure abstract getConns(LinkFilter "+f+") called"; return null;}
-}//EndOfClass
+} //EndOfClass
 
-//   CLASS FOR MODIFICATION:
-//*//////////////////////////
+///  CLASS FOR MODIFICATION:
+//*/////////////////////////
 
-/// Real link implementation. This class is available for user modifications.
+/**
+* @brief Real link implementation. This class is available for user modifications.
+*/
 class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
   Node  target;  //!< targetet node.
   float weight;  //!< importance/trust
@@ -163,10 +178,12 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
              break;
      }
   }
-}//EndOfClass
+} //_EndOfClass
 
-/// Simplest link factory creates identical links except for the targets.
-/// It also serves as an example of designing factories.
+/**
+* @brief Simplest link factory creates identical links except for the targets.
+* @note It also serves as an example of designing factories.
+*/
 class basicLinkFactory extends LinkFactory
 {
   float default_weight;
@@ -178,10 +195,10 @@ class basicLinkFactory extends LinkFactory
   {
     return new Link(Target,default_weight,default_type);
   }
-}//EndOfClass
+} //_EndOfClass
 
-//   IMPLEMENTATIONS:
-//*////////////////////
+///   IMPLEMENTATIONS:
+//*///////////////////
 
 /// Ring network.
 void makeRingNet(iNode[] nodes,iLinkFactory linkfac,int neighborhood)  ///< Global namespace.
@@ -383,7 +400,7 @@ void makeImSmWorldNet(iNode[] nodes,iLinkFactory links,int neighborhood,float pr
    {
      if(DEBUG_LEVEL>2) 
          println("node",what,"already on list!!!");
-     return true; //<>//
+     return true; //<>// //<>//
    }
   return false;
 }
@@ -581,7 +598,7 @@ void makeOrphansAdoption(iNode[] nodes,iLinkFactory linkfac, boolean reciprocal)
                                                                       //if(debug_level>1) print(" Now S has ", Source.numOfConn() ," ");
     if(success!=1)
     {
-       print(" WRONG! BUT WHY? "); //<>//
+       print(" WRONG! BUT WHY? "); //<>// //<>//
     }
     else
     if(reciprocal)
@@ -647,8 +664,10 @@ void makeRandomNet(iNode[][] nodes,iLinkFactory linkfac,float probability, boole
   }
 }
 
-/// Node implementation based on ArrayList.
-/// See: //https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html
+/**
+* @brief Node implementation based on `ArrayList.`
+* @internal "https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html"
+*/
 class NodeAsList extends Node  implements iVisNode {
   ArrayList<Link> connections; 
   
@@ -735,11 +754,13 @@ class NodeAsList extends Node  implements iVisNode {
     Link[] ret=new Link[selected.size()];
     selected.toArray(ret);
     return ret;
-  } //<>//
-};
+  } //<>// //<>//
+} //_EndOfClass
 
-/// Node implementation based on hash map.
-/// See: //https://docs.oracle.com/javase/6/docs/api/java/util/HashMap.html
+/**
+* @brief Node implementation based on hash map.
+* @internal "https://docs.oracle.com/javase/6/docs/api/java/util/HashMap.html"
+*/
 class NodeAsMap extends Node implements iVisNode {  
   //HashMap<Integer,Link> connections; //TODO using Object.hashCode(). Could be a bit faster than String
   HashMap<String,Link> connections; 
@@ -818,7 +839,7 @@ class NodeAsMap extends Node implements iVisNode {
     selected.toArray(ret);
     return ret;
   }
-};
+} //_EndOfClass
 
 //*////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 

@@ -1,8 +1,8 @@
 /// @file uNetVisual.pde
-/// @date 2023.03.04 (Last modification)
+/// @date 2023.04.28 (last modification)
 /// @brief Generic visualisations of a (social) network
 //*/////////////////////////////////////////////////////////////////////////////
-///
+
 /// @details
 ///   CLASSES:
 ///   ========
@@ -20,8 +20,10 @@
 float XSPREAD=0.01;   ///< how far is target point of link of type 1, from center of the cell
 int   linkCounter=0;  ///< number od=f links visualised last time
 
-/// Visualisable node based on `NodeAsList` core.
-/// It implements all things needed for visualisation.
+/**
+* @brief Visualisable node based on `NodeAsList` core.
+*        It implements all things needed for visualisation.
+*/
 class Visual2DNodeAsList extends NodeAsList implements iVisNode
 {
   float X=0;
@@ -38,10 +40,12 @@ class Visual2DNodeAsList extends NodeAsList implements iVisNode
   float  posX() { return X;}
   float  posY() { return Y;}
   String name() { return ("("+X+","+Y+")"+this);}
-}//EndOfClass
+} //EndOfClass
 
-/// Visualisable node based on `NodeAsMap` core.
-/// It implements all things needed for visualisation.
+/**
+* @brief Visualisable node based on `NodeAsMap` core.
+*        It implements all things needed for visualisation.
+*/
 class Visual2DNodeAsMap extends NodeAsMap implements iVisNode
 {
   float X=0;
@@ -58,11 +62,11 @@ class Visual2DNodeAsMap extends NodeAsMap implements iVisNode
   float  posX() { return X;}
   float  posY() { return Y;}
   String name() { return ("("+X+","+Y+")"+this);}
-}//EndOfClass
+} //EndOfClass
 
 
 //   IMPLEMENTATIONS:
-//*///////////////////
+//*//////////////////
 
 /// One dimensional visualisation using arcs().
 void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode)  ///< Global namespace.

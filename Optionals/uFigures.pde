@@ -1,9 +1,9 @@
 /// @file "uFigures.pde"
 /// @brief Various shapes drawing procedures.
-/// @date 2023.03.07 (Last modification)
+/// @date 2023.04.28 (last modification)
 //*//////////////////////////////////////////////////////////////
 
-/// Horizontal view of a bald head of a man seen from above.
+/// @brief Horizontal view of a bald head of a man seen from above.
 void baldhead_hor(float x,float y,float r,float direction)         ///< @note Global namespace!
 {
   float D=2*r;
@@ -54,7 +54,7 @@ void baldhead_hor(float x,float y,float r,float direction)         ///< @note Gl
   ellipse(xn,yn,D/12,D/12);
 }
 
-/// Vertical view on agave plant.
+/// @brief Vertical view on agave plant.
 void agava_ver(float x,float y,float visual_size,float num_of_leafs)    ///< @note Global namespace!
 {
   float lstep=PI/(num_of_leafs);
@@ -70,7 +70,7 @@ void agava_ver(float x,float y,float visual_size,float num_of_leafs)    ///< @no
   arc(x,y,visual_size/4,visual_size/4,PI,2*PI,PIE);
 }
 
-/// Horizontal view on agave plant.
+/// @brief Horizontal view on agave plant.
 void agava_hor(float x,float y,float visual_size,float num_of_leafs)      ///< @note Global namespace!
 {
   float lstep=(2*PI) / min(num_of_leafs,3)+PI/5;
@@ -94,7 +94,7 @@ void agava_hor(float x,float y,float visual_size,float num_of_leafs)      ///< @
 }
 
 
-/// Vertical view of simple droid.
+/// @brief Vertical view of simple droid.
 void gas_bottle_droid_ver(float x,float y,float visual_size,float direction)      ///< @note Global namespace!
 {
   rect(x-visual_size/4, y-visual_size,     visual_size/2,   visual_size-3*visual_size/5,   visual_size/10); //Głowa
@@ -167,9 +167,8 @@ void gas_bottle_droid_ver(float x,float y,float visual_size,float direction)    
 }
 
 //*
-/// ARROW IN ANY DIRECTION
-//*
-//*////////////////////////////////////////
+/// ARROW IN ANY DIRECTION:
+//*////////////////////////
 
 float def_arrow_size=15;                   ///< Default size of arrows heads
 float def_arrow_theta=PI/6.0+PI;           ///< Default arrowhead spacing //3.6651914291881
@@ -180,7 +179,7 @@ void arrow(float x1,float y1,float x2,float y2)                          ///< @n
   arrow_d(int(x1),int(y1),int(x2),int(y2),def_arrow_size,def_arrow_theta);
 }
 
-/// Function that draws an arrow with changeable settings.
+/// @brief Function that draws an arrow with changeable settings.
 void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)          ///< @note Global namespace!
 {
   // CALCULATION METHOD FROM ROTATION OF THE ARROW AXIS

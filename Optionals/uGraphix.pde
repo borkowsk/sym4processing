@@ -1,9 +1,11 @@
 /// @file "uGraphix.pde"
 /// @brief Various helpful drawing procedures, like crosses, polygons & bar3D
-/// @date 2023.03.07 (Last modification)
+/// @date 2023.04.28 (last modification)
 //*///////////////////////////////////////////////////////////////////////////
 
-/// A class to represent two-dimensional points.
+/**
+ * @brief A class to represent two-dimensional points.
+ */
 class pointxy 
 {
   float x,y;
@@ -19,7 +21,7 @@ class pointxy
   }
 } //EndOfClass
 
-/// Frame drawn with a default line.
+/// @brief Frame drawn with a default line.
 void surround(int x1,int y1,int x2,int y2)                     ///< @note Global namespace!.
 {
   line(x1,y1,x2,y1); //--->
@@ -28,15 +30,15 @@ void surround(int x1,int y1,int x2,int y2)                     ///< @note Global
   line(x1,y1,x1,y2); //^^^
 }
 
-/// Cross drawn with a default line.
+/// @brief Cross drawn with a default line.
 void cross(float x,float y,float cross_width)                  ///< @note Global namespace!
 {
   line(x-cross_width,y,x+cross_width,y);
   line(x,y-cross_width,x,y+cross_width);
 }
 
-/// Cross drawn with a default line.
-/// The version that uses parameters of type int.
+/// @brief Cross drawn with a default line.
+///        The version that uses parameters of type int.
 void cross(int x,int y,int cross_width)                        ///< @note Global namespace!
 {
   line(x-cross_width,y,x+cross_width,y);
@@ -44,11 +46,10 @@ void cross(int x,int y,int cross_width)                        ///< @note Global
 }
 
 //*
-/// POLYGONS
-//*
-//*/////////////////////
+/// POLYGONS:
+//*//////////
 
-/// A regular polygon with a given radius and number of vertices.
+/// @brief A regular polygon with a given radius and number of vertices.
 void regularpoly(float x, float y, float radius, int npoints)  ///< @note Global namespace!
 {
   float angle = TWO_PI / npoints;
@@ -62,8 +63,8 @@ void regularpoly(float x, float y, float radius, int npoints)  ///< @note Global
   endShape(CLOSE);
 }
 
-/// Drawing a polygon. 
-/// This function utilises vertices given as an array of points
+/// @brief Drawing a polygon. 
+///        This function utilises vertices given as an array of points
 void polygon(pointxy[] lst/*+1*/)                               ///< @note Global namespace!
 {
   int N= lst.length;
@@ -75,8 +76,8 @@ void polygon(pointxy[] lst/*+1*/)                               ///< @note Globa
   endShape(CLOSE);
 }
 
-/// Drawing a polygon. 
-/// It utilises vertices given as an array of points
+/// @brief Drawing a polygon. 
+///        It utilises vertices given as an array of points
 /// @param N, size of list, could be smaller than 'lst.lenght'
 void polygon(pointxy[] lst/*+1*/,int N)                        ///< @note Global namespace!
 {
@@ -89,11 +90,10 @@ void polygon(pointxy[] lst/*+1*/,int N)                        ///< @note Global
 }
 
 //*
-//* Visualisation of BAR3D.
-//*
-//*/////////////////////////////////////////
+//* Visualisation of BAR3D:
+//*////////////////////////
 
-/// Configuration set of BAR3D visualisation.
+/// @brief Configuration set of BAR3D visualisation.
 class settings_bar3d
 {
 int a=10;
@@ -103,14 +103,14 @@ color wire=color(255,255,255); //Kolor ramek
 color back=color(0,0,0); //Informacja o kolorze tla
 } //EndOfClass
 
-/// Default configuration set of BAR3D visualisation.
+/// @brief Default configuration set of BAR3D visualisation.
 settings_bar3d bar3dsett=new settings_bar3d();                       ///< Default settings of bar3d
 
-/// Rhomb polygon used for draving bar3D
+/// @brief Rhomb polygon used for draving bar3D
 pointxy[] bar3dromb =                                                ///< @note Global namespace!
   {new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy(),new pointxy()};
 
-/// Function which draving bar3d using current configuration.
+/// @brief Function which draving bar3d using current configuration.
 void bar3dRGB(float x,float y,float h,int R,int G,int B,int Shad)    ///< @note Global namespace!
 {
                                                     /*      6 ------ 5    */

@@ -1,6 +1,6 @@
 /// @file aInterfaces.pde 
 /// @brief Common INTERFACES like iNamed, iDescribable, iColorable, iPositioned 
-/// @date 2023.03.04 (Last modification)
+/// @date 2023.04.28 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////
 
 //* USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
@@ -77,4 +77,3 @@ interface Function2D {
 //*   - OPTIONAL TOOLS: FUNCTIONS & CLASSES
 //*  -> "https://github.com/borkowsk/sym4processing"
 //*/////////////////////////////////////////////////////////////////////////////
-
