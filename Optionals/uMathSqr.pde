@@ -4,19 +4,19 @@
 //*//////////////////////////////////////////////////////////////////////
 
 /// A square of an int number
-int sqr(int a)
+int sqra(int a)
 {
   return a*a;
 }
 
 /// A square of an float number
-float sqr(float a)
+float sqra(float a)
 {
   return a*a;
 }
 
 /// A square of an double number
-double sqr(double a)
+double sqra(double a)
 {
   return a*a;
 }

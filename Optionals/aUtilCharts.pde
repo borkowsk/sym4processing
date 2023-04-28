@@ -1,10 +1,8 @@
-/** 
- *   @file "uCharts.pde"
- *   @defgroup ChartUtils Functions & classes for chart making 
- *   @date 2023.04.11 (Last modification)
- *   @author borkowsk 
+/** @file "uCharts.pde" @brief ....
+ *  @defgroup ChartUtils Functions & classes for chart making 
+ *  @date 2023.04.11 (last modification)                        @author borkowsk 
  *  @{
- */ ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ */ ////////////////////////////////////////////////////////////////////////////
 
 /// @brief Mapping float value into color interface.
 interface iColorMapper 
@@ -16,11 +14,11 @@ interface iColorMapper
 static final int CONNECT_MASK=0x1;  ///< ???
 static final int LOGARITM_MASK=0x2; ///< TODO name! LOGARIT-H-M!
 static final int PERCENT_MASK=0x4;  ///< ???
-static final int TEXT_MASK=0x8;
- //<>//
+static final int TEXT_MASK=0x8;     ///< ???
+
 /// @brief Function for drawing axis.
 /// @details Visualizes the axes of the coordinate system.
-void viewAxis(int startX,int startY,int width,int height) ///< @NOTE GLOBAL
+void viewAxis(int startX,int startY,int width,int height)                       ///< @NOTE GLOBAL
 { 
   line(startX,startY,startX+width,startY);
   line(startX+width-5,startY-5,startX+width,startY);
@@ -31,7 +29,7 @@ void viewAxis(int startX,int startY,int width,int height) ///< @NOTE GLOBAL
 
 /// @brief Function for drawing empty frame.
 /// @details Visualizes a box around the area.
-void viewFrame(float startX,float startY,int width,int height) ///< @NOTE GLOBAL
+void viewFrame(float startX,float startY,int width,int height)                  ///< @NOTE GLOBAL
 { 
   line(startX,startY,startX+width,startY);
   line(startX,startY,startX,startY-height);
@@ -41,7 +39,7 @@ void viewFrame(float startX,float startY,int width,int height) ///< @NOTE GLOBAL
 
 /// @brief   Draws tics along the vertical axis.
 /// @details Function for drawing tics on Y axis.
-void viewTicsV(int startX,int startY,int width,int height,float space) ///< @NOTE GLOBAL
+void viewTicsV(int startX,int startY,int width,int height,float space)          ///< @NOTE GLOBAL
 { 
   for(int y=startY;y>startY-height;y-=space)
      line(startX,y,startX+width,y);
@@ -49,7 +47,7 @@ void viewTicsV(int startX,int startY,int width,int height,float space) ///< @NOT
 
 /// @brief Draws tics along the horizontal axis.
 /// @details Function for drawing tics on X axis.
-void viewTicsH(float startX,float startY,float width,float height,float space)
+void viewTicsH(float startX,float startY,float width,float height,float space)  ///< @NOTE GLOBAL
 {
   for(int x=int(startX);x<startX+width;x+=space)
      line(x,startY,x,startY-height);
@@ -58,7 +56,7 @@ void viewTicsH(float startX,float startY,float width,float height,float space)
 /// @brief Visualizes the limits of the vertical scale.
 /// @note We're not drawing dashes here yet (tics)
 /// @details Function for drawing scale on Y axis.
-void viewScaleV(Range MinMax,int startX,int startY,int width,int height) ///< @NOTE GLOBAL
+void viewScaleV(Range MinMax,int startX,int startY,int width,int height)        ///< @NOTE GLOBAL
 { 
    //,boolean logarithm) //Na razie tu nie rysujemy kresek (tics)
    //float Min=(logarithm?(float)Math.log10(MinMax.min+1):MinMax.min); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
@@ -81,15 +79,15 @@ void viewZeroArrow(Range MinMax,int startX,int startY,int width,int height,int l
 }
 
 /** Funkcja wizualizująca serię danych jako punkty albo jako linię łamaną
- @param  Sample data : Źródło danych
- @param  int   startD : Punkt startowy wyświetlania, albo liczba od końca, gdy wartość ujemna
- @param  float startX,
- @param  float startY,
- @param  int width,
- @param  int height,
- @param  boolean logarithm,
- @param  Range commMinMax,
- @param  boolean connect : czy łączyć punkty w łamaną
+ @param  data : Źródło danych
+ @param  startD : Punkt startowy wyświetlania, albo liczba od końca, gdy ujemna
+ @param  startX,
+ @param  startY,
+ @param  width,
+ @param  height,
+ @param  logarithm,
+ @param  commMinMax,
+ @param  connect : czy łączyć punkty w łamaną
 */
 void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int height,Range commMinMax,boolean connect,boolean percent) ///<  @NOTE GLOBAL. Musi być w jednej lini dla C++
 {
@@ -122,7 +120,7 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
     }
   }
   
-  int     N=data.numOfElements();                                                                     assert startD<N-1;
+  int     N=data.numOfElements();                                               assert startD<N-1;
 
   if(startD<0)
   {
@@ -132,9 +130,9 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
   if(startD<0) //Nadal ujemne!?
   {
       startD=0; //Czyli zabrakło danych
-      //print("?");
+                                                                   //print("?");
   }
-  float wid=float(width) / (N-startD);  //println(width,N,startD,wid,min,max);
+  float wid=float(width) / (N-startD);    //println(width,N,startD,wid,min,max);
   float oldy=-Float.MIN_VALUE;
   
   for(int t=startD;t<N;t++)
@@ -157,11 +155,12 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
     float x=(t-startD)*wid;
     if(connect && oldy!=-Float.MIN_VALUE)
     {
-      line (startX+x-wid,startY-oldy,startX+x,startY-val); //println(wid,x-wid,oldy,x,val);
+      line (startX+x-wid,startY-oldy,startX+x,startY-val); 
+                                                //println(wid,x-wid,oldy,x,val);
     }
     else
     {
-                                                          //println(startX+x,startY-val);
+                                                 //println(startX+x,startY-val);
       line(startX+x+2,startY-val,startX+x-1,startY-val); 
       line(startX+x,startY-val+2,startX+x,startY-val-1); 
     }
@@ -194,7 +193,7 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
   @param boolean connect - Should data points be combined into a single line?
   PL Funkcja wizualizująca serię danych jako punkty albo jako linię łamaną                
   PL:param Sample data : Źródło danych
-  PL:param int startD  : Punkt startowy wyświetlania, albo liczba od końca  - gdy wartość ujemna
+  PL:param int startD  : Punkt startowy wyświetlania, albo liczba od końca - gdy ujemna
   PL:param float startX,float startY,int width,int height : Położenie i rozmiar
   PL:param boolean logaritm : CZY LOGARYTMOWAĆ DANE?
   PL:param Range commMinMax : ZADANY ZAKRES y
@@ -215,7 +214,7 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
     Max=(logaritm?(float)Math.log10(data.Max+1):data.Max); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
   }
   
-  int     N=data.numOfElements();                                                                     assert startD<N-1;
+  int     N=data.numOfElements();                                               assert startD<N-1;
   if(startD<0)
   {
       startD=-startD; //Ujemne było tylko umownie!!!
@@ -250,7 +249,7 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
     }
     else
     {
-                                                          //println(startX+x,startY-val);
+                                                 //println(startX+x,startY-val);
       line(startX+x+2,startY-val,startX+x-1,startY-val); 
       line(startX+x,startY-val+2,startX+x,startY-val-1); 
     }
@@ -268,7 +267,7 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
 /** Funkcja wizualizująca serię danych jako pionowe linie w różnych kolorach
   @note  Wartość jest drukowana tekstowo jeśli ustawiona jest opcja TEXT_MASK
   @param Sample data : Źródło danych
-  @param int startD  : Punkt startowy wyświetlania, albo liczba od końca  - gdy wartość ujemna
+  @param int startD  : Punkt startowy wyświetlania, albo liczba od końca  - gdy ujemna
   @param float startX,float startY,int width,int height : Położenie i rozmiar
   @param iColorMapper mapper : mapowanie zdarzeń na kolory
 */
@@ -342,11 +341,15 @@ float viewAsColumns(Frequencies hist,float startX,float startY,int width,int hei
            " @ "+hist.higherBucketIndex :
            " @ "+hist.higherBucketIndex),startX,startY-height);
   //Real width of histogram
-  float realwidth=(hist.buckets.length)*wid; //println(realwidth);noLoop(); TODO name! realWidth
+  float realwidth=(hist.buckets.length)*wid; //println(realwidth);noLoop(); 
+                                             ///@todo name! "realWidth"
   return realwidth;
 }
 
-//**********************************************************************************************************************
-//* See "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" - USEFUL COMMON CODES
-//* See "https://github.com/borkowsk/sym4processing"
-///@} ******************************************************************************************************************
+//******************************************************************************
+/// See: "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI"
+/// See: "https://github.com/borkowsk/sym4processing"
+//* USEFUL COMMON CODES - HANDY FUNCTIONS & CLASSES
+/// @}
+//******************************************************************************        
+

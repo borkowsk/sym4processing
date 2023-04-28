@@ -1,7 +1,8 @@
-/** @defgroup StreamUtils Functions & classes for checking streams 
- *  @{
-    @see https://github.com/borkowsk/RTSI_public @author borkowsk                                                     */
-//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/** @file  @brief .....       
+ *  @defgroup StreamUtils Functions & classes for checking streams
+ *  @date 2023.04.28 (Last modification)                        @author borkowsk
+ *  @{                                             
+ */ ////////////////////////////////////////////////////////////////////////////
 
 /*_OnlyProcessingBlockBegin*/
 import java.io.InputStreamReader;
@@ -21,7 +22,7 @@ class StatePrintWriter extends PrintWriter
 /*_OnlyProcessingBlockEnd*/
 
 /*_OnlyProcessingBlockBegin*/
-/// @brief A class that allows checking the state of a JAVA BufferedReader stream TODO!!!
+/// @brief A class that allows checking the state of a `BufferedReader` stream  TODO!!!
 /// @details "https://stackoverflow.com/questions/981196/how-to-know-if-a-bufferedreader-stream-is-closed"
 class StateBufferedReader extends BufferedReader 
 {
@@ -35,7 +36,7 @@ class StateBufferedReader extends BufferedReader
 };
 /*_OnlyProcessingBlockEnd*/
 
-boolean isOpen(PrintWriter/*_reference*/ wrrr)
+boolean isOpen(PrintWriter/*_reference*/ wrrr)				   ///< GLOBAL!
 {
 /*_OnlyCppBlockBegin
   return wrrr@@@isOpen(); //Kropki są zawsze zmieniane na -> ale @ @ @ na kropki :-D
@@ -47,11 +48,12 @@ _OnlyCppBlockEnd*/
 }
 
 /*_OnlyProcessingBlockBegin*/
-/// Atrapa C-owej funkcji system, ale chyba nie do końca działająca (mkdir xxxxxxx/ nie działa)
+/// Atrapa C-owej funkcji system, ale chyba nie do końca działająca 
+///                                                (mkdir xxxxxxx/ nie działa!)
 /// @see
 /// \n "https://stackoverflow.com/questions/792024/how-to-execute-system-commands-linux-bsd-using-java"
 /// \n "https://docs.oracle.com/javase/7/docs/api/java/io/InputStreamReader.html"
-int system(String cmd)
+int system(String cmd)				                                  ///< GLOBAL!
 {
   println("Executing system command:'"+cmd+"'");
   Runtime r = Runtime.getRuntime();
@@ -84,7 +86,9 @@ int system(String cmd)
 }
 /*_OnlyProcessingBlockEnd*/
 
-///*************************************************************************************************************************
-/// @see \n "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" - USEFUL COMMON CODES
-/// Branch 1.4X - last modification 2022.08.31        HANDY FUNCTIONS & CLASSES, ad hoc completed
-///@} **********************************************************************************************************************
+//******************************************************************************
+/// See: "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" 
+//* USEFUL COMMON CODES - HANDY FUNCTIONS & CLASSES
+/// @}
+//******************************************************************************        
+
