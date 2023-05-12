@@ -1,7 +1,7 @@
 /** 
  *   @file "uUtilCData.pde"
  *   @defgroup Data collection classes for statistics & chart making 
- *   @date 2023.04.28 (Last modification)
+ *   @date 2023.05.12 (last modification)
  *   @author borkowsk 
  *  @{
  */ ////////////////////////////////////////////////////////////////////////////
@@ -91,12 +91,13 @@ class Sample  extends NamedData
   Sample(String Name) { super/*NamedData*/(Name);
     _enabled=new ViewSwitch(true);
     data=new FloatList();
+    _enabled=new ViewSwitch(true);
   }
   
   /// @brief Konstruktor trójparametrowy.
-  /// @p   Name - nazwa 
-  /// @p   defColor - kolorem wyświetlania
-  /// @p   defEnabled - referencją do flagi wyświetlania, od której zależy seria.
+  /// @param   `Name` to nazwa seri 
+  /// @param   `defColor` jest kolorem wyświetlania
+  /// @param   `defEnabled` jest referencją do flagi wyświetlania, od której zależy widoczność seri.
   //*  For pr2c 'super' must be in the same line with constructor name!
   Sample(String Name,color defColor,iFlag defEnabled) { super/*NamedData*/(Name);
     data=new FloatList();
@@ -105,10 +106,10 @@ class Sample  extends NamedData
   }
   
   /// @brief Konstruktor wieloparametrowy.
-  /// @p   Name - nazwa 
-  /// @p   defColor - kolorem wyświetlania
-  /// @p   defEnabled - referencją do flagi wyświetlania, od której zależy seria.
-  /// @p   iOptions - opcje o różnych znaczeniach.
+  /// @param   `Name` to nazwa seri 
+  /// @param   `defColor` jest kolorem wyświetlania
+  /// @param   `defEnabled` jest referencją do flagi wyświetlania, od której zależy seria.
+  /// @param   `iOptions` to opcje o różnych znaczeniach.
   //*  For pr2c 'super' must be in the same line with constructor name!
   Sample(String Name,color defColor,iFlag defEnabled,int iOptions) { super/*NamedData*/(Name);
     data=new FloatList();
@@ -145,6 +146,26 @@ class Sample  extends NamedData
       return INF_NOT_EXIST;
   }
   
+  float getElementAt(int index)
+  {
+    return data.get(index); //<>//
+  }
+  
+  void addToElement(int index,float whatToAdd)
+  {
+    data.add(index,whatToAdd);
+  }
+  
+  void multiplicateElement(int index,float multiplier)
+  {
+    data.mult(index,multiplier);
+  }
+  
+  void divideElement(int index,float divider)
+  {
+    data.div(index,divider);
+  }
+  
   void reset() //!< Czyszczenie z danych.
   {
     if(data!=null) data.clear();
@@ -156,19 +177,18 @@ class Sample  extends NamedData
     count=0;
   }
   
-  /// @brief Skrócenie serii do 'longOfremained' ostatnich elementów. 
-  /// @todo name! `longOfRemained`
-  void remain(int longOfremained)   
+  /// @brief Skrócenie serii do `longOfRemained` ostatnich elementów. 
+  void remain(int longOfRemained)   
   {
-    if(longOfremained>=data.size())
+    if(longOfRemained>=data.size())
           return; //Nothing to do!
                                    //println(name(),data.size(),longOfremained);
     FloatList olddata=data; //TODO name! oldData
     data=null; //Odcinamy
     reset();
-    data=new FloatList(longOfremained*2); //Initial capacity?
+    data=new FloatList(longOfRemained*2); //Initial capacity?
                                 //println(name(),olddata.size(),longOfremained);
-    int i=olddata.size()-longOfremained;
+    int i=olddata.size()-longOfRemained;
     int end=olddata.size();
     for(;i<end;i++)
       addValue(olddata.get(i));
@@ -298,6 +318,43 @@ class Sample  extends NamedData
     return copied.get(copied.size() / 2);
   }
   
+  /// @brief Liczy "Gini coefficient".
+  /// @details Algorytm różnic z "https://en.wikipedia.org/wiki/Gini_coefficient"
+  /// @note  Wymaga przekopiowania do tablicy bo mogą być braki w wartościach na liście.
+  float getGiniCoefficient()
+  {
+    int maxN=data.size();
+    // Tworzenie tymczasowych danych
+    double[] locData=new double[maxN];
+    int N=0;
+    for(float val:data)
+    if(val!=INF_NOT_EXIST)
+    {
+      locData[N]=val;
+      N++;
+    }
+    
+    if(N>0)
+    {
+      double SumOfDifs=0,SumOfVals=0;
+      for(int i=0;i<N;i++)
+      {
+        for(int j=0;j<N;j++)
+        {
+          SumOfDifs+=Math.abs(locData[i]-locData[j]);
+        }
+        SumOfVals+=locData[i];
+      }
+      
+      if((SumOfVals/=N)==0) return INF_NOT_EXIST; // Bo też by było dzielenie przez 0
+      
+      
+      return (float)(SumOfDifs/(2*N*N*SumOfVals));
+    }
+    else 
+    return INF_NOT_EXIST;
+  }
+  
   /// @brief Dodanie wartości na koniec serii.
   void addValue(float value) 
   {        
@@ -397,4 +454,3 @@ class Frequencies extends NamedData
 //* USEFUL COMMON CODES - HANDY FUNCTIONS & CLASSES
 /// @}
 //******************************************************************************        
-

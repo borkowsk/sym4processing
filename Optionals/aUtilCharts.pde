@@ -352,4 +352,3 @@ float viewAsColumns(Frequencies hist,float startX,float startY,int width,int hei
 //* USEFUL COMMON CODES - HANDY FUNCTIONS & CLASSES
 /// @}
 //******************************************************************************        
-

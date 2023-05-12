@@ -10,7 +10,7 @@
 
 /*_OnlyProcessingBlockBegin*/
 /// @NOTE: Java template are currently not supported in Processing2C!
-public 
+//public 
 class Pair<A,B> {
     public final A a;
     public final B b;

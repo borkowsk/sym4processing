@@ -19,7 +19,7 @@
 interface iFlag 
 {
   /*_interfunc*/ boolean isEnabled() /*_forcebody*/;
-}//EndOfClass
+} //_EndOfClass
 
 /**
 * @brief Forcing name of an object available as String (planty of usage).
@@ -27,14 +27,17 @@ interface iFlag
 interface iNamed 
 {
   /*_interfunc*/ String    name() /*_forcebody*/;
-} //EndOfClass
+} //_EndOfClass
 
 /**
 * @brief Any object which have description as (maybe) long, multi line string.
 */
 interface iDescribable { 
   /*_interfunc*/ String Description() /*_forcbody*/;
-}//EndOfClass
+} //_EndOfClass
+
+interface iAgent {
+} //_EndOfClass
 
 //*
 /// VISUALISATION INTERFACES:
