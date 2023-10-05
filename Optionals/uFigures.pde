@@ -1,7 +1,8 @@
 /// @file "uFigures.pde"
 /// @brief Various shapes drawing procedures.
-/// @date 2023.04.28 (last modification)
-//*//////////////////////////////////////////////////////////////
+/// @date 2023.04.28 (last modification)                        @author borkowsk
+/// @details ...
+//*/////////////////////////////////////////////////////////////////////////////
 
 /// @brief Horizontal view of a bald head of a man seen from above.
 void baldhead_hor(float x,float y,float r,float direction)         ///< @note Global namespace!

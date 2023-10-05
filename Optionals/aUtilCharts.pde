@@ -1,6 +1,9 @@
-/** @file "uCharts.pde" @brief ....
+/** @file "uCharts.pde" 
+ *  @brief ....
  *  @defgroup ChartUtils Functions & classes for chart making 
- *  @date 2023.04.11 (last modification)                        @author borkowsk 
+ *  @date 2023.10.05 (last modification)                        @author borkowsk 
+ *  @details 
+ *     It needs "uUtilCData.pde" & "uFigures.pde"
  *  @{
  */ ////////////////////////////////////////////////////////////////////////////
 

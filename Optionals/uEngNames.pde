@@ -1,7 +1,16 @@
 /// @file "uEngNames.pde"
 /// @brief Tables of English names popular in 1880
-/// @date 2023.03.07 (Last modification)
+/// @details "https://www.ssa.gov/oact/babynames/decades/names1880s.html"
+/// @date 2023.08.02 (Last modification)
 //*//////////////////////////////////////////////////
+
+/// @brief Few popular, Male & Female fifty-fifty, alphabetic names.
+final String[] EnglishNamesShort =   ///< @note Global namespace!
+{
+  "Arthur","Bessie","Charles","Dora","Edward",
+  "Florence","George","Helen","Ida","John",
+  "Katherine","Louis","Mary","Norman","Olive"
+};
 
 /// @brief Male & Female english names from USA Census 1880.
 final String[] EnglishNames1880 =    ///< @note Global namespace!

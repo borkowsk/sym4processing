@@ -1,8 +1,8 @@
-/** 
- *   @file "uUtilCData.pde"
- *   @defgroup Data collection classes for statistics & chart making 
- *   @date 2023.05.12 (last modification)
- *   @author borkowsk 
+/** @file "uUtilCData.pde"
+ *  @defgroup Data collection classes for statistics & chart making 
+ *  @date 2023.10.05 (last modification)                       @author borkowsk  
+ *  @details 
+ *      It needs "aInterfaces.pde", "uMDistances.pde"
  *  @{
  */ ////////////////////////////////////////////////////////////////////////////
  
@@ -148,7 +148,7 @@ class Sample  extends NamedData
   
   float getElementAt(int index)
   {
-    return data.get(index); //<>//
+    return data.get(index);
   }
   
   void addToElement(int index,float whatToAdd)
