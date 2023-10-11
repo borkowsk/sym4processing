@@ -1,7 +1,7 @@
 /** @file "uCharts.pde" 
  *  @brief ....
  *  @defgroup ChartUtils Functions & classes for chart making 
- *  @date 2023.10.05 (last modification)                        @author borkowsk 
+ *  @date 2023.10.06 (last modification)                        @author borkowsk
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
  *  @{
@@ -120,6 +120,7 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
     {
       Min=(logarithm?(float)Math.log10(data.Min+1):data.Min); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
       Max=(logarithm?(float)Math.log10(data.Max+1):data.Max); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
+      //println("Range:",Min,"..",Max);
     }
   }
   
@@ -191,7 +192,7 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
   @param float startY - The vertical starting point of the display area 
   @param int width - The width of the display area
   @param int height - Height of the display area
-  @param boolean logaritm - Should the data be transformed by logarith?
+  @param boolean logaritm - Should the data be transformed by (todo) logarithm?
   @param Range commMinMax - Optionally common Range for multiple series or null
   @param boolean connect - Should data points be combined into a single line?
   PL Funkcja wizualizująca serię danych jako punkty albo jako linię łamaną                
@@ -319,7 +320,7 @@ void viewAsVerticals(Sample data,int startD,float startX,float startY,int width,
 /// @param float startY - The vertical starting point of the display area 
 /// @param int width - The width of the display area
 /// @param int height - The height of the display area
-/// @param boolean logaritm - Should the data be transformed by logarith?
+/// @param boolean logaritm - Should the data be transformed by logarithm?
 float viewAsColumns(Frequencies hist,float startX,float startY,int width,int height,boolean logarithm) ///< RYSOWANIE HISTOGRAMU.
 {
   float Max=(logarithm?(float)Math.log10(hist.higherBucket+1):hist.higherBucket); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
