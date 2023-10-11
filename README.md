@@ -6,8 +6,8 @@ selected possibilities and properties:
 * __Cellular Automata__ application design template
 * Design template for an __ABM__ simulation application with the possibility of 
   expanding with a network structure, suitable for many purposes
-* Network game template for **one server - many clients** games
-* Additional tool codes for working with application templates 
+* IP-network game template for **one server - many clients** games
+* Additional optional tool codes for working with application templates 
 * Sample simulations written using these templates
 * As a submodule, it imports a repository with materials for the course 
   "Processing in education and simulation" (**bookProcessingPL**)
