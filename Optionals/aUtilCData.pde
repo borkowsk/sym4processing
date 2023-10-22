@@ -1,6 +1,6 @@
 /** @file "uUtilCData.pde"
  *  @defgroup Data collection classes for statistics & chart making 
- *  @date 2023.10.05 (last modification)                       @author borkowsk  
+ *  @date 2023.10.21 (last modification)                       @author borkowsk  
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
  *  @{
@@ -318,7 +318,7 @@ class Sample  extends NamedData
     return copied.get(copied.size() / 2);
   }
   
-  /// @brief Liczy "Gini coefficient".
+  /// @brief It calculates "Gini coefficient".
   /// @details Algorytm różnic z "https://en.wikipedia.org/wiki/Gini_coefficient"
   /// @note  Wymaga przekopiowania do tablicy bo mogą być braki w wartościach na liście.
   float getGiniCoefficient()
@@ -347,7 +347,6 @@ class Sample  extends NamedData
       }
       
       if((SumOfVals/=N)==0) return INF_NOT_EXIST; // Bo też by było dzielenie przez 0
-      
       
       return (float)(SumOfDifs/(2*N*N*SumOfVals));
     }
@@ -381,6 +380,12 @@ class Sample  extends NamedData
   void replaceLastValue(float value) 
   {
     data.set(data.size()-1,value);
+  }
+  
+  /// @brief podmiana wartości pod inteksem na inną.
+  void replaceValue(int index,float value) 
+  {
+    data.set(index,value);
   }
   
 } //_endOfClass Sample
