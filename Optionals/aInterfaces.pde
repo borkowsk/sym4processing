@@ -1,6 +1,6 @@
 /// @file "aInterfaces.pde" 
 /// @brief Common INTERFACES like iNamed, iDescribable, iColorable, iPositioned 
-/// @date 2023.10.05 (last modification)                       @author borkowsk
+/// @date 2024.02.20 (last modification)                       @author borkowsk
 /// @details ...
 //*/////////////////////////////////////////////////////////////////////////////
 
@@ -8,30 +8,27 @@
 //* if you need translate the code into C++ (--> Processing2C )
 
 
-// Generally useable interfaces:
-//*//////////////////////////////
+// Generally usable interfaces:
+//*////////////////////////////
 
-/**
-* @brief Interface for any true referable class usable as a flag or switch.
-* @details Ani typ `Boolean`, ani tym bardziej `boolean` nie może
-*          w Processingu i JAVA'ie być przekazywany przez referencje!
-*          Stąd potrzebne są typy użytkownika, które mogą tak działać.
+/** @brief Interface for any true referable class usable as a flag or switch.
+*   @details Neither the type `Boolean` nor `boolean` can
+*            in Processing and JAVA be passed by reference!
+*            Hence the need for user types that can work like this.
 */
 interface iFlag 
 {
   /*_interfunc*/ boolean isEnabled() /*_forcebody*/;
 } //_EndOfClass
 
-/**
-* @brief Forcing name of an object available as `String` (planty of usage).
+/** @brief Forcing name of an object available as `String` (planty of usage).
 */
 interface iNamed 
 {
   /*_interfunc*/ String    name() /*_forcebody*/;
 } //_EndOfClass
 
-/**
-* @brief Any object which have description as (maybe) long, multi line string.
+/** @brief Any object which have description as (maybe) long, multi line string.
 */
 interface iDescribable { 
   /*_interfunc*/ String Description() /*_forcebody*/;
@@ -44,16 +41,14 @@ interface iAgent {
 /// VISUALISATION INTERFACES:
 //*//////////////////////////
 
-/**
-* @brief Forcing `setFill` & `setStroke` methods for visualisation
+/** @brief Forcing `setFill` & `setStroke` methods for visualisation
 */
 interface iColorable {
   /*_interfunc*/ void setFill(float intensity) /*_forcebody*/;
   /*_interfunc*/ void setStroke(float intensity) /*_forcebody*/;
 } //_EndOfClass
 
-/**
-* @brief Forcing `posX()` & `posY()` & `posZ()` methods for visualisation and mapping 
+/** @brief Forcing `posX()` & `posY()` & `posZ()` methods for visualisation and mapping
 */ 
 interface iPositioned {              
   /*_interfunc*/ float    posX() /*_forcebody*/;

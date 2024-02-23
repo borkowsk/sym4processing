@@ -1,6 +1,6 @@
 /** @file "uUtilCData.pde"
  *  @defgroup Data collection classes for statistics & chart making 
- *  @date 2023.10.21 (last modification)                       @author borkowsk  
+ *  @date 2024.02.20 (last modification)                       @author borkowsk
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
  *  @{
@@ -17,7 +17,7 @@ class ViewSwitch implements iFlag
 
   ViewSwitch(boolean isEnabled){ _val=isEnabled; }
 
-  /// Zmiana wartości na przeciwna.
+  /// @brief Change the value to the opposite.
   void toggle() { _val=!_val; }
   
   /*_interfunc*/ void set(boolean isEnabled){ _val=isEnabled; }
@@ -27,13 +27,16 @@ class ViewSwitch implements iFlag
 /// @brief Base class for data sources.
 /// @details 
 ///      A class that implements only the interface having a proper object name.
+///
 class NamedData implements iNamed 
 {
   String _myName; //!< current name.
   
   NamedData(String Name){ _myName=Name;}
   
-  String name() {return _myName;}
+  String name() { return _myName; }
+  String getName() { return _myName; }
+  
 } //_endOfClass NamedData
 
 /// @brief More extended base class for data sources.
@@ -67,13 +70,12 @@ class Range extends NamedData
 /// @brief Class for representing series of numbers.
 /// @details
 ///   This class represents a NAMED series of real (float) numbers.
-/// @todo 
-///   Should it also be a descendant of the Range? 
+/// @todo Should it also be a descendant of the Range?
 ///   ... Or at least implements the same interface? TODO?
 class Sample  extends NamedData 
 {
-  FloatList  data=null;         //!< lista wartości danych.
-  int        options=0;         //!< Słowo 32b do dowolnego wykorzystania 
+  FloatList  data=null;         //!< list of data values.
+  int        options=0;         //!< Word 32b free to use
   
   color    _color=color(0,0,0); //!< color, if need be same in different graphs
   iFlag  _enabled=null;         //!< Enabling flag.
@@ -86,18 +88,18 @@ class Sample  extends NamedData
   int   whMax=-1;               //!< Position of the current maximal value
   double   sum=0;               //!< The current sum of values 
   
-  /// @brief Konstruktor z samą nazwą.
-  //*  For pr2c `super` must be in the same line with constructor name!
+  /// @brief A constructor with just a name.
+  /// @note  For pr2c `super` must be in the same line with constructor name! (@todo still?)
   Sample(String Name) { super/*NamedData*/(Name);
     _enabled=new ViewSwitch(true);
     data=new FloatList();
     _enabled=new ViewSwitch(true);
   }
   
-  /// @brief Konstruktor trójparametrowy.
-  /// @param   `Name` to nazwa seri 
-  /// @param   `defColor` jest kolorem wyświetlania
-  /// @param   `defEnabled` jest referencją do flagi wyświetlania, od której zależy widoczność seri.
+  /// @brief Three-parameter constructor.
+  /// @param   `Name` is the name of the data series
+  /// @param   `defColor` is the display color
+  /// @param   `defEnabled` is a reference to the display flag on which the visibility of the series depends.
   //*  For pr2c 'super' must be in the same line with constructor name!
   Sample(String Name,color defColor,iFlag defEnabled) { super/*NamedData*/(Name);
     data=new FloatList();
@@ -105,11 +107,11 @@ class Sample  extends NamedData
     _enabled=defEnabled;
   }
   
-  /// @brief Konstruktor wieloparametrowy.
-  /// @param   `Name` to nazwa seri 
-  /// @param   `defColor` jest kolorem wyświetlania
-  /// @param   `defEnabled` jest referencją do flagi wyświetlania, od której zależy seria.
-  /// @param   `iOptions` to opcje o różnych znaczeniach.
+  /// @brief Multiparameter constructor.
+  /// @param   `Name` is the name of the data series
+  /// @param   `defColor` is the display color
+  /// @param   `defEnabled` is a reference to the display flag on which the series depends.
+  /// @param   `iOptions` are options with different meanings.
   //*  For pr2c 'super' must be in the same line with constructor name!
   Sample(String Name,color defColor,iFlag defEnabled,int iOptions) { super/*NamedData*/(Name);
     data=new FloatList();
@@ -118,27 +120,27 @@ class Sample  extends NamedData
     options=iOptions;
   }
  
-  color   getColor() //!< Daje kolor.
+  color   getColor() //!< Gives color.
   {
     return _color;
   }
   
-  boolean isEnabled() //!<Sprawdza czy aktywny.
+  boolean isEnabled() //!< Checks if it is active.
   {
     return _enabled.isEnabled();
   }
  
-  boolean isOption(int mask) //!< Sprawdzą opcje wg. maski.
+  boolean isOption(int mask) //!< They will check the options according to masks.
   {
     return (options & mask)!=0;
   }
   
-  int  numOfElements() //!< Długość serii. Razem z pustymi, czyli też == INF_NOT_EXIST
+  int  numOfElements() //!< Series length. Together with empty cells, i.e. == INF_NOT_EXIST
   { 
      return data.size(); 
   }
   
-  float getLast() //!< Ostatnia wartość serii.
+  float getLast() //!< The last value of the series.
   {
     if(data.size()>0)
       return data.get(data.size()-1);
@@ -156,7 +158,7 @@ class Sample  extends NamedData
     data.add(index,whatToAdd);
   }
   
-  void multiplicateElement(int index,float multiplier)
+  void multiplicateElement(int index,float multiplier) //@todo RENAME multiplyElement()
   {
     data.mult(index,multiplier);
   }
@@ -166,7 +168,7 @@ class Sample  extends NamedData
     data.div(index,divider);
   }
   
-  void reset() //!< Czyszczenie z danych.
+  void reset() //!< Data wipe.
   {
     if(data!=null) data.clear();
     Min=Float.MAX_VALUE;
@@ -177,46 +179,46 @@ class Sample  extends NamedData
     count=0;
   }
   
-  /// @brief Skrócenie serii do `longOfRemained` ostatnich elementów. 
+  /// @brief Shortening the series to `longOfRemained` the last elements.
   void remain(int longOfRemained)   
   {
     if(longOfRemained>=data.size())
           return; //Nothing to do!
                                    //println(name(),data.size(),longOfremained);
-    FloatList olddata=data; //TODO name! oldData
-    data=null; //Odcinamy
+    FloatList oldData=data;
+    data=null; //We cut it off
     reset();
     data=new FloatList(longOfRemained*2); //Initial capacity?
-                                //println(name(),olddata.size(),longOfremained);
-    int i=olddata.size()-longOfRemained;
-    int end=olddata.size();
+                                //@todo RENAME println(name(),oldData.size(),longOfRemained);
+    int i=oldData.size()-longOfRemained;
+    int end=oldData.size();
     for(;i<end;i++)
-      addValue(olddata.get(i));
+      addValue(oldData.get(i));
   }
   
-  float getMin() //!< Dostęp do aktualnego minimum.
+  float getMin() //!< Access to the current minimum.
   {
     if(count>0) return Min;
     else return INF_NOT_EXIST;
   }
   
-  float getMax()  //!< Dostęp do aktualnego maximum.
+  float getMax()  //!< Access to the current maximum.
   {
     if(count>0) return Max;
     else return INF_NOT_EXIST;
   }
   
-  float getMean()  //!< Dostęp do aktualnej średniej.
+  float getMean()  //!< Access to the current average.
   {
     if(count>0) return (float)(sum/count);
     else return INF_NOT_EXIST;
   }
   
-  float getHarmMean() //!< aktualna średnia harmoniczna
+  float getHarmMean() //!< Current harmonic mean
   {
     if(count==0) return INF_NOT_EXIST;
     int    N=0;
-    double odwroty=0;
+    double odwroty=0; // @todo RENAME reciprocals... Sum of reciprocals!
     
     for(float val:data)
     if(val!=INF_NOT_EXIST && val!=0)
@@ -229,11 +231,11 @@ class Sample  extends NamedData
     else return (float)(N/odwroty);
   }
   
-  float getQuadMean() //!< aktualna średnia kwadratowa
+  float getQuadMean() //!< Current mean square
   {
     if(count==0) return INF_NOT_EXIST;
     int    N=0;
-    double kwadraty=0;
+    double kwadraty=0; // @todo RENAME sum of squares
     
     for(float val:data)
     if(val!=INF_NOT_EXIST)
@@ -251,23 +253,23 @@ class Sample  extends NamedData
     return (float)ret; 
   }
   
-  /// @brief Aktualna średnia o arbitralne potędze. 
-  /// @note  Może być zarówno ułamek jak i większa liczba niż 2, np. 1/3 albo 3.
-  float getPowMean(float power) //!< 'power' to zadana potęga uśredniania.
+  /// @brief Current average with arbitrary powers.
+  /// @note  It can be both a fraction and a number greater than 2, e.g. 1/3 or 3.
+  float getPowMean(float power) //!< @param 'power' is the given averaging power.
   {
     if(count==0) return INF_NOT_EXIST;
     int    N=0;
-    double potegi=0; //TODO name! powers
+    double powers=0;
     
     for(float val:data)
     if(val!=INF_NOT_EXIST)
     {
-      potegi+=Math.pow(val,power);
+      powers+=Math.pow(val,power);
       N++;
     }
     
     if(N==0) return INF_NOT_EXIST;
-    double ret=potegi/N;
+    double ret=powers/N;
     
     if(ret==0) return INF_NOT_EXIST;
     double ex=1/power;
@@ -276,11 +278,11 @@ class Sample  extends NamedData
     return (float)ret; 
   }
   
-  float getStdDev() //!< Odchylenie standardowe.
+  float getStdDev() //!< Standard deviation.
   {
     if(count==0) return INF_NOT_EXIST;
     int    N=0;
-    double kwadraty=0;
+    double kwadraty=0; // @todo RENAME sum of squares
     double mean=getMean();
     
     for(float val:data)
@@ -294,9 +296,9 @@ class Sample  extends NamedData
     else return (float)(kwadraty/N);
   }
   
-  /// @brief Liczy medianę z całej serii danych. 
-  /// @note  Wymaga przekopiowania i posortowania,
-  ///        więc może być bardzo kosztowne obliczeniowo.
+  /// @brief Calculates the median of the entire data series.
+  /// @note  Requires copying and sorting,
+  ///        so it can be very computationally expensive.
   float getMedian()
   {
     if(count==0) return INF_NOT_EXIST;
@@ -319,24 +321,25 @@ class Sample  extends NamedData
   }
   
   /// @brief It calculates "Gini coefficient".
-  /// @details Algorytm różnic z "https://en.wikipedia.org/wiki/Gini_coefficient"
-  /// @note  Wymaga przekopiowania do tablicy bo mogą być braki w wartościach na liście.
+  /// @details Difference algorithm from "https://en.wikipedia.org/wiki/Gini_coefficient"
+  /// @note It requires copying to the table because there may be missing values in the list.
   float getGiniCoefficient()
   {
+    // Creating temporary data
     int maxN=data.size();
-    // Tworzenie tymczasowych danych
+
     double[] locData=new double[maxN];
     int N=0;
     for(float val:data)
-    if(val!=INF_NOT_EXIST)
-    {
-      locData[N]=val;
-      N++;
-    }
+        if(val!=INF_NOT_EXIST)
+        {
+          locData[N]=val;
+          N++;
+        }
     
     if(N>0)
     {
-      double SumOfDifs=0,SumOfVals=0;
+      double SumOfDifs=0,SumOfVals=0; //@todo rename SumOfDiffs SumOfVars
       for(int i=0;i<N;i++)
       {
         for(int j=0;j<N;j++)
@@ -354,15 +357,15 @@ class Sample  extends NamedData
     return INF_NOT_EXIST;
   }
   
-  /// @brief Dodanie wartości na koniec serii.
+  /// @brief Adding value at the end of the series.
   void addValue(float value) 
   {        
     data.append(value);
     
-    if(value==INF_NOT_EXIST) return; //Nic więcej do zrobienia
+    if(value==INF_NOT_EXIST) return; // Nothing more to do
     
     sum+=value;
-    count++; //Realna wartość, a nie pusta!
+    count++; /// @internal Only real value, not empty!
     
     if(Max<value)
     {
@@ -376,13 +379,13 @@ class Sample  extends NamedData
     }
   }
   
-  /// @brief podmiana ostatnio dodanej wartości na inną.
+  /// @brief Replacing the most recently added value with another one.
   void replaceLastValue(float value) 
   {
     data.set(data.size()-1,value);
   }
   
-  /// @brief podmiana wartości pod inteksem na inną.
+  /// @brief Replacing the value under the index with another one.
   void replaceValue(int index,float value) 
   {
     data.set(index,value);
@@ -391,14 +394,15 @@ class Sample  extends NamedData
 } //_endOfClass Sample
 
 /// @brief   Class for representing frequencies.
-/// @details This class represens a named histogram of frequencies. 
+/// @details This class represents a named histogram of frequencies.
 class Frequencies extends NamedData 
 {
-  int[]   buckets=null; //!< tablica koszyków histogramu.
-  float   sizeOfbucket=0; //(Max-Min) / N; TODO name sizeOfBucket
+  int[]   buckets=null; //!< histogram bin array.
+  float   sizeOfBucket=0; //(Max-Min) / N; 
   
-  float   lowerb=+Float.MAX_VALUE; // TODO name?
-  float   upperb=-Float.MAX_VALUE; // TODO name?
+  float   lowerBuck=+Float.MAX_VALUE;
+  float   upperBuck=-Float.MAX_VALUE;
+  
   int     outsideLow=0;
   int     outsideHig=0;
   int     inside=0;
@@ -410,9 +414,9 @@ class Frequencies extends NamedData
   /// @details For pr2c 'super' must be in the same line with constructor name!
   Frequencies(int numberOfBuckets,float lowerBound, float upperBound,String Name) { super/*NamedData*/(Name);
     buckets=new int[numberOfBuckets];
-    lowerb=lowerBound;
-    upperb=upperBound;
-    sizeOfbucket=(upperBound-lowerBound) / numberOfBuckets;
+    lowerBuck=lowerBound;
+    upperBuck=upperBound;
+    sizeOfBucket=(upperBound-lowerBound) / numberOfBuckets;
   }
     
   /// @brief In this case, the items are histogram buckets.
@@ -435,13 +439,13 @@ class Frequencies extends NamedData
   {
     if(value==INF_NOT_EXIST) return;
     
-    if(value<lowerb)
+    if(value<lowerBuck)
       {outsideLow++;return;}
     
-    if(value>upperb) 
+    if(value>upperBuck) 
       {outsideHig++;return;}    
     
-    int index=(int)((value-lowerb) / sizeOfbucket);
+    int index=(int)((value-lowerBuck) / sizeOfBucket);
          
     buckets[index]++;
     
