@@ -1,9 +1,10 @@
-/// Everything that needs to be done when the application is terminated.
-//* CA: EXIT TEMPLATE
+/// @file
+/// @brief Everything that needs to be done when the application is terminated.
+//*        CA: EXIT TEMPLATE
 //*/////////////////////////////////////////////////////////////////////
 
 /// Exit handler. It is called whenever a window is closed.
-/// NOTE: In C++ translation it is "global" by default.
+/// @note In C++ translation it is "global" by default.
 void exit()          
 {
   noLoop();          //For to be sure...

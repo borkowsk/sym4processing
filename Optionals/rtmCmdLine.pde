@@ -1,12 +1,12 @@
-/// @file rtmCmdLine.pde
-/// Example of function handling of program call parameters, if available.
-/// @date 2023.03.04 (Last modification)
-//*////////////////////////////////////////////////////////////////////////////
+/// @file 
+/// @brief Example of function handling of program call parameters, if available. ("rtmCmdLine.pde")
+/// @date 2023.03.12 (last modification)
+//*//////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// Parsing command line, if available.
-void checkCommandLine() 
+void checkCommandLine()   ///< @note GLOBAL!
 { 
-    //extern int debug_level;// EXPECTED!
+    //extern int debug_level; // EXPECTED!
     
     //Is passing parameters possible?
     if(args==null)

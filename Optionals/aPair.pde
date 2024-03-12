@@ -1,7 +1,7 @@
-/// @file "aPair.pde"
-/// @brief `Pair` is one of the very COMMONLY used and usable TEMPLATE.
-/// @date 2023.03.07 (last modification)
-//*/////////////////////////////////////////////////////////////////////////////
+/// @file 
+/// @brief `Pair` is one of the very COMMONLY used and usable TEMPLATE. ("aPair.pde")
+/// @date 2023.03.12 (last modification)
+//*///////////////////////////////////////////////////////////////////////////////////
 
 // USE /*_interfunc*/ &  /*_forcebody*/ for interchangeable function 
 // if you need translate the code into C++ (--> Processing2C )

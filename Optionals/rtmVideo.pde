@@ -1,6 +1,6 @@
-/// @file rtmVideo.pde
-/// Tool for made video from simulation.
-/// @date 2023.03.04 (Last modification)
+/// @file
+/// @date Tool for made video from simulation ( "rtmVideo.pde" )
+/// @date 2023.03.12 (Last modification)
 //*////////////////////////////////////////////////////////////////////////////////////
 //* PL: Narzędzie do tworzenia wideo z symulacji
 //*////////////////////////////////////////////////////////////////////////////////////
@@ -38,21 +38,21 @@ import com.hamoid.*;//!< Here we import the necessary library containing the Vid
 //*                // Najlepiej w exit()
 ///
 
-VideoExport        videoExport;  ///< Obiekt KLASY z dodatkowej biblioteki - trzeba zainstalować
-                                 //*  CLASS object from additional library - must be installed
-static int         videoFramesFreq=0;///< How many frames per second for the movie. It doesn't have to be the same as in frameRate!
-                                     //*  Ile klatek w sekundzie filmu. Nie musi być to samo co w frameRate!   
-static boolean     videoExportEnabled=false;///< Has film making been initiated?
-                                            //*   Czy tworzenie filmu zostało zainicjowane?
-String copyrightNote="(c) W.Borkowski @ ISS University of Warsaw";///< Change it to your copyright. Best in setup().
-                                                                  //*  To zmień na swój copyright. Najlepiej w setup().  
+VideoExport        videoExport;              ///< Obiekt KLASY z dodatkowej biblioteki - trzeba zainstalować
+                                             //*  CLASS object from additional library - must be installed
+static int         videoFramesFreq=0;        ///< How many frames per second for the movie. It doesn't have to be the same as in frameRate!
+                                             //*  Ile klatek w sekundzie filmu. Nie musi być to samo co w frameRate!   
+static boolean     videoExportEnabled=false; ///< Has film making been initiated?
+                                             //*   Czy tworzenie filmu zostało zainicjowane?
+String copyrightNote="(c) W.Borkowski @ ISS University of Warsaw"; ///< Change it to your copyright. Best in setup().
+                                                                   //*  To zmień na swój copyright. Najlepiej w setup().  
 /// The beginning of the movie file
 //*  Początek pliku filmowego
 void initVideoExport(processing.core.PApplet parent, String Name,int Frames)
 {
   videoFramesFreq=Frames;
   videoExport = new VideoExport(parent,Name); //Klasa VideoExport musi mieć dostep do obiektu aplikacji Processingu
-  videoExport.setFrameRate(Frames);//Nie za szybko
+  videoExport.setFrameRate(Frames); //Nie za szybko
   videoExport.startMovie();
   fill(0,128,255);text(Name,1,20);
   videoExportEnabled=true;
@@ -67,8 +67,8 @@ void FirstVideoFrame()
      fill(0,128,255);text(copyrightNote,1,height); 
      //text(videoExport.VERSION,width/2,height);
      delay(200);
-     for(int i=0;i<videoFramesFreq;i++)//Musi trwać sekundę czy coś...
-       videoExport.saveFrame();//Video frame
+     for(int i=0;i<videoFramesFreq;i++) //Musi trwać sekundę czy coś...
+       videoExport.saveFrame(); //Video frame
   }
 }
 
@@ -97,11 +97,11 @@ void CloseVideo()
    fill(0);
    text(copyrightNote,1,height);
 
-   for(int i=0;i<videoFramesFreq;i++)//Have to last about one second
-       videoExport.saveFrame();//Video frames for final freeze
+   for(int i=0;i<videoFramesFreq;i++) //Have to last about one second
+       videoExport.saveFrame(); //Video frames for final freeze
        
-   videoExport.saveFrame();//Video frame - LAST
-   videoExport.endMovie();//Koniec filma
+   videoExport.saveFrame(); //Video frame - LAST
+   videoExport.endMovie();  //Koniec filma
   }
 }
 

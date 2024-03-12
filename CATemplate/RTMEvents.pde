@@ -1,12 +1,13 @@
-/// Model-specific event handler. 
-/// Of course, the creator of a specific application has to match actions.
-//*  CA: KEYBOARD EVENTS HANDLING
+/// @file
+/// @brief Model-specific event handler. 
+///        Of course, the creator of a specific application has to match actions.
+//*        CA: KEYBOARD EVENTS HANDLING
 //*///////////////////////////////////////////////////////////////////////
 
 /// Keyboard click handler. Automatically run by Processing 
 /// when any key on the keyboard is pressed. 
 /// Inside, you can use the variables 'key' and 'keyCode'.
-/// NOTE: In C++ translation it is "global" by default.
+/// @note In C++ translation it is "global" by default.
 void keyPressed()
 {
   println("RECIVED:'",key,"\' CODE:",int(key)); 

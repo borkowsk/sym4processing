@@ -1,9 +1,10 @@
-/// Cell is a one of two central types (typicaly char or int) of each CA model
-/// Cells need to be initialised & they need rules of change 
+/// @file
+/// @brief Cell is a one of two central types (typicaly char or int) of each CA model
+/// @details Cells need to be initialised & they need rules of change 
 //*////////////////////////////////////////////////////////////////////////////////
 
 /// Initialization of cells (2D version).
-void initializeCells(int[][] cells)
+void initializeCells(int[][] cells) ///< GLOBAL!
 {
    for(int a=0;a<cells.length;a++)
     for(int b=0;b<cells[a].length;b++)
@@ -19,7 +20,7 @@ void initializeCells(int[][] cells)
 //OR 
 
 /// Initialization of cells (1D version).
-void initializeCells(int[] cells)
+void initializeCells(int[] cells) ///< GLOBAL!
 {
   for(int a=0;a<cells.length;a++)
   if(density>0 && random(1)<density)
@@ -35,7 +36,7 @@ void initializeCells(int[] cells)
 //*///////////////////////////////////////////////
 
 /// The cells change over time (SYNCHRONIC 2D version). Example is "modulo 5" CA model.
-void synchChangeCellsModulo(int[][] cells,int[][] newcells)
+void synchChangeCellsModulo(int[][] cells,int[][] newcells) ///< GLOBAL!
 {
   int N=cells.length;
   for(int a=0;a<N;a++)
@@ -57,7 +58,7 @@ void synchChangeCellsModulo(int[][] cells,int[][] newcells)
 //OR 
 
 /// The cells change over time (SYNCHRONIC 1D version). Example is "modulo 5" model.
-void synchChangeCellsModulo(int[] cells,int[] newcells)
+void synchChangeCellsModulo(int[] cells,int[] newcells) ///< GLOBAL!
 {
   int N=cells.length;
   for(int a=0;a<N;a++)
@@ -71,7 +72,7 @@ void synchChangeCellsModulo(int[] cells,int[] newcells)
 }
 
 /// The cells change over time (ASYNCHRONIC 2D version). Example is "modulo 5" model.
-void  asyncChangeCellsModulo(int[][] cells)
+void  asyncChangeCellsModulo(int[][] cells) ///< GLOBAL!
 {
   int MC=cells.length*cells[0].length;
   for(int i=0;i<MC;i++)
@@ -94,7 +95,7 @@ void  asyncChangeCellsModulo(int[][] cells)
 //OR
 
 /// The cells change over time(ASYNCHRONIC 1D version). Example "modulo 5" model.
-void  asyncChangeCellsModulo(int[] cells)
+void  asyncChangeCellsModulo(int[] cells) ///< GLOBAL!
 {
   int MC=cells.length;
   for(int i=0;i<MC;i++)

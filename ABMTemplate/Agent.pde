@@ -1,6 +1,7 @@
-//* Agent is a one of two central class of each ABM model.
-//* FILL IT UP!
-//*/////////////////////////////////////////////////////////////
+/// @file 
+/// @brief Agent is a one of two central class of each ABM model.
+/// @date 2024-03-12
+//*////////////////////////////////////////////////////////////////
 
 /// Agent class. Agent is a one of two central class of each ABM model.
 class Agent

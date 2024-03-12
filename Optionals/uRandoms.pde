@@ -1,12 +1,12 @@
-/// @file uRandoms.pde
-/// Functions that improve the use of pseudo-random numbers.
-/// @date 2023.03.04 (Last modification)
-///*/////////////////////////////////////////////////////////////
+/// @file
+/// @brief Functions that improve the use of pseudo-random numbers ("uRandoms.pde")
+/// @date 2023.03.12 (Last modification)
+///*////////////////////////////////////////////////////////////////////////////////
 
 /// Function generates pseudo random number with non-flat distribution.
 /// When @p Dist is negative, it is Pareto-like, 
 /// when is positive, it is Gaussian-like
-float randomGaussPareto(int Dist)
+float randomGaussPareto(int Dist)  ///< @note GLOBAL
 {
   if(Dist>0)
   {
@@ -24,17 +24,19 @@ float randomGaussPareto(int Dist)
   }
 }
 
+// XOR SHIFT RANDOM:
+//*/////////////////
+
+static long   xl=123456789L;                           ///< seed for xorshift randomizer
+final double denominator=(double)9223372036854775807L; ///< denominator for xorshift randomizer (why double?)
+//final  long   denominator=9223372036854775807L;      /// 9,223,372,036,854,775,807 <--- max long 
+
+/// Function which generates xorshift random value.
 /// XOR SHIFT random number generator with flat distribution
 /// Apart from the function, it also needs a variable for storing the grain 
 /// and a constant for storing the denominator.
 /// See: http://www.javamex.com/tutorials/random_numbers/xorshift.shtml#.WT6NEzekKXI
-
-static long   xl=123456789L; ///< seed for xorshift randomizer
-final double denominator=(double)9223372036854775807L; ///< denominator for xorshift randomizer (why double?)
-//final  long   denominator=9223372036854775807L;/// 9,223,372,036,854,775,807 <--- max long 
-
-/// Function which generates xorshift random value.
-double RandomXorShift() 
+double RandomXorShift()   ///< @note GLOBAL
 {
   xl ^= (xl << 21);
   xl ^= (xl >>> 35);

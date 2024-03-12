@@ -1,5 +1,5 @@
-/// @file aNetInterfaces.pde
-/// @brief Network Only Interfaces.
+/// @file 
+/// @brief Network Only Interfaces ("aNetInterfaces.pde")
 /// @date 2023.04.28 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////
 

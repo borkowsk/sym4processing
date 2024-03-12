@@ -1,5 +1,7 @@
-//* World is a one of two central class of each ABM model.
-//* ABM: WORLD OF AGENTS FOR FILL UP
+/// @file 
+/// @brief World is a one of two central class of each ABM model.
+//*        ABM: WORLD OF AGENTS FOR FILL UP
+/// @date 2024-03-12
 //*/////////////////////////////////////////////////////////////
 
 int StepCounter=0; ///< Counter of real simulation steps.
@@ -27,7 +29,7 @@ class World
 
 /// Initialisation of simulated world.
 /// Prepares the World class for the first step of the simulation.
-void initializeModel(World world)
+void initializeModel(World world) ///< GLOBAL!
 {
   initializeAgents(world.agents);
   //... initilise others things
@@ -35,7 +37,7 @@ void initializeModel(World world)
 
 /// Visualisation of simulated world.
 /// Draws a representation of the simulation world.
-void visualizeModel(World world)
+void visualizeModel(World world) ///< GLOBAL!
 {
   visualizeAgents(world.agents);
   //... visualise others things
@@ -44,7 +46,7 @@ void visualizeModel(World world)
 
 /// Full model step. 
 /// Change agents and other world components, if they are present.
-void modelStep(World world)
+void modelStep(World world) ///< GLOBAL!
 {
    //Dummy part
    dummyChangeAgents(world.agents); //<>//

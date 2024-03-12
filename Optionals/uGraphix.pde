@@ -1,7 +1,7 @@
 /// @file
 /// @brief Various helpful drawing procedures, like crosses, polygons & bar3D ("uGraphix.pde")
 /// @date 2024-03-12 (last modification)
-//*///////////////////////////////////////////////////////////////////////////
+//*///////////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * @brief A class to represent two-dimensional points.
@@ -19,7 +19,7 @@ class pointxy
   {
     x=ix;y=iy;
   }
-} //EndOfClass
+} //EndOfClass pointxy
 
 /// @brief Frame drawn with a default line.
 void surround(int x1,int y1,int x2,int y2)                     ///< @note Global namespace!.

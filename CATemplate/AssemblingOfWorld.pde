@@ -1,5 +1,6 @@
-//* World is a one of two central class of each CA model
-//* CA: WORLD OF CELLS FOR FILL UP
+/// @file
+/// @brief World is a one of two central class of each CA model
+//*        CA: WORLD OF CELLS FOR FILL UP
 //*/////////////////////////////////////////////////////////////
 
 int StepCounter=0; ///< Global variable for caunting real simulation steps.
@@ -41,21 +42,21 @@ class World
 //*/////////////////////////////////////////////////////////////////////////
 
 /// World initialisation. Prepares the World class for the first step of the simulation. 
-void initializeModel(World world)
+void initializeModel(World world) ///< GLOBAL!
 {
   initializeCells(world.cells);
   //... initilise others things
 }
 
 /// World visualisation. Draws a representation of the simulation world.
-void visualizeModel(World world)
+void visualizeModel(World world) ///< GLOBAL!
 {
   visualizeCells(world.cells);
   //... visualise others things
 }
 
 /// Example of cells dynamic. Example changes of cells for testing the visualization. 
-void exampleChange(World world)
+void exampleChange(World world) ///< GLOBAL!
 {
   if(synchronicMode)
   {
@@ -73,7 +74,7 @@ void exampleChange(World world)
 }
 
 /// Real dynamic. Your changes of cells! 
-void realChange(World world)
+void realChange(World world) ///< GLOBAL!
 {
   if(synchronicMode)
   {
@@ -92,7 +93,7 @@ void realChange(World world)
 
 /// Full model step. Change cells and other components if present.
 /// Your 'realChange(world)' procedure should be called here!
-void modelStep(World world)
+void modelStep(World world) ///< GLOBAL!
 {
    /// Dummy example part
    exampleChange(world);

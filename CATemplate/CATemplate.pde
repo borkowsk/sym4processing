@@ -1,5 +1,6 @@
-/// Template for CA MODEL utilized 1D or 2D discrete geometry
-//*   implemented by Wojciech Borkowski
+/// @file
+/// @brief Template for CA MODEL utilized 1D or 2D discrete geometry
+/// @author Implemented by Wojciech Borkowski @date 2023-03-12
 //*////////////////////////////////////////////////////////////////////////////
 
 //Model parameters

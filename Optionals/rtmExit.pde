@@ -1,7 +1,7 @@
-/// @file rtmExit.pde
-/// Example of a handling of exit from aplication (mainly closing open files!). 
-/// @date 2023.03.04 (Last modification)
-//*/////////////////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief Example of a handling of exit from aplication  - mainly closing open files! ("rtmExit.pde") 
+/// @date 2023.03.04 (last modification)
+//*///////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// It is called whenever a window is closed. 
 void exit()          

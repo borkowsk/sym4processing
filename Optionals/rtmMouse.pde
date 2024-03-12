@@ -1,10 +1,11 @@
-/// @file rtmMouse.pde
-/// Examples for handling mouse events.
-/// @date 2023.03.04 (Last modification)
+/// @file 
+/// @brief Examples for handling mouse events ("rtmMouse.pde")
+/// @date 2023.03.12 (Last modification)
 //*/////////////////////////////////////////////////////////////////////////
 
 /// Mouse movement support. It shouldn't be too time consuming.
 /// see: //https://processing.org/reference/mouseMoved_.html
+/// @note Is global by default.
 void mouseMoved()
 {
   fill(random(255),random(255),random(255));

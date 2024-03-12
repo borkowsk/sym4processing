@@ -1,12 +1,13 @@
-///   AGENT BASE MODEL template. It utilizes 1D or 2D discrete geometry. 
+///   @file 
+///   @brief AGENT BASE MODEL template. It utilizes 1D or 2D discrete geometry. 
 ///   Designed by:
-///   @author  Wojciech Borkowski
+///   @author  Wojciech Borkowski @date 2024-03-12
 //*///////////////////////////////////////////////////////////////////////////////////////
 
 // Model parameters
-String modelName="ABMTemplate"; ///< Name of the model is used for log files
-int side=75;        ///< side of "world" main table
-float density=0.75; ///< initial density of agents
+String modelName="ABMTemplate"; ///< Name of the model is used for log files.
+int side=75;                    ///< side of "world" main table.
+float density=0.75;             ///< initial density of agents.
 
 World TheWorld=new World(side); ///< Main "chessboard". It will be initialised inside 'setup()'
 
@@ -18,14 +19,14 @@ int STATUSHEIGH=40; ///< height of status bar.
 int STEPSperVIS=1;  ///< how many model steps beetwen visualisations. 
 int FRAMEFREQ=10;   ///< how many model steps per second.
 
-boolean WITH_VIDEO=false; ///< Make a movie?
+boolean WITH_VIDEO=false;   ///< Make a movie?
 
 boolean simulationRun=true; ///< Start/stop flag
 
-/// Main function called only once. This function encloses things, 
-/// that should be done at the beginning of run.
+/// @brief Main function called only once. @details
+/// This function encloses things, that should be done at the beginning of run.
 /// At least setup() or draw() must be present in animation program
-/// NOTE: In C++ translation it is "global" by default.
+/// @note In C++ translation it is "global" by default.
 void setup()
 {
   //Graphics
@@ -66,15 +67,14 @@ void setup()
   NextVideoFrame(); //It utilise inside variable to check if is enabled
 }
 
-/// Main function called in loop. It means, in will be called many times,
-/// to the end of app. run or 'noLoop()' call.
+/// @brief Main function called in loop. @details 
+/// It means, in will be called many times, to the end of app. run or 'noLoop()' call.
 /// At least setup() or draw() must be present in animation program.
-/// NOTE: In C++ translation it is "global" by default.
+/// @note In C++ translation it is "global" by default.
 void draw()
 {
-   // Back to default settings, if needed.
-   //if(cstroke>0) strokeWeight(cstroke); //<>//
-   //else noStroke();
+  // Back to default settings, if needed:
+  //if(cstroke>0) strokeWeight(cstroke); else noStroke(); //<>//
       
   if(!simulationRun //When simulation was stopped only visualisation should work
   || StepCounter % STEPSperVIS == 0 ) //But when model is running, visualisation shoud be done from time to time

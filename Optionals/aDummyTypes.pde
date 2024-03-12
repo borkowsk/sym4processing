@@ -1,10 +1,9 @@
-/// @file aDummyTypes.pde
+/// @file 
 /// @brief Classes for making an object from a simple types as 
-///       `int`, `boolean`, `float` & `double`.
+///       `int`, `boolean`, `float` & `double`. ("aDummyTypes.pde")
 /// @note They are useful, when you need a REFERENCE to a value of such types.
 /// @date 2023-04-28 (Last modification)
 //*/////////////////////////////////////////////////////////////////////////////
-
 /// @details
 /// In Processing as hell :-) I can't find how to pass something other than an 
 /// object by reference. However, the existing Integer or Float classes are not 
@@ -16,26 +15,25 @@
 /// A class for taking an object from a simple logic variable (true-false). 
 /// Needed for common configuration values or to pass to functions by reference.
 class DummyBool
-{ boolean val=false; }
+{ boolean val=false; } //_EofCl
 
 /// A class for taking an object from a simple variable of type `int`. 
 /// Needed for common configuration values or to pass to functions by reference.
 class DummyInt
-{int val=0;}
+{int val=0;} //_EofCl
 
 /// A class for taking an object from a simple variable of type `float`. 
 /// Needed for common configuration values or to pass to functions by reference.
 class DummyFloat
-{ float val=0; }
+{ float val=0; } //_EofCl
 
 /// A class for taking an object from a simple variable of type `double`. 
 /// Needed for common configuration values or to pass to functions by reference.
 class DummyDouble
-{ double val=0; }
+{ double val=0; } //_EofCl
 
 //*/////////////////////////////////////////////////////////////////////////////
 //*  -> "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" 
 //*   - OPTIONAL TOOLS: FUNCTIONS & CLASSES
 //*  -> "https://github.com/borkowsk/sym4processing"
 //*/////////////////////////////////////////////////////////////////////////////
-

@@ -1,16 +1,16 @@
-//*  Obsługa wyszukiwania obiektu po kliknięciu myszy
-//*  CA: MOUSE EVENTS HANDLING
-//*//////////////////////////////////////////////////////
+/// @file
+/// @brief Obsługa wyszukiwania obiektu po kliknięciu myszy
+//*        CA: MOUSE EVENTS HANDLING
+//*////////////////////////////////////////////////////////
 
 // Last read mouse data
-int searchedX=-1; ///< The horizontal coordinate of the mouse cursor
-int searchedY=-1; ///< The vertical coordinate of the mouse cursor
+int searchedX=-1; ///< The horizontal coordinate of the mouse cursor.
+int searchedY=-1; ///< The vertical coordinate of the mouse cursor.
 boolean Clicked=false; ///< Was there a click too?
 
 // Last selection
-int selectedX=-1; ///< Converted into "world" indices, the agent's horizontal coordinate
-int selectedY=-1; ///< Converted into "world" indices, the agent's vertical coordinate
-
+int selectedX=-1; ///< Converted into "world" indices, the agent's horizontal coordinate.
+int selectedY=-1; ///< Converted into "world" indices, the agent's vertical coordinate.
 
 /// Pair of integers. Simple version of Pair containing a pair of integers.
 class PairOfInt
@@ -28,7 +28,7 @@ class PairOfInt
 /// Mouse click handler. This function is automatically run by Processing
 /// when any mouse button is pressed. 
 /// Inside, you can use the variables 'mouseX' and 'mouseY'.
-/// NOTE: In C++ translation it is "global" by default.
+/// @note In C++ translation it is "global" by default.
 void mouseClicked()
 {
   println("Mouse clicked at ",mouseX,mouseY);//DEBUG
@@ -50,7 +50,7 @@ void mouseClicked()
 /// cell coordinates.
 /// The parameter is only for checking type and SIZES.
 /// It works as long as the agents visualization starts at point 0,0
-PairOfInt findCell(int[][] cells)
+PairOfInt findCell(int[][] cells) ///< GLOBAL!
 { 
   int x=mouseX/cwidth;
   int y=mouseY/cwidth;

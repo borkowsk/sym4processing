@@ -1,8 +1,8 @@
-/// @file uGRectAreas.pde
-/// "Active rectangles" - proprietary application interface module in Processing.
+/// @file
+/// @brief "Active rectangles" - proprietary application interface module in Processing ( "uGRectAreas.pde" )
 /// @date 2023.03.04 (Last modification)
 /// @author Wojciech Borkowski
-//*////////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
 // if you need translate the code into C++ (--> Processing2C )
@@ -15,6 +15,7 @@ int iniTxButtonCornerRadius=6;///< The default rounding of the corners of the bu
 
 /// Mouse click support for buttons.
 /// If the program may also respond to clicks differently, this must be taken into account here.
+/// @note This is global by default.
 void mousePressed() 
 {
   println("Pressed "+mouseX+" x "+mouseY);
@@ -29,6 +30,7 @@ void mousePressed()
 
 /// Mouse button relase support.
 /// If the program may also respond to clicks differently, this must be taken into account here.
+/// @note This is global by default.
 void mouseReleased() 
 {
   println("Released "+mouseX+" x "+mouseY);
@@ -43,7 +45,7 @@ void mouseReleased()
 
 /// View all interface elements.
 /// Should be called in draw() or in an event handlers.
-void view_all_areas()
+void view_all_areas() ///< @note GLOBAL
 {
   for( RectArea area: allAreas)
   {
@@ -84,7 +86,7 @@ class RectArea
     return x1<=x && x<=x2
         && y1<=y && y<=y2;
   }
-}//EndOfClass
+} //EndOfClass RectArea
 
 /// A class of a panel that contains many buttons.
 class PanelOfTextButtons extends RectArea
@@ -119,7 +121,7 @@ class PanelOfTextButtons extends RectArea
     but.y2+=y1; //Przy move() trzeba z powrotem odjąć, a potem dodać nowe
   }
   
-}//EndOfClass
+} //EndOfClass
 
 /// Rectangular button with text content.
 class TextButton extends RectArea implements iNamed
@@ -189,7 +191,7 @@ class TextButton extends RectArea implements iNamed
     }
   }
   
-}//EndOfClass
+} //EndOfClass TextButton
 
 
 /// A pseudo-button class that displays the state, not the name. 
@@ -258,7 +260,7 @@ class StateLabel extends TextButton
           view();
     }
   }
-}//EndOfClass
+} //EndOfClass StateLabel
 
 /// A button class that increments a state label. 
 /// It possibly undoes the operation of the opposite pair.
@@ -297,7 +299,7 @@ class StateLabelInc extends TextButton
      target.allow(); //Odbezpieczenie       
      target.set_state(target.state-1,visual);
    }
-}//EndOfClass
+} //EndOfClass StateLabelInc
 
 /// Unique button. 
 /// The class of the button, which when clicked, resets the state of all the others on the list.
@@ -330,7 +332,7 @@ class UniqTextButton extends TextButton
           button.set_state(0,true); //set_state jest po klasie bazowej żeby uniknąć niechcianej rekurencji
     }
   }
-}//EndOfClass
+} //EndOfClass UniqTextButton
 
 /// A button that remembers the column to which its unique marker is to be saved.
 class WrTextButton extends TextButton 
@@ -346,7 +348,7 @@ class WrTextButton extends TextButton
     marker=iMarker;
     column=iColumn;
   }
-}//EndOfClass
+} //EndOfClass WrTextButton
 
 /// UniqButton additionally remembers the column to which it is to save its unique marker.
 class WrUniqTextButton extends UniqTextButton 
@@ -363,7 +365,7 @@ class WrUniqTextButton extends UniqTextButton
     marker=iMarker;
     column=iColumn;
   }
-}//EndOfClass
+} //EndOfClass WrUniqTextButton
 
 //*/////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 

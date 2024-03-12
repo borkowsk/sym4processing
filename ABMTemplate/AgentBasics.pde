@@ -1,10 +1,12 @@
-//* Agent is a one of two central class of each ABM model
-//* ABM: BASIC INITIALISATION & EVERY STEP CHANGE
+/// @file 
+/// @brief Agent is a one of two central class of each ABM model
+//*        ABM: BASIC INITIALISATION & EVERY STEP CHANGE
+/// @date 2024-03-12 @details
 /// Agents need to be initialised & they need logic of change. 
 //*//////////////////////////////////////////////////////////////
 
 /// Initialization of agents (2D version).
-void initializeAgents(Agent[][] agents)
+void initializeAgents(Agent[][] agents) ///< GLOBAL!
 {
    for(int a=0;a<agents.length;a++)
     for(int b=0;b<agents[a].length;b++)
@@ -16,7 +18,7 @@ void initializeAgents(Agent[][] agents)
 }
 //OR 
 /// Initialization of agents (1D version).
-void initializeAgents(Agent[] agents)
+void initializeAgents(Agent[] agents) ///< GLOBAL!
 {
   for(int a=0;a<agents.length;a++)
   if(random(1)<density)
@@ -28,7 +30,7 @@ void initializeAgents(Agent[] agents)
 
 /// Example changes of agents (2D version).
 /// Random changes of agents for testing the visualization. 
-void  dummyChangeAgents(Agent[][] agents)
+void  dummyChangeAgents(Agent[][] agents) ///< GLOBAL!
 {
   int MC=agents.length*agents[0].length;
   for(int i=0;i<MC;i++)
@@ -44,7 +46,7 @@ void  dummyChangeAgents(Agent[][] agents)
 
 /// Example changes of agents (1D version).
 /// Random changes of agents for testing the visualization.
-void  dummyChangeAgents(Agent[] agents)
+void  dummyChangeAgents(Agent[] agents) ///< GLOBAL!
 {
   int MC=agents.length;
   for(int i=0;i<MC;i++)
@@ -61,7 +63,7 @@ void  dummyChangeAgents(Agent[] agents)
 /// Real changes of agents (2D version).
 /// Typically agents change over time.
 /// User code is needed here.
-void  changeAgents(Agent[][] agents)
+void  changeAgents(Agent[][] agents) ///< GLOBAL!
 {
   int MC=agents.length*agents[0].length;
   for(int i=0;i<MC;i++)
@@ -78,7 +80,7 @@ void  changeAgents(Agent[][] agents)
 /// Real changes of agents (1D version).
 /// Typically agents change over time.
 /// User code is needed here.
-void  changeAgents(Agent[] agents)
+void  changeAgents(Agent[] agents) ///< GLOBAL!
 {
   int MC=agents.length;
   for(int i=0;i<MC;i++)

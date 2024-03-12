@@ -1,10 +1,12 @@
-/// Tool for made video from simulation. 
-//* PL: Narzędzie do tworzenia wideo z symulacji
+/// @file 
+/// @brief Tool for made video from simulation. 
+//*    PL: Narzędzie do tworzenia wideo z symulacji
+/// @date 2024-03-12
 //*////////////////////////////////////////////////////////////////////////////////////
-/// --> http://funprogramming.org/VideoExport-for-Processing/examples/basic/basic.pde
+/// @details 
+///  --> http://funprogramming.org/VideoExport-for-Processing/examples/basic/basic.pde
 //*
 /// Apart from the "hamoid" library, you also need to install the ffmpeg program to make it work !!!
-
 /// NOTE: The module is not supported by Processing2C ++ tool!
 
 import com.hamoid.*; // Here we import the necessary library containing the VideoExport class

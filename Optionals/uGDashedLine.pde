@@ -1,6 +1,6 @@
-/// @file uGDashedLine.pde
-/// Function for drawing dashed lines.
-/// @date 2023.03.04 (Last modification)
+/// @file
+/// @brief Function for drawing dashed lines. ( "uGDashedLine.pde" )
+/// @date 2023.03.12 (Last modification)
 //*//////////////////////////////////////////////////////////////////
 
 ///  Draw a dashed line with given set of dashes and gap lengths. 
@@ -17,7 +17,7 @@
 ///  3-pixel dash, and 2-pixel gap, then repeat.
 ///  NOTE: uses the Processing specific function lerp()
 ///  See: https://processing.org/discourse/beta/num_1202486379.html 
-void dashedLine(float x0, float y0, float x1, float y1, float[ ] spacing) 
+void dashedLine(float x0, float y0, float x1, float y1, float[ ] spacing) ///< @note GLOBAL!
 { 
   float distance = dist(x0, y0, x1, y1); 
   float [ ] xSpacing = new float[spacing.length]; 
@@ -59,7 +59,7 @@ void dashedLine(float x0, float y0, float x1, float y1, float[ ] spacing)
 }
 
 /// Simplified function for drawing dotted lines.
-void dashedline(float x0, float y0, float x1, float y1,float dens)
+void dashedline(float x0, float y0, float x1, float y1,float dens) ///< @note GLOBAL!
 {
   dashedLine(x0,y0,x1,y1,new float[]{dens,dens});
 }

@@ -1,28 +1,28 @@
-/// @file uMathLog.pde
-/// Handy logarithms and around.
-/// @date 2023.03.04 (Last modification)
-//*/////////////////////////////////////////////
+/// @file
+/// @brief Handy logarithms and around ("uMathLog.pde")
+/// @date 2023.03.12 (last modification)
+//*////////////////////////////////////////////////////
 
-/// Calculates the base-10 logarithm of a number
-float log10 (float x)
+/// Calculates the base-10 logarithm of a number.
+float log10 (float x)  ///< @note GLOBAL
 {
   return (log(x) / log(10));
 }
 
-/// Calculates the base-2 logarithm of a number
-float log2 (float x)
+/// Calculates the base-2 logarithm of a number.
+float log2 (float x)  ///< @note GLOBAL
 {
   return (log(x) / log(2));
 }
 
-/// Calculates the base-2 logarithm of a number with double precision
-double log2 (double x) 
+/// Calculates the base-2 logarithm of a number with double precision.
+double log2 (double x)   ///< @note GLOBAL
 {
   return (Math.log(x) / Math.log(2)); //Math.log2(x); 
 }
 
-/// Calculates the base-10 logarithm of a number with double precision
-double log10 (double x) 
+/// Calculates the base-10 logarithm of a number with double precision.
+double log10 (double x)   ///< @note GLOBAL
 {
   return  Math.log10(x);//  (Math.log(x) / Math.log(10));
 }

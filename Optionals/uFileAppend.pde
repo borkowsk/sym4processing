@@ -1,5 +1,5 @@
-/// @file uFileAppend.pde
-/// Tools for CSV files.
+/// @file 
+/// @brief Tools for CSV files ("uFileAppend.pde")
 /// @date 2023.03.04 (Last modification)
 //*///////////////////////////////////////////////////////////////////////
 import java.io.BufferedWriter;

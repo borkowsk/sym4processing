@@ -1,9 +1,9 @@
-/// @file uStatOfAgents.pde
-/// @brief A template of making a histogram from an example agent with "A" field.
-///        It would be difficult to generalize to any field.
-///        Easier you can just rename the field as needed.
-/// @date 2023.03.04 (Last modification)
-///*/////////////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief A template of making a histogram from an example agent with "A" field ("uStatOfAgents.pde")
+/// @details It would be difficult to generalize to any field.
+///          Easier you can just rename the field as needed.
+/// @date 2023.03.12 (Last modification)
+///*//////////////////////////////////////////////////////////////////////////////////////////////////
 //* PL: Szablon wykonania histogramu z przykładowego pola .A agenta 
 //* PL: Trudno by to było uogólnić na dowolne pola. 
 //* PL: Łatwiej po prostu zmieniać nazwę pola w razie potrzeby.

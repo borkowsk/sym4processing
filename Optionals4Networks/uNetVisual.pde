@@ -1,9 +1,10 @@
-/// @file uNetVisual.pde
+/// @file 
+/// @brief Generic visualisations of a (social) network ("uNetVisual.pde")
 /// @date 2023.04.28 (last modification)
-/// @brief Generic visualisations of a (social) network
 //*/////////////////////////////////////////////////////////////////////////////
 
 /// @details
+///
 ///   CLASSES:
 ///   ========
 ///   - `class Visual2DNodeAsList extends NodeAsList implements iVisNode` 
@@ -40,7 +41,7 @@ class Visual2DNodeAsList extends NodeAsList implements iVisNode
   float  posX() { return X;}
   float  posY() { return Y;}
   String name() { return ("("+X+","+Y+")"+this);}
-} //EndOfClass
+} //EndOfClass Visual2DNodeAsList
 
 /**
 * @brief Visualisable node based on `NodeAsMap` core.
@@ -62,14 +63,14 @@ class Visual2DNodeAsMap extends NodeAsMap implements iVisNode
   float  posX() { return X;}
   float  posY() { return Y;}
   String name() { return ("("+X+","+Y+")"+this);}
-} //EndOfClass
+} //EndOfClass Visual2DNodeAsMap
 
 
 //   IMPLEMENTATIONS:
 //*//////////////////
 
 /// One dimensional visualisation using arcs().
-void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode)  ///< Global namespace.
+void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode)  ///< @note Global namespace.
 { 
   noFill();strokeCap(ROUND); //<>//
   linkCounter=0;
@@ -111,8 +112,8 @@ void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,f
   }
 }
 
-/// Two dimensional visualisation using arrows().
-void visualiseLinks2D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode)  ///< Global namespace.
+/// Two dimensional visualisation using `arrows()`.
+void visualiseLinks2D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode)  ///< @note Global namespace.
 {
   noFill();strokeCap(ROUND);
   linkCounter=0;
@@ -165,7 +166,7 @@ void visualiseLinks2D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,f
 }
 
 /// Alternative 2D links visualisation.
-void visualiseLinks(iVisNode[][] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode) ///< Global namespace.
+void visualiseLinks(iVisNode[][] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode) ///< @note Global namespace.
 { 
   noFill();
   linkCounter=0;

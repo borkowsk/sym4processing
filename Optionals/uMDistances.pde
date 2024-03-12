@@ -2,7 +2,7 @@
 /// @brief Different ways to calculate Euclid distances in 2D ("uMDistances.pde", flat and torus).
 /// @date 2024-03-12 (Last modification)                        @author borkowsk 
 /// @details ...
-//*/////////////////////////////////////////////////////////////////////////////
+//*////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @brief Shortcuts for square value.
 /// @note Comment they out, if defined elsewhere.

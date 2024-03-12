@@ -1,9 +1,10 @@
-/// @file aNetwork.pde
+/// @file 
+/// @brief Generic (social) network classes ("aNetwork.pde")
 /// @date 2023.04.28 (last modification)
-/// @brief Generic (social) network classes.
 //*/////////////////////////////////////////////////////////////////////////////
 
 /// @details
+///
 ///   Classes:
 ///   ========
 ///   - `class Link extends Colorable implements iLink`
@@ -51,7 +52,7 @@ import java.util.Map;
 abstract class LinkFilter implements iLinkFilter {
   /*_interfunc*/ boolean meetsTheAssumptions(iLink l)
                   {assert false : "Pure abstract meetsTheAssumptions(Link) called"; return false;}
-} //_EndOfClass
+} //_EndOfClass LinkFilter
 
 /**
 * @brief Abstraction of link factory class. Forcing `makeLink()` and `makeSalfLink()` methods.
@@ -61,14 +62,14 @@ abstract class LinkFactory implements iLinkFactory {
                   {assert false : "Pure abstract make(Node,Node) called"; return null;}
                  iLink  makeSelfLink(iNode Self)
                   {assert false : "Pure abstract make(Node) called"; return null;}
-} //EndOfClass
+} //EndOfClass LinkFactory
 
 /**
 * @brief Abstraction of string-named class. Forcing `name()` method for visualisation and mapping.
 */
 abstract class Named implements iNamed {       
   /*_interfunc*/ String    name(){assert false : "Pure interface name() called"; return null;}
-} //EndOfClass
+} //EndOfClass Named
 
 /**
 * @brief Abstraction for any colorable object. Only for visualisation.
@@ -76,7 +77,7 @@ abstract class Named implements iNamed {
 abstract class Colorable extends Named implements iColorable {
   /*_interfunc*/ void setFill(float modifier)  {assert false : "Pure abstract setFill() called";}
   /*_interfunc*/ void setStroke(float modifier){assert false : "Pure abstract setStroke() called";}
-} //EndOfClass
+} //EndOfClass Colorable
 
 /**
 * @brief Forcing `posX()` & `posY()` & `posZ()` methods for visualisation and mapping.
@@ -85,7 +86,7 @@ abstract class Positioned extends Colorable implements iPositioned {
   /*_interfunc*/ float    posX(){assert false : "Pure abstract posX() called"; return 0;}
   /*_interfunc*/ float    posY(){assert false : "Pure abstract posY() called"; return 0;}
   /*_interfunc*/ float    posZ(){assert false : "Pure abstract posZ() called"; return 0;}
-} //EndOfClass
+} //EndOfClass Positioned
 
 /**
 * @brief Abstraction class for any network node.
@@ -99,7 +100,7 @@ abstract class Node extends Positioned implements iNode {
   /*_interfunc*/ iLink    getConn(String k) {assert false : "Pure abstract getConn(String '"+k+"') called"; return null;}
   /*_interfunc*/ iLink[]  getConns(iLinkFilter f)
                   { assert false : "Pure abstract getConns(LinkFilter "+f+") called"; return null;}
-} //EndOfClass
+} //EndOfClass Node
 
 ///  CLASS FOR MODIFICATION:
 //*/////////////////////////

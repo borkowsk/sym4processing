@@ -1,7 +1,7 @@
-/// @file Optionals.pde
-/// This file forcing all "optionales" to be loaded from this folder 
-/// @date 2023.03.04 (Last modification)
-//*/////////////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief This file forcing all "optionales" to be loaded from this folder ( "Optionals.pde" )
+/// @date 2023.03.12 (Last modification)
+//*/////////////////////////////////////////////////////////////////////////////////////////////
 
 /// mandatory globals
 int          RANDSEED=0;          ///< For initialisation of pseudo-random 

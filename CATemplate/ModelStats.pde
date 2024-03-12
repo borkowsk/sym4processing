@@ -1,23 +1,24 @@
-/// Simulation have to collect and write down statistics from every step.
-//* CA: STATISTICS LOG TEMPLATE
+/// @file
+/// @brief Simulation have to collect and write down statistics from every step.
+//*        CA: STATISTICS LOG TEMPLATE
 //*////////////////////////////////////////////////////////////////////////////////
 
-PrintWriter outstat; ///< Handle to the text file with the record of model statistics
+PrintWriter outstat; ///< Handle to the text file with the record of model statistics.
 
 /// Initialisation of statistic log. It prepares a unique statistics file name, 
 /// opens the file and enters the header line.
-void initializeStats()
+void initializeStats() ///< GLOBAL!
 {
   String FileName=modelName+="_"+year()+'.'+nf(month(),2)+'.'+nf(day(),2)+'.'+nf(hour(),2)+'.'+nf(minute(),2)+'.'+nf(second(),2)+'.'+millis();
   outstat=createWriter(FileName+".out");
   outstat.println("$STEP\tAlive\t.....");//<-- complete the header fields!
 }
 
-float meanDummy=0;///< the average of the non-zero cell values
-int   liveCount=0;///< number of non-zero cells
+float meanDummy=0; ///< the average of the non-zero cell values
+int   liveCount=0; ///< number of non-zero cells
 
 /// Couning all statistics. The function calculates all world statistics after the simulation step.
-void doStatistics(World world)
+void doStatistics(World world) ///< GLOBAL!
 {
   doStatisticsOnCells(world.cells);
   /// ... statistics of other things
@@ -26,7 +27,7 @@ void doStatistics(World world)
 /// Statistics for cells (1D version). The function calculates and writes all cells statistics.
 /// It is called in 'doStatistics()'.
 /// NOTE: outstat file should be closed in exit() --> see Exit.pde
-void doStatisticsOnCells(int[] cells)
+void doStatisticsOnCells(int[] cells) ///< GLOBAL!
 {  
   int curr;
   long summ=0;
@@ -62,7 +63,7 @@ void doStatisticsOnCells(int[] cells)
 /// Statistics for cells (2D version). The function calculates and writes all cells statistics.
 /// It is called in 'doStatistics()'.
 /// NOTE: outstat file should be closed in exit() --> see Exit.pde
-void doStatisticsOnCells(int[][] cells)
+void doStatisticsOnCells(int[][] cells) ///< GLOBAL!
 {  
   long summ=0;
   int curr;

@@ -1,22 +1,22 @@
-/// @file uMathSqr.pde
-/// Functions for easy and READABLE in squaring expressions.
-/// @date 2023.03.04 (Last modification)
-//*//////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief Functions for easy and READABLE in squaring expressions ("uMathSqr.pde")
+/// @date 2023.03.12 (Last modification)
+//*////////////////////////////////////////////////////////////////////////////////
 
-/// A square of an int number
-int sqra(int a)
+/// A square of an int number.
+int sqra(int a)  ///< @note GLOBAL
 {
   return a*a;
 }
 
-/// A square of an float number
-float sqra(float a)
+/// A square of an float number.
+float sqra(float a)  ///< @note GLOBAL
 {
   return a*a;
 }
 
-/// A square of an double number
-double sqra(double a)
+/// A square of an double number.
+double sqra(double a)  ///< @note GLOBAL
 {
   return a*a;
 }

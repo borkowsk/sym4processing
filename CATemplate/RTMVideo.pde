@@ -1,11 +1,12 @@
-/// Tool for made video from simulation 
-//* PL: Narzędzie do tworzenia wideo z symulacji
+/// @file
+/// @brief Tool for made video from simulation 
+//*    PL: Narzędzie do tworzenia wideo z symulacji
 //*////////////////////////////////////////////////////////////////////////////////////
+/// @details
 /// --> http://funprogramming.org/VideoExport-for-Processing/examples/basic/basic.pde
 //*
 /// Apart from the "com.hamoid" library, you also need to install the ffmpeg program to make it work !!! 
-
-/// NOTE: The module is not supported by Processing2C ++ tool!
+/// @note This module is not supported by Processing2C ++ tool!
 
 import com.hamoid.*;// Here we import the necessary library containing the VideoExport class
 
@@ -39,14 +40,14 @@ import com.hamoid.*;// Here we import the necessary library containing the Video
 VideoExport        videoExport; ///< CLASS object from additional library - must be installed
                                 //*  PL: Obiekt KLASY z dodatkowej biblioteki - trzeba zainstalować
                                  
-static int         videoFramesFreq=0;///< How many frames per second for the movie. It doesn't have to be the same as in frameRate!
-                                     //   PL: Ile klatek w sekundzie filmu. Nie musi być to samo co w frameRate!   
+static int         videoFramesFreq=0; ///< How many frames per second for the movie. It doesn't have to be the same as in frameRate!
+                                      //   PL: Ile klatek w sekundzie filmu. Nie musi być to samo co w frameRate!   
 
-static boolean     videoExportEnabled=false;///< Has film making been initiated?
-                                            //*  PL: Czy tworzenie filmu zostało zainicjowane?
+static boolean     videoExportEnabled=false; ///< Has film making been initiated?
+                                             //*  PL: Czy tworzenie filmu zostało zainicjowane?
   
-///< Copyright of your movie  
-///< Change it to your copyright. Best in setup() function.
+/// Copyright of your movie  
+/// Change it to your copyright. Best in setup() function.
 //*  PL: Zawartość zmień na swój "copyright". Najlepiej w funkcji setup().                                   
 String copyrightNote="(c) W.Borkowski @ ISS University of Warsaw";
 

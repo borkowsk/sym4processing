@@ -2,11 +2,10 @@
 /// @brief Common INTERFACES like iNamed, iDescribable, iColorable, iPositioned ("aInterfaces.pde")
 /// @date 2024.03.12 (last modification)                       @author borkowsk
 /// @details ...
-//*/////////////////////////////////////////////////////////////////////////////
+//*////////////////////////////////////////////////////////////////////////////////////////////////
 
 //* USE /*_interfunc*/ &  /*_forcebody*/ for interchangeable function 
 //* if you need translate the code into C++ (--> Processing2C )
-
 
 // Generally usable interfaces:
 //*////////////////////////////
@@ -19,14 +18,14 @@
 interface iFlag 
 {
   /*_interfunc*/ boolean isEnabled() /*_forcebody*/;
-} //_EndOfClass
+} //_EofCl
 
 /** @brief Forcing name of an object available as `String` (planty of usage).
 */
 interface iNamed 
 {
   /*_interfunc*/ String    name() /*_forcebody*/;
-} //_EndOfClass
+} //_EofCl
 
 /** @brief Any object which have description as (maybe) long, multi line string.
 */
@@ -34,8 +33,10 @@ interface iDescribable {
   /*_interfunc*/ String Description() /*_forcebody*/;
 } //_EndOfClass
 
+/** @brief Any simulation agent
+*/
 interface iAgent {
-} //_EndOfClass
+} //_EofCl
 
 
 /// VISUALISATION INTERFACES:

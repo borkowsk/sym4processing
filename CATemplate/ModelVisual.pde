@@ -1,9 +1,10 @@
-/// World full of cells need method of visualisation on screen/window
-//* CA: BASIC VISUALISATION
+/// @file
+/// @brief World full of cells need method of visualisation on screen/window
+//*        CA: BASIC VISUALISATION
 //*//////////////////////////////////////////////////////////////////////////
 
 /// Visualization of cells (Two-dimensional version). NOTE: Not efficient for cwidth==1 !
-void visualizeCells(int[][] cells)
+void visualizeCells(int[][] cells)  ///< GLOBAL!
 {
   for(int a=0;a<cells.length;a++)
    for(int b=0;b<cells[a].length;b++)
@@ -27,8 +28,8 @@ void visualizeCells(int[][] cells)
 
 //OR
 
-/// Visualization of cells (One-dimensional version). NOTE: Not efficient for cwidth==1 !
-void visualizeCells(int[] cells)
+/// Visualization of cells (One-dimensional version). @note Not efficient for cwidth==1 !
+void visualizeCells(int[] cells)  ///< GLOBAL!
 {
    for(int a=0;a<cells.length;a++)
    {

@@ -1,11 +1,11 @@
-/// @file uMathBits.pde
-/// Bit tools.
-/// @date 2023.03.04 (Last modification)
-//*///////////////////////////////////////////////////////////////
+/// @file 
+/// @brief Bit tools. ("uMathBits.pde")
+/// @date 2023.03.12 (Last modification)
+//*////////////////////////////////////////
 
 /// Function for mutating integer bits.
 /// Flip-flop the bit at the given position
-int swithbit(int sou,int pos)
+int swithbit(int sou,int pos)  ///< @note GLOBAL
 {
   if(pos>=MASKBITS)//Define MASKBITS somewhere
   {
@@ -21,7 +21,7 @@ int swithbit(int sou,int pos)
 
 /// IBit counting function.
 /// Counts the set bits of an integer
-int countbits(int u)
+int countbits(int u)  ///< @note GLOBAL
 {
   final int BITSPERINT=32; assert Integer.BYTES==4;
   int sum=0;

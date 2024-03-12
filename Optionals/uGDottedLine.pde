@@ -1,6 +1,6 @@
-/// @file uGDottedLine.pde
-/// Functions for drawing dotted lines.
-/// @date 2023.03.04 (Last modification)
+/// @file 
+/// @brief Functions for drawing dotted lines. ("uGDottedLine.pde")
+/// @date 2023.03.12 (Last modification)
 //*////////////////////////////////////////////////////////////////////////////////////
 
 /// If you use a lot of dotted lines maybe something like this is usefull for you... 

@@ -1,7 +1,7 @@
-/// @file uNLinkFilters.pde
-/// @date 2023.04.28 (last modification)
-/// @brief Others factories for fabrication of links for a (social) network
-//*/////////////////////////////////////////////////////////////////////////////
+/// @file
+/// @brief Others factories for fabrication of links for a (social) network ("uNLinkFilters.pde")
+/// @date 2024.03.12 (last modification)
+//*///////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
 * @brief Random link factory.
@@ -33,7 +33,7 @@ class randomWeightLinkFactory implements iLinkFactory
     return new Link((Node)Self,random(min_weight,max_weight),default_type);
   }
   
-} //EndOfClass
+} //EndOfClass randomWeightLinkFactory
 
 //*////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 

@@ -1,10 +1,11 @@
-/// Model-specific event handler. 
-/// Of course, the creator of a specific application has to match actions.
-//* ABM: EVENTS TEMPLATE
+/// @file 
+/// @brief Model-specific event handler. 
+///        Of course, the creator of a specific application has to match actions.
+//*        ABM: EVENTS TEMPLATE
+/// @date 2024-03-12
 //*///////////////////////////////////////////////////////////////////////
 
-/// @brief Keyboard click handler. 
-/// @details 
+/// @brief Keyboard click handler. @details 
 /// Automatically run by Processing when any key on the keyboard is pressed. 
 /// Inside, you can use the variables 'key' and 'keyCode'.
 /// NOTE: In C++ translation it is "global" by default.

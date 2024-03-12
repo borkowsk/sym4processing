@@ -1,13 +1,15 @@
-/// Simulation have to collect and write down statistics from every step.
+/// @file 
+/// @brief Simulation have to collect and write down statistics from every step.
 //* ABM: STATISTICS LOG TEMPLATE
+/// @date 2024-03-12
 //*/////////////////////////////////////////////////////////////////////////////////////
 
-PrintWriter outstat; ///< Handle to the text file with the record of model statistics
+PrintWriter outstat;         ///< Handle to the text file with the record of model statistics
 
-/// Initilise statistic log file.
+/// @brief Initilise statistic log file. @details
 /// It prepares a unique statistics file name, opens the file 
 /// and writes the header line.
-void initializeStats()
+void initializeStats()      ///< GLOBAL!
 {
   String FileName=modelName+="_"+year()+'.'+nf(month(),2)+'.'+nf(day(),2)+'.'
                            +nf(hour(),2)+'.'+nf(minute(),2)+'.'+nf(second(),2)+'.'+millis();
@@ -16,23 +18,23 @@ void initializeStats()
   outstat.println("$STEP\tAlive\t....."); //<-- complete the header fields!
 }
 
-float meanDummy=0; ///< average value for the dummy field
-int   liveCount=0; ///< number of living agents
+float meanDummy=0;         ///< average value for the dummy field
+int   liveCount=0;         ///< number of living agents
 
-/// Every step statistics.
+/// @brief Every step statistics. @details
 /// The function calculates all world statistics after the simulation step.
 /// NOTE: For the sake of performance, it may be called not every step 
 /// but every ten 10 steps or even less often. 
-void doStatistics(World world)
+void doStatistics(World world) ///< GLOBAL!
 {
   doStatisticsOnAgents(world.agents);
   /// ... statistics of other things
 }
 
-/// Agent statistics (1D version).
+/// @brief Agent statistics (1D version). @details
 /// It calculates and writes statistics of agents.
 /// File 'outstat' should be closed in exit() --> see Exit.pde
-void doStatisticsOnAgents(Agent[] agents)
+void doStatisticsOnAgents(Agent[] agents) ///< GLOBAL!
 {  
   Agent curra;
   double summ=0;
@@ -55,10 +57,10 @@ void doStatisticsOnAgents(Agent[] agents)
    meanDummy=(float)(summ/liveCount);
 }
 
-/// Agent statistics (2D version).
+/// @brief Agent statistics (2D version). @details
 /// It calculates and writes statistics of agents.
 /// File 'outstat' should be closed in exit() --> see Exit.pde
-void doStatisticsOnAgents(Agent[][] agents)
+void doStatisticsOnAgents(Agent[][] agents) ///< GLOBAL!
 {  
   Agent curra;
   double summ=0;

@@ -1,7 +1,7 @@
-/// @file Optionals4Networks.pde
+/// @file 
+/// @brief Minimal program for testing linking of networks optionals ("Optionals4Networks.pde")
 /// @date 2023.03.04 (Last modification)
-/// @brief Minimal program for testing linking of networks optionals.
-//*/////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////////////////////
 
 static int   DEBUG_LEVEL=0;       ///< General DEBUG level.
 static int   NET_DEBUG_LEV=1;     ///< DEBUG level for network.
@@ -14,7 +14,8 @@ AllLinks vfilter;
 float defX=1;
 float defY=1;
 
-/// Mandatory Processing function.
+/// Mandatory Processing function called once at the begining of the every program.
+/// @note This is global by default!
 void setup()
 {
   size(500,500);
@@ -37,6 +38,8 @@ void setup()
   //makeScaleFree(AllNodes,factory,sizeOfFirstCluster,numberOfNewLinkPerNode,reciprocal); //It works only sometime!
 }
 
+/// Mandatory Processing function.
+/// @note This is global by default!
 void draw()
 {
   float cellside=1;

@@ -1,17 +1,17 @@
-/// @file uStatics.pde
-///  Various simple statistics for one-dimensional arrays
-/// @date 2023.03.04 (Last modification)
+/// @file
+/// @brief Various simple statistics for one-dimensional arrays ("uStatistics.pde")
+/// @date 2023.03.12 (Last modification)
 ///
 //*  PL: Różne proste statystyki dla tablic jednowymiarowych
-//*/////////////////////////////////////////////////////////////////////////////
+//*/////////////////////////////////////////////////////////////////////////////////
 
 /// Arithmetic mean of the float data.
 //* PL: Średnia arytmetyczna z danych typu float
 /// See: https://en.wikipedia.org/wiki/Arithmetic_mean
-float meanArithmetic(float data[],int offset,int limit)
+float meanArithmetic(float data[],int offset,int limit)    ///< @note GLOBAL
 {                       
                                                            assert(offset<limit);
-                                                      assert(limit<data.length);
+                                                           assert(limit<data.length);
   double sum = 0;
   
   for (int i = offset ; i < limit; i++)
@@ -25,10 +25,10 @@ float meanArithmetic(float data[],int offset,int limit)
 /// Arithmetic mean of the "double" precision data.
 //* PL: Średnia arytmetyczna z danych o "podwójnej" precyzji
 /// See: https://en.wikipedia.org/wiki/Arithmetic_mean
-double meanArithmetic(double data[],int offset,int limit)
+double meanArithmetic(double data[],int offset,int limit)  ///< @note GLOBAL
 {                       
                                                            assert(offset<limit);
-                                                      assert(limit<data.length);
+                                                           assert(limit<data.length);
   double sum = 0;
   
   for (int i = offset ; i < limit; i++)
@@ -42,7 +42,7 @@ double meanArithmetic(double data[],int offset,int limit)
 /// Pearson's correlation.
 //* PL: Korelacja Pearsona
 /// https://pl.wikipedia.org/wiki/Wsp%C3%B3%C5%82czynnik_korelacji_Pearsona
-double correlation(float data1[],float data2[],int offset1,int offset2,int limit)
+double correlation(float data1[],float data2[],int offset1,int offset2,int limit)  ///< @note GLOBAL
 {
   double X_s=0,Y_s=0;
   double summ1=0,summ2=0,summ3=0,corelation=0;
@@ -99,12 +99,12 @@ double correlation(float data1[],float data2[],int offset1,int offset2,int limit
 /// One need to change the correlations to Z to be able to legally add them.
 /// Unfortunately, the = 1 and = -1 correlations are not transformable, so we cheat a bit
 //* Średnia z korelacji za pomocą Z
-//* Trzeba zmienić korelacje na Z żeby móc je legalnie dodawać. 
+//* Trzeba zmienić korelacje na Z, żeby móc je legalnie dodawać. 
 //* Niestety korelacje =1 i =-1 są nietransformowalne więc trochę oszukujemy
-double meanCorrelations(double data[],int offset,int limit)
+double meanCorrelations(double data[],int offset,int limit)    ///< @note GLOBAL
 {
                                                            assert(offset<limit);
-                                                      assert(limit<data.length);
+                                                           assert(limit<data.length);
   double PomCorrelation=0;          
   
   for (int i = offset ; i < limit; i++)
@@ -130,7 +130,7 @@ double meanCorrelations(double data[],int offset,int limit)
 
 /// Informational entropy from the histogram.
 //* PL: Entropia informacyjna z histogramu
-double entropyFromHist(int[] histogram)
+double entropyFromHist(int[] histogram)      ///< @note GLOBAL
 {
   double sum=0; //Ile przypadków. 
                 //Double żeby wymusić dokładne dzielenie zmiennoprzecinkowe

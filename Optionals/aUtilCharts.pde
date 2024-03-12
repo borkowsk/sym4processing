@@ -22,7 +22,7 @@ static final int TEXT_MASK=0x8;      ///< ???
 
 /** @brief Function for drawing axis.
 *   @details Visualizes the axes of the coordinate system. */
-void viewAxis(int startX,int startY,int width,int height)                       ///< @NOTE GLOBAL
+void viewAxis(int startX,int startY,int width,int height)                       ///< @note GLOBAL
 { 
   line(startX,startY,startX+width,startY);
   line(startX+width-5,startY-5,startX+width,startY);
@@ -33,7 +33,7 @@ void viewAxis(int startX,int startY,int width,int height)                       
 
 /** @brief Function for drawing empty frame.
 * @details Visualizes a box around the area. */
-void viewFrame(float startX,float startY,int width,int height)                  ///< @NOTE GLOBAL
+void viewFrame(float startX,float startY,int width,int height)                  ///< @note GLOBAL
 { 
   line(startX,startY,startX+width,startY);
   line(startX,startY,startX,startY-height);
@@ -43,7 +43,7 @@ void viewFrame(float startX,float startY,int width,int height)                  
 
 /** @brief   Draws tics along the vertical axis.
 *   @details Function for drawing tics on Y axis. */
-void viewTicsV(int startX,int startY,int width,int height,float space)          ///< @NOTE GLOBAL
+void viewTicsV(int startX,int startY,int width,int height,float space)          ///< @note GLOBAL
 { 
   for(int y=startY;y>startY-height;y-=space)
      line(startX,y,startX+width,y);
@@ -51,7 +51,7 @@ void viewTicsV(int startX,int startY,int width,int height,float space)          
 
 /** @brief Draws tics along the horizontal axis.
 * @details Function for drawing tics on X axis  */
-void viewTicsH(float startX,float startY,float width,float height,float space)  ///< @NOTE GLOBAL
+void viewTicsH(float startX,float startY,float width,float height,float space)  ///< @note GLOBAL
 {
   for(int x=int(startX);x<startX+width;x+=space)
      line(x,startY,x,startY-height);
@@ -60,7 +60,7 @@ void viewTicsH(float startX,float startY,float width,float height,float space)  
 /** @brief Visualizes the limits of the vertical scale.
 *   @note We're not drawing dashes here yet (tics)
 *   @details Function for drawing scale on Y axis.   */
-void viewScaleV(Range MinMax,int startX,int startY,int width,int height)        ///< @NOTE GLOBAL
+void viewScaleV(Range MinMax,int startX,int startY,int width,int height)        ///< @note GLOBAL
 { 
    //,boolean logarithm) //We are not drawing tics here for now
    //float Min=(logarithm?(float)Math.log10(MinMax.min+1):MinMax.min); //+1 doesn't change much visually, but it guarantees computability
@@ -70,7 +70,8 @@ void viewScaleV(Range MinMax,int startX,int startY,int width,int height)        
    text(""+MinMax.Max,startX+width,startY-height);
 }
 
-void viewHorizontalAsymptote(float val,Range MinMax,int startX,int startY,int width,int height)
+/// @brief ....
+void viewHorizontalAsymptote(float val,Range MinMax,int startX,int startY,int width,int height)        ///< @note GLOBAL
 {
    if( MinMax.Min <= 0 && 0<=MinMax.Max && MinMax.Min!=MinMax.Max )
    {

@@ -1,22 +1,24 @@
-/// Supports agent search on a mouse click, and possible inspection.
-//* ABM: MOUSE EVENTS TEMPLATE
-//*/////////////////////////////////////////////////////////////////////
+/// @file 
+/// @brief Supports agent search on a mouse click, and possible inspection.
+//*        ABM: MOUSE EVENTS TEMPLATE
+/// @date 2024-03-12
+//*////////////////////////////////////////////////////////////////////////
 
 // Last read mouse data
-int searchedX=-1; ///< The horizontal coordinate of the mouse cursor
-int searchedY=-1; ///< The vertical coordinate of the mouse cursor
+int searchedX=-1;      ///< The horizontal coordinate of the mouse cursor.
+int searchedY=-1;      ///< The vertical coordinate of the mouse cursor.
 boolean Clicked=false; ///< Was there a click too?
 
 // Last selection data:
-int selectedX=-1;    ///< Converted into "world" indices, the agent's horizontal coordinate.
-int selectedY=-1;    ///< Converted into "world" indices, the agent's vertical coordinate.
-Agent selected=null; ///< Most recently selected agent.
+int selectedX=-1;      ///< Converted into "world" indices, the agent's horizontal coordinate.
+int selectedY=-1;      ///< Converted into "world" indices, the agent's vertical coordinate.
+Agent selected=null;   ///< Most recently selected agent.
 
 /// Pair of integers. Simple version of Pair containing a pair of integers.
 class PairOfInt
 {
-    public final int a; //!< The first component
-    public final int b; //!< The second component
+    public final int a; //!< The first component.
+    public final int b; //!< The second component.
 
     /// Constructor.
     public PairOfInt(int a,int b) 
@@ -25,7 +27,8 @@ class PairOfInt
     }
 } //_EndOfClass PairOfInt
 
-/// Mouse click handler. This function is automatically run by Processing
+/// @brief Mouse click handler. @details 
+/// This function is automatically run by Processing
 /// when any mouse button is pressed. 
 /// Inside, you can use the variables 'mouseX' and 'mouseY'.
 /// NOTE: In C++ translation it is "global" by default.
@@ -51,8 +54,8 @@ void mouseClicked()
   }
 }
 
-/// Searching for cell. Funtion converts mouse coordinates to 
-/// cell coordinates.
+/// @brief Searching for cell. @details 
+/// Funtion converts mouse coordinates to cell coordinates.
 /// The parameter is only for checking type and SIZES.
 /// It works as long as the agents visualization starts at point 0,0
 PairOfInt findCell(Agent[][] agents)
