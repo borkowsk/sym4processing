@@ -1,6 +1,6 @@
-/// @file "uFigures.pde"
-/// @brief Various shapes drawing procedures.
-/// @date 2023.04.28 (last modification)                        @author borkowsk
+/// @file 
+/// @brief Various shapes drawing procedures ("uFigures.pde")
+/// @date 2024-03-12 (last modification)                        @author borkowsk
 /// @details ...
 //*/////////////////////////////////////////////////////////////////////////////
 

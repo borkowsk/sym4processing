@@ -1,8 +1,8 @@
-/// @file "uEngNames.pde"
-/// @brief Tables of English names popular in 1880
+/// @file
+/// @brief Tables of English names popular in 1880 ( "uEngNames.pde" )
 /// @details "https://www.ssa.gov/oact/babynames/decades/names1880s.html"
-/// @date 2023.08.02 (Last modification)
-//*//////////////////////////////////////////////////
+/// @date 2024-03-12 (Last modification)
+//*//////////////////////////////////////////////////////////////////////
 
 /// @brief Few popular, Male & Female fifty-fifty, alphabetic names.
 final String[] EnglishNamesShort =   ///< @note Global namespace!

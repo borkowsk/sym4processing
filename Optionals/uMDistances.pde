@@ -1,6 +1,6 @@
-/// @file "uMDistances.pde"
-/// @brief Different ways to calculate Euclid distances in 2D (flat and torus).
-/// @date 2023.10.05 (Last modification)                        @author borkowsk 
+/// @file 
+/// @brief Different ways to calculate Euclid distances in 2D ("uMDistances.pde", flat and torus).
+/// @date 2024-03-12 (Last modification)                        @author borkowsk 
 /// @details ...
 //*/////////////////////////////////////////////////////////////////////////////
 

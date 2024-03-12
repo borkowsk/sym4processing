@@ -1,6 +1,7 @@
-/** @file "uUtilCData.pde"
+/** @file 
+ *  @brief .... ("uUtilCData.pde")
  *  @defgroup Data collection classes for statistics & chart making 
- *  @date 2024.02.20 (last modification)                       @author borkowsk
+ *  @date 2024.03.12 (last modification)                       @author borkowsk
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
  *  @{
