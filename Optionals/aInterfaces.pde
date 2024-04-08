@@ -1,6 +1,6 @@
 /// @file
 /// @brief Common INTERFACES like iNamed, iDescribable, iColorable, iPositioned ("aInterfaces.pde")
-/// @date 2024.03.12 (last modification)                       @author borkowsk
+/// @date 2024.04.08 (last modification)                       @author borkowsk
 /// @details ...
 //*////////////////////////////////////////////////////////////////////////////////////////////////
 

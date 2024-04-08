@@ -1,10 +1,10 @@
 /// @file 
 /// @brief Minimal program for testing linking of networks optionals ("Optionals4Networks.pde")
-/// @date 2023.03.04 (Last modification)
+/// @date 2024.04.08 (Last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////////////
 
 static int   DEBUG_LEVEL=0;       ///< General DEBUG level.
-static int   NET_DEBUG_LEV=1;     ///< DEBUG level for network.
+static int   NET_DEBUG=1;         ///< DEBUG level for network.
 final int    LINK_INTENSITY=128;  ///< For network visualisation.
 final float  MAX_LINK_WEIGHT=1.0; ///< Also for network visualisation.
 final int    MASKBITS=0xffffffff; ///< Redefine, when smaller width is required.

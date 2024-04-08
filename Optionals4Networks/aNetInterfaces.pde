@@ -1,6 +1,6 @@
 /// @file 
 /// @brief Network Only Interfaces ("aNetInterfaces.pde")
-/// @date 2023.04.28 (last modification)
+/// @date 2024.04.08 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////
 
 /// @details
@@ -47,6 +47,8 @@ interface iNode extends iNamed {
 * @brief Visualisable network node.
 */
 interface iVisNode extends iNode,iNamed,iColorable,iPositioned {
+  /// @brief It provides default color.
+  /*_interfunc*/ color     defColor() /*_forcebody*/;
 } //_EndOfClass
 
 /**

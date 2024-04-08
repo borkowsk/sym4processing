@@ -1,16 +1,38 @@
 /// @file 
 /// @brief Tools for CSV files ("uFileAppend.pde")
-/// @date 2023.03.04 (Last modification)
-//*///////////////////////////////////////////////////////////////////////
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+/// @date 2024.03.21 (Last modification)
+//*//////////////////////////////////////////////////////////////////////////////
+/// @details
+///   C++ translation is disabled because this is almost pure JAVA.
+///   The exported function: `void appendTextToFile(String filename, String text)`
+///   must have specialised, efficient C++ version. 
+///
+/*_OnlyProcessingBlockBegin*/
+import java.io.BufferedWriter; // Here we import the necessary library component.
+import java.io.FileWriter;     // Here we import the necessary library component.
+/*_OnlyProcessingBlockEnd*/
 
+/*_OnlyProcessingBlockBegin*/
+/// Creates a new file including all subfolders in the path.
+void createFile(File f)
+{
+  File parentDir = f.getParentFile();
+  try{
+    parentDir.mkdirs(); 
+    f.createNewFile();
+  }catch(Exception e){
+    e.printStackTrace();
+  }
+}    
+/*_OnlyProcessingBlockEnd*/
+
+/*_OnlyProcessingBlockBegin*/
 /// Appends text to the end of a text file located in the data directory. 
 /// @note It creates the file if it does not exist!
 /// Can be used for big files with lots of rows, 
 /// existing lines will not be rewritten.
 /// See: https://stackoverflow.com/questions/17010222/how-do-i-append-text-to-a-csv-txt-file-in-processing
-void appendTextToFile(String filename, String text)
+void appendTextToFile(String filename, String text) ///< GLOBAL
 {
   File f = new File(dataPath(filename));
   if(!f.exists()){
@@ -25,17 +47,8 @@ void appendTextToFile(String filename, String text)
   }
 }
 
-/// Creates a new file including all subfolders in the path.
-void createFile(File f)
-{
-  File parentDir = f.getParentFile();
-  try{
-    parentDir.mkdirs(); 
-    f.createNewFile();
-  }catch(Exception e){
-    e.printStackTrace();
-  }
-}    
+/*_OnlyProcessingBlockEnd*/
+
 
 //*/////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 

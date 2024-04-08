@@ -1,6 +1,6 @@
 /// @file
 /// @brief Others factories for fabrication of links for a (social) network ("uNLinkFilters.pde")
-/// @date 2024.03.12 (last modification)
+/// @date 2024.04.08 (last modification)
 //*///////////////////////////////////////////////////////////////////////////////////////////////
 
 /**

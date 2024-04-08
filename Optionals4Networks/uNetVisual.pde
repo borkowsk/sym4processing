@@ -1,6 +1,6 @@
 /// @file 
 /// @brief Generic visualisations of a (social) network ("uNetVisual.pde")
-/// @date 2023.04.28 (last modification)
+/// @date 2024.04.08 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////
 
 /// @details
@@ -68,6 +68,22 @@ class Visual2DNodeAsMap extends NodeAsMap implements iVisNode
 
 //   IMPLEMENTATIONS:
 //*//////////////////
+
+
+/// @brief Weight color scale visualisation.
+/// @param textYoffset - TODO change name textYOffset
+void visualiseWeightScale(Link lnk,float defX,float defY,float width,float hei,float textYoffset) ///< @NOTE GLOBAL!
+{
+  textAlign(LEFT,TOP);   text("0.0",defX,        defY+textYoffset);
+  textAlign(CENTER,TOP); text("0.5",defX+width/2,defY+textYoffset);
+  textAlign(RIGHT,TOP);  text("1.0",defX+width,  defY+textYoffset);
+  for(float w=1.0;w>=0.0;w-=0.01)
+  {
+    float pos=defX+w*width;
+    lnk.setStroke(w,LINK_INTENSITY);
+    line(pos,defY,pos,defY+hei);
+  }
+}
 
 /// One dimensional visualisation using arcs().
 void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,float cellside,boolean intMode)  ///< @note Global namespace.
@@ -142,12 +158,12 @@ void visualiseLinks2D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,f
         iVisNode k_node=(iVisNode)k_link.getTarget();
         float Xt=k_node.posX();                                   //strokeWeight(1);stroke(10);
         float Yt=k_node.posY();                                   //circle(Xt,Yt,k+1*2);
-                                                  if(DEBUG_LEVEL>4 && Source==links[k].getTarget())//Będzie kółko!
+                                                  if(NET_DEBUG>4 && Source==links[k].getTarget())//Będzie kółko!
                                                         println(Source.name(),"-o-",links[k].getTarget().name());
                                                         
         if(X<Xt) { Xt+=links[k].getTypeMarker()*XSPREAD;}
         else    { Xt-=links[k].getTypeMarker()*XSPREAD;}
-                                                  if(DEBUG_LEVEL>1 && X==Xt && Y==Yt)//TEŻ będzie kółko!!!
+                                                  if(NET_DEBUG>1 && X==Xt && Y==Yt)//TEŻ będzie kółko!!!
                                                         println("Connection",Source.name(),"->-",links[k].getTarget().name(),"visualised as circle");
         k_link.setStroke(LINK_INTENSITY); //<>//
         
@@ -214,6 +230,8 @@ void visualiseLinks(iVisNode[][] nodes,LinkFilter filter,float defX,float defY,f
     }
   }
 }
+
+
 
 //*////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 

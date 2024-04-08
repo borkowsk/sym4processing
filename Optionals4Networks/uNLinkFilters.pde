@@ -1,5 +1,5 @@
 /// @file uNLinkFilters.pde
-/// @date 2023.04.28 (last modification)
+/// @date 2024.04.08 (last modification)
 /// @brief Different filters of links and other link tools for a (social) network
 //*///////////////////////////////////////////////////////////////////////////////
 
