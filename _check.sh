@@ -1,13 +1,18 @@
 #!/bin/bash
-#Checking for required dependencies
+## Checking for required dependencies.
+## @date 2024-06-14 (last modifications)
+## @author wborkowski@uw.edu.pl
+
 #EDIT=nano
 
 # https://intoli.com/blog/exit-on-errors-in-bash-scripts/
 set -e 
-echo "Running" `realpath $0`
-echo -e "\n\tThis script stops on any error!\n\tWhen it stop, remove source of the error & run it again!\n"
+echo -e $COLOR1"Running script: " $COLOR2 `realpath $0` $NORMCO
 
-source screen.ini   
+source ./screen.ini
+#echo -e $COLOR1 "screen.ini SUB:" $COLOR2 $SUB $NORMCO "\n\n"
+
+echo -e $COLOR3"\n\tThis script stops on any error!\n\tWhen it stop, remove source of the error & run it again!\n"$NORMCO
   
 echo -e $COLOR1"Test for required software:\n" 
 echo -e $COLOR2"Processing.org..."$NORMCO
