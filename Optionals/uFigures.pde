@@ -1,58 +1,75 @@
 /// @file 
 /// @brief Various shapes drawing procedures ("uFigures.pde")
-/// @date 2024-03-12 (last modification)                        @author borkowsk
+/// @date 2024-07-15 (last modification)                        @author borkowsk
 /// @details ...
 //*/////////////////////////////////////////////////////////////////////////////
+
+//color BALDHEAD_NOSE_COLOR=0xff000011;
+float BALDHEAD_NOSE_DIVIDER=5;
+float BALDHEAD_EARS_DIVIDER=4;
+float BALDHEAD_PUPIL_DIV=16;
+color BALDHEAD_EYES_COLOR=color(0,100,150);
+int   BALDHEAD_HAIRS_DENS=10;   ///< How many hairs
+float BALDHEAD_HAIRS_START=0.2; ///< Range 0..0.5
+float BALDHEAD_HAIRS_END=0.8; ///< Range BALDHEAD_HAIRS_START..0.99
+color BALDHEAD_HAIRS_COLOR=color(111,50,50); ///< As you wish. It is used in `stroke()` function.
 
 /// @brief Horizontal view of a bald head of a man seen from above.
 void baldhead_hor(float x,float y,float r,float direction)         ///< @note Global namespace!
 {
-  float D=2*r;
-  float xn=x+r*cos(direction);
-  float yn=y+r*sin(direction);
-  ellipse(xn,yn,D/5,D/5);  //Nos
-  
+  float xn,yn,D=2*r; //średnica głowy
+    
   xn=x+0.95*r*cos(direction+PI/2);
   yn=y+0.95*r*sin(direction+PI/2);
-  ellipse(xn,yn,D/4,D/4);  //Ucho  1
+  ellipse(xn,yn,D/BALDHEAD_EARS_DIVIDER,D/BALDHEAD_EARS_DIVIDER);  //Ucho  1
   
   xn=x+0.95*r*cos(direction-PI/2);
   yn=y+0.95*r*sin(direction-PI/2);
-  ellipse(xn,yn,D/4,D/4);  //Ucho  2
+  ellipse(xn,yn,D/BALDHEAD_EARS_DIVIDER,D/BALDHEAD_EARS_DIVIDER);  //Ucho  2
   
-  //Glówny blok
-  ellipse(x,y,D,D);
+  ellipse(x,y,D,D); //GŁOWA
   
-  for(int i=0;i<=10;i++)
-  {
-      float angle=PI/2+PI/10*i;
-      xn=x+0.75*r*cos(angle+direction);
-      yn=y+0.75*r*sin(angle+direction);
-      float xm=x+0.35*r*cos(angle+direction);
-      float ym=y+0.35*r*sin(angle+direction);
-      line(xm,ym,xn,yn);
-  }
+  xn=x+r*cos(direction);
+  yn=y+r*sin(direction);
+  ellipse(xn,yn,D/BALDHEAD_NOSE_DIVIDER,D/BALDHEAD_NOSE_DIVIDER);  //Nos
   
   //OCZY
-  fill(200);
   xn=x+0.75*r*cos(direction+PI/5);
   yn=y+0.75*r*sin(direction+PI/5);
+  fill(200);
   arc(xn,yn,D/5,D/5,-PI/2+direction,PI/2+direction,CHORD);  //Oko  1
   
-  fill(0);
-  xn=x+0.84*r*cos(direction+PI/6);
-  yn=y+0.84*r*sin(direction+PI/6);  
-  ellipse(xn,yn,D/12,D/12);
-  
-  fill(200);
   xn=x+0.75*r*cos(direction-PI/5);
   yn=y+0.75*r*sin(direction-PI/5);
+  fill(200);
   arc(xn,yn,D/5,D/5,-PI/2+direction,PI/2+direction,CHORD);  //Oko  2
-  
+
+  xn=x+0.84*r*cos(direction+PI/6);
+  yn=y+0.84*r*sin(direction+PI/6); 
+  fill(BALDHEAD_EYES_COLOR);noStroke();
+  ellipse(xn,yn,D/12,D/12);
   fill(0);
+  ellipse(xn,yn,D/BALDHEAD_PUPIL_DIV,D/BALDHEAD_PUPIL_DIV); //Tęczówka 1
+  
   xn=x+0.84*r*cos(direction-PI/6);
   yn=y+0.84*r*sin(direction-PI/6);
+  fill(BALDHEAD_EYES_COLOR);noStroke();
   ellipse(xn,yn,D/12,D/12);
+  fill(0);
+  ellipse(xn,yn,D/BALDHEAD_PUPIL_DIV,D/BALDHEAD_PUPIL_DIV); //Tęczówka 2
+  
+  // JUŻ TYLKO WŁOSY
+  stroke(BALDHEAD_HAIRS_COLOR);
+  
+  for(int i=0;i<=BALDHEAD_HAIRS_DENS;i++)
+  {
+      float angle=PI/2+PI/BALDHEAD_HAIRS_DENS*i;
+      xn=x+BALDHEAD_HAIRS_END*r*cos(angle+direction);
+      yn=y+BALDHEAD_HAIRS_END*r*sin(angle+direction);
+      float xm=x+BALDHEAD_HAIRS_START*r*cos(angle+direction);
+      float ym=y+BALDHEAD_HAIRS_START*r*sin(angle+direction);
+      line(xm,ym,xn,yn);
+  }
 }
 
 /// @brief Vertical view on agave plant.
