@@ -1,13 +1,13 @@
 /// @file 
 /// @brief Various shapes drawing procedures ("uFigures.pde")
-/// @date 2024-07-15 (last modification)                        @author borkowsk
+/// @date 2024-08-02 (last modification)                        @author borkowsk
 /// @details ...
 //*/////////////////////////////////////////////////////////////////////////////
 
 //color BALDHEAD_NOSE_COLOR=0xff000011;
 float BALDHEAD_NOSE_DIVIDER=5;
 float BALDHEAD_EARS_DIVIDER=4;
-float BALDHEAD_PUPIL_DIV=16;
+float BALDHEAD_PUPIL_DIV=14;
 color BALDHEAD_EYES_COLOR=color(0,100,150);
 int   BALDHEAD_HAIRS_DENS=10;   ///< How many hairs
 float BALDHEAD_HAIRS_START=0.2; ///< Range 0..0.5
@@ -44,17 +44,17 @@ void baldhead_hor(float x,float y,float r,float direction)         ///< @note Gl
   fill(200);
   arc(xn,yn,D/5,D/5,-PI/2+direction,PI/2+direction,CHORD);  //Oko  2
 
-  xn=x+0.84*r*cos(direction+PI/6);
-  yn=y+0.84*r*sin(direction+PI/6); 
+  xn=x+0.83*r*cos(direction+PI/6);
+  yn=y+0.83*r*sin(direction+PI/6); 
   fill(BALDHEAD_EYES_COLOR);noStroke();
-  ellipse(xn,yn,D/12,D/12);
+  ellipse(xn,yn,D/10,D/10);
   fill(0);
   ellipse(xn,yn,D/BALDHEAD_PUPIL_DIV,D/BALDHEAD_PUPIL_DIV); //Tęczówka 1
   
-  xn=x+0.84*r*cos(direction-PI/6);
-  yn=y+0.84*r*sin(direction-PI/6);
+  xn=x+0.83*r*cos(direction-PI/6);
+  yn=y+0.83*r*sin(direction-PI/6);
   fill(BALDHEAD_EYES_COLOR);noStroke();
-  ellipse(xn,yn,D/12,D/12);
+  ellipse(xn,yn,D/10,D/10);
   fill(0);
   ellipse(xn,yn,D/BALDHEAD_PUPIL_DIV,D/BALDHEAD_PUPIL_DIV); //Tęczówka 2
   

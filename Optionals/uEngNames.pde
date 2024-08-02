@@ -1,15 +1,15 @@
 /// @file
 /// @brief Tables of English names popular in 1880 ( "uEngNames.pde" )
 /// @details "https://www.ssa.gov/oact/babynames/decades/names1880s.html"
-/// @date 2024-03-12 (Last modification)
+/// @date 2024-08-02 (Last modification)
 //*//////////////////////////////////////////////////////////////////////
 
 /// @brief Few popular, Male & Female fifty-fifty, alphabetic names.
 final String[] EnglishNamesShort =   ///< @note Global namespace!
 {
-  "Arthur","Bessie","Charles","Dora","Edward",
-  "Florence","George","Helen","Ida","John",
-  "Katherine","Louis","Mary","Norman","Olive"
+  "Arthur", "Blanche","Charles","Diana" , "Elmer",
+  "Fannie", "George", "Helen",  "Irene" , "John",
+  "Kathie", "Louis",  "Mary",   "Norman", "Olive"
 };
 
 /// @brief Male & Female english names from USA Census 1880.
@@ -623,6 +623,83 @@ final String[] MaleEnglishNames1880 = {    ///< @note Global namespace!
 "Rudolph",
 "Vernon",
 "Hubert"
+};
+
+final String[] EnglishInsults = ///< @note Global namespace! 🇺🇲🇬🇧🇦🇺😡🤬👺👹🎃🚺🚹
+{
+"airhead","1",    // American English offensive! a silly, stupid person
+"arsehole","3",   //vvv
+"asshole","3",    // taboo!!! a selfish, unpleasant, obnoxious person
+"ass-kisser","3", // American English taboo!!! someone who says nice things to someone in order to get something from them
+"bastard","1",  // offensive! an unpleasant, despicable person
+"bimbo","0",    // a pretty, but empty-headed, young lady
+"bugger","2",   // British and Australian English vulgar!! a disliked or pitiful person, usually a man
+"chicken","0",  // a coward (n.) | cowardly (adj.)
+"dag","1",      // Australian English offensive! an unfashionable or socially awkward person
+"dago","3",     // taboo!!! a derogatory word for a person from Italy, Spain, Portugal or South America
+"deadbeat","0", // a dull, lazy, unreliable person
+"dickhead","1", // offensive! an unpleasant or annoying person
+"donkey","0",   // American and Australian English a stupid or silly person
+"dope","0",     // a stupid person, a fool
+"dork","1",     // American English offensive! a socially awkward person
+"dweeb","1",    // American English offensive! a studious but socially inept person
+"flake","0",    // American English, an unreliable person who says they'll do something, but then doesn't do it
+"floozy","0",   //vvv
+"floozie","0",  //vvv
+"floosie","0",  // a girl or woman with a reputation for sleeping with many people
+"freak","0",    // a strange person
+"fruitcake","1",// offensive! a crazy or eccentric person
+"gasbag","0",   // a person who talks too much
+"geek","0",     // a computer and IT expert
+"geezer","1",   // offensive! an old person
+"git","1",      // British English offensive! a fool, a stupid person
+"goose","0",    // a silly or stupid person
+"hick","1",     // American English offensive! a rural person regarded as uneducated and mentally slow (n.) | provincial or rural (adj.)
+"honky","1",    // American English offensive! a derogatory term in black American slang for a white person
+"jerk","1",     // offensive! a stupid person
+"kike","3",     // American English taboo!!! a derogatory word meaning a Jewish person
+"klutz","1",    // American and Australian English offensive! a clumsy or foolish person
+"kook","0",     // American English, a strange or eccentric person
+"lardass","1",  // American English offensive! an overweight person, esp. one with large buttocks
+"limey","1",    // offensive! a derogatory word meaning a British person (n.) | British (adj.)
+"loudmouth","0",// an obnoxious person who talks too much and too loudly
+"louse","1",    // American English offensive! an unpleasant or nasty person
+"meathead","1", // offensive! a stupid person
+"nerd","1",     // offensive! a studious person with few social skills
+"nut","1",      //vvv
+"nutter","1",   // British English offensive! a crazy or strange person
+"old bat","0",  // an unpleasant old woman
+"pig","1",      // offensive! an unattractive and unpleasant person
+"poof","1",     //vvv
+"poofter","1",  // offensive! an offensive, derogatory word meaning a gay man
+"prat","1",     // British English offensive! a fool
+"psycho","0",   // "crazy", insane
+"rat","0",      // a horrible, nasty person
+"redneck","1",  // American English offensive! a lower-class white person from a rural background
+"scum","0",      //vvv
+"scumbag","0",   // a worthless or very disliked person
+"sicko","0",     // a deranged or perverted person
+"smart-arse","1",// British English offensive! a person who's annoying because they try to show how clever and knowledgeable they are (n.) | having an annoying way of trying to seem clever (adj.)
+"smart-ass","1", // American English offensive!a person who's annoying because they try to show how clever and knowledgeable they are (n.) | having an annoying way of trying to seem clever (adj.)
+"tight-arse","1",// Australian English offensive! a person who doesn't like spending money, especially on other people
+"tight-ass","1", // American English offensive! sby who spends as little money as possible, a miser 2) sby who's repressed and very strict about following society's rules
+"toff","0",      // British English, a wealthy, upper-class person
+"tool","1",      // offensive! a stupid person
+"twerp","1",     //vvv
+"twirp","1",     // offensive! a silly, immature person
+"twit","1",      // offensive! a silly, stupid person
+"wanker","1",    // offensive! an arrogant or pretentious person
+"weirdo","0",    // a strange, eccentric or weird person
+"wimp","0",      // a weak, unassertive person
+"wog","3",       // British English taboo!!! an offensive, derogatory term for a person whose skin colour is not white
+"wop","3",       // taboo!!! a derogatory term for a person from southern Europe, especially an Italian
+"yahoo","0",     // a rude, loud, aggressive person
+"yid","3",       //vvv
+"Yid","3",       // taboo!!! an offensive, derogatory word meaning a Jewish person
+"yob","1",       //vvv
+"yobbo","1",     // British English offensive! an aggressive, impolite, crude person
+"yokel","1",     // offensive! a simple, poorly-educated person from the countryside
+"zero","0", // a worthless person, someone who's done nothing worthwhile in life
 };
 
 //*/////////////////////////////////////////////////////////////////////
