@@ -1,7 +1,7 @@
 /** @file 
  *  @brief .... ("uCharts.pde")
  *  @defgroup ChartUtils Functions & classes for chart making 
- *  @date 2024.03.12 (last modification)                        @author borkowsk
+ *  @date 2024-08-03 (last modification)                        @author borkowsk
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
  *  @{
@@ -220,8 +220,8 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
 */
 void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int height,boolean logarithm,Range commMinMax,boolean connect) /// @NOTE GLOBAL
 {
-  float Min;
-  float Max;
+  float Min,Max;
+  
   if(commMinMax!=null)
   {
     Min=(logarithm?(float)Math.log10(commMinMax.Min+1):commMinMax.Min); //+1 doesn't change much visually, but it guarantees computability
@@ -247,14 +247,14 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
   }
 
   float wid=float(width) / (N-startD);  //println(width,N,startD,wid,min,max);
-  float oldy=-Float.MIN_VALUE;
+  float oldY=-Float.MIN_VALUE;
   
   for(int t=startD;t<N;t++)
   {
     float val=data.data.get(t);
     if(val==INF_NOT_EXIST) 
     {
-      oldy=-Float.MIN_VALUE; //@todo RENAME oldY
+      oldY=-Float.MIN_VALUE;
       continue;
     }
     
@@ -264,9 +264,9 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
       val=map(val,Min,Max,0,height);
     
     float x=(t-startD)*wid;
-    if(connect && oldy!=-Float.MIN_VALUE)
+    if(connect && oldY!=-Float.MIN_VALUE)
     {
-      line (startX+x-wid,startY-oldy,startX+x,startY-val); //println(wid,x-wid,oldy,x,val);
+      line (startX+x-wid,startY-oldY,startX+x,startY-val); //println(wid,x-wid,oldy,x,val);
     }
     else
     {
@@ -275,7 +275,7 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
       line(startX+x,startY-val+2,startX+x,startY-val-1); 
     }
     
-    if(connect) oldy=val;
+    if(connect) oldY=val;
     
     if(t==data.whMax || t==data.whMin)
     {

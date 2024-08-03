@@ -1,7 +1,7 @@
 /** @file 
  *  @brief .... ("uUtilCData.pde")
  *  @defgroup Data collection classes for statistics & chart making 
- *  @date 2024.03.12 (last modification)                       @author borkowsk
+ *  @date 2024-08-03 (last modification)                       @author borkowsk
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
  *  @{
@@ -46,9 +46,13 @@ class Range extends NamedData
   float Min=+Float.MAX_VALUE; //!< Current minimal value
   float Max=-Float.MAX_VALUE; //!< Current maximal value
   
-  /// @brief Sole constructor needs only a name
+  /// @brief Constructor which needs only a name
   /// @note  For pr2c 'super' must be in the same line with constructor name!
   Range(String Name) { super/*NamedData*/(Name); }
+  
+  /// @brief Constructor which needs the uniq name and the initial `Min..Max` range.
+  /// @note  For pr2c 'super' must be in the same line with constructor name!
+  Range(String Name,float Min,float Max) { super/*NamedData*/(Name); this.Min=Min; this.Max=Max;}
   
   void addValue(float value) 
   {
