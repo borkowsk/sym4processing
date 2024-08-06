@@ -1,6 +1,9 @@
-/// Klasa służąca do odnajdywania klasteringu i obliczania jego parametrów statystycznych.
+/// @brief Klasa służąca do odnajdywania klasteringu i obliczania jego parametrów statystycznych.
+/// @date 2024-08-06 (last modification)
 class Clustering
 {
+  /*EXTERN*/ float S=10; //Side of the cell
+  
   // Parametry sterujące wizualizacją badań klastrów:
   //*////////////////////////////////////////////////
   boolean UseMoore=false;
@@ -272,7 +275,7 @@ class Clustering
     // Kopiowanie danych.
     for(int i=0;i<K.length;i++)
       for(int j=0;j<K[i].length;j++)
-         K[i][j]=Bak[i][j].A;
+         K[i][j]=(int)Bak[i][j].A;
          
     // Szukanie klastrów, liczenie statystyk i automatycznie wypełnianie mapy klastrów.     
     int Kolor=1;

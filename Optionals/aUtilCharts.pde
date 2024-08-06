@@ -1,17 +1,11 @@
 /** @file 
  *  @brief .... ("uCharts.pde")
  *  @defgroup ChartUtils Functions & classes for chart making 
- *  @date 2024-08-03 (last modification)                        @author borkowsk
+ *  @date 2024-08-06 (last modification)                        @author borkowsk
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
  *  @{
  */ ////////////////////////////////////////////////////////////////////////////
-
-/// @brief Mapping float value into color interface.
-interface iColorMapper 
-{
-  /*_interfunc*/ color map(float value) /*_forcebody*/; 
-} //_endOfClass iColorMapper
 
 // Masks for Sample options:
 //*/////////////////////////
@@ -70,7 +64,7 @@ void viewScaleV(Range MinMax,int startX,int startY,int width,int height)        
    text(""+MinMax.Max,startX+width,startY-height);
 }
 
-/// @brief ....
+/// @brief Visualise horisontal asymptotic straight line
 void viewHorizontalAsymptote(float val,Range MinMax,int startX,int startY,int width,int height)        ///< @note GLOBAL
 {
    if( MinMax.Min <= 0 && 0<=MinMax.Max && MinMax.Min!=MinMax.Max )
@@ -103,8 +97,7 @@ void viewZeroArrow(Range MinMax,int startX,int startY,int width,int height,int l
  @param  height,
  @param  logarithm,
  @param  commMinMax,
- @param  connect : or connect points into a polyline (true/false)
-*/
+ @param  connect : or connect points into a polyline (true/false)                              */
 void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int height,Range commMinMax,boolean connect,boolean percent) ///<  @NOTE GLOBAL. Musi być w jednej lini dla C++
 {
   boolean logarithm=data.isOption(LOGARITHM_MASK);
@@ -155,7 +148,7 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
   
   for(int t=startD;t<N;t++)
   {
-    float val=data.data.get(t);
+    float val=data._data.get(t);
     
     if(val==INF_NOT_EXIST) 
     {
@@ -190,9 +183,9 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
       textAlign(LEFT,TOP);
       String etyk="";
       if(percent)
-         etyk+=nf(data.data.get(t)*100.0,0,2)+"%";
+         etyk+=nf(data.get(t)*100.0,0,2)+"%";
       else
-         etyk+=nf(data.data.get(t));
+         etyk+=nf(data.get(t));
       text(etyk,startX+x,startY-val);
     }
   }
@@ -251,7 +244,7 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
   
   for(int t=startD;t<N;t++)
   {
-    float val=data.data.get(t);
+    float val=data.get(t);
     if(val==INF_NOT_EXIST) 
     {
       oldY=-Float.MIN_VALUE;
@@ -280,7 +273,7 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
     if(t==data.whMax || t==data.whMin)
     {
       textAlign(LEFT,TOP);
-      text(""+data.data.get(t),startX+x,startY-val);
+      text(""+data.get(t),startX+x,startY-val);
     }
   }
 }
@@ -290,16 +283,17 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
   @param data : Data source
   @param startD  : The starting point of the data, or the number from the end - if negative
   @param startX,startY,width,height : Location and size
-  @param mapper : mapping values to colors
-*/
+  @param mapper : mapping values to colors                                                */
 void viewAsVerticals(Sample data,int startD,float startX,float startY,int width,int height,iColorMapper mapper) ///< @NOTE GLOBAL. For C++ translation MUST be in one line!
 {
-  int     N=data.numOfElements();                                                                     assert startD<N-1;
+  int     N=data.numOfElements();                                                             
+                                                                                             assert startD<N-1;
   if(startD<0)
   {
       startD=-startD;  //It was only conventionally negative!!!
       startD=N-startD; //Somewhere from the end
   }
+  
   if(startD<0) //Still negative!?
   {
       startD=0; //So there was no data
@@ -310,7 +304,7 @@ void viewAsVerticals(Sample data,int startD,float startX,float startY,int width,
   
   for(int t=startD;t<N;t++)
   {
-    float val=data.data.get(t);
+    float val=data.get(t);
     if(val==INF_NOT_EXIST) 
     {
       continue;
@@ -341,7 +335,7 @@ void viewAsVerticals(Sample data,int startD,float startX,float startY,int width,
 float viewAsColumns(Frequencies hist,float startX,float startY,int width,int height,boolean logarithm) ///< DRAWING A HISTOGRAM.
 {
   float Max=(logarithm?(float)Math.log10(hist.higherBucket+1):hist.higherBucket); //+1 doesn't change much visually, but it guarantees computability
-  int wid=width/hist.buckets.length; //println(width,wid);
+  int   wid=width/hist.buckets.length; //println(width,wid);
   if(wid<1) wid=1;
   
   for(int i=0;i<hist.buckets.length;i++)

@@ -1,7 +1,7 @@
 /** @file 
  *  @brief .... ("uUtilCData.pde")
  *  @defgroup Data collection classes for statistics & chart making 
- *  @date 2024-08-03 (last modification)                       @author borkowsk
+ *  @date 2024-08-06 (last modification)                       @author borkowsk
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
  *  @{
@@ -25,6 +25,47 @@ class ViewSwitch implements iFlag
   /*_interfunc*/ boolean isEnabled(){ return _val; }
 } //_endOfClass ViewSwitch
 
+class NonameRange implements iRange
+{
+  float Min=+Float.MAX_VALUE; //!< Current minimal value
+  float Max=-Float.MAX_VALUE; //!< Current maximal value
+  
+  /// @brief Constructor which needs the initial `Min..Max` range.
+  NonameRange(float Min,float Max) { this.Min=Min; this.Max=Max; }
+  
+  // REQUIRED BY INTERFACE:
+  //*//////////////////////
+  float getMin() { return Min; }
+  float getMax() { return Max; }
+  
+  void addValue(float value) 
+  {
+    if(value==INF_NOT_EXIST) return;
+    
+    if(Max<value)
+    {
+      Max=value;
+    }
+    
+    if(Min>value)
+    {
+      Min=value;
+    }
+  }
+} //_endOfClass NonameRange
+
+/// @brief Simplest implementation for `iValueInRange` interface.
+class ValueInRange extends NonameRange implements iValueInRange {
+  
+  float Val=INF_NOT_EXIST;
+  
+   /// @brief Constructor which needs the initial `Min..Max` range.
+  ValueInRange(int Val,float Min,float Max) { super/*NamedData*/(Min,Max); this.Val=Val;}
+  
+  float get() { return Val; }
+  
+} //_endOfClass
+
 /// @brief Base class for data sources.
 /// @details 
 ///      A class that implements only the interface having a proper object name.
@@ -41,8 +82,8 @@ class NamedData implements iNamed
 } //_endOfClass NamedData
 
 /// @brief More extended base class for data sources.
-class Range extends NamedData 
-{
+class Range extends NamedData implements iRange {
+  
   float Min=+Float.MAX_VALUE; //!< Current minimal value
   float Max=-Float.MAX_VALUE; //!< Current maximal value
   
@@ -53,6 +94,11 @@ class Range extends NamedData
   /// @brief Constructor which needs the uniq name and the initial `Min..Max` range.
   /// @note  For pr2c 'super' must be in the same line with constructor name!
   Range(String Name,float Min,float Max) { super/*NamedData*/(Name); this.Min=Min; this.Max=Max;}
+  
+  // REQUIRED BY INTERFACE:
+  //*//////////////////////
+  float getMin() { return Min; }
+  float getMax() { return Max; }
   
   void addValue(float value) 
   {
@@ -71,15 +117,24 @@ class Range extends NamedData
   
 } //_endOfClass Range
 
+/// @brief Named implementation for `iValueInRange` interface.
+class NamedValueInRange extends Range implements iValueInRange {
+  
+  float Val=INF_NOT_EXIST;
+  
+   /// @brief Constructor which needs the initial `Min..Max` range.
+  NamedValueInRange(int Val,String Name,float Min,float Max) { super/*Range*/(Name,Min,Max); this.Val=Val;}
+  
+  float get() { return Val; }
+  
+} //_endOfClass
 
 /// @brief Class for representing series of numbers.
 /// @details
 ///   This class represents a NAMED series of real (float) numbers.
-/// @todo Should it also be a descendant of the Range?
-///   ... Or at least implements the same interface? TODO?
-class Sample  extends NamedData 
+class Sample  extends NamedData implements iFlag,iRange,iDataSample,iBasicStatistics
 {
-  FloatList  data=null;         //!< list of data values.
+  FloatList  _data=null;        //!< list of data values.
   int        options=0;         //!< Word 32b free to use
   
   color    _color=color(0,0,0); //!< color, if need be same in different graphs
@@ -97,7 +152,7 @@ class Sample  extends NamedData
   /// @note  For pr2c `super` must be in the same line with constructor name! (@todo still?)
   Sample(String Name) { super/*NamedData*/(Name);
     _enabled=new ViewSwitch(true);
-    data=new FloatList();
+    _data=new FloatList();
     _enabled=new ViewSwitch(true);
   }
   
@@ -107,7 +162,7 @@ class Sample  extends NamedData
   /// @param   `defEnabled` is a reference to the display flag on which the visibility of the series depends.
   //*  For pr2c 'super' must be in the same line with constructor name!
   Sample(String Name,color defColor,iFlag defEnabled) { super/*NamedData*/(Name);
-    data=new FloatList();
+    _data=new FloatList();
     _color=defColor;
     _enabled=defEnabled;
   }
@@ -119,19 +174,16 @@ class Sample  extends NamedData
   /// @param   `iOptions` are options with different meanings.
   //*  For pr2c 'super' must be in the same line with constructor name!
   Sample(String Name,color defColor,iFlag defEnabled,int iOptions) { super/*NamedData*/(Name);
-    data=new FloatList();
+    _data=new FloatList();
     _color=defColor;
     _enabled=defEnabled;
     options=iOptions;
   }
  
-  color   getColor() //!< Gives color.
+  /// @brief Checks if it is active.
+  boolean isEnabled() 
   {
-    return _color;
-  }
-  
-  boolean isEnabled() //!< Checks if it is active.
-  {
+    if(_enabled==null) return true; // No flag, so "enabled" by default.
     return _enabled.isEnabled();
   }
  
@@ -139,43 +191,58 @@ class Sample  extends NamedData
   {
     return (options & mask)!=0;
   }
+ 
+  color   getColor() //!< Gives color.
+  {
+    return _color;
+  }
   
-  int  numOfElements() //!< Series length. Together with empty cells, i.e. == INF_NOT_EXIST
+  int  numOfElements()  //!< Series length. Together with empty cells, i.e. == INF_NOT_EXIST
   { 
-     return data.size(); 
+     return _data.size(); 
+  }
+  
+  int  size()
+  {
+     return _data.size(); //!< Series length. Together with empty cells, i.e. == INF_NOT_EXIST
   }
   
   float getLast() //!< The last value of the series.
   {
-    if(data.size()>0)
-      return data.get(data.size()-1);
+    if(_data.size()>0)
+      return _data.get(_data.size()-1);
     else
       return INF_NOT_EXIST;
   }
   
   float getElementAt(int index)
   {
-    return data.get(index);
+    return _data.get(index);
+  }
+  
+  float get(int index)
+  {
+    return _data.get(index);
   }
   
   void addToElement(int index,float whatToAdd)
   {
-    data.add(index,whatToAdd);
+    _data.add(index,whatToAdd);
   }
   
   void multiplicateElement(int index,float multiplier) //@todo RENAME multiplyElement()
   {
-    data.mult(index,multiplier);
+    _data.mult(index,multiplier);
   }
   
   void divideElement(int index,float divider)
   {
-    data.div(index,divider);
+    _data.div(index,divider);
   }
   
   void reset() //!< Data wipe.
   {
-    if(data!=null) data.clear();
+    if(_data!=null) _data.clear();
     Min=Float.MAX_VALUE;
     whMin=-1;
     Max=-Float.MAX_VALUE;
@@ -187,18 +254,18 @@ class Sample  extends NamedData
   /// @brief Shortening the series to `longOfRemained` the last elements.
   void remain(int longOfRemained)   
   {
-    if(longOfRemained>=data.size())
+    if(longOfRemained>=_data.size())
           return; //Nothing to do!
                                    //println(name(),data.size(),longOfremained);
-    FloatList oldData=data;
-    data=null; //We cut it off
+    FloatList oldData=_data;
+    _data=null; //We cut it off
     reset();
-    data=new FloatList(longOfRemained*2); //Initial capacity?
+    _data=new FloatList(longOfRemained*2); //Initial capacity?
                                 //@todo RENAME println(name(),oldData.size(),longOfRemained);
     int i=oldData.size()-longOfRemained;
     int end=oldData.size();
     for(;i<end;i++)
-      addValue(oldData.get(i));
+      consider(oldData.get(i));
   }
   
   float getMin() //!< Access to the current minimum.
@@ -225,7 +292,7 @@ class Sample  extends NamedData
     int    N=0;
     double odwroty=0; // @todo RENAME reciprocals... Sum of reciprocals!
     
-    for(float val:data)
+    for(float val:_data)
     if(val!=INF_NOT_EXIST && val!=0)
     {
       odwroty+=1.0/((double)val);
@@ -242,7 +309,7 @@ class Sample  extends NamedData
     int    N=0;
     double kwadraty=0; // @todo RENAME sum of squares
     
-    for(float val:data)
+    for(float val:_data)
     if(val!=INF_NOT_EXIST)
     {
       kwadraty+=sqr(val);
@@ -266,7 +333,7 @@ class Sample  extends NamedData
     int    N=0;
     double powers=0;
     
-    for(float val:data)
+    for(float val:_data)
     if(val!=INF_NOT_EXIST)
     {
       powers+=Math.pow(val,power);
@@ -283,14 +350,15 @@ class Sample  extends NamedData
     return (float)ret; 
   }
   
-  float getStdDev() //!< Standard deviation.
+  /// @brief Standard deviation.
+  float getStdDev() 
   {
     if(count==0) return INF_NOT_EXIST;
     int    N=0;
     double kwadraty=0; // @todo RENAME sum of squares
     double mean=getMean();
     
-    for(float val:data)
+    for(float val:_data)
     if(val!=INF_NOT_EXIST)
     {
       kwadraty+=sqr(val-mean);
@@ -312,14 +380,14 @@ class Sample  extends NamedData
     int    N=0;
     float val=INF_NOT_EXIST;
     
-    for(int i=0;i<data.size();i++)
-    if((val=data.get(i))!=INF_NOT_EXIST)
+    for(int i=0;i<_data.size();i++)
+    if((val=_data.get(i))!=INF_NOT_EXIST)
     {
       N++;
       copied.append(val);
     }
 
-    if(N==0) return INF_NOT_EXIST;                                              assert N<=data.size();
+    if(N==0) return INF_NOT_EXIST;                                              assert N<=_data.size();
     
     copied.sort();
     return copied.get(copied.size() / 2);
@@ -331,11 +399,11 @@ class Sample  extends NamedData
   float getGiniCoefficient()
   {
     // Creating temporary data
-    int maxN=data.size();
+    int maxN=_data.size();
 
     double[] locData=new double[maxN];
     int N=0;
-    for(float val:data)
+    for(float val:_data)
         if(val!=INF_NOT_EXIST)
         {
           locData[N]=val;
@@ -362,10 +430,10 @@ class Sample  extends NamedData
     return INF_NOT_EXIST;
   }
   
-  /// @brief Adding value at the end of the series.
-  void addValue(float value) 
+  /// @brief It appends value at the end of the series.
+  void consider(float value) 
   {        
-    data.append(value);
+    _data.append(value);
     
     if(value==INF_NOT_EXIST) return; // Nothing more to do
     
@@ -375,32 +443,32 @@ class Sample  extends NamedData
     if(Max<value)
     {
       Max=value;
-      whMax=data.size()-1; //print("^");
+      whMax=_data.size()-1; //print("^");
     }
     if(Min>value)
     {
       Min=value;
-      whMin=data.size()-1; //print("v");
+      whMin=_data.size()-1; //print("v");
     }
   }
   
   /// @brief Replacing the most recently added value with another one.
   void replaceLastValue(float value) 
   {
-    data.set(data.size()-1,value);
+    _data.set(_data.size()-1,value);
   }
   
   /// @brief Replacing the value under the index with another one.
-  void replaceValue(int index,float value) 
+  void replaceAt(int index,float value) 
   {
-    data.set(index,value);
+    _data.set(index,value);
   }
   
 } //_endOfClass Sample
 
 /// @brief   Class for representing frequencies.
 /// @details This class represents a named histogram of frequencies.
-class Frequencies extends NamedData 
+class Frequencies extends NamedData implements iFlag,iDataSample
 {
   int[]   buckets=null; //!< histogram bin array.
   float   sizeOfBucket=0; //(Max-Min) / N; 
@@ -415,6 +483,15 @@ class Frequencies extends NamedData
   int     higherBucket=0;
   int     higherBucketIndex=-1;
   
+  iFlag   _enabled=null;
+  
+  /// @brief Checks if it is active.
+  boolean isEnabled() 
+  {
+    if(_enabled==null) return true; // No flag, so "enabled" by default.
+    return _enabled.isEnabled();
+  }
+  
   /// @brief   Constructor, which needs more than a name.
   /// @details For pr2c 'super' must be in the same line with constructor name!
   Frequencies(int numberOfBuckets,float lowerBound, float upperBound,String Name) { super/*NamedData*/(Name);
@@ -424,9 +501,13 @@ class Frequencies extends NamedData
     sizeOfBucket=(upperBound-lowerBound) / numberOfBuckets;
   }
     
-  /// @brief In this case, the items are histogram buckets.
-  int  numOfElements() { return buckets.length;}
-  
+  // REQUIRED BY INTERFACE:
+  //*//////////////////////
+  int  numOfElements() { return buckets.length;}   //!< @note In this case, the items are histogram buckets.
+  int           size() { return buckets.length;}   //!< @note In this case, the items are histogram buckets.
+  float getElementAt(int index) { if(0<=index && index<buckets.length ) return buckets[index]; else return INF_NOT_EXIST; }
+  float          get(int index) { if(0<=index && index<buckets.length ) return buckets[index]; else return INF_NOT_EXIST; }
+ 
   /// @brief Ready to start collecting data again.
   void reset()
   {
@@ -439,8 +520,8 @@ class Frequencies extends NamedData
     higherBucketIndex=-1;    
   }
     
-  /// @brief It ads the real value  & updates the corresponding bucket.  
-  void addValue(float value)
+  /// @brief It tekes the real value & updates the corresponding bucket.  
+  void consider(float value)
   {
     if(value==INF_NOT_EXIST) return;
     
@@ -459,6 +540,8 @@ class Frequencies extends NamedData
     
     inside++;
   }
+  
+  void replaceAt(int index,float value) { /* DO NOTHING! */ }
   
 } //_endOfClass Frequencies
 

@@ -1,6 +1,6 @@
 /// @file
 /// @brief "Active rectangles" - proprietary application interface module in Processing ( "uGRectAreas.pde" )
-/// @date 2023.03.04 (Last modification)
+/// @date 2024-08-06 (Last modification)
 /// @author Wojciech Borkowski
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -153,6 +153,7 @@ class TextButton extends RectArea implements iNamed
   
   /// Implements the iNamed interface requirement.
   String name() { return title; }
+  String getName() { return title; }
   
   /// Area display function.
   void view()
