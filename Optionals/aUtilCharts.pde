@@ -1,7 +1,7 @@
 /** @file 
  *  @brief .... ("uCharts.pde")
  *  @defgroup ChartUtils Functions & classes for chart making 
- *  @date 2024-08-06 (last modification)                        @author borkowsk
+ *  @date 2024-08-08 (last modification)                        @author borkowsk
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
  *  @{
@@ -54,22 +54,22 @@ void viewTicsH(float startX,float startY,float width,float height,float space)  
 /** @brief Visualizes the limits of the vertical scale.
 *   @note We're not drawing dashes here yet (tics)
 *   @details Function for drawing scale on Y axis.   */
-void viewScaleV(Range MinMax,int startX,int startY,int width,int height)        ///< @note GLOBAL
+void viewScaleV(iRange MinMax,int startX,int startY,int width,int height)        ///< @note GLOBAL
 { 
    //,boolean logarithm) //We are not drawing tics here for now
    //float Min=(logarithm?(float)Math.log10(MinMax.min+1):MinMax.min); //+1 doesn't change much visually, but it guarantees computability
    //float Max=(logarithm?(float)Math.log10(MinMax.max+1):MinMax.max); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
    textAlign(LEFT,TOP);
-   text(""+MinMax.Min,startX+width,startY);
-   text(""+MinMax.Max,startX+width,startY-height);
+   text(""+MinMax.getMin(),startX+width,startY);
+   text(""+MinMax.getMax(),startX+width,startY-height);
 }
 
 /// @brief Visualise horisontal asymptotic straight line
-void viewHorizontalAsymptote(float val,Range MinMax,int startX,int startY,int width,int height)        ///< @note GLOBAL
+void viewHorizontalAsymptote(float val,iRange MinMax,int startX,int startY,int width,int height)        ///< @note GLOBAL
 {
-   if( MinMax.Min <= 0 && 0<=MinMax.Max && MinMax.Min!=MinMax.Max )
+   if( MinMax.getMin() <= 0 && 0<=MinMax.getMax() && MinMax.getMin()!=MinMax.getMax() )
    {
-     float mval=map(val,MinMax.Min,MinMax.Max,0,height); //@todo RENAME mval
+     float mval=map(val,MinMax.getMin(),MinMax.getMax(),0,height); //@todo RENAME mval
      textAlign(LEFT,TOP);
      text(val,startX+width,startY-mval);
      line(startX,startY-mval,startX+width,startY-mval);
@@ -77,11 +77,11 @@ void viewHorizontalAsymptote(float val,Range MinMax,int startX,int startY,int wi
 }
 
 /// @brief Function drawing zero arrow, if visible.
-void viewZeroArrow(Range MinMax,int startX,int startY,int width,int height,int length) ///< @NOTE GLOBAL
+void viewZeroArrow(iRange MinMax,int startX,int startY,int width,int height,int length) ///< @NOTE GLOBAL
 {
-   if( MinMax.Min <= 0 && 0<=MinMax.Max && MinMax.Min!=MinMax.Max )
+   if( MinMax.getMin() <= 0 && 0<=MinMax.getMax() && MinMax.getMin()!=MinMax.getMax() )
    {
-     float val=map(0,MinMax.Min,MinMax.Max,0,height);
+     float val=map(0,MinMax.getMin(),MinMax.getMax(),0,height);
      textAlign(LEFT,TOP);
      text("0",startX+width,startY-val);             //stroke(0);//debug
      arrow(startX,startY-val,startX+width+length,startY-val);
@@ -98,7 +98,7 @@ void viewZeroArrow(Range MinMax,int startX,int startY,int width,int height,int l
  @param  logarithm,
  @param  commMinMax,
  @param  connect : or connect points into a polyline (true/false)                              */
-void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int height,Range commMinMax,boolean connect,boolean percent) ///<  @NOTE GLOBAL. Musi być w jednej lini dla C++
+void viewAsPoints(iDataSample data,int startD,float startX,float startY,int width,int height,iRange commMinMax,boolean connect,boolean percent) ///<  @NOTE GLOBAL. Musi być w jednej lini dla C++
 {
   boolean logarithm=data.isOption(LOGARITHM_MASK);
   float Min;
@@ -108,24 +108,24 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
   {
     if(percent) //Jak percent to już nie logarytm!
     {
-      Min=commMinMax.Min;Max=commMinMax.Max;
+      Min=commMinMax.getMin();Max=commMinMax.getMax();
     }
     else
     {
-      Min=(logarithm?(float)Math.log10(commMinMax.Min+1):commMinMax.Min); //+1 doesn't change much visually, but it guarantees computability
-      Max=(logarithm?(float)Math.log10(commMinMax.Max+1):commMinMax.Max); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
+      Min=(logarithm?(float)Math.log10(commMinMax.getMin()+1):commMinMax.getMin()); //+1 doesn't change much visually, but it guarantees computability
+      Max=(logarithm?(float)Math.log10(commMinMax.getMax()+1):commMinMax.getMax()); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
     }
   }
   else
   {
     if(percent) //If a percent is no longer a logarithm!
     {
-      Min=data.Min*100.0f;Max=data.Max*100.0f;
+      Min=data.getMin()*100.0f;Max=data.getMax()*100.0f;
     }
     else
     {
-      Min=(logarithm?(float)Math.log10(data.Min+1):data.Min); //+1 doesn't change much visually, but it guarantees computability
-      Max=(logarithm?(float)Math.log10(data.Max+1):data.Max); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
+      Min=(logarithm?(float)Math.log10(data.getMin()+1):data.getMin()); //+1 doesn't change much visually, but it guarantees computability
+      Max=(logarithm?(float)Math.log10(data.getMax()+1):data.getMax()); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
       //println("Range:",Min,"..",Max);
     }
   }
@@ -148,7 +148,7 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
   
   for(int t=startD;t<N;t++)
   {
-    float val=data._data.get(t);
+    float val=data.get(t);
     
     if(val==INF_NOT_EXIST) 
     {
@@ -178,7 +178,7 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
     
     if(connect) oldy=val;
     
-    if(t==data.whMax || t==data.whMin)
+    if(t==data.whereMax() || t==data.whereMin())
     {
       textAlign(LEFT,TOP);
       String etyk="";
@@ -209,21 +209,20 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
   PL:param float startX,float startY,int width,int height : Położenie i rozmiar
   PL:param boolean logaritm : CZY LOGARYTMOWAĆ DANE?
   PL:param Range commMinMax : ZADANY ZAKRES y
-  PL:param boolean connect  : Czy łączyć punkty linią?
-*/
-void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int height,boolean logarithm,Range commMinMax,boolean connect) /// @NOTE GLOBAL
+  PL:param boolean connect  : Czy łączyć punkty linią?    */
+void viewAsPoints(iDataSample data,int startD,float startX,float startY,int width,int height,boolean logarithm,iRange commMinMax,boolean connect) /// @NOTE GLOBAL
 {
   float Min,Max;
   
   if(commMinMax!=null)
   {
-    Min=(logarithm?(float)Math.log10(commMinMax.Min+1):commMinMax.Min); //+1 doesn't change much visually, but it guarantees computability
-    Max=(logarithm?(float)Math.log10(commMinMax.Max+1):commMinMax.Max); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność    
+    Min=(logarithm?(float)Math.log10(commMinMax.getMin()+1):commMinMax.getMin()); //+1 doesn't change much visually, but it guarantees computability
+    Max=(logarithm?(float)Math.log10(commMinMax.getMax()+1):commMinMax.getMax()); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność    
   }
   else
   {
-    Min=(logarithm?(float)Math.log10(data.Min+1):data.Min); //+1 doesn't change much visually, but it guarantees computability
-    Max=(logarithm?(float)Math.log10(data.Max+1):data.Max); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
+    Min=(logarithm?(float)Math.log10(data.getMin()+1):data.getMin()); //+1 doesn't change much visually, but it guarantees computability
+    Max=(logarithm?(float)Math.log10(data.getMax()+1):data.getMax()); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
   }
   
   int     N=data.numOfElements();                                               assert startD<N-1;
@@ -270,7 +269,7 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
     
     if(connect) oldY=val;
     
-    if(t==data.whMax || t==data.whMin)
+    if(t==data.whereMax() || t==data.whereMin())
     {
       textAlign(LEFT,TOP);
       text(""+data.get(t),startX+x,startY-val);
@@ -284,7 +283,7 @@ void viewAsPoints(Sample data,int startD,float startX,float startY,int width,int
   @param startD  : The starting point of the data, or the number from the end - if negative
   @param startX,startY,width,height : Location and size
   @param mapper : mapping values to colors                                                */
-void viewAsVerticals(Sample data,int startD,float startX,float startY,int width,int height,iColorMapper mapper) ///< @NOTE GLOBAL. For C++ translation MUST be in one line!
+void viewAsVerticals(iDataSample data,int startD,float startX,float startY,int width,int height,iColorMapper mapper) ///< @NOTE GLOBAL. For C++ translation MUST be in one line!
 {
   int     N=data.numOfElements();                                                             
                                                                                              assert startD<N-1;
@@ -323,6 +322,33 @@ void viewAsVerticals(Sample data,int startD,float startX,float startY,int width,
   }
 }
 
+/** @brief Range visualisation as boxes or solid bars 
+  @param ranges  : Data source
+  @param startR,finR  : The range visibility window 
+  @param startX,startY,width,height : Screen location and size
+  @param mapper : mapping values to colors
+  @param solid  : swith beetwen solid bars versus boxes */
+void viewAsRanges(iRangesContainer ranges,float startR,float finR,float startX,float startY,int width,int height,iColorMapper mapper,boolean solid) ///< @NOTE GLOBAL. For C++ translation MUST be in one line!
+{
+  noStroke();
+  for(int i=0;i<ranges.size();i++)
+  {
+    iRangeWithValue range=ranges.get(i);
+    if(range.getMin()<=finR || range.getMax()>=startR) //Jeśli któryś koniec trafia w okno zainteresowania
+    {
+      float min=range.getMin(); if(min==INF_NOT_EXIST) min=startR;
+      float start=map(min,startR,finR,startX,width);
+      float max=range.getMax(); if(max==INF_NOT_EXIST) max=finR;
+      float   end=map(max,startR,finR,startX,width);
+      color c=mapper.map(range.get());
+      fill(c);
+      rect(start,startY,end,height);
+      //println(min,range.get(),max);
+    }
+  }
+  println();
+}
+
 /// @brief Bar visualization of a histogram or something similar.
 //* PL: Funkcja wizualizująca serię danych jako kolumny w jednym kolorze.
 /// @details Mainly for visualizing attendance.
@@ -332,6 +358,7 @@ void viewAsVerticals(Sample data,int startD,float startX,float startY,int width,
 /// @param int width - The width of the display area
 /// @param int height - The height of the display area
 /// @param boolean logarithm - Should the data be transformed by logarithm?
+/// @returns real width of histogram
 float viewAsColumns(Frequencies hist,float startX,float startY,int width,int height,boolean logarithm) ///< DRAWING A HISTOGRAM.
 {
   float Max=(logarithm?(float)Math.log10(hist.higherBucket+1):hist.higherBucket); //+1 doesn't change much visually, but it guarantees computability

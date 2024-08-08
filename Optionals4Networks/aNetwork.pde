@@ -1,6 +1,6 @@
 /// @file 
 /// @brief Generic (social) network classes ("aNetwork.pde")
-/// @date 2024.04.08 (last modification)
+/// @date 2024-08-08 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////
 
 /// @details
@@ -135,7 +135,8 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
   }
   
   /// For visualisation and mapping.  
-  String name(){ return target.name(); }
+  String    name(){ return target.name(); }
+  String getName(){ return target.name(); }
   
   /// Read only access to `weight`.
   float getWeight() { return weight;}
@@ -773,7 +774,14 @@ class NodeAsList extends Node  implements iVisNode {
     return ret;
   } //<>//
   
-  color defColor(){ return color(0,128); }
+  // REMAINING INTERFACES REQUIREMENTS:
+  //*//////////////////////////////////
+  color defColor() { return color(0,128); }
+  float     getX() { return posX(); }
+  float     getY() { return posY(); }
+  float     getZ() { return 0; }
+  String getName() { return name();}
+  
 } //_EndOfClass
 
 /**
@@ -858,8 +866,14 @@ class NodeAsMap extends Node implements iVisNode {
     selected.toArray(ret);
     return ret;
   }
-  
-    color defColor(){ return color(255,128); }
+
+  // REMAINING INTERFACES REQUIREMENTS:
+  //*//////////////////////////////////
+  color defColor() { return color(255,128); }
+  float     getX() { return posX(); }
+  float     getY() { return posY(); }
+  float     getZ() { return 0; }
+  String getName() { return name();}
   
 } //_EndOfClass
 

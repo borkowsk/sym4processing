@@ -1,14 +1,15 @@
 /** @file 
  *  @brief .... ("uUtilCData.pde")
- *  @defgroup Data collection classes for statistics & chart making 
- *  @date 2024-08-06 (last modification)                       @author borkowsk
+ *  @date 2024-08-08 (last modification)                       @author borkowsk
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
+ *  @defgroup Data collection classes for statistics & chart making 
  *  @{
  */ ////////////////////////////////////////////////////////////////////////////
  
 // @brief "NO DATA" marker. Needed somewhere else.
 float INF_NOT_EXIST=Float.MAX_VALUE;                                            ///< @note Global!
+int   INVALID_INDEX=-1;                                                         ///< @note Global!
 
 /// @brief Bool switch.
 /// Usable as a flag or switch of visualisation modes.
@@ -16,6 +17,7 @@ class ViewSwitch implements iFlag
 {
   boolean _val; //!< current value.
 
+  /// @brief Sole constructor
   ViewSwitch(boolean isEnabled){ _val=isEnabled; }
 
   /// @brief Change the value to the opposite.
@@ -23,46 +25,47 @@ class ViewSwitch implements iFlag
   
   /*_interfunc*/ void set(boolean isEnabled){ _val=isEnabled; }
   /*_interfunc*/ boolean isEnabled(){ return _val; }
+  
 } //_endOfClass ViewSwitch
 
 class NonameRange implements iRange
 {
-  float Min=+Float.MAX_VALUE; //!< Current minimal value
-  float Max=-Float.MAX_VALUE; //!< Current maximal value
+  float minimum=+Float.MAX_VALUE; //!< Current minimal value
+  float maximum=-Float.MAX_VALUE; //!< Current maximal value
   
   /// @brief Constructor which needs the initial `Min..Max` range.
-  NonameRange(float Min,float Max) { this.Min=Min; this.Max=Max; }
+  NonameRange(float Min,float Max) { this.minimum=Min; this.maximum=Max; }
   
   // REQUIRED BY INTERFACE:
   //*//////////////////////
-  float getMin() { return Min; }
-  float getMax() { return Max; }
+  float getMin() { return minimum; }
+  float getMax() { return maximum; }
   
-  void addValue(float value) 
+  void consider(float value) 
   {
     if(value==INF_NOT_EXIST) return;
     
-    if(Max<value)
+    if(maximum<value)
     {
-      Max=value;
+      maximum=value;
     }
     
-    if(Min>value)
+    if(minimum>value)
     {
-      Min=value;
+      minimum=value;
     }
   }
 } //_endOfClass NonameRange
 
 /// @brief Simplest implementation for `iValueInRange` interface.
-class ValueInRange extends NonameRange implements iValueInRange {
+class ValueInRange extends NonameRange implements iRangeWithValue {
   
-  float Val=INF_NOT_EXIST;
+  float value=INF_NOT_EXIST;
   
    /// @brief Constructor which needs the initial `Min..Max` range.
-  ValueInRange(int Val,float Min,float Max) { super/*NamedData*/(Min,Max); this.Val=Val;}
+  ValueInRange(int iniVal,float iniMin,float iniMax) { super/*NamedData*/(iniMin,iniMax); this.value=iniVal;}
   
-  float get() { return Val; }
+  float get() { return value; }
   
 } //_endOfClass
 
@@ -72,12 +75,12 @@ class ValueInRange extends NonameRange implements iValueInRange {
 ///
 class NamedData implements iNamed 
 {
-  String _myName; //!< current name.
+  String nameOfMine; //!< current name.
   
-  NamedData(String Name){ _myName=Name;}
+  NamedData(String iniName){ nameOfMine=iniName;}
   
-  String name() { return _myName; }
-  String getName() { return _myName; }
+  String    name() { return nameOfMine; }
+  String getName() { return nameOfMine; }
   
 } //_endOfClass NamedData
 
@@ -89,18 +92,18 @@ class Range extends NamedData implements iRange {
   
   /// @brief Constructor which needs only a name
   /// @note  For pr2c 'super' must be in the same line with constructor name!
-  Range(String Name) { super/*NamedData*/(Name); }
+  Range(String iniName) { super/*NamedData*/(iniName); }
   
   /// @brief Constructor which needs the uniq name and the initial `Min..Max` range.
   /// @note  For pr2c 'super' must be in the same line with constructor name!
-  Range(String Name,float Min,float Max) { super/*NamedData*/(Name); this.Min=Min; this.Max=Max;}
+  Range(String iniName,float iniMin,float iniMax) { super/*NamedData*/(iniName); this.Min=iniMin; this.Max=iniMax;}
   
   // REQUIRED BY INTERFACE:
   //*//////////////////////
   float getMin() { return Min; }
   float getMax() { return Max; }
   
-  void addValue(float value) 
+  void consider(float value) 
   {
     if(value==INF_NOT_EXIST) return;
     
@@ -118,12 +121,12 @@ class Range extends NamedData implements iRange {
 } //_endOfClass Range
 
 /// @brief Named implementation for `iValueInRange` interface.
-class NamedValueInRange extends Range implements iValueInRange {
+class NamedValueInRange extends Range implements iRangeWithValue {
   
   float Val=INF_NOT_EXIST;
   
    /// @brief Constructor which needs the initial `Min..Max` range.
-  NamedValueInRange(int Val,String Name,float Min,float Max) { super/*Range*/(Name,Min,Max); this.Val=Val;}
+  NamedValueInRange(int iniVal,String iniName,float iniMin,float iniMax) { super/*Range*/(iniName,iniMin,iniMax); this.Val=iniVal;}
   
   float get() { return Val; }
   
@@ -132,7 +135,7 @@ class NamedValueInRange extends Range implements iValueInRange {
 /// @brief Class for representing series of numbers.
 /// @details
 ///   This class represents a NAMED series of real (float) numbers.
-class Sample  extends NamedData implements iFlag,iRange,iDataSample,iBasicStatistics
+class Sample  extends NamedData implements iFlag,iRange,iDataSample,iBasicStatistics,iColor
 {
   FloatList  _data=null;        //!< list of data values.
   int        options=0;         //!< Word 32b free to use
@@ -142,15 +145,16 @@ class Sample  extends NamedData implements iFlag,iRange,iDataSample,iBasicStatis
       
   // For statistics
   int    count=0;               //!< How much data has been entered (not counting INF_NOT_EXIST)
+  
   float   Min=+Float.MAX_VALUE; //!< Current minimal value
-  int   whMin=-1;               //!< Position of the current minimal value
   float   Max=-Float.MAX_VALUE; //!< Current maximal value
+  int   whMin=-1;               //!< Position of the current minimal value
   int   whMax=-1;               //!< Position of the current maximal value
   double   sum=0;               //!< The current sum of values 
   
   /// @brief A constructor with just a name.
   /// @note  For pr2c `super` must be in the same line with constructor name! (@todo still?)
-  Sample(String Name) { super/*NamedData*/(Name);
+  Sample(String iniName) { super/*NamedData*/(iniName);
     _enabled=new ViewSwitch(true);
     _data=new FloatList();
     _enabled=new ViewSwitch(true);
@@ -161,7 +165,7 @@ class Sample  extends NamedData implements iFlag,iRange,iDataSample,iBasicStatis
   /// @param   `defColor` is the display color
   /// @param   `defEnabled` is a reference to the display flag on which the visibility of the series depends.
   //*  For pr2c 'super' must be in the same line with constructor name!
-  Sample(String Name,color defColor,iFlag defEnabled) { super/*NamedData*/(Name);
+  Sample(String iniName,color defColor,iFlag defEnabled) { super/*NamedData*/(iniName);
     _data=new FloatList();
     _color=defColor;
     _enabled=defEnabled;
@@ -189,7 +193,12 @@ class Sample  extends NamedData implements iFlag,iRange,iDataSample,iBasicStatis
  
   boolean isOption(int mask) //!< They will check the options according to masks.
   {
-    return (options & mask)!=0;
+    return (options & mask)==mask;
+  }
+ 
+  void   setColor(color fullColor) //!< Change color
+  {
+    _color=fullColor;
   }
  
   color   getColor() //!< Gives color.
@@ -202,9 +211,9 @@ class Sample  extends NamedData implements iFlag,iRange,iDataSample,iBasicStatis
      return _data.size(); 
   }
   
-  int  size()
+  int  size()  //!< Series length. Together with empty cells, i.e. == INF_NOT_EXIST
   {
-     return _data.size(); //!< Series length. Together with empty cells, i.e. == INF_NOT_EXIST
+     return _data.size(); 
   }
   
   float getLast() //!< The last value of the series.
@@ -240,7 +249,7 @@ class Sample  extends NamedData implements iFlag,iRange,iDataSample,iBasicStatis
     _data.div(index,divider);
   }
   
-  void reset() //!< Data wipe.
+  void reset() //!< Data wiped, so ready to collect it again!
   {
     if(_data!=null) _data.clear();
     Min=Float.MAX_VALUE;
@@ -272,6 +281,18 @@ class Sample  extends NamedData implements iFlag,iRange,iDataSample,iBasicStatis
   {
     if(count>0) return Min;
     else return INF_NOT_EXIST;
+  }
+  
+  int        whereMin()
+  {
+    if(count>0) return whMin;
+    else return INVALID_INDEX;
+  }
+  
+  int        whereMax()
+  {
+    if(count>0) return whMax;
+    else return INVALID_INDEX;
   }
   
   float getMax()  //!< Access to the current maximum.
@@ -455,20 +476,52 @@ class Sample  extends NamedData implements iFlag,iRange,iDataSample,iBasicStatis
   /// @brief Replacing the most recently added value with another one.
   void replaceLastValue(float value) 
   {
+    sum-=_data.get(_data.size()-1);     //<>//
+
     _data.set(_data.size()-1,value);
+    
+    if(value==INF_NOT_EXIST) {count--;return;} // Nothing more to do
+    else sum+=value;
+    
+    if(Max<value)
+    {
+      Max=value;
+      whMax=_data.size()-1; //print("^");
+    }
+    if(Min>value)
+    {
+      Min=value;
+      whMin=_data.size()-1; //print("v");
+    }
   }
   
   /// @brief Replacing the value under the index with another one.
   void replaceAt(int index,float value) 
   {
+    sum-=_data.get(index); //<>//
+    
     _data.set(index,value);
+    
+    if(value==INF_NOT_EXIST) {count--;return;} // Nothing more to do
+    else sum+=value;
+    
+    if(Max<value)
+    {
+      Max=value;
+      whMax=_data.size()-1; //print("^");
+    }
+    if(Min>value)
+    {
+      Min=value;
+      whMin=_data.size()-1; //print("v");
+    }
   }
   
 } //_endOfClass Sample
 
 /// @brief   Class for representing frequencies.
 /// @details This class represents a named histogram of frequencies.
-class Frequencies extends NamedData implements iFlag,iDataSample
+class Frequencies extends NamedData implements iFlag,iDataSample,iColor
 {
   int[]   buckets=null; //!< histogram bin array.
   float   sizeOfBucket=0; //(Max-Min) / N; 
@@ -483,13 +536,25 @@ class Frequencies extends NamedData implements iFlag,iDataSample
   int     higherBucket=0;
   int     higherBucketIndex=-1;
   
+  color   _color=color(0); 
   iFlag   _enabled=null;
+  int      options=0;         //!< Word 32b free to use
   
   /// @brief Checks if it is active.
   boolean isEnabled() 
   {
     if(_enabled==null) return true; // No flag, so "enabled" by default.
     return _enabled.isEnabled();
+  }
+  
+  void   setColor(color fullColor) //!< Change color
+  {
+    _color=fullColor;
+  }
+ 
+  color   getColor() //!< Gives color.
+  {
+    return _color;
   }
   
   /// @brief   Constructor, which needs more than a name.
@@ -500,14 +565,17 @@ class Frequencies extends NamedData implements iFlag,iDataSample
     upperBuck=upperBound;
     sizeOfBucket=(upperBound-lowerBound) / numberOfBuckets;
   }
-    
-  // REQUIRED BY INTERFACE:
-  //*//////////////////////
-  int  numOfElements() { return buckets.length;}   //!< @note In this case, the items are histogram buckets.
-  int           size() { return buckets.length;}   //!< @note In this case, the items are histogram buckets.
-  float getElementAt(int index) { if(0<=index && index<buckets.length ) return buckets[index]; else return INF_NOT_EXIST; }
-  float          get(int index) { if(0<=index && index<buckets.length ) return buckets[index]; else return INF_NOT_EXIST; }
- 
+  
+  /// @brief   Constructor, which needs more than a name.
+  /// @details For pr2c 'super' must be in the same line with constructor name!
+  Frequencies(int numberOfBuckets,float lowerBound, float upperBound,String Name,color defColor) { super/*NamedData*/(Name);
+    buckets=new int[numberOfBuckets];
+    lowerBuck=lowerBound;
+    upperBuck=upperBound;
+    sizeOfBucket=(upperBound-lowerBound) / numberOfBuckets;
+    _color=defColor;
+  }
+      
   /// @brief Ready to start collecting data again.
   void reset()
   {
@@ -516,11 +584,11 @@ class Frequencies extends NamedData implements iFlag,iDataSample
     outsideLow=0;
     outsideHig=0;
     inside=0;
-    higherBucket=0;
     higherBucketIndex=-1;    
+    higherBucket=0;
   }
     
-  /// @brief It tekes the real value & updates the corresponding bucket.  
+  /// @brief It tekes the real value & updates the corresponding bucket.
   void consider(float value)
   {
     if(value==INF_NOT_EXIST) return;
@@ -541,7 +609,21 @@ class Frequencies extends NamedData implements iFlag,iDataSample
     inside++;
   }
   
-  void replaceAt(int index,float value) { /* DO NOTHING! */ }
+  // REQUIRED BY INTERFACES:
+  //*///////////////////////
+  int  numOfElements() { return buckets.length;}   //!< @note In this case, the items are histogram buckets.
+  int           size() { return buckets.length;}   //!< @note In this case, the items are histogram buckets.
+  float getElementAt(int index) { if(0<=index && index<buckets.length ) return buckets[index]; else return INF_NOT_EXIST; }
+  float          get(int index) { if(0<=index && index<buckets.length ) return buckets[index]; else return INF_NOT_EXIST; }
+  void     replaceAt(int index,float value) { /* DO NOTHING! */ }
+  float       getMin() { return 0; }
+  float       getMax() { return higherBucket; }
+  int       whereMin() { return INVALID_INDEX; }
+  int       whereMax() { return higherBucketIndex; }
+  boolean isOption(int mask) //!< They will check the options according to masks.
+  {
+    return (options & mask)==mask;
+  }
   
 } //_endOfClass Frequencies
 
