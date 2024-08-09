@@ -1,7 +1,7 @@
 /** @file 
  *  @brief .... ("uCharts.pde")
  *  @defgroup ChartUtils Functions & classes for chart making 
- *  @date 2024-08-08 (last modification)                        @author borkowsk
+ *  @date 2024-08-09 (last modification)                        @author borkowsk
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
  *  @{
@@ -330,7 +330,8 @@ void viewAsVerticals(iDataSample data,int startD,float startX,float startY,int w
   @param solid  : swith beetwen solid bars versus boxes */
 void viewAsRanges(iRangesContainer ranges,float startR,float finR,float startX,float startY,int width,int height,iColorMapper mapper,boolean solid) ///< @NOTE GLOBAL. For C++ translation MUST be in one line!
 {
-  noStroke();
+  if(solid) noStroke(); else noFill();
+  
   for(int i=0;i<ranges.size();i++)
   {
     iRangeWithValue range=ranges.get(i);
@@ -338,12 +339,18 @@ void viewAsRanges(iRangesContainer ranges,float startR,float finR,float startX,f
     {
       float min=range.getMin(); if(min==INF_NOT_EXIST) min=startR;
       float start=map(min,startR,finR,startX,width);
+      
       float max=range.getMax(); if(max==INF_NOT_EXIST) max=finR;
       float   end=map(max,startR,finR,startX,width);
+      
       color c=mapper.map(range.get());
-      fill(c);
-      rect(start,startY,end,height);
-      //println(min,range.get(),max);
+      
+      if(solid) { fill(c); } 
+      else      { stroke(c); } 
+      
+      rect(start,startY,end-start,height-1);
+      
+      //println("\t",range.get(),"\tin\t",nfs(min,0,3),"..\t",nfs(max,0,3),"\t|\t",hex(c),"\tin\t",nfs(start,0,1),"..\t",nfs(end,0,1));
     }
   }
   println();

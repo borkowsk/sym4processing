@@ -1,6 +1,6 @@
 /// @file
 /// @brief Various simple statistics for one-dimensional arrays ("uStatistics.pde")
-/// @date 2023.03.12 (Last modification)
+/// @date 2024-08-09 (Last modification)
 ///
 //*  PL: Różne proste statystyki dla tablic jednowymiarowych
 //*/////////////////////////////////////////////////////////////////////////////////
@@ -125,6 +125,7 @@ double meanCorrelations(double data[],int offset,int limit)    ///< @note GLOBAL
   PomCorrelation = ( Math.exp(2 * PomCorrelation) - 1 ) 
                               / 
                    ( Math.exp(2 * PomCorrelation) + 1 );       
+                   
   return PomCorrelation;
 }
 

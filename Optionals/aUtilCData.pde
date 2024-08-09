@@ -1,6 +1,6 @@
 /** @file 
  *  @brief .... ("uUtilCData.pde")
- *  @date 2024-08-08 (last modification)                       @author borkowsk
+ *  @date 2024-08-09 (last modification)                       @author borkowsk
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
  *  @defgroup Data collection classes for statistics & chart making 
@@ -34,7 +34,9 @@ class NonameRange implements iRange
   float maximum=-Float.MAX_VALUE; //!< Current maximal value
   
   /// @brief Constructor which needs the initial `Min..Max` range.
-  NonameRange(float Min,float Max) { this.minimum=Min; this.maximum=Max; }
+  NonameRange(float Min,float Max) {             assert(Min<=Max);
+    this.minimum=Min; this.maximum=Max; 
+  }
   
   // REQUIRED BY INTERFACE:
   //*//////////////////////
