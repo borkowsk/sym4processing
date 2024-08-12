@@ -1,6 +1,6 @@
 /** @file 
  *  @brief .... ("uUtilCData.pde")
- *  @date 2024-08-09 (last modification)                       @author borkowsk
+ *  @date 2024-08-12 (last modification)                       @author borkowsk
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
  *  @defgroup Data collection classes for statistics & chart making 
@@ -500,7 +500,7 @@ class Sample  extends NamedData implements iFlag,iRange,iDataSample,iBasicStatis
   /// @brief Replacing the value under the index with another one.
   void replaceAt(int index,float value) 
   {
-    sum-=_data.get(index); //<>//
+    sum-=_data.get(index);
     
     _data.set(index,value);
     
@@ -602,13 +602,28 @@ class Frequencies extends NamedData implements iFlag,iDataSample,iColor
       {outsideHig++;return;}    
     
     int index=(int)((value-lowerBuck) / sizeOfBucket);
-         
-    buckets[index]++;
     
-    if(higherBucket<buckets[index])
-      {higherBucket=buckets[index];higherBucketIndex=index;}
+    if(index<buckets.length) {
+        buckets[index]++;
     
-    inside++;
+        if(higherBucket<buckets[index])
+          {higherBucket=buckets[index];higherBucketIndex=index;}
+        
+        inside++;
+    } else {
+      outsideHig++; println("Frequencies:",index,"is out of bound, for value=",value);
+    }
+
+  }
+  
+  /// @brief It consider whole series of data!
+  /// @param src points to series of values, and is not remembered!
+  void consider(iDataSample/*_ref*/ src)
+  {
+    for(int i=0;i<src.size();i++) {
+        consider(src.get(i)); //print(src.get(i),';');
+    }
+    //println();
   }
   
   // REQUIRED BY INTERFACES:
@@ -622,6 +637,7 @@ class Frequencies extends NamedData implements iFlag,iDataSample,iColor
   float       getMax() { return higherBucket; }
   int       whereMin() { return INVALID_INDEX; }
   int       whereMax() { return higherBucketIndex; }
+  
   boolean isOption(int mask) //!< They will check the options according to masks.
   {
     return (options & mask)==mask;

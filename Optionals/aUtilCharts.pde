@@ -1,7 +1,7 @@
 /** @file 
  *  @brief .... ("uCharts.pde")
  *  @defgroup ChartUtils Functions & classes for chart making 
- *  @date 2024-08-09 (last modification)                        @author borkowsk
+ *  @date 2024-08-12 (last modification)                        @author borkowsk
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
  *  @{
@@ -342,7 +342,7 @@ void viewAsRanges(iRangesContainer ranges,float startR,float finR,float startX,f
       
       float max=range.getMax(); if(max==INF_NOT_EXIST) max=finR;
       float   end=map(max,startR,finR,startX,width);
-      
+      end=int(end+1); //Zaokrąglenie w gorę
       color c=mapper.map(range.get());
       
       if(solid) { fill(c); } 
@@ -353,7 +353,7 @@ void viewAsRanges(iRangesContainer ranges,float startR,float finR,float startX,f
       //println("\t",range.get(),"\tin\t",nfs(min,0,3),"..\t",nfs(max,0,3),"\t|\t",hex(c),"\tin\t",nfs(start,0,1),"..\t",nfs(end,0,1));
     }
   }
-  println();
+  //println();
 }
 
 /// @brief Bar visualization of a histogram or something similar.
@@ -372,6 +372,8 @@ float viewAsColumns(Frequencies hist,float startX,float startY,int width,int hei
   int   wid=width/hist.buckets.length; //println(width,wid);
   if(wid<1) wid=1;
   
+  fill(hist.getColor());
+  
   for(int i=0;i<hist.buckets.length;i++)
   {
     float hei;
@@ -384,11 +386,11 @@ float viewAsColumns(Frequencies hist,float startX,float startY,int width,int hei
   }
   
   textAlign(LEFT,BOTTOM);
-  text(""+Max
+  text(hist.getName()+"\n       max:"+Max
          +(logarithm ?
-           "<=" +hist.higherBucket+
-           " @ "+hist.higherBucketIndex :
-           " @ "+hist.higherBucketIndex),startX,startY-height);
+           "<=" +hist.higherBucket+" @ "+hist.higherBucketIndex :
+           " @ "+hist.higherBucketIndex),
+           startX,startY-height);
            
   //Real width of histogram
   float realWidth=(hist.buckets.length)*wid; //println(realwidth);noLoop();                                         
