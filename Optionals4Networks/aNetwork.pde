@@ -1,6 +1,6 @@
 /// @file 
 /// @brief Generic (social) network classes ("aNetwork.pde")
-/// @date 2024-08-08 (last modification)
+/// @date 2024-08-23 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////
 
 /// @details
@@ -75,8 +75,8 @@ abstract class Named implements iNamed {
 * @brief Abstraction for any colorable object. Only for visualisation.
 */
 abstract class Colorable extends Named implements iColorable {
-  /*_interfunc*/ void setFill(float modifier)  {assert false : "Pure abstract setFill() called";}
-  /*_interfunc*/ void setStroke(float modifier){assert false : "Pure abstract setStroke() called";}
+  /*_interfunc*/ void   applyFill(float modifier) {assert false : "Pure abstract   `applyFill()` called";}
+  /*_interfunc*/ void applyStroke(float modifier) {assert false : "Pure abstract `applyStroke()` called";}
 } //EndOfClass Colorable
 
 /**
@@ -167,7 +167,7 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
   
   /// Setting `stroke` for this object. 
   /// @param Intensity - used for alpha channel.
-  void setStroke(float Intensity)
+  void applyStroke(float Intensity)
   {  //float   MAX_LINK_WEIGHT=2;   ///Use maximal strokeWidth for links
      strokeWeight(abs(weight)*MAX_LINK_WEIGHT);
      switch ( ltype )
@@ -183,7 +183,7 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
   
   /// @note Use maximal `strokeWidth()` for links. 
   /// @todo Zerowe znikają w grafice SVG!
-  void setStroke(float weight,float MaxIntensity)
+  void applyStroke(float weight,float MaxIntensity)
   {  //float   MAX_LINK_WEIGHT=2;   
      strokeWeight(1+abs(weight)*MAX_LINK_WEIGHT); 
      switch ( ltype )

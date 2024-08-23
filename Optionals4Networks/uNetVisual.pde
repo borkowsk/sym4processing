@@ -1,6 +1,6 @@
 /// @file 
 /// @brief Generic visualisations of a (social) network ("uNetVisual.pde")
-/// @date 2024.04.08 (last modification)
+/// @date 2024-08-23 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////
 
 /// @details
@@ -80,7 +80,7 @@ void visualiseWeightScale(Link lnk,float defX,float defY,float width,float hei,f
   for(float w=1.0;w>=0.0;w-=0.01)
   {
     float pos=defX+w*width;
-    lnk.setStroke(w,LINK_INTENSITY);
+    lnk.applyStroke(w,LINK_INTENSITY);
     line(pos,defY,pos,defY+hei);
   }
 }
@@ -117,7 +117,7 @@ void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,f
         else     { Xt-=links[j].getTypeMarker()*XSPREAD;}
         C*=cellside;
         
-        links[j].setStroke(LINK_INTENSITY);
+        links[j].applyStroke(LINK_INTENSITY);
         
         arc(defX+C,defY,R,R,0,PI);
         stroke(255);
@@ -165,7 +165,7 @@ void visualiseLinks2D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,f
         else    { Xt-=links[k].getTypeMarker()*XSPREAD;}
                                                   if(NET_DEBUG>1 && X==Xt && Y==Yt)//TEŻ będzie kółko!!!
                                                         println("Connection",Source.name(),"->-",links[k].getTarget().name(),"visualised as circle");
-        k_link.setStroke(LINK_INTENSITY); //<>//
+        k_link.applyStroke(LINK_INTENSITY); //<>//
         
         arrow(defX+(X*cellside)+1,defY+(Y*cellside)+1,defX+(Xt*cellside)-1,defY+(Yt*cellside)-1);
         
@@ -211,7 +211,7 @@ void visualiseLinks(iVisNode[][] nodes,LinkFilter filter,float defX,float defY,f
         if(X<Xt) { Xt+=links[k].getTypeMarker()*XSPREAD;}
         else    { Xt-=links[k].getTypeMarker()*XSPREAD;}
         
-        links[k].setStroke(LINK_INTENSITY);
+        links[k].applyStroke(LINK_INTENSITY);
         arrow(defX+(X*cellside),defY+(Y*cellside),defX+(Xt*cellside),defY+(Yt*cellside));
         /*
         float midX=defX+( X*cellside + Xt*cellside )/2.0;
