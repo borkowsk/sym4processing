@@ -1,14 +1,19 @@
 /// @file 
 /// @brief Various shapes drawing procedures ("uFigures.pde")
-/// @date 2024-08-02 (last modification)                        @author borkowsk
+/// @date 2024-08-23 (last modification)                        @author borkowsk
 /// @details ...
 //*/////////////////////////////////////////////////////////////////////////////
 
 //color BALDHEAD_NOSE_COLOR=0xff000011;
+float BALDHEAD_MUN_ANGLE=PI/10;
 float BALDHEAD_NOSE_DIVIDER=5;
+float BALDHEAD_NOSE_RADIUS=1; // as ratio of maximal R
 float BALDHEAD_EARS_DIVIDER=4;
-float BALDHEAD_PUPIL_DIV=14;
+
+float BALDHEAD_EYES_RADIUS=0.75; // as ratio of maximal R
+float BALDHEAD_PUPIL_RADIUS=0.83; // as ratio of maximal R
 color BALDHEAD_EYES_COLOR=color(0,100,150);
+float BALDHEAD_PUPIL_DIV=14;
 int   BALDHEAD_HAIRS_DENS=10;   ///< How many hairs
 float BALDHEAD_HAIRS_START=0.2; ///< Range 0..0.5
 float BALDHEAD_HAIRS_END=0.8; ///< Range BALDHEAD_HAIRS_START..0.99
@@ -28,31 +33,34 @@ void baldhead_hor(float x,float y,float r,float direction)         ///< @note Gl
   ellipse(xn,yn,D/BALDHEAD_EARS_DIVIDER,D/BALDHEAD_EARS_DIVIDER);  //Ucho  2
   
   ellipse(x,y,D,D); //GŁOWA
+  strokeWeight(3);
+  arc(x,y,D,D,direction-BALDHEAD_MUN_ANGLE/2,direction+BALDHEAD_MUN_ANGLE/2);
+  strokeWeight(1);
   
-  xn=x+r*cos(direction);
-  yn=y+r*sin(direction);
+  xn=x+BALDHEAD_NOSE_RADIUS*r*cos(direction);
+  yn=y+BALDHEAD_NOSE_RADIUS*r*sin(direction);
   ellipse(xn,yn,D/BALDHEAD_NOSE_DIVIDER,D/BALDHEAD_NOSE_DIVIDER);  //Nos
   
   //OCZY
-  xn=x+0.75*r*cos(direction+PI/5);
-  yn=y+0.75*r*sin(direction+PI/5);
+  xn=x+BALDHEAD_EYES_RADIUS*r*cos(direction+PI/5);
+  yn=y+BALDHEAD_EYES_RADIUS*r*sin(direction+PI/5);
   fill(200);
   arc(xn,yn,D/5,D/5,-PI/2+direction,PI/2+direction,CHORD);  //Oko  1
   
-  xn=x+0.75*r*cos(direction-PI/5);
-  yn=y+0.75*r*sin(direction-PI/5);
+  xn=x+BALDHEAD_EYES_RADIUS*r*cos(direction-PI/5);
+  yn=y+BALDHEAD_EYES_RADIUS*r*sin(direction-PI/5);
   fill(200);
   arc(xn,yn,D/5,D/5,-PI/2+direction,PI/2+direction,CHORD);  //Oko  2
 
-  xn=x+0.83*r*cos(direction+PI/6);
-  yn=y+0.83*r*sin(direction+PI/6); 
+  xn=x+BALDHEAD_PUPIL_RADIUS*r*cos(direction+PI/6);
+  yn=y+BALDHEAD_PUPIL_RADIUS*r*sin(direction+PI/6); 
   fill(BALDHEAD_EYES_COLOR);noStroke();
   ellipse(xn,yn,D/10,D/10);
   fill(0);
   ellipse(xn,yn,D/BALDHEAD_PUPIL_DIV,D/BALDHEAD_PUPIL_DIV); //Tęczówka 1
   
-  xn=x+0.83*r*cos(direction-PI/6);
-  yn=y+0.83*r*sin(direction-PI/6);
+  xn=x+BALDHEAD_PUPIL_RADIUS*r*cos(direction-PI/6);
+  yn=y+BALDHEAD_PUPIL_RADIUS*r*sin(direction-PI/6);
   fill(BALDHEAD_EYES_COLOR);noStroke();
   ellipse(xn,yn,D/10,D/10);
   fill(0);

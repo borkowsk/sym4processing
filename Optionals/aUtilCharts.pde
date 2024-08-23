@@ -1,7 +1,7 @@
 /** @file 
  *  @brief .... ("uCharts.pde")
  *  @defgroup ChartUtils Functions & classes for chart making 
- *  @date 2024-08-12 (last modification)                        @author borkowsk
+ *  @date 2024-08-23 (last modification)                        @author borkowsk
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
  *  @{
@@ -54,7 +54,7 @@ void viewTicsH(float startX,float startY,float width,float height,float space)  
 /** @brief Visualizes the limits of the vertical scale.
 *   @note We're not drawing dashes here yet (tics)
 *   @details Function for drawing scale on Y axis.   */
-void viewScaleV(iRange MinMax,int startX,int startY,int width,int height)        ///< @note GLOBAL
+void viewScaleV(iFloatRange MinMax,int startX,int startY,int width,int height)        ///< @note GLOBAL
 { 
    //,boolean logarithm) //We are not drawing tics here for now
    //float Min=(logarithm?(float)Math.log10(MinMax.min+1):MinMax.min); //+1 doesn't change much visually, but it guarantees computability
@@ -65,7 +65,7 @@ void viewScaleV(iRange MinMax,int startX,int startY,int width,int height)       
 }
 
 /// @brief Visualise horisontal asymptotic straight line
-void viewHorizontalAsymptote(float val,iRange MinMax,int startX,int startY,int width,int height)        ///< @note GLOBAL
+void viewHorizontalAsymptote(float val,iFloatRange MinMax,int startX,int startY,int width,int height)        ///< @note GLOBAL
 {
    if( MinMax.getMin() <= 0 && 0<=MinMax.getMax() && MinMax.getMin()!=MinMax.getMax() )
    {
@@ -77,7 +77,7 @@ void viewHorizontalAsymptote(float val,iRange MinMax,int startX,int startY,int w
 }
 
 /// @brief Function drawing zero arrow, if visible.
-void viewZeroArrow(iRange MinMax,int startX,int startY,int width,int height,int length) ///< @NOTE GLOBAL
+void viewZeroArrow(iFloatRange MinMax,int startX,int startY,int width,int height,int length) ///< @NOTE GLOBAL
 {
    if( MinMax.getMin() <= 0 && 0<=MinMax.getMax() && MinMax.getMin()!=MinMax.getMax() )
    {
@@ -98,7 +98,7 @@ void viewZeroArrow(iRange MinMax,int startX,int startY,int width,int height,int 
  @param  logarithm,
  @param  commMinMax,
  @param  connect : or connect points into a polyline (true/false)                              */
-void viewAsPoints(iDataSample data,int startD,float startX,float startY,int width,int height,iRange commMinMax,boolean connect,boolean percent) ///<  @NOTE GLOBAL. Musi być w jednej lini dla C++
+void viewAsPoints(iDataSample data,int startD,float startX,float startY,int width,int height,iFloatRange commMinMax,boolean connect,boolean percent) ///<  @NOTE GLOBAL. Musi być w jednej lini dla C++
 {
   boolean logarithm=data.isOption(LOGARITHM_MASK);
   float Min;
@@ -210,7 +210,7 @@ void viewAsPoints(iDataSample data,int startD,float startX,float startY,int widt
   PL:param boolean logaritm : CZY LOGARYTMOWAĆ DANE?
   PL:param Range commMinMax : ZADANY ZAKRES y
   PL:param boolean connect  : Czy łączyć punkty linią?    */
-void viewAsPoints(iDataSample data,int startD,float startX,float startY,int width,int height,boolean logarithm,iRange commMinMax,boolean connect) /// @NOTE GLOBAL
+void viewAsPoints(iDataSample data,int startD,float startX,float startY,int width,int height,boolean logarithm,iFloatRange commMinMax,boolean connect) /// @NOTE GLOBAL
 {
   float Min,Max;
   
@@ -328,13 +328,13 @@ void viewAsVerticals(iDataSample data,int startD,float startX,float startY,int w
   @param startX,startY,width,height : Screen location and size
   @param mapper : mapping values to colors
   @param solid  : swith beetwen solid bars versus boxes */
-void viewAsRanges(iRangesContainer ranges,float startR,float finR,float startX,float startY,int width,int height,iColorMapper mapper,boolean solid) ///< @NOTE GLOBAL. For C++ translation MUST be in one line!
+void viewAsRanges(iRangesDataSample ranges,float startR,float finR,float startX,float startY,int width,int height,iColorMapper mapper,boolean solid) ///< @NOTE GLOBAL. For C++ translation MUST be in one line!
 {
   if(solid) noStroke(); else noFill();
   
   for(int i=0;i<ranges.size();i++)
   {
-    iRangeWithValue range=ranges.get(i);
+    iFloatRangeWithValue range=ranges.get(i);
     if(range.getMin()<=finR || range.getMax()>=startR) //Jeśli któryś koniec trafia w okno zainteresowania
     {
       float min=range.getMin(); if(min==INF_NOT_EXIST) min=startR;
@@ -385,12 +385,48 @@ float viewAsColumns(Frequencies hist,float startX,float startY,int width,int hei
     rect(startX+i*wid,startY,wid,-hei);
   }
   
+  if(hist.outsideHig>0)
+  {
+    color hfill=hist.getColor();
+    float r=red(hfill)*1.5,g=green(hfill)*1.5,b=blue(hfill)*1.5;
+    hfill=color( (r<256?r:255) , (g<256?g:255) , (b<256?b:255) , alpha(hfill) );
+    fill(hfill);
+    
+    float hei;
+    if(logarithm)
+      hei=map((float)Math.log10(hist.outsideHig+1),0,Max,0,height);    
+    else 
+      hei=map(hist.outsideHig,0,Max,0,height);
+    
+    rect(startX+hist.buckets.length*wid,startY,wid,-hei);
+  }
+  
+  if(hist.outsideLow>0)
+  {
+    color hfill=hist.getColor();
+    hfill=color( red(hfill)/2, green(hfill)/2 , blue(hfill)/2, alpha(hfill));
+    fill(hfill);
+    
+    float hei;
+    if(logarithm)
+      hei=map((float)Math.log10(hist.outsideLow+1),0,Max,0,height);    
+    else 
+      hei=map(hist.outsideLow,0,Max,0,height);
+    
+    rect(startX-wid,startY,wid,-hei);
+  }
+  
+  fill(hist.getColor());
   textAlign(LEFT,BOTTOM);
   text(hist.getName()+"\n       max:"+Max
          +(logarithm ?
            "<=" +hist.higherBucket+" @ "+hist.higherBucketIndex :
            " @ "+hist.higherBucketIndex),
            startX,startY-height);
+  textAlign(LEFT,TOP);         
+  text(""+hist.lowerBuck,startX,startY);     
+  //textAlign(RIGHT,TOP);         
+  text(""+hist.upperBuck,startX+width,startY);   
            
   //Real width of histogram
   float realWidth=(hist.buckets.length)*wid; //println(realwidth);noLoop();                                         

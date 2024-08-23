@@ -1,6 +1,6 @@
 /// @file
 /// @brief This file forcing all "optionales" to be loaded from this folder ( "Optionals.pde" )
-/// @date 2024-08-09 (Last modification)
+/// @date 2024-08-23 (Last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////////////
 
 /// mandatory globals
@@ -21,19 +21,21 @@ final boolean WINDOW_INVISIBLE=false; ///< used in template draw for swith on
 /// Dummy class of Agent neded for makeHistogramOfA()
 class Agent { float A; }
 
-class ValuesInRanges implements iRangesContainer {
+class ValuesInRanges implements iFloatRangesWithValueContainer,iRangesDataSample {
   ArrayList<ValueInRange> ranges=new ArrayList<ValueInRange>();
   ValuesInRanges() {}
   ValuesInRanges add(ValueInRange next) { ranges.add(ranges.size(),next);return this; }
   // REQUIRED BY INTERFACE:
   //*//////////////////////
-  void                     reset() { ranges.clear(); }
-  int              numOfElements() { return ranges.size(); }
-  int                       size() { return ranges.size(); }
-  void                  consider(iRangeWithValue what) { ranges.add( ranges.size(),(ValueInRange)(what) ); }
-  void                 replaceAt(int index,iRangeWithValue what) { ranges.set(index, (ValueInRange)(what) ); }
-  iRangeWithValue   getElementAt(int index) { return (iRangeWithValue)(ranges.get(index));}
-  iRangeWithValue            get(int index) { return (iRangeWithValue)(ranges.get(index));}
+  void                          reset() { ranges.clear(); }
+  int                   numOfElements() { return ranges.size(); }
+  int                            size() { return ranges.size(); }
+  void                       consider(iFloatRangeWithValue what) { ranges.add( ranges.size(),(ValueInRange)(what) ); }
+  void                      replaceAt(int index,iFloatRangeWithValue what) { ranges.set(index, (ValueInRange)(what) ); }
+  iFloatRangeWithValue   getElementAt(int index) { return (iFloatRangeWithValue)(ranges.get(index));}
+  iFloatRangeWithValue            get(int index) { return (iFloatRangeWithValue)(ranges.get(index));}
+  int                        whereMin() { return 0; }  // NOT IMPORTANT IN THIS EXAMPLE
+  int                        whereMax() { return  ranges.size()-1; } // ------||-------
 }
 
 ValuesInRanges rdata=new ValuesInRanges();

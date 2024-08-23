@@ -1,6 +1,6 @@
 /// @file
 /// @brief Common INTERFACES like iNamed, iDescribable, iColorable, iPositioned ("aInterfaces.pde")
-/// @date 2024-08-08 (last modification)                       @author borkowsk
+/// @date 2024-08-23 (last modification)                       @author borkowsk
 /// @details ...
 //*////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -9,21 +9,36 @@
 
 // Generally usable interfaces:
 //*////////////////////////////
-
+  
+/** @brief Interface forces getter for single int */
+interface iIntValue {
+  /*_interfunc*/ int                  get() /*_forcebody*/;
+} //_EofCl  
+  
 /** @brief Interface forces getter for single float */
-interface iValue {
-  /*_interfunc*/ float     get() /*_forcebody*/;
+interface iFloatValue {
+  /*_interfunc*/ float                get() /*_forcebody*/;
+} //_EofCl
+
+interface iIntPair {
+  /*_interfunc*/ int                 get1() /*_forcebody*/;
+  /*_interfunc*/ int                 get2() /*_forcebody*/;
+} //_EofCl
+
+interface iFloatPair {
+  /*_interfunc*/ float               get1() /*_forcebody*/;
+  /*_interfunc*/ float               get2() /*_forcebody*/;
 } //_EofCl
 
 /** @brief Interface forces getters for X & Y */
-interface iPoint2D {
-  /*_interfunc*/ float     getX() /*_forcebody*/;
-  /*_interfunc*/ float     getY() /*_forcebody*/;
+interface iFloatPoint2D {
+  /*_interfunc*/ float               getX() /*_forcebody*/;
+  /*_interfunc*/ float               getY() /*_forcebody*/;
 } //_EofCl
 
 /** @brief Interface forces getters for X & Y & Z */
-interface iPoint3D extends iPoint2D {
- /*_interfunc*/ float      getZ() /*_forcebody*/;
+interface iFloatPoint3D extends iFloatPoint2D {
+ /*_interfunc*/ float                getZ() /*_forcebody*/;
 } //_EofCl
 
 /** @brief Interface for any true referable class usable as a flag or switch.
@@ -31,13 +46,18 @@ interface iPoint3D extends iPoint2D {
 *            in Processing and JAVA be passed by reference!
 *            Hence the need for user types that can work like this.  */
 interface iFlag {
-  /*_interfunc*/ boolean   isEnabled() /*_forcebody*/;
+  /*_interfunc*/ boolean        isEnabled() /*_forcebody*/;
+} //_EofCl
+
+/** @brief interface to set of flag identified by binary masks */
+interface iOptionsSet {
+  /*_interfunc*/ boolean   isOption(int mask) /*_forcebody*/; //!< It checks the options according to masks.
 } //_EofCl
 
 /** @brief It forces name of an object available as `String` (planty of usage). */
 interface iNamed {
-  /*_interfunc*/ String    getName() /*_forcebody*/;
-  /*_interfunc*/ String       name() /*_forcebody*/;
+  /*_interfunc*/ String           getName() /*_forcebody*/;
+  /*_interfunc*/ String              name() /*_forcebody*/;
 } //_EofCl
 
 /** @brief Any object which have description as (maybe) long, multi line string. */
@@ -48,11 +68,15 @@ interface iDescribable {
 
 /** @brief Any object which can go back to initial state without additional parameters */
 interface iResetable {
-  /*_interfunc*/ void reset() /*_forcebody*/;
+  /*_interfunc*/ void               reset() /*_forcebody*/;
 } //_EofCl
 
 /** @brief Any simulation agent */
 interface iAgent extends iNamed,iDescribable {
+  /*_interfunc*/ String           getName() /*_forcebody*/;
+  /*_interfunc*/ String              name() /*_forcebody*/;
+  /*_interfunc*/ String    getDescription() /*_forcebody*/;
+  /*_interfunc*/ String       description() /*_forcebody*/;
 } //_EofCl
 
 /// VISUALISATION INTERFACES:
@@ -72,14 +96,14 @@ interface iColorable { //TODO iColoriser
 
 /** @brief Mapping float value into color. */
 interface iColorMapper {
-  /*_interfunc*/ color map(float value) /*_forcebody*/; 
+  /*_interfunc*/ color        map(float value) /*_forcebody*/; 
 } //_EofCl iColorMapper
 
 /** @brief Forcing `posX()` & `posY()` & `posZ()` methods for visualisation and mapping */ 
-interface iPositioned extends iPoint3D {              
-  /*_interfunc*/ float    posX() /*_forcebody*/;
-  /*_interfunc*/ float    posY() /*_forcebody*/;
-  /*_interfunc*/ float    posZ() /*_forcebody*/;
+interface iPositioned extends iFloatPoint3D {              
+  /*_interfunc*/ float       posX() /*_forcebody*/;
+  /*_interfunc*/ float       posY() /*_forcebody*/;
+  /*_interfunc*/ float       posZ() /*_forcebody*/;
 } //_EofCl iPositioned
 
 /// SPECIFICLY FOR MATH INTERFACES:
@@ -87,27 +111,52 @@ interface iPositioned extends iPoint3D {
 
 //final float INF_NOT_EXIST=Float.MAX_VALUE;  ///< Missing value marker
 
+/** @brief A function of one value in the form of a class - a functor */
+interface iFloatFunction1D {
+  /*_interfunc*/ float     calculate(float X) /*_forcebody*/;
+  /*_interfunc*/ float        getMin() /*_forcebody*/; //!< MIN_RANGE_VALUE?
+  /*_interfunc*/ float        getMax() /*_forcebody*/; //!< Always must be different!
+} //_EofCl
+
+/** @brief A function of two values in the form of a class - a functor */
+interface iFloatFunction2D {
+  /*_interfunc*/ float     calculate(float X,float Y) /*_forcebody*/;
+  /*_interfunc*/ float        getMin() /*_forcebody*/; //!< MIN_RANGE_VALUE?
+  /*_interfunc*/ float        getMax() /*_forcebody*/; //!< Always must be different!
+} //_EofCl
+
+/** @brief Interface of any class witch can take a float value for any processing */
+interface iFloatConsiderer {
+    /*_interfunc*/ void     consider(float value) /*_forcebody*/; //!< It takes another value and updates results.
+}  //_EofCl
+
+/** @brief Interface of any class witch can take a float value connected with int label for any processing */
+interface iIndexedFloatConsiderer {
+   /*_interfunc*/ void      consider(int label,float value) /*_forcebody*/; //!< It takes another pair and updates results.
+}  //_EofCl
+
+/** @brief Interface of any class witch can take a float value connected with int label for any processing */
+interface i2IndexedFloatConsiderer {
+   /*_interfunc*/ void      consider(int label1,int label2,float value) /*_forcebody*/; //!< It takes another triplet and updates results.
+}  //_EofCl
+
 /** @brief Any range spanned from `Min` to `Max` */
-interface iRange {
+interface iFloatRange extends iFloatConsiderer {
   /*_interfunc*/ void      consider(float value) /*_forcebody*/; //!< It takes another value and updates range if needed.
   /*_interfunc*/ float       getMin() /*_forcebody*/; //MIN_RANGE_VALUE?
   /*_interfunc*/ float       getMax() /*_forcebody*/; //MAX_RANGE_VALUE?
 } //_EofCl
 
 /** @brief Ane range with associated value, e.g. MARKED RANGE */
-interface iRangeWithValue extends iRange,iValue {
-} //_EofCl
-
-/** @brief A function of two values in the form of a class - a functor */
-interface iFunction2D {
-  /*_interfunc*/ float     calculate(float X,float Y) /*_forcebody*/;
-  /*_interfunc*/ float        getMin() /*_forcebody*/; //!< MIN_RANGE_VALUE?
-  /*_interfunc*/ float        getMax() /*_forcebody*/; //!< Always must be different!
+interface iFloatRangeWithValue extends iFloatRange,iFloatValue {
+  /*_interfunc*/ float          get() /*_forcebody*/; //!< value releated to the range
+  /*_interfunc*/ void      consider(float value) /*_forcebody*/; //!< It takes another value and updates range if needed.
+  /*_interfunc*/ float       getMin() /*_forcebody*/; //MIN_RANGE_VALUE?
+  /*_interfunc*/ float       getMax() /*_forcebody*/; //MAX_RANGE_VALUE?
 } //_EofCl
 
 /** @brief Any linear (indexed) container of floats */  
-interface iValuesContainer extends iResetable {
-  /*_interfunc*/ void       consider(float value) /*_forcebody*/; //!< It takes and use another value! May remember it or not!
+interface iFloatValuesIndexedContainer extends iResetable {
   /*_interfunc*/ int   numOfElements() /*_forcebody*/; //!< Series length. Together with empty cells, i.e. == INVALID_INDEX.
   /*_interfunc*/ int            size() /*_forcebody*/; //!< Series length. Together with empty cells, i.e. == INVALID_INDEX.
   /*_interfunc*/ float  getElementAt(int index) /*_forcebody*/; //!< Value at particular index. May return INF_NOT_EXIST.
@@ -115,21 +164,51 @@ interface iValuesContainer extends iResetable {
   /*_interfunc*/ void      replaceAt(int index,float value) /*_forcebody*/;
 } //_EofCl
 
-/** @brief Any linear (indexed) container of Range(s) */
-interface iRangesContainer extends iResetable {
-  /*_interfunc*/ void                 consider(iRangeWithValue range) /*_forcebody*/; //!< It takes and use another range.
-  /*_interfunc*/ int             numOfElements() /*_forcebody*/; //!< Container size. Together with empty cells, i.e. == INVALID_INDEX.
-  /*_interfunc*/ int                      size() /*_forcebody*/; //!< Container size. Together with empty cells, i.e. == INVALID_INDEX.
-  /*_interfunc*/ iRangeWithValue  getElementAt(int index) /*_forcebody*/; //!< Value at particular index. May return null.
-  /*_interfunc*/ iRangeWithValue           get(int index) /*_forcebody*/; //!< Value at particular index. May return null.
-  /*_interfunc*/ void                replaceAt(int index,iRangeWithValue range) /*_forcebody*/;
+/** @brief Any recangular (2*int indexed) container of floats */  
+interface iFloatValues2IndexedContainer extends iResetable {
+  /*_interfunc*/ int   numOfElements() /*_forcebody*/; //!< Series length=whole size. Together with empty cells, i.e. == INVALID_INDEX.
+  /*_interfunc*/ int            size() /*_forcebody*/; //!< Series length=whole size. Together with empty cells, i.e. == INVALID_INDEX.
+  /*_interfunc*/ int       numOfRows() /*_forcebody*/; //!< Number of rows in such a virtual matrix
+  /*_interfunc*/ int            rows() /*_forcebody*/; //!< Number of rows in such a virtual matrix
+  /*_interfunc*/ int    numOfColumns() /*_forcebody*/; //!< Number of columns in such a virtual matrix
+  /*_interfunc*/ int         columns() /*_forcebody*/; //!< Number of columns in such a virtual matrix
+  /*_interfunc*/ float  getElementAt(int indexR,int indexC) /*_forcebody*/; //!< Value at particular index. May return INF_NOT_EXIST.
+  /*_interfunc*/ float           get(int indexR,int indexC) /*_forcebody*/; //!< Value at particular index. May return INF_NOT_EXIST.
+  /*_interfunc*/ void      replaceAt(int indexR,int indexC,float value) /*_forcebody*/;
 } //_EofCl
 
 /** @brief A linear sample of data with min...max statics and set of options */
-interface iDataSample extends iValuesContainer,iRange {
-  /*_interfunc*/ boolean    isOption(int mask) /*_forcebody*/; //!< It checks the options according to masks.
-  /*_interfunc*/ int        whereMin() /*_forcebody*/;
-  /*_interfunc*/ int        whereMax() /*_forcebody*/;
+interface iDataSample extends iFloatValuesIndexedContainer,iFloatConsiderer,iFloatRange,iOptionsSet {
+  /*_interfunc*/ int        whereMin() /*_forcebody*/; //!< ADDED
+  /*_interfunc*/ int        whereMax() /*_forcebody*/; //!< ADDED
+  // /*_interfunc*/ void      consider(float value) /*_forcebody*/; //!< It takes another value and updates range if needed.
+} //_EofCl
+
+interface i2DDataSample  extends iFloatValuesIndexedContainer,i2IndexedFloatConsiderer,iFloatRange {
+  /*_interfunc*/ iIntPair   whereMin() /*_forcebody*/; //!< ADDED
+  /*_interfunc*/ iIntPair   whereMax() /*_forcebody*/; //!< ADDED
+  /*_interfunc*/ void       consider(int indexR,int indexC,float value) /*_forcebody*/; //!< It takes another triplet and updates results.
+} //_EofCl
+
+/** @brief Any linear (indexed) container of Range(s) */
+interface iFloatRangesWithValueContainer extends iResetable {
+  /*_interfunc*/ int                  numOfElements() /*_forcebody*/; //!< Container size. Together with empty cells, i.e. == INVALID_INDEX.
+  /*_interfunc*/ int                           size() /*_forcebody*/; //!< Container size. Together with empty cells, i.e. == INVALID_INDEX.
+  /*_interfunc*/ iFloatRangeWithValue  getElementAt(int index) /*_forcebody*/; //!< Value at particular index. May return null.
+  /*_interfunc*/ iFloatRangeWithValue           get(int index) /*_forcebody*/; //!< Value at particular index. May return null.
+  /*_interfunc*/ void                     replaceAt(int index,iFloatRangeWithValue range) /*_forcebody*/;
+} //_EofCl
+
+/** @brief Interface of any class witch can take a `rangeWithValue` for any processing */
+interface iRangeWithValueConsiderer {
+/*_interfunc*/ void         consider(iFloatRangeWithValue range) /*_forcebody*/; //!< It takes and use another range.
+} //_EofCl
+
+/** @brief ... */
+interface iRangesDataSample extends iFloatRangesWithValueContainer,iRangeWithValueConsiderer {
+  /*_interfunc*/ int       whereMin() /*_forcebody*/; //!< ADDED
+  /*_interfunc*/ int       whereMax() /*_forcebody*/; //!< ADDED
+  // /*_interfunc*/ void                 consider(iFloatRangeWithValue range) /*_forcebody*/; //!< It takes and use another range.
 } //_EofCl
 
 interface iBasicStatistics {
