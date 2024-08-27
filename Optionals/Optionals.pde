@@ -1,6 +1,6 @@
 /// @file
 /// @brief This file forcing all "optionales" to be loaded from this folder ( "Optionals.pde" )
-/// @date 2024-08-23 (Last modification)
+/// @date 2024-08-27 (Last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////////////
 
 /// mandatory globals
@@ -44,6 +44,9 @@ class DiscreteMapper implements iColorMapper
 {
   int intensity=128;
   
+  void  setMinValue(float value) {/* It does nothing. */}
+  void  setMaxValue(float value) {/* It does nothing. */}
+  
   color map(float val) {
     switch(int(val)){
       case -3:return color(0,128,255,intensity); // BŁĘKITNY
@@ -78,7 +81,7 @@ void setup()
   dottedLine(0.0,0.0,300.0,200.0,55);
   
   viewAsRanges(rdata,-3,+3,
-               0.0,height/2,width,height/2,mapper,false); ///< @NOTE GLOBAL. For C++ translation MUST be in one line!
+               0.0,height/2,width,height/2,false,mapper); ///< @NOTE GLOBAL. For C++ translation MUST be in one line!
 
 }
 

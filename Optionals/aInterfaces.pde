@@ -1,6 +1,6 @@
 /// @file
 /// @brief Common INTERFACES like iNamed, iDescribable, iColorable, iPositioned ("aInterfaces.pde")
-/// @date 2024-08-23 (last modification)                       @author borkowsk
+/// @date 2024-08-27 (last modification)                       @author borkowsk
 /// @details ...
 //*////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -96,7 +96,9 @@ interface iColorable { //TODO iColoriser
 
 /** @brief Mapping float value into color. */
 interface iColorMapper {
-  /*_interfunc*/ color        map(float value) /*_forcebody*/; 
+  /*_interfunc*/ void setMinValue(float value) /*_forcebody*/;
+  /*_interfunc*/ void setMaxValue(float value) /*_forcebody*/;
+  /*_interfunc*/ color        map(float value) /*_forcebody*/;
 } //_EofCl iColorMapper
 
 /** @brief Forcing `posX()` & `posY()` & `posZ()` methods for visualisation and mapping */ 
@@ -184,7 +186,7 @@ interface iDataSample extends iFloatValuesIndexedContainer,iFloatConsiderer,iFlo
   // /*_interfunc*/ void      consider(float value) /*_forcebody*/; //!< It takes another value and updates range if needed.
 } //_EofCl
 
-interface i2DDataSample  extends iFloatValuesIndexedContainer,i2IndexedFloatConsiderer,iFloatRange {
+interface i2DDataSample  extends iFloatValues2IndexedContainer,i2IndexedFloatConsiderer,iFloatRange,iOptionsSet {
   /*_interfunc*/ iIntPair   whereMin() /*_forcebody*/; //!< ADDED
   /*_interfunc*/ iIntPair   whereMax() /*_forcebody*/; //!< ADDED
   /*_interfunc*/ void       consider(int indexR,int indexC,float value) /*_forcebody*/; //!< It takes another triplet and updates results.
@@ -211,6 +213,7 @@ interface iRangesDataSample extends iFloatRangesWithValueContainer,iRangeWithVal
   // /*_interfunc*/ void                 consider(iFloatRangeWithValue range) /*_forcebody*/; //!< It takes and use another range.
 } //_EofCl
 
+/** Statistics of raw data samples. */
 interface iBasicStatistics {
   /*_interfunc*/ float       getMean() /*_forcebody*/; //!< Access to the current average.
   /*_interfunc*/ float   getHarmMean() /*_forcebody*/; //!< Calculation of current harmonic mean
@@ -227,12 +230,21 @@ interface iBasicStatistics {
   /// @note  Requires copying and sorting,
   ///        so it can be very computationally expensive.
   /*_interfunc*/ float     getMedian() /*_forcebody*/;  
-  
+    
+} //_EofCl
+
+/** Statistics for counters data sets */
+interface iFreqStatistics {
   /// @brief It calculates "Gini coefficient".
   /// @details Difference algorithm from "https://en.wikipedia.org/wiki/Gini_coefficient"
   /// @note It requires copying to the table because there may be missing values in the list.
   /*_interfunc*/ float getGiniCoefficient() /*_forcebody*/;
   
+    
+  /// @details In information theory, the entropy of a random variable is the average level of 
+  ///         "information", "surprise", or "uncertainty" inherent to the variable's possible outcomes.
+  ///         See: https://en.wikipedia.org/wiki/Entropy_(information_theory)
+  /*_interfunc*/ float getShannonEntropy() /*_forcebody*/;
 } //_EofCl
 
 //*/////////////////////////////////////////////////////////////////////////////

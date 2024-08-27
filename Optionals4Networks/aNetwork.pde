@@ -1,6 +1,6 @@
 /// @file 
 /// @brief Generic (social) network classes ("aNetwork.pde")
-/// @date 2024-08-23 (last modification)
+/// @date 2024-08-27 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////
 
 /// @details
@@ -713,7 +713,7 @@ class NodeAsList extends Node  implements iVisNode {
     if(getConn(l.getTarget())==null)
     {
         res=connections.add(l);
-        if(NET_DEBUG>0) print('|');
+        if(NET_DEBUG>1) print("* ");
     }
     else if(NET_DEBUG>1) println("Link",this.name(),
                                    "->",l.target.name(), // new line for C++ sed-translator

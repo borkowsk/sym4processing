@@ -1,6 +1,6 @@
 /** @file 
  *  @brief .... ("uUtilCData.pde")
- *  @date 2024-08-23 (last modification)                       @author borkowsk
+ *  @date 2024-08-27 (last modification)                       @author borkowsk
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
  *  @defgroup Data collection classes for statistics & chart making 
@@ -10,6 +10,12 @@
 // @brief "NO DATA" marker. Needed somewhere else.
 float INF_NOT_EXIST=Float.MAX_VALUE;                                            ///< @note Global!
 int   INVALID_INDEX=-1;                                                         ///< @note Global!
+
+/// Logarithm on base2 needed f.e. to Shannon's entropy calculation from floats
+float log2(float v) ///< GLOBAL
+{
+  return log(v)/log(2.0); //(v > 0)  
+}
 
 /// @brief Bool switch.
 /// Usable as a flag or switch of visualisation modes.
@@ -139,26 +145,23 @@ class NamedValueInRange extends Range implements iFloatRangeWithValue {
 ///   This class represents a NAMED series of real (float) numbers.
 class Sample  extends NamedData implements iFlag,iFloatRange,iDataSample,iBasicStatistics,iColor
 {
-  FloatList  _data=null;        //!< list of data values.
-  int        options=0;         //!< Word 32b free to use
-  
-  color    _color=color(0,0,0); //!< color, if need be same in different graphs
-  iFlag  _enabled=null;         //!< Enabling flag.
+  FloatList dataList=null;         //!< list of data values.
+  color       _color=color(0,0,0); //!< color, if need to be same in different graphs
+  iFlag     _enabled=null;         //!< Enabling flag.
       
   // For statistics
-  int    count=0;               //!< How much data has been entered (not counting INF_NOT_EXIST)
+  int    count=0;                //!< How much data has been entered (not counting INF_NOT_EXIST)
+  float    Min=+Float.MAX_VALUE; //!< Current minimal value
+    int  whMin=-1;               //!< Position of the current minimal value
+  float    Max=-Float.MAX_VALUE; //!< Current maximal value
+   int   whMax=-1;               //!< Position of the current maximal value
+  double   sum=0;                //!< The current sum of values 
   
-  float   Min=+Float.MAX_VALUE; //!< Current minimal value
-  float   Max=-Float.MAX_VALUE; //!< Current maximal value
-  int   whMin=-1;               //!< Position of the current minimal value
-  int   whMax=-1;               //!< Position of the current maximal value
-  double   sum=0;               //!< The current sum of values 
-  
+   int options=0;                //!< Word 32b free to use
   /// @brief A constructor with just a name.
   /// @note  For pr2c `super` must be in the same line with constructor name! (@todo still?)
   Sample(String iniName) { super/*NamedData*/(iniName);
-    _enabled=new ViewSwitch(true);
-    _data=new FloatList();
+    dataList=new FloatList();
     _enabled=new ViewSwitch(true);
   }
   
@@ -168,7 +171,7 @@ class Sample  extends NamedData implements iFlag,iFloatRange,iDataSample,iBasicS
   /// @param   `defEnabled` is a reference to the display flag on which the visibility of the series depends.
   //*  For pr2c 'super' must be in the same line with constructor name!
   Sample(String iniName,color defColor,iFlag defEnabled) { super/*NamedData*/(iniName);
-    _data=new FloatList();
+    dataList=new FloatList();
     _color=defColor;
     _enabled=defEnabled;
   }
@@ -180,15 +183,15 @@ class Sample  extends NamedData implements iFlag,iFloatRange,iDataSample,iBasicS
   /// @param   `iOptions` are options with different meanings.
   //*  For pr2c 'super' must be in the same line with constructor name!
   Sample(String Name,color defColor,iFlag defEnabled,int iOptions) { super/*NamedData*/(Name);
-    _data=new FloatList();
-    _color=defColor;
+    dataList=new FloatList();
     _enabled=defEnabled;
+    _color=defColor;
     options=iOptions;
   }
   
   void reset() //!< Data wiped, so ready to collect it again!
   {
-    if(_data!=null) _data.clear();
+    if(dataList!=null) dataList.clear();
     Min=Float.MAX_VALUE;
     whMin=-1;
     Max=-Float.MAX_VALUE;
@@ -216,36 +219,29 @@ class Sample  extends NamedData implements iFlag,iFloatRange,iDataSample,iBasicS
   }
   
   int  numOfElements() {  //!< Series length. Together with empty cells, i.e. == INF_NOT_EXIST
-     return _data.size();
+     return dataList.size();
   }
   
   int  size() { //!< Series length. Together with empty cells, i.e. == INF_NOT_EXIST
-     return _data.size(); 
+     return dataList.size(); 
   }
   
-  float getElementAt(int index) { return _data.get(index); }
+  float getElementAt(int index) { return dataList.get(index); }
   
-  float get(int index) { return _data.get(index); }
+  float get(int index) { return dataList.get(index); }
   
-  void addToElement(int index,float whatToAdd) { _data.add(index,whatToAdd); }
+  //void addToElement(int index,float whatToAdd) { _data.add(index,whatToAdd); }
   
-  void multiplicateElement(int index,float multiplier) //@todo RENAME multiplyElement()
-  {
-    _data.mult(index,multiplier);
-  }
-  
-  void divideElement(int index,float divider) { _data.div(index,divider); }
-    
   /// @brief Shortening the series to `longOfRemained` the last elements.
   void remain(int longOfRemained)   
   {
-    if(longOfRemained>=_data.size())
+    if(longOfRemained>=dataList.size())
           return; //Nothing to do!
                                    //println(name(),data.size(),longOfremained);
-    FloatList oldData=_data;
-    _data=null; //We cut it off
+    FloatList oldData=dataList;
+    dataList=null; //We cut it off
     reset();
-    _data=new FloatList(longOfRemained*2); //Initial capacity?
+    dataList=new FloatList(longOfRemained*2); //Initial capacity?
                                 //@todo RENAME println(name(),oldData.size(),longOfRemained);
     int i=oldData.size()-longOfRemained;
     int end=oldData.size();
@@ -254,8 +250,8 @@ class Sample  extends NamedData implements iFlag,iFloatRange,iDataSample,iBasicS
   }
   
   float getLast() { //!< The last value of the series.
-    if(_data.size()>0)
-      return _data.get(_data.size()-1);
+    if(dataList.size()>0)
+      return dataList.get(dataList.size()-1);
     else
       return INF_NOT_EXIST;
   }
@@ -291,7 +287,7 @@ class Sample  extends NamedData implements iFlag,iFloatRange,iDataSample,iBasicS
     int    N=0;
     double odwroty=0; // @todo RENAME reciprocals... Sum of reciprocals!
     
-    for(float val:_data)
+    for(float val:dataList)
     if(val!=INF_NOT_EXIST && val!=0)
     {
       odwroty+=1.0/((double)val);
@@ -308,7 +304,7 @@ class Sample  extends NamedData implements iFlag,iFloatRange,iDataSample,iBasicS
     int    N=0;
     double kwadraty=0; // @todo RENAME sum of squares
     
-    for(float val:_data)
+    for(float val:dataList)
     if(val!=INF_NOT_EXIST)
     {
       kwadraty+=sqr(val);
@@ -332,7 +328,7 @@ class Sample  extends NamedData implements iFlag,iFloatRange,iDataSample,iBasicS
     int    N=0;
     double powers=0;
     
-    for(float val:_data)
+    for(float val:dataList)
     if(val!=INF_NOT_EXIST)
     {
       powers+=Math.pow(val,power);
@@ -358,7 +354,7 @@ class Sample  extends NamedData implements iFlag,iFloatRange,iDataSample,iBasicS
     double kwadraty=0; // @todo RENAME sum of squares
     double mean=getMean();
     
-    for(float val:_data)
+    for(float val:dataList)
     if(val!=INF_NOT_EXIST)
     {
       kwadraty+=sqr(val-mean);
@@ -380,17 +376,170 @@ class Sample  extends NamedData implements iFlag,iFloatRange,iDataSample,iBasicS
     int    N=0;
     float val=INF_NOT_EXIST;
     
-    for(int i=0;i<_data.size();i++)
-    if((val=_data.get(i))!=INF_NOT_EXIST)
+    for(int i=0;i<dataList.size();i++)
+    if((val=dataList.get(i))!=INF_NOT_EXIST)
     {
       N++;
       copied.append(val);
     }
 
-    if(N==0) return INF_NOT_EXIST;                                              assert N<=_data.size();
+    if(N==0) return INF_NOT_EXIST;                                              assert N<=dataList.size();
     
     copied.sort();
     return copied.get(copied.size() / 2);
+  }
+    
+  /// @brief It appends value at the end of the series.
+  void consider(float value) {
+    
+    dataList.append(value);
+    
+    if(value==INF_NOT_EXIST) return; // Nothing more to do
+    
+    sum+=value;
+    count++; /// @internal Only real value, not empty!
+    
+    if(Max<value)
+    {
+      Max=value;
+      whMax=dataList.size()-1; //print("^");
+    }
+    if(Min>value)
+    {
+      Min=value;
+      whMin=dataList.size()-1; //print("v");
+    }
+  }
+  
+  /// @brief Replacing the most recently added value with another one.
+  void replaceLastValue(float value) {
+    
+    sum-=dataList.get(dataList.size()-1);     //<>//
+
+    dataList.set(dataList.size()-1,value);
+    
+    if(value==INF_NOT_EXIST) {count--;return;} // Nothing more to do
+    else sum+=value;
+    
+    if(Max<value)
+    {
+      Max=value;
+      whMax=dataList.size()-1; //print("^");
+    }
+    if(Min>value)
+    {
+      Min=value;
+      whMin=dataList.size()-1; //print("v");
+    }
+  }
+  
+  /// @brief Replacing the value under the index with another one.
+  void replaceAt(int index,float value) {
+    
+    sum-=dataList.get(index);
+    dataList.set(index,value);
+    
+    if(value==INF_NOT_EXIST) {count--;return;} // Nothing more to do
+    else sum+=value;
+    
+    if(Max<value) {
+      Max=value;
+      whMax=dataList.size()-1; //print("^");
+    }
+    
+    if(Min>value) {
+      Min=value;
+      whMin=dataList.size()-1; //print("v");
+    }
+  }
+  
+} //_endOfClass Sample
+
+/** @brief Class for returning pair of indexes */
+class Int2 implements iIntPair {
+  int first,second;
+  Int2(int ini1,int ini2) { first=ini1;second=ini2;}
+  int get1() { return first; }
+  int get2() { return second; }
+} //_endOfClass Int2
+
+class SummatorsSet1D  extends NamedData implements iDataSample {
+
+  int         _S=0;
+  float       _min=Float.MAX_VALUE;
+  int         _whMin=-1;
+  float       _max=-Float.MAX_VALUE;
+  int         _whMax=-1;
+  
+  float[]      data=null;
+  
+  /** @brief SOLE CONSTRUCTOR */
+  SummatorsSet1D(String iniName,int iniSize) { super/*NamedData*/(iniName);
+    _S=iniSize;
+    data=new float[_S];                           assert(data[0]==0);
+  }
+  
+  /** @brief MinMax reset */
+  void resetMinMax() {
+    _min=+MAX_FLOAT; _whMin=-1;
+    _max=-MAX_FLOAT; _whMax=-1;
+  }
+  
+  /** @brief Data reset */
+  void reset() {
+    resetMinMax(); //Min-Max may be invalid from now!
+    for(int i=0;i<data.length;i++) //reset data
+          data[i]=0;
+  }
+  
+  // OTHERS REQUIRED BY INTERFACES:
+  //*//////////////////////////////  
+  boolean       isOption(int mask) { return false; } //!< There is no any options for now.
+  int               size() { return _S; }
+  int      numOfElements() { return _S; }
+  int           whereMin() { if(_whMin==-1) _calculateMinMax(); return _whMin; }
+  int           whereMax() { if(_whMax==-1) _calculateMinMax(); return _whMax; }
+  float           getMin() { if(_whMin==-1) _calculateMinMax(); return _min; }
+  float           getMax() { if(_whMax==-1) _calculateMinMax(); return _max; }
+  
+  void          consider(float value) { /* DOES NOTHING */ }  
+
+  float              get(int index)             { return data[index]; }
+  float     getElementAt(int index)             { return data[index]; }
+  
+  /// It takes another triplet and updates results.
+  void          consider(int index,float value) 
+  {
+    float current=(data[index]+=value);
+    if(current<_min){
+      _min=current; _whMin=index;
+    }
+    if(current>_max){
+      _max=current; _whMax=index;
+    }
+  }
+  
+  ///  It replaces value denoted by another triplet and updates results.
+  void         replaceAt(int index,float value)
+  {
+    data[index]=value;
+    resetMinMax(); //Min-Max may be invalid from now!
+  }
+  
+  void   multiplyElement(int index,float multiplier) { data[index]*=multiplier; resetMinMax();}
+  void     divideElement(int index,float divider)    { data[index]/=divider; resetMinMax(); }
+  
+  void  _calculateMinMax()
+  {
+    for(int i=0;i<data.length;i++){
+      float current=data[i];
+      if(current<_min){
+        _min=current; _whMin=i;
+      }
+      if(current>_max){
+        _max=current; _whMax=i;
+      }
+    }
   }
   
   /// @brief It calculates "Gini coefficient".
@@ -399,11 +548,11 @@ class Sample  extends NamedData implements iFlag,iFloatRange,iDataSample,iBasicS
   float getGiniCoefficient() {
     
     // Creating temporary data
-    int maxN=_data.size();
+    int maxN=data.length;
 
     double[] locData=new double[maxN];
     int N=0;
-    for(float val:_data)
+    for(float val:data)
         if(val!=INF_NOT_EXIST)
         {
           locData[N]=val;
@@ -430,84 +579,10 @@ class Sample  extends NamedData implements iFlag,iFloatRange,iDataSample,iBasicS
     return INF_NOT_EXIST;
   }
   
-  /// @brief It appends value at the end of the series.
-  void consider(float value) {
-    
-    _data.append(value);
-    
-    if(value==INF_NOT_EXIST) return; // Nothing more to do
-    
-    sum+=value;
-    count++; /// @internal Only real value, not empty!
-    
-    if(Max<value)
-    {
-      Max=value;
-      whMax=_data.size()-1; //print("^");
-    }
-    if(Min>value)
-    {
-      Min=value;
-      whMin=_data.size()-1; //print("v");
-    }
-  }
-  
-  /// @brief Replacing the most recently added value with another one.
-  void replaceLastValue(float value) {
-    
-    sum-=_data.get(_data.size()-1);     //<>//
-
-    _data.set(_data.size()-1,value);
-    
-    if(value==INF_NOT_EXIST) {count--;return;} // Nothing more to do
-    else sum+=value;
-    
-    if(Max<value)
-    {
-      Max=value;
-      whMax=_data.size()-1; //print("^");
-    }
-    if(Min>value)
-    {
-      Min=value;
-      whMin=_data.size()-1; //print("v");
-    }
-  }
-  
-  /// @brief Replacing the value under the index with another one.
-  void replaceAt(int index,float value) {
-    
-    sum-=_data.get(index);
-    _data.set(index,value);
-    
-    if(value==INF_NOT_EXIST) {count--;return;} // Nothing more to do
-    else sum+=value;
-    
-    if(Max<value) {
-      Max=value;
-      whMax=_data.size()-1; //print("^");
-    }
-    
-    if(Min>value) {
-      Min=value;
-      whMin=_data.size()-1; //print("v");
-    }
-  }
-  
-} //_endOfClass Sample
-
-/** @brief Class for returning pair of indexes */
-class Int2 implements iIntPair {
-  int first,second;
-  Int2(int ini1,int ini2) { first=ini1;second=ini2;}
-  int get1() { return first; }
-  int get2() { return second; }
-} //_endOfClass Int2
-
-//class Summator1D implements iDataSample {}
+} //_endOfClass Summator1D
 
 /** @brief ... */
-class Summator2D extends NamedData implements i2DDataSample {
+class SummatorsSet2D extends NamedData implements i2DDataSample {
   
   int         _R=0;
   int         _C=0;
@@ -521,25 +596,30 @@ class Summator2D extends NamedData implements i2DDataSample {
   float[][]      data=null;
   
   /** @brief SOLE CONSTRUCTOR */
-  Summator2D(String iniName,int iniRows,int iniColumns) { super/*NamedData*/(iniName);
+  SummatorsSet2D(String iniName,int iniRows,int iniColumns) { super/*NamedData*/(iniName);
     _R=iniRows; _C=iniColumns;
     data=new float[_R][_C];
   }
   
+  /** @brief MinMax reset */
+  void resetMinMax() {
+    _min=+MAX_FLOAT; _whMinC=-1;_whMinR=-1;
+    _max=-MAX_FLOAT; _whMaxC=-1;_whMaxR=-1;
+  }
+  
   /** @brief Data only reset */
   void reset() {
-    _min=+MAX_FLOAT; _whMinR=-1; _whMinC=-1;
-    _max=-MAX_FLOAT; _whMaxR=-1; _whMaxC=-1;
-    for(float[]/*_ref*/ row:data)
-      for(float/*_ref*/ val:row){
-          val=0;
-      }
+    resetMinMax(); //Min-Max may be invalid from now!
+    for(int i=0;i<data.length;i++) //reset data
+    for(int j=0;j<data[i].length;j++)
+          data[i][j]=0;
   }
   
   /// It takes another triplet and updates results.
   void          consider(int indexR,int indexC,float value) 
   {
-    float current=(data[indexR][indexC]+=value);
+    float current=(data[indexR][indexC]+=value); //SUMUJE!!!
+                                                 //println('[',indexR,',',indexC,"]=",current,';');
     if(current<_min){
       _min=current; _whMinR=indexR; _whMinC=indexC;
     }
@@ -551,21 +631,25 @@ class Summator2D extends NamedData implements i2DDataSample {
   ///  It replaces value denoted by another triplet and updates results.
   void          replaceAt(int indexR,int indexC,float value)
   {
-    float current=(data[indexR][indexC]=value);
-    if(current<_min){
-      _min=current; _whMinR=indexR; _whMinC=indexC;
-    }
-    if(current>_max){
-      _max=current; _whMaxR=indexR; _whMaxC=indexC;
-    }
+    data[indexR][indexC]=value;
+    resetMinMax(); //Min-Max may be invalid from now!
   }
     
+  // OTHERS REQUIRED BY INTERFACES:
+  //*//////////////////////////////  
+  boolean       isOption(int mask) { return false; } //!< There is no any options for now.  
   int               size() { return _R*_C; }
   int      numOfElements() { return _R*_C; }
-  iIntPair      whereMin() { return new Int2(_whMinR,_whMinC); }
-  iIntPair      whereMax() { return new Int2(_whMaxR,_whMaxC); }
-  float           getMin() { return _min; }
-  float           getMax() { return _max; }
+  int              width() { return _C; }
+  int            columns() { return _C; }
+  int       numOfColumns() { return _C; }
+  int             height() { return _R; }
+  int               rows() { return _R; }
+  int          numOfRows() { return _R; }
+  iIntPair      whereMin() { if(_whMinC==-1) _calculateMinMax(); return new Int2(_whMinR,_whMinC); }
+  iIntPair      whereMax() { if(_whMaxC==-1) _calculateMinMax(); return new Int2(_whMaxR,_whMaxC); }
+  float           getMin() { if(_whMinC==-1) _calculateMinMax(); return _min; }
+  float           getMax() { if(_whMaxC==-1) _calculateMinMax(); return _max; }
   
   void          consider(float value) { /* DOES NOTHING */ }  
 
@@ -575,6 +659,47 @@ class Summator2D extends NamedData implements i2DDataSample {
   float     getElementAt(int indexR,int indexC) { return data[indexR][indexC]; }
   float     getElementAt(int index)             { return get(index/_C,index%_C); }
 
+  void  _calculateMinMax()
+  {
+    for(int r=0;r<_R;r++)
+     for(int c=0;c<data.length;c++){
+      float current=get(r,c);
+      if(current<_min){
+        _min=current; _whMinR=r;_whMinC=c;
+      }
+      if(current>_max){
+        _max=current; _whMaxR=r;_whMaxC=c;
+      }
+    }
+  }
+
+  float getShannonEntropy() 
+  {
+    int inBuck=size();
+    
+    FloatList reBuck=new FloatList();
+    float sum=0;                          //println(name());
+    for(int i=0;i<inBuck;i++)
+    {
+      float value=get(i);                 //print(i,"]=",value,' ');
+      if(value>0){
+        sum+=value;
+        reBuck.append(value);
+      }
+    }
+                                          //println("");
+    if(sum>0) {
+      float S=0;                                      
+      for(float value:reBuck)
+      {
+        value/=sum; // Udział w całości czyli prawdopodobieństwo przejścia
+        value=value*log2(value);
+        S+=value;
+      }
+      return -S;
+    } else                                      
+    return -0.99999999; //NIE DAŁO SIĘ POLICZYĆ
+  }
 } //_endOfClass Summator2D
 
 /// @brief   Class for representing frequencies.
@@ -616,7 +741,7 @@ class Frequencies extends NamedData implements iFlag,iDataSample,iColor
     sizeOfBucket=(upperBound-lowerBound) / numberOfBuckets;
     _color=defColor;
   }
-      
+           
   /// @brief Ready to start collecting data again.
   void reset()
   {
@@ -660,15 +785,7 @@ class Frequencies extends NamedData implements iFlag,iDataSample,iColor
     if(_enabled==null) return true; // No flag, so "enabled" by default.
     return _enabled.isEnabled();
   }
-  
-  void   setColor(color fullColor) { //!< Change color
-    _color=fullColor;
-  }
- 
-  color   getColor() { //!< Gives color.
-    return _color;
-  }
-  
+    
   /// @brief It consider whole series of data!
   /// @param src points to series of values, and is not remembered!
   void consider(iDataSample/*_ref*/ src)
@@ -679,8 +796,9 @@ class Frequencies extends NamedData implements iFlag,iDataSample,iColor
     //println();
   }
   
-  // REQUIRED BY INTERFACES:
-  //*///////////////////////
+  // OTHERS REQUIRED BY INTERFACES:
+  //*//////////////////////////////
+  boolean   isOption(int mask) { return (options & mask)==mask; } //!< They will check the options according to masks.    
   int  numOfElements() { return buckets.length;}   //!< @note In this case, the items are histogram buckets.
   int           size() { return buckets.length;}   //!< @note In this case, the items are histogram buckets.
   float getElementAt(int index) { if(0<=index && index<buckets.length ) return buckets[index]; else return INF_NOT_EXIST; }
@@ -690,12 +808,11 @@ class Frequencies extends NamedData implements iFlag,iDataSample,iColor
   float       getMax() { return higherBucket; }
   int       whereMin() { return INVALID_INDEX; }
   int       whereMax() { return higherBucketIndex; }
-  
-  boolean isOption(int mask) //!< They will check the options according to masks.
-  {
-    return (options & mask)==mask;
-  }
-  
+  /// Change color!
+  void      setColor(color fullColor) { _color=fullColor; }
+  /// Give color!
+  color     getColor() { return _color; }
+
 } //_endOfClass Frequencies
 
 //******************************************************************************

@@ -1,7 +1,7 @@
 /** @file 
  *  @brief .... ("uCharts.pde")
  *  @defgroup ChartUtils Functions & classes for chart making 
- *  @date 2024-08-23 (last modification)                        @author borkowsk
+ *  @date 2024-08-27 (last modification)                        @author borkowsk
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
  *  @{
@@ -311,7 +311,9 @@ void viewAsVerticals(iDataSample data,int startD,float startX,float startY,int w
     
     if(mapper!=null)
     {
-      color cc=mapper.map(val);
+      color cc;
+      //if(mapper!=null) ???
+      cc=mapper.map(val);
       stroke(cc);
     }
     
@@ -328,7 +330,7 @@ void viewAsVerticals(iDataSample data,int startD,float startX,float startY,int w
   @param startX,startY,width,height : Screen location and size
   @param mapper : mapping values to colors
   @param solid  : swith beetwen solid bars versus boxes */
-void viewAsRanges(iRangesDataSample ranges,float startR,float finR,float startX,float startY,int width,int height,iColorMapper mapper,boolean solid) ///< @NOTE GLOBAL. For C++ translation MUST be in one line!
+void viewAsRanges(iRangesDataSample ranges,float startR,float finR,float startX,float startY,int width,int height,boolean solid,iColorMapper mapper) ///< @NOTE GLOBAL. For C++ translation MUST be in one line!
 {
   if(solid) noStroke(); else noFill();
   
@@ -431,6 +433,32 @@ float viewAsColumns(Frequencies hist,float startX,float startY,int width,int hei
   //Real width of histogram
   float realWidth=(hist.buckets.length)*wid; //println(realwidth);noLoop();                                         
   return realWidth;
+}
+
+/// @brief Tiles visualization of a any 2D row & column indexed data.
+void viewAsTiles(i2DDataSample data,float startX,float startY,int width,int height) ///< DRAWING TILES 2D HISTOGRAM IN SHADOWS OF GRAY.
+{
+  float minimum=data.getMin();
+  float maximum=data.getMax();
+  int   rows=data.rows();
+  int   cols=data.columns();
+  float celWidth=width/cols;
+  float celHeigh=height/rows;
+  
+  for(int r=0;r<rows;r++)
+    for(int c=0;c<cols;c++)
+    {
+      float value=data.get(r,c);
+      
+      if(minimum<maximum) {
+        value=map(value,minimum,maximum,0,255);
+        fill(value);
+      } else {
+        fill(random(100),0,0);
+      }
+      
+      rect(startX+c*celWidth,startY+r*celHeigh,celWidth,celHeigh);
+    }
 }
 
 //******************************************************************************

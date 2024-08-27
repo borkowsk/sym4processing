@@ -1,19 +1,19 @@
 /// @file
 /// @brief Handy logarithms and around ("uMathLog.pde")
-/// @date 2023.03.12 (last modification)
+/// @date 2024-08-27 (last modification)
 //*////////////////////////////////////////////////////
 
-/// Calculates the base-10 logarithm of a number.
-float log10 (float x)  ///< @note GLOBAL
-{
-  return (log(x) / log(10));
-}
+// /// Calculates the base-10 logarithm of a number.
+// float log10 (float x)  ///< @note GLOBAL
+// {
+//   return (log(x) / log(10));
+// }
 
-/// Calculates the base-2 logarithm of a number.
-float log2 (float x)  ///< @note GLOBAL
-{
-  return (log(x) / log(2));
-}
+// /// Calculates the base-2 logarithm of a number. Needed also in uStatData for entropy calculation.
+// float log2(float x)  ///< @note GLOBAL
+// {
+//   return (log(x) / log(2));
+// }
 
 /// Calculates the base-2 logarithm of a number with double precision.
 double log2 (double x)   ///< @note GLOBAL
