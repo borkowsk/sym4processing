@@ -1,22 +1,22 @@
 /// @file 
 /// @brief Various shapes drawing procedures ("uFigures.pde")
-/// @date 2024-08-23 (last modification)                        @author borkowsk
+/// @date 2024-09-03 (last modification)                        @author borkowsk
 /// @details ...
 //*/////////////////////////////////////////////////////////////////////////////
 
 //color BALDHEAD_NOSE_COLOR=0xff000011;
-float BALDHEAD_MUN_ANGLE=PI/10;
-float BALDHEAD_NOSE_DIVIDER=5;
-float BALDHEAD_NOSE_RADIUS=1; // as ratio of maximal R
-float BALDHEAD_EARS_DIVIDER=4;
+float BALDHEAD_MUN_ANGLE=PI/10;   ///< ...
+float BALDHEAD_NOSE_DIVIDER=5;    ///< ...
+float BALDHEAD_NOSE_RADIUS=1;     ///< as ratio of maximal R
+float BALDHEAD_EARS_DIVIDER=4;    ///< ...
 
-float BALDHEAD_EYES_RADIUS=0.75; // as ratio of maximal R
-float BALDHEAD_PUPIL_RADIUS=0.83; // as ratio of maximal R
-color BALDHEAD_EYES_COLOR=color(0,100,150);
-float BALDHEAD_PUPIL_DIV=14;
-int   BALDHEAD_HAIRS_DENS=10;   ///< How many hairs
-float BALDHEAD_HAIRS_START=0.2; ///< Range 0..0.5
-float BALDHEAD_HAIRS_END=0.8; ///< Range BALDHEAD_HAIRS_START..0.99
+float BALDHEAD_EYES_RADIUS=0.75;  ///< as ratio of maximal R
+float BALDHEAD_PUPIL_RADIUS=0.83; ///< as ratio of maximal R
+color BALDHEAD_EYES_COLOR=color(0,100,150);    ///< ...
+float BALDHEAD_PUPIL_DIV=14;      ///< ...
+int   BALDHEAD_HAIRS_DENS=10;     ///< How many hairs
+float BALDHEAD_HAIRS_START=0.2;   ///< Range 0..0.5
+float BALDHEAD_HAIRS_END=0.8;     ///< Range BALDHEAD_HAIRS_START..0.99
 color BALDHEAD_HAIRS_COLOR=color(111,50,50); ///< As you wish. It is used in `stroke()` function.
 
 /// @brief Horizontal view of a bald head of a man seen from above.

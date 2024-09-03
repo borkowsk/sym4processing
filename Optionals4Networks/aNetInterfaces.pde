@@ -1,6 +1,6 @@
 /// @file 
 /// @brief Network Only Interfaces ("aNetInterfaces.pde")
-/// @date 2024.04.08 (last modification)
+/// @date 2024-09-03 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////
 
 /// @details
@@ -14,11 +14,11 @@
 * @brief Network connection/link interface.
 */
 interface iLink { 
-  /*_interfunc*/ float getWeight()/*_forcbody*/;
-  /*_interfunc*/ int   getTypeMarker()/*_forcbody*/;
-  /*_interfunc*/ iNode getTarget()/*_forcbody*/;
-  /*_interfunc*/ void  setTarget(iNode tar)/*_forcbody*/;
-} //_EndOfClass
+  /*_interfunc*/ float     getWeight() /*_forcbody*/;
+  /*_interfunc*/ int   getTypeMarker() /*_forcbody*/;
+  /*_interfunc*/ iNode     getTarget() /*_forcbody*/;
+  /*_interfunc*/ void      setTarget(iNode tar) /*_forcbody*/;
+} //_EndOfClass 
 
 /**
 * @brief Interface for any filter for links.
@@ -33,14 +33,15 @@ interface iLinkFilter
 *        "Conn" below is a shortage from Connection.
 * @note Somewhere may uses class Link not interface iLink because of efficiency!
 */
-interface iNode extends iNamed { 
-  /*_interfunc*/ int      addConn(iLink  l)/*_forcbody*/;
-  /*_interfunc*/ int      delConn(iLink  l)/*_forcbody*/;
-  /*_interfunc*/ int      numOfConn()      /*_forcbody*/;
-  /*_interfunc*/ iLink    getConn(int    i)/*_forcbody*/;
-  /*_interfunc*/ iLink    getConn(iNode  n)/*_forcbody*/;
-  /*_interfunc*/ iLink    getConn(String k)/*_forcbody*/;
-  /*_interfunc*/ iLink[]  getConns(iLinkFilter f)/*_forcbody*/;
+interface iNode extends iNamed {
+  /*_interfunc*/ int      numOfConn()         /*_forcbody*/;
+  /*_interfunc*/ int        addConn(iLink  l) /*_forcbody*/;
+  /*_interfunc*/ int        delConn(iLink  l) /*_forcbody*/;
+
+  /*_interfunc*/ iLink      getConn(int    i) /*_forcbody*/;
+  /*_interfunc*/ iLink      getConn(iNode  n) /*_forcbody*/;
+  /*_interfunc*/ iLink      getConn(String k) /*_forcbody*/;
+  /*_interfunc*/ iLink[]    getConns(iLinkFilter f) /*_forcbody*/;
 } //_EndOfClass
 
 /**
@@ -55,16 +56,16 @@ interface iVisNode extends iNode,iNamed,iColorable,iPositioned {
 * @brief Visualisable network connection.
 */
 interface  iVisLink extends iLink,iNamed,iColorable {
-  /*_interfunc*/ color     defColor()/*_forcebody*/;
-  /*_interfunc*/ iVisNode  getVisTarget()/*_forcbody*/;
+  /*_interfunc*/ color     defColor() /*_forcebody*/;
+  /*_interfunc*/ iVisNode  getVisTarget() /*_forcbody*/;
 } //_EndOfClass
 
 /**
 * @brief Any factory producing links.
 */
 interface  iLinkFactory {
-  /*_interfunc*/ iLink  makeLink(iNode Source,iNode Target)/*_forcebody*/;
-  /*_interfunc*/ iLink  makeSelfLink(iNode Self)/*_forcebody*/;     
+  /*_interfunc*/ iLink  makeLink(iNode Source,iNode Target) /*_forcebody*/;
+  /*_interfunc*/ iLink  makeSelfLink(iNode Self) /*_forcebody*/;     
 } //_EndOfClass
 
 //*////////////////////////////////////////////////////////////////////////////

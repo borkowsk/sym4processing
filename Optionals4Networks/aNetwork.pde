@@ -1,6 +1,6 @@
 /// @file 
 /// @brief Generic (social) network classes ("aNetwork.pde")
-/// @date 2024-08-27 (last modification)
+/// @date 2024-09-03 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////
 
 /// @details
@@ -160,7 +160,7 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
      case 0: if(weight<=0) return color(0,-weight*255,0);else return color(weight*255,0,weight*255);
      case 1: if(weight<=0) return color(-weight*255,0,0);else return color(0,weight*255,weight*255);
      case 2: if(weight<=0) return color(0,0,-weight*255);else return color(weight*255,weight*255,0);
-     default://Wszystkie inne 
+     default: //Wszystkie inne 
              if(weight>=0) return color(128,0,weight*255);else return color(-weight*255,-weight*255,128);
      }   
   }
@@ -175,7 +175,7 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
      case 0: if(weight<=0) stroke(0,-weight*255,0,Intensity);else stroke(weight*255,0,weight*255,Intensity);break;
      case 1: if(weight<=0) stroke(-weight*255,0,0,Intensity);else stroke(0,weight*255,weight*255,Intensity);break;
      case 2: if(weight<=0) stroke(0,0,-weight*255,Intensity);else stroke(weight*255,weight*255,0,Intensity);break;
-     default://Wszystkie inne 
+     default: //Wszystkie inne 
              if(weight>=0) stroke(128,0,weight*255,Intensity);else stroke(-weight*255,-weight*255,128,Intensity);
              break;
      }
@@ -232,8 +232,8 @@ void makeRingNet(iNode[] nodes,iLinkFactory linkfac,int neighborhood)  ///< Glob
       
       for(int j=1;j<=neighborhood;j++)
       {
-        int g=(n+i-j)%n;//left index
-        int h=(i+j+n)%n;//right index
+        int g=(n+i-j)%n; //left index
+        int h=(i+j+n)%n; //right index
         
         if(nodes[g]!=null)
         {
@@ -276,11 +276,11 @@ void makeTorusNet(iNode[][] nodes,iLinkFactory linkfac,int neighborhood)  ///< G
         
         for(int j=-neighborhood;j<=neighborhood;j++)
         {
-          int vert=(s+i+j)%s;//up index
+          int vert=(s+i+j)%s; //up index
           
           for(int m=-neighborhood;m<=neighborhood;m++)
           {
-            int hor=(z+k+m)%z;//right index
+            int hor=(z+k+m)%z; //right index
             
             iNode Target;
             
@@ -327,13 +327,13 @@ void rewireLinksRandomly(iNode[] nodes,float probability, boolean reciprocal)  /
         iLink r=l.getTarget().getConn(Source);
         if(r!=null) 
         {
-          l.getTarget().delConn(r);//Usunięcie zwrotnego linku jesli był
-          r.setTarget(Source);//Poprawienie linku
-          Target.addConn(r);//Dodanie nowego zwrotnego linku w Targecie
+          l.getTarget().delConn(r); //Usunięcie zwrotnego linku jesli był
+          r.setTarget(Source); //Poprawienie linku
+          Target.addConn(r); //Dodanie nowego zwrotnego linku w Targecie
         }  
       }
       
-      l.setTarget(Target);//Replacing target!    
+      l.setTarget(Target); //Replacing target!    
       //if(debug_level>2) println();
     }  
   }
@@ -370,9 +370,9 @@ void rewireLinksRandomly(iNode[][] nodes,float probability, boolean reciprocal) 
         iLink r=l.getTarget().getConn(Source);
         if(r!=null) 
         {
-          l.getTarget().delConn(r);//Usunięcie zwrotnego linku jesli był
-          r.setTarget(Source);//Poprawienie linku
-          Target.addConn(r);//Dodanie nowego zwrotnego linku w Targecie
+          l.getTarget().delConn(r); //Usunięcie zwrotnego linku jesli był
+          r.setTarget(Source); //Poprawienie linku
+          Target.addConn(r); //Dodanie nowego zwrotnego linku w Targecie
         }  
       }
       
@@ -450,7 +450,7 @@ void makeScaleFree(iNode[] nodes,iLinkFactory linkfac,int sizeOfFirstCluster,int
   println("Initial number of links is",numberOfLinks,EPS);
   
   for(int i=0;i<numberOfNewLinkPerNode;i++)
-    for(int j=0;j<nodes.length;)//Próbujemy każdego przyłączyć do czegoś
+    for(int j=0;j<nodes.length;) //Próbujemy każdego przyłączyć do czegoś
     {
         iNode source=nodes[j];
         if(source==null)
@@ -464,7 +464,7 @@ void makeScaleFree(iNode[] nodes,iLinkFactory linkfac,int sizeOfFirstCluster,int
           if(target==null)
             continue;  
             
-          float pwindow=target.numOfConn()/numberOfLinks; if(NET_DEBUG>3) print(pwindow,"; ");
+          float pwindow = target.numOfConn() / numberOfLinks; if(NET_DEBUG>3) print(pwindow,"; ");
           if(start<where && where<=start+pwindow)         //Czy trafił w przedział?
           {
                                                           if(NET_DEBUG>2) print(k,"!");
@@ -475,7 +475,7 @@ void makeScaleFree(iNode[] nodes,iLinkFactory linkfac,int sizeOfFirstCluster,int
               {
                 numberOfLinks++;
                 if(reciprocal)
-                  if(target.addConn( linkfac.makeLink(target,source) )==1)//OK TYLKO GDY NOWY LINK
+                  if(target.addConn( linkfac.makeLink(target,source) )==1) //OK TYLKO GDY NOWY LINK
                       numberOfLinks++;
                 j++; //Można przejść do podłączania nastepnego agenta
               }

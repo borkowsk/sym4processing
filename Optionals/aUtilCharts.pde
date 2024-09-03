@@ -1,7 +1,7 @@
 /** @file 
  *  @brief .... ("uCharts.pde")
  *  @defgroup ChartUtils Functions & classes for chart making 
- *  @date 2024-08-27 (last modification)                        @author borkowsk
+ *  @date 2024-09-03 (last modification)                        @author borkowsk
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
  *  @{
@@ -406,7 +406,7 @@ float viewAsColumns(Frequencies hist,float startX,float startY,int width,int hei
   if(hist.outsideLow>0)
   {
     color hfill=hist.getColor();
-    hfill=color( red(hfill)/2, green(hfill)/2 , blue(hfill)/2, alpha(hfill));
+    hfill=color( red(hfill) / 2, green(hfill) / 2 , blue(hfill) / 2, alpha(hfill));
     fill(hfill);
     
     float hei;

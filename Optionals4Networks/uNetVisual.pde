@@ -1,6 +1,6 @@
 /// @file 
 /// @brief Generic visualisations of a (social) network ("uNetVisual.pde")
-/// @date 2024-08-23 (last modification)
+/// @date 2024-09-03 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////
 
 /// @details
@@ -110,8 +110,8 @@ void visualiseLinks1D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,f
       {
         float Xt=links[j].getVisTarget().posX();
         //print(X,Xt,"; "); 
-        float R=abs(Xt-X)*cellside;
-        float C=(X+Xt)/2;
+        float R= abs(Xt-X)*cellside;
+        float C= (X+Xt) / 2;
         
         if(X<Xt) { Xt+=links[j].getTypeMarker()*XSPREAD;}
         else     { Xt-=links[j].getTypeMarker()*XSPREAD;}
@@ -158,12 +158,12 @@ void visualiseLinks2D(iVisNode[] nodes,LinkFilter filter,float defX,float defY,f
         iVisNode k_node=(iVisNode)k_link.getTarget();
         float Xt=k_node.posX();                                   //strokeWeight(1);stroke(10);
         float Yt=k_node.posY();                                   //circle(Xt,Yt,k+1*2);
-                                                  if(NET_DEBUG>4 && Source==links[k].getTarget())//Będzie kółko!
+                                                  if(NET_DEBUG>4 && Source==links[k].getTarget()) //Będzie kółko!
                                                         println(Source.name(),"-o-",links[k].getTarget().name());
                                                         
         if(X<Xt) { Xt+=links[k].getTypeMarker()*XSPREAD;}
         else    { Xt-=links[k].getTypeMarker()*XSPREAD;}
-                                                  if(NET_DEBUG>1 && X==Xt && Y==Yt)//TEŻ będzie kółko!!!
+                                                  if(NET_DEBUG>1 && X==Xt && Y==Yt) //TEŻ będzie kółko!!!
                                                         println("Connection",Source.name(),"->-",links[k].getTarget().name(),"visualised as circle");
         k_link.applyStroke(LINK_INTENSITY); //<>//
         

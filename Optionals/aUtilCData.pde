@@ -1,6 +1,6 @@
 /** @file 
- *  @brief .... ("uUtilCData.pde")
- *  @date 2024-08-27 (last modification)                       @author borkowsk
+ *  @brief .... ("aUtilCData.pde")
+ *  @date 2024-09-03 (last modification)                       @author borkowsk
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
  *  @defgroup Data collection classes for statistics & chart making 
@@ -14,7 +14,7 @@ int   INVALID_INDEX=-1;                                                         
 /// Logarithm on base2 needed f.e. to Shannon's entropy calculation from floats
 float log2(float v) ///< GLOBAL
 {
-  return log(v)/log(2.0); //(v > 0)  
+  return log(v) / log(2.0); // (v > 0)  
 }
 
 /// @brief Bool switch.
@@ -230,7 +230,7 @@ class Sample  extends NamedData implements iFlag,iFloatRange,iDataSample,iBasicS
   
   float get(int index) { return dataList.get(index); }
   
-  //void addToElement(int index,float whatToAdd) { _data.add(index,whatToAdd); }
+  /* void addToElement(int index,float whatToAdd) { _data.add(index,whatToAdd); } */
   
   /// @brief Shortening the series to `longOfRemained` the last elements.
   void remain(int longOfRemained)   
@@ -465,18 +465,19 @@ class Int2 implements iIntPair {
 
 class SummatorsSet1D  extends NamedData implements iDataSample {
 
-  int         _S=0;
+  int         sizeOfData=0;
   float       _min=Float.MAX_VALUE;
   int         _whMin=-1;
   float       _max=-Float.MAX_VALUE;
   int         _whMax=-1;
   
-  float[]      data=null;
+  float[]     data=null;
   
   /** @brief SOLE CONSTRUCTOR */
-  SummatorsSet1D(String iniName,int iniSize) { super/*NamedData*/(iniName);
-    _S=iniSize;
-    data=new float[_S];                           assert(data[0]==0);
+  SummatorsSet1D(String iniName,int iniSize) { super/*NamedData*/(iniName); //Javowe "super" musi być w tej samej lini co otwierające {
+    sizeOfData=iniSize;
+    data=new float[sizeOfData];
+                                               assert(data[0]==0);
   }
   
   /** @brief MinMax reset */
@@ -495,8 +496,8 @@ class SummatorsSet1D  extends NamedData implements iDataSample {
   // OTHERS REQUIRED BY INTERFACES:
   //*//////////////////////////////  
   boolean       isOption(int mask) { return false; } //!< There is no any options for now.
-  int               size() { return _S; }
-  int      numOfElements() { return _S; }
+  int               size() { return sizeOfData; }
+  int      numOfElements() { return sizeOfData; }
   int           whereMin() { if(_whMin==-1) _calculateMinMax(); return _whMin; }
   int           whereMax() { if(_whMax==-1) _calculateMinMax(); return _whMax; }
   float           getMin() { if(_whMin==-1) _calculateMinMax(); return _min; }
@@ -526,8 +527,8 @@ class SummatorsSet1D  extends NamedData implements iDataSample {
     resetMinMax(); //Min-Max may be invalid from now!
   }
   
-  void   multiplyElement(int index,float multiplier) { data[index]*=multiplier; resetMinMax();}
-  void     divideElement(int index,float divider)    { data[index]/=divider; resetMinMax(); }
+  void   multiplyElement(int index,float multiplier) { data[index] *= multiplier; resetMinMax();}
+  void     divideElement(int index,float divider)    { data[index] /= divider; resetMinMax(); }
   
   void  _calculateMinMax()
   {
@@ -786,9 +787,9 @@ class Frequencies extends NamedData implements iFlag,iDataSample,iColor
     return _enabled.isEnabled();
   }
     
-  /// @brief It consider whole series of data!
+  /// @brief It considers whole series of data!
   /// @param src points to series of values, and is not remembered!
-  void consider(iDataSample/*_ref*/ src)
+  void consider(iDataSample src)
   {
     for(int i=0;i<src.size();i++) {
         consider(src.get(i)); //print(src.get(i),';');
