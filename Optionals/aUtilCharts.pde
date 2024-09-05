@@ -1,7 +1,7 @@
 /** @file 
  *  @brief .... ("uCharts.pde")
  *  @defgroup ChartUtils Functions & classes for chart making 
- *  @date 2024-09-03 (last modification)                        @author borkowsk
+ *  @date 2024-09-05 (last modification)                        @author borkowsk
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
  *  @{
@@ -422,8 +422,9 @@ float viewAsColumns(Frequencies hist,float startX,float startY,int width,int hei
   textAlign(LEFT,BOTTOM);
   text(hist.getName()+"\n       max:"+Max
          +(logarithm ?
-           "<=" +hist.higherBucket+" @ "+hist.higherBucketIndex :
-           " @ "+hist.higherBucketIndex),
+           "<=" +hist.higherBucket
+           +" @ "+hist.higherBucketIndex :
+            " @ "+hist.higherBucketIndex),
            startX,startY-height);
   textAlign(LEFT,TOP);         
   text(""+hist.lowerBuck,startX,startY);     

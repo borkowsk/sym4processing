@@ -1,6 +1,6 @@
 /** @file 
  *  @brief .... ("aUtilCData.pde")
- *  @date 2024-09-03 (last modification)                       @author borkowsk
+ *  @date 2024-09-05 (last modification)                       @author borkowsk
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
  *  @defgroup Data collection classes for statistics & chart making 
@@ -71,7 +71,7 @@ class ValueInRange extends NonameRange implements iFloatRangeWithValue {
   float value=INF_NOT_EXIST;
   
    /// @brief Constructor which needs the initial `Min..Max` range.
-  ValueInRange(int iniVal,float iniMin,float iniMax) { super/*NamedData*/(iniMin,iniMax); this.value=iniVal;}
+  ValueInRange(int iniVal,float iniMin,float iniMax) { super/*NonameRange*/(iniMin,iniMax); this.value=iniVal;}
   
   float get() { return value; }
   

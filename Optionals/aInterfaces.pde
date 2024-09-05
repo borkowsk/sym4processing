@@ -1,6 +1,6 @@
 /// @file
 /// @brief Common INTERFACES like iNamed, iDescribable, iColorable, iPositioned ("aInterfaces.pde")
-/// @date 2024-08-27 (last modification)                       @author borkowsk
+/// @date 2024-09-05 (last modification)                       @author borkowsk
 /// @details ...
 //*////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -36,9 +36,14 @@ interface iFloatPoint2D {
   /*_interfunc*/ float               getY() /*_forcebody*/;
 } //_EofCl
 
-/** @brief Interface forces getters for X & Y & Z */
+/** @brief Interface forces getter for Z and also what is derived from base class */
 interface iFloatPoint3D extends iFloatPoint2D {
  /*_interfunc*/ float                getZ() /*_forcebody*/;
+} //_EofCl
+
+/** @brief Interface forces getters for T ("time") and also what is derived from base class */
+interface iFloatPoint4D extends iFloatPoint3D {
+ /*_interfunc*/ float                getT() /*_forcebody*/;
 } //_EofCl
 
 /** @brief Interface for any true referable class usable as a flag or switch.
@@ -72,11 +77,20 @@ interface iResetable {
 } //_EofCl
 
 /** @brief Any simulation agent */
-interface iAgent extends iNamed,iDescribable {
-  /*_interfunc*/ String           getName() /*_forcebody*/;
-  /*_interfunc*/ String              name() /*_forcebody*/;
-  /*_interfunc*/ String    getDescription() /*_forcebody*/;
-  /*_interfunc*/ String       description() /*_forcebody*/;
+interface iAgent extends iNamed, /*_pvi*/ iDescribable {
+  /// Derived methods:
+  ///  *  `_interfunc String           getName() /*_forcebody*/;`
+  ///  *  `_interfunc String              name() /*_forcebody*/;`
+  ///  *  `_interfunc String    getDescription() /*_forcebody*/;`
+  ///  *  `_interfunc String       description() /*_forcebody*/;`
+} //_EofCl
+
+/** @brief Model time measuring interface */
+interface iModelTimer {
+  /*_interfunc*/ float                getCurrentStep() /*_forcebody*/; //!< On some models the step number may sometimes increase by fractions!
+  /*_interfunc*/ float                getCurrentTime() /*_forcebody*/; //!< Step count and simulated time may not be in a straight relationship.
+  /*_interfunc*/ float                getLastStepTime() /*_forcebody*/;
+  /*_interfunc*/ float                getMeanStepTime() /*_forcebody*/;
 } //_EofCl
 
 /// VISUALISATION INTERFACES:
@@ -144,17 +158,18 @@ interface i2IndexedFloatConsiderer {
 
 /** @brief Any range spanned from `Min` to `Max` */
 interface iFloatRange extends iFloatConsiderer {
-  /*_interfunc*/ void      consider(float value) /*_forcebody*/; //!< It takes another value and updates range if needed.
+///  *  `_interfunc void      consider(float value) /*_forcebody*/;` -- Derived: It takes another value and updates range if needed.
   /*_interfunc*/ float       getMin() /*_forcebody*/; //MIN_RANGE_VALUE?
   /*_interfunc*/ float       getMax() /*_forcebody*/; //MAX_RANGE_VALUE?
 } //_EofCl
 
 /** @brief Ane range with associated value, e.g. MARKED RANGE */
-interface iFloatRangeWithValue extends iFloatRange,iFloatValue {
+interface iFloatRangeWithValue extends iFloatRange, /*_pvi*/ iFloatValue {
+  /// Derived methods:
+  ///  *  `_interfunc void      consider(float value) /*_forcebody*/;` //!< It takes another value and updates range if needed.
+  ///  *  `_interfunc float       getMin() /*_forcebody*/; -- MIN_RANGE_VALUE?`
+  ///  *  `_interfunc float       getMax() /*_forcebody*/; -- MAX_RANGE_VALUE?`
   /*_interfunc*/ float          get() /*_forcebody*/; //!< value releated to the range
-  /*_interfunc*/ void      consider(float value) /*_forcebody*/; //!< It takes another value and updates range if needed.
-  /*_interfunc*/ float       getMin() /*_forcebody*/; //MIN_RANGE_VALUE?
-  /*_interfunc*/ float       getMax() /*_forcebody*/; //MAX_RANGE_VALUE?
 } //_EofCl
 
 /** @brief Any linear (indexed) container of floats */  
@@ -168,8 +183,10 @@ interface iFloatValuesIndexedContainer extends iResetable {
 
 /** @brief Any recangular (2*int indexed) container of floats */  
 interface iFloatValues2IndexedContainer extends iResetable {
-  /*_interfunc*/ int   numOfElements() /*_forcebody*/; //!< Series length=whole size. Together with empty cells, i.e. == INVALID_INDEX.
-  /*_interfunc*/ int            size() /*_forcebody*/; //!< Series length=whole size. Together with empty cells, i.e. == INVALID_INDEX.
+  ///  *  `_interfunc int   numOfElements() /*_forcebody*/;` -- Series length=whole size. Together with empty cells, i.e. == INVALID_INDEX.
+  ///  *  `_interfunc int            size() /*_forcebody*/;` -- Series length=whole size. Together with empty cells, i.e. == INVALID_INDEX.
+  ///  *  `_interfunc float  getElementAt(int index) /*_forcebody*/;` -- Value at particular index. May return INF_NOT_EXIST.
+  ///  *  `_interfunc float           get(int index) /*_forcebody*/;` -- Value at particular index. May return INF_NOT_EXIST.
   /*_interfunc*/ int       numOfRows() /*_forcebody*/; //!< Number of rows in such a virtual matrix
   /*_interfunc*/ int            rows() /*_forcebody*/; //!< Number of rows in such a virtual matrix
   /*_interfunc*/ int    numOfColumns() /*_forcebody*/; //!< Number of columns in such a virtual matrix
@@ -180,13 +197,13 @@ interface iFloatValues2IndexedContainer extends iResetable {
 } //_EofCl
 
 /** @brief A linear sample of data with min...max statics and set of options */
-interface iDataSample extends iFloatValuesIndexedContainer,iFloatConsiderer,iFloatRange,iOptionsSet {
+interface iDataSample extends iFloatValuesIndexedContainer, /*_pvi*/ iFloatConsiderer, /*_pvi*/ iFloatRange, /*_pvi*/ iOptionsSet {
   /*_interfunc*/ int        whereMin() /*_forcebody*/; //!< ADDED
   /*_interfunc*/ int        whereMax() /*_forcebody*/; //!< ADDED
   // /*_interfunc*/ void      consider(float value) /*_forcebody*/; //!< It takes another value and updates range if needed.
 } //_EofCl
 
-interface i2DDataSample  extends iFloatValues2IndexedContainer,i2IndexedFloatConsiderer,iFloatRange,iOptionsSet {
+interface i2DDataSample  extends iFloatValues2IndexedContainer, /*_pvi*/ i2IndexedFloatConsiderer, /*_pvi*/ iFloatRange, /*_pvi*/ iOptionsSet {
   /*_interfunc*/ iIntPair   whereMin() /*_forcebody*/; //!< ADDED
   /*_interfunc*/ iIntPair   whereMax() /*_forcebody*/; //!< ADDED
   /*_interfunc*/ void       consider(int indexR,int indexC,float value) /*_forcebody*/; //!< It takes another triplet and updates results.
@@ -207,17 +224,18 @@ interface iRangeWithValueConsiderer {
 } //_EofCl
 
 /** @brief ... */
-interface iRangesDataSample extends iFloatRangesWithValueContainer,iRangeWithValueConsiderer {
+interface iRangesDataSample extends iFloatRangesWithValueContainer, /*_pvi*/ iRangeWithValueConsiderer {
+  ///*  `_interfunc void                 consider(iFloatRangeWithValue range) /*_forcebody*/;` -- Derived: It takes and use another range.
   /*_interfunc*/ int       whereMin() /*_forcebody*/; //!< ADDED
   /*_interfunc*/ int       whereMax() /*_forcebody*/; //!< ADDED
-  // /*_interfunc*/ void                 consider(iFloatRangeWithValue range) /*_forcebody*/; //!< It takes and use another range.
+
 } //_EofCl
 
 /** Statistics of raw data samples. */
 interface iBasicStatistics {
   /*_interfunc*/ float       getMean() /*_forcebody*/; //!< Access to the current average.
-  /*_interfunc*/ float   getHarmMean() /*_forcebody*/; //!< Calculation of current harmonic mean
-  /*_interfunc*/ float   getQuadMean() /*_forcebody*/; //!< Calculation of current mean square
+  /*_interfunc*/ float   getHarmMean() /*_forcebody*/; //!< Calculation of current harmonic mean.
+  /*_interfunc*/ float   getQuadMean() /*_forcebody*/; //!< Calculation of current mean square.
  
   /// @brief Calculation of current average with arbitrary powers.
   /// @note  It can be both a fraction and a number greater than 2, e.g. 1/3 or 3.
