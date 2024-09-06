@@ -1,6 +1,6 @@
 /// @file
 /// @brief Common INTERFACES like iNamed, iDescribable, iColorable, iPositioned ("aInterfaces.pde")
-/// @date 2024-09-05 (last modification)                       @author borkowsk
+/// @date 2024-09-06 (last modification)                       @author borkowsk
 /// @details ...
 //*////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -93,7 +93,7 @@ interface iModelTimer {
   /*_interfunc*/ float                getMeanStepTime() /*_forcebody*/;
 } //_EofCl
 
-/// VISUALISATION INTERFACES:
+// VISUALISATION INTERFACES:
 //*//////////////////////////
 
 /** @brief Forcing remembering full color inside object */
@@ -122,8 +122,8 @@ interface iPositioned extends iFloatPoint3D {
   /*_interfunc*/ float       posZ() /*_forcebody*/;
 } //_EofCl iPositioned
 
-/// SPECIFICLY FOR MATH INTERFACES:
-//*////////////////////////////////
+// SPECIFICLY FOR MATH INTERFACES:
+//*///////////////////////////////
 
 //final float INF_NOT_EXIST=Float.MAX_VALUE;  ///< Missing value marker
 
@@ -198,9 +198,9 @@ interface iFloatValues2IndexedContainer extends iResetable {
 
 /** @brief A linear sample of data with min...max statics and set of options */
 interface iDataSample extends iFloatValuesIndexedContainer, /*_pvi*/ iFloatConsiderer, /*_pvi*/ iFloatRange, /*_pvi*/ iOptionsSet {
+  ///   *  `_interfunc void      consider(float value) /*_forcebody*/;` -- It takes another value and updates range if needed.
   /*_interfunc*/ int        whereMin() /*_forcebody*/; //!< ADDED
   /*_interfunc*/ int        whereMax() /*_forcebody*/; //!< ADDED
-  // /*_interfunc*/ void      consider(float value) /*_forcebody*/; //!< It takes another value and updates range if needed.
 } //_EofCl
 
 interface i2DDataSample  extends iFloatValues2IndexedContainer, /*_pvi*/ i2IndexedFloatConsiderer, /*_pvi*/ iFloatRange, /*_pvi*/ iOptionsSet {

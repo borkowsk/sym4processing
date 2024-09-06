@@ -1,6 +1,6 @@
 /** @file 
  *  @brief .... ("aUtilCData.pde")
- *  @date 2024-09-05 (last modification)                       @author borkowsk
+ *  @date 2024-09-06 (last modification)                       @author borkowsk
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
  *  @defgroup Data collection classes for statistics & chart making 
@@ -143,7 +143,7 @@ class NamedValueInRange extends Range implements iFloatRangeWithValue {
 /// @brief Class for representing series of numbers.
 /// @details
 ///   This class represents a NAMED series of real (float) numbers.
-class Sample  extends NamedData implements iFlag,iFloatRange,iDataSample,iBasicStatistics,iColor
+class Sample  extends NamedData implements iDataSample, /*_vpi*/ iFloatRange, /*_vpi*/ iBasicStatistics, /*_vpi*/ iColor,/*_vpi*/ iFlag
 {
   FloatList dataList=null;         //!< list of data values.
   color       _color=color(0,0,0); //!< color, if need to be same in different graphs
