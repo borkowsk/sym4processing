@@ -1,6 +1,6 @@
 /** @file 
  *  @brief .... ("aUtilCData.pde")
- *  @date 2024-09-06 (last modification)                       @author borkowsk
+ *  @date 2024-09-09 (last modification)                       @author borkowsk
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
  *  @defgroup Data collection classes for statistics & chart making 
@@ -578,6 +578,34 @@ class SummatorsSet1D  extends NamedData implements iDataSample {
     }
     else 
     return INF_NOT_EXIST;
+  }
+  
+  float getShannonEntropy() 
+  {
+    int inBuck=size();
+    
+    FloatList reBuck=new FloatList();
+    float sum=0;                          //println(name());
+    for(int i=0;i<inBuck;i++)
+    {
+      float value=get(i);                 //print(i,"]=",value,' ');
+      if(value>0){
+        sum+=value;
+        reBuck.append(value);
+      }
+    }
+                                          //println("");
+    if(sum>0) {
+      float S=0;                                      
+      for(float value:reBuck)
+      {
+        value/=sum; // Udział w całości czyli prawdopodobieństwo przejścia
+        value=value*log2(value);
+        S+=value;
+      }
+      return -S;
+    } else                                      
+    return -0.99999999; //NIE DAŁO SIĘ POLICZYĆ
   }
   
 } //_endOfClass Summator1D

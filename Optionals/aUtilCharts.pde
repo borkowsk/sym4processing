@@ -1,7 +1,7 @@
 /** @file 
  *  @brief .... ("uCharts.pde")
  *  @defgroup ChartUtils Functions & classes for chart making 
- *  @date 2024-09-05 (last modification)                        @author borkowsk
+ *  @date 2024-09-09 (last modification)                        @author borkowsk
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
  *  @{
@@ -436,8 +436,32 @@ float viewAsColumns(Frequencies hist,float startX,float startY,int width,int hei
   return realWidth;
 }
 
+/// @brief Tiles visualization of a any indexed data.
+void viewAsTilesRow(iDataSample data,float startX,float startY,int width,int height) ///< DRAWING TILES 1D HISTOGRAM IN SHADOWS OF GRAY.
+{
+  float minimum=data.getMin();
+  float maximum=data.getMax();
+  int   cols=data.size();
+  float celWidth=width/cols;
+  float celHeigh=min(celWidth,height);
+  
+  for(int c=0;c<cols;c++)
+  {
+    float value=data.get(c);
+    
+    if(minimum<maximum) {
+      value=map(value,minimum,maximum,0,255);
+      fill(value);
+    } else {
+      fill(random(100),0,0);
+    }
+    
+    rect(startX+c*celWidth,startY,celWidth,celHeigh);
+  }
+}
+
 /// @brief Tiles visualization of a any 2D row & column indexed data.
-void viewAsTiles(i2DDataSample data,float startX,float startY,int width,int height) ///< DRAWING TILES 2D HISTOGRAM IN SHADOWS OF GRAY.
+void viewAsTiles2D(i2DDataSample data,float startX,float startY,int width,int height) ///< DRAWING TILES 2D HISTOGRAM IN SHADOWS OF GRAY.
 {
   float minimum=data.getMin();
   float maximum=data.getMax();
