@@ -463,7 +463,7 @@ class Int2 implements iIntPair {
   int get2() { return second; }
 } //_endOfClass Int2
 
-class SummatorsSet1D  extends NamedData implements iDataSample {
+class AddersSet1D  extends NamedData implements iDataSample {
 
   int         sizeOfData=0;
   float       _min=Float.MAX_VALUE;
@@ -474,7 +474,7 @@ class SummatorsSet1D  extends NamedData implements iDataSample {
   float[]     data=null;
   
   /** @brief SOLE CONSTRUCTOR */
-  SummatorsSet1D(String iniName,int iniSize) { super/*NamedData*/(iniName); //Javowe "super" musi być w tej samej lini co otwierające {
+  AddersSet1D(String iniName,int iniSize) { super/*NamedData*/(iniName); //Javowe "super" musi być w tej samej lini co otwierające {
     sizeOfData=iniSize;
     data=new float[sizeOfData];
                                                assert(data[0]==0);
@@ -604,14 +604,14 @@ class SummatorsSet1D  extends NamedData implements iDataSample {
         S+=value;
       }
       return -S;
-    } else                                      
-    return -0.99999999; //NIE DAŁO SIĘ POLICZYĆ
+    } else                                     
+    return 0.000000009999; //NIE DAŁO SIĘ POLICZYĆ -  fNaN; // może lepiej?
   }
   
 } //_endOfClass Summator1D
 
 /** @brief ... */
-class SummatorsSet2D extends NamedData implements i2DDataSample {
+class AddersSet2D extends NamedData implements i2DDataSample {
   
   int         _R=0;
   int         _C=0;
@@ -625,7 +625,7 @@ class SummatorsSet2D extends NamedData implements i2DDataSample {
   float[][]      data=null;
   
   /** @brief SOLE CONSTRUCTOR */
-  SummatorsSet2D(String iniName,int iniRows,int iniColumns) { super/*NamedData*/(iniName);
+  AddersSet2D(String iniName,int iniRows,int iniColumns) { super/*NamedData*/(iniName);
     _R=iniRows; _C=iniColumns;
     data=new float[_R][_C];
   }
@@ -717,7 +717,8 @@ class SummatorsSet2D extends NamedData implements i2DDataSample {
       }
     }
                                           //println("");
-    if(sum>0) {
+    if(sum>0) 
+    {
       float S=0;                                      
       for(float value:reBuck)
       {
@@ -726,9 +727,9 @@ class SummatorsSet2D extends NamedData implements i2DDataSample {
         S+=value;
       }
       return -S;
-    } else                                      
-    return -0.99999999; //NIE DAŁO SIĘ POLICZYĆ
+    } else return 0.000000009999; //NIE DAŁO SIĘ POLICZYĆ -  fNaN; // może lepiej?
   }
+  
 } //_endOfClass Summator2D
 
 /// @brief   Class for representing frequencies.
