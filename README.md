@@ -1,3 +1,4 @@
+![image](more_docs/CSRA.PNG.png)
 # sym4processing - various simulation resources in processing
 ## @date 2024-09-26 (last modification)
 
