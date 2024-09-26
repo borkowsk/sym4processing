@@ -15,4 +15,5 @@ It can also change the display colors (ModelVisual.pde)
 
 See illustration below:
 
-![](./more_docs/*.PNG)
+![image](./more_docs/CATemplate.000064,00000.PNG)   ![image](./more_docs/CATemplate.000094,00000.PNG)  
+
