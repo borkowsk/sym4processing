@@ -1,4 +1,5 @@
 # CA (Cellular Automaton) simulation application template
+## @date 2024-09-26 (last modification)
 
 For use with square, discrete, 1 or 2 dimensional geometry.
 
@@ -12,3 +13,6 @@ The template user must define the cell state change rule and accordingly have
 to change the initialization routine and simulation step (CABasics.pde).
 It can also change the display colors (ModelVisual.pde)
 
+See illustration below:
+
+![](./more_docs/*.PNG)

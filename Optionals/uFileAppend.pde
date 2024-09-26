@@ -1,12 +1,17 @@
 /// @file 
 /// @brief Tools for CSV files ("uFileAppend.pde")
-/// @date 2024.03.21 (Last modification)
+/// @date 2024-09-26 (Last modification)
 //*//////////////////////////////////////////////////////////////////////////////
 /// @details
 ///   C++ translation is disabled because this is almost pure JAVA.
 ///   The exported function: `void appendTextToFile(String filename, String text)`
 ///   must have specialised, efficient C++ version. 
-///
+//*//////////////////////////////////////////////////////////////////////////////
+
+/// @defgroup StreamUtils Functions & classes for streams & files
+/// @{                                                         
+//*//////////////////////////////////////////////////////////////
+
 /*_OnlyProcessingBlockBegin*/
 import java.io.BufferedWriter; // Here we import the necessary library component.
 import java.io.FileWriter;     // Here we import the necessary library component.
@@ -54,4 +59,5 @@ void appendTextToFile(String filename, String text) ///< GLOBAL
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////

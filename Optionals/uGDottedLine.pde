@@ -1,7 +1,11 @@
 /// @file 
 /// @brief Functions for drawing dotted lines. ("uGDottedLine.pde")
-/// @date 2023.03.12 (Last modification)
+/// @date 2024-09-26 (Last modification)
 //*////////////////////////////////////////////////////////////////////////////////////
+
+/// @defgroup Generally usable graphix
+/// @{
+//*///////////////////////////////////
 
 /// If you use a lot of dotted lines maybe something like this is usefull for you... 
 /// just call dottedLine() like you would call line()
@@ -35,4 +39,5 @@ void dottedLine2(int x1, int y1, int x2, int y2, int dens)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////

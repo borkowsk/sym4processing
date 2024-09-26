@@ -1,11 +1,14 @@
 /** @file 
  *  @brief .... ("uCharts.pde")
- *  @defgroup ChartUtils Functions & classes for chart making 
- *  @date 2024-09-09 (last modification)                        @author borkowsk
+ *  @note This modules could be typically just linked from "Optionals/"
+ *  @date 2024-09-26 (last modification)                     @author borkowsk
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
- *  @{
- */ ////////////////////////////////////////////////////////////////////////////
+ */
+ 
+/// @defgroup Statistic tools and functions
+/// @{
+//*////////////////////////////////////////
 
 // Masks for Sample options:
 //*/////////////////////////
@@ -486,9 +489,9 @@ void viewAsTiles2D(i2DDataSample data,float startX,float startY,int width,int he
     }
 }
 
-//******************************************************************************
+//*/////////////////////////////////////////////////////////////////////////////
 /// See: "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI"
 /// See: "https://github.com/borkowsk/sym4processing"
 //* USEFUL COMMON CODES - HANDY FUNCTIONS & CLASSES
 /// @}
-//******************************************************************************        
+//*/////////////////////////////////////////////////////////////////////////////

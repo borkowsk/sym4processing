@@ -1,7 +1,11 @@
 /// @file
 /// @brief Functions that improve the use of pseudo-random numbers ("uRandoms.pde")
-/// @date 2023.03.12 (Last modification)
+/// @date 2024-09-26 (Last modification)
 ///*////////////////////////////////////////////////////////////////////////////////
+
+/// @defgroup More simulation resources
+/// @{
+//*////////////////////////////////////
 
 /// Function generates pseudo random number with non-flat distribution.
 /// When @p Dist is negative, it is Pareto-like, 
@@ -73,4 +77,5 @@ double RandomPareto()
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////

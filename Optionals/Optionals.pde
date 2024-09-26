@@ -1,27 +1,34 @@
 /// @file
 /// @brief This file forcing all "optionales" to be loaded from this folder ( "Optionals.pde" )
-/// @date 2024-08-27 (Last modification)
+/// @details It could be threated as EXAMPLE for using some of this optional features.
+/// @date 2024-09-26 (Last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////////////
 
-/// mandatory globals
-int          RANDSEED=0;          ///< For initialisation of pseudo-random 
+
+// Mandatory globals required for some of the optionals modules:
+//*/////////////////////////////////////////////////////////////
+
+int          RANDSEED=0;          ///< For initialisation of pseudo-random.
                                   ///< numbers generator.
                                   
-int          FRAMEFREQ=10;        ///< application speed
-int          VISFREQ=1;           ///< how often full visualisation is performed
+int          FRAMEFREQ=10;        ///< application speed.
+int          VISFREQ=1;           ///< how often full visualisation is performed.
+
 int          DEBUG_LEVEL=0;       ///< or DEBUG or DEBUG_LEVEL ???
 
-final int    LINK_INTENSITY=2;    ///< For network visualisation
-final float  MAX_LINK_WEIGHT=1.0; ///< Also for network visualisation
-final int    MASKBITS=0xffffffff; ///< Redefine, when smaller width is required
+final int    LINK_INTENSITY=2;    ///< For network visualisation.
+final float  MAX_LINK_WEIGHT=1.0; ///< Also for network visualisation.
+final int    MASKBITS=0xffffffff; ///< Redefine, when smaller width is required.
 
 final boolean WINDOW_INVISIBLE=false; ///< used in template draw for swith on 
                                       ///< window invisibility.
 
-/// Dummy class of Agent neded for makeHistogramOfA()
+/// Dummy class of Agent needed atleast for `makeHistogramOfA()`
 class Agent { float A; }
 
-class ValuesInRanges implements iFloatRangesWithValueContainer,iRangesDataSample {
+/// Demonstration class for ranges data.
+class ValuesInRanges implements iFloatRangesWithValueContainer,iRangesDataSample 
+{
   ArrayList<ValueInRange> ranges=new ArrayList<ValueInRange>();
   ValuesInRanges() {}
   ValuesInRanges add(ValueInRange next) { ranges.add(ranges.size(),next);return this; }
@@ -36,10 +43,11 @@ class ValuesInRanges implements iFloatRangesWithValueContainer,iRangesDataSample
   iFloatRangeWithValue            get(int index) { return (iFloatRangeWithValue)(ranges.get(index));}
   int                        whereMin() { return 0; }  // NOT IMPORTANT IN THIS EXAMPLE
   int                        whereMax() { return  ranges.size()-1; } // ------||-------
-}
+} //_EndOfClass
 
 ValuesInRanges rdata=new ValuesInRanges();
 
+/// Demostration class implementing user incarnation of `iColorMapper`.
 class DiscreteMapper implements iColorMapper
 {
   int intensity=128;
@@ -60,11 +68,11 @@ class DiscreteMapper implements iColorMapper
                else  return color(255,intensity);  
   }}
   
-}
+} //_EndOfClass
  
 DiscreteMapper mapper=new DiscreteMapper();
 
-/// Dummy setup - some gr. primitives are tested here.
+/// Dummy setup - Usage of some modules are demonstrated here.
 void setup()
 {
   size(500,500);
@@ -81,7 +89,7 @@ void setup()
   dottedLine(0.0,0.0,300.0,200.0,55);
   
   viewAsRanges(rdata,-3,+3,
-               0.0,height/2,width,height/2,false,mapper); ///< @NOTE GLOBAL. For C++ translation MUST be in one line!
+               0.0,height/2,width,height/2,false,mapper); ///< @NOTE GLOBAL.
 
 }
 

@@ -1,13 +1,18 @@
 /// @file
-/// @brief A template of making a histogram from an example agent with "A" field ("uStatOfAgents.pde")
+/// @brief A template of making a histogram from an example agent with `.A` field ("uStatOfAgents.pde")
 /// @details It would be difficult to generalize to any field.
 ///          Easier you can just rename the field as needed.
-/// @date 2023.03.12 (Last modification)
+/// @date 2024-09-26 (Last modification)
+/// @note This file shoud be COPIED into the project directory and modified when needed.
 ///*//////////////////////////////////////////////////////////////////////////////////////////////////
-//* PL: Szablon wykonania histogramu z przykładowego pola .A agenta 
+//* PL: Szablon wykonania histogramu z przykładowego pola `.A` agenta 
 //* PL: Trudno by to było uogólnić na dowolne pola. 
 //* PL: Łatwiej po prostu zmieniać nazwę pola w razie potrzeby.
-//*//////////////////////////////////////////////////////////////////////////////
+//*///////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// @defgroup Statistic tools and functions
+/// @{
+//*////////////////////////////////////////
 
 /// @brief Version for a two-dimensional array of agents.
 /// @param Ags - Two-dimensional "world" of agents - a two-dimensional array.
@@ -17,15 +22,7 @@
 /// @param Counter - [out] How many values counted in this statistic.
 /// @param CMin    - [out] MIN calculated - for reference.
 /// @param CMax    - [out] MAX calculated - for reference.
-///
-int[] makeHistogramOfA(Agent[][] Ags,  
-                       int N,
-                       double Min,
-                       double Max,
-                       DummyInt Counter,
-                       DummyDouble CMin,
-                       DummyDouble CMax
-                       )
+int[] makeHistogramOfA(Agent[][] Ags,int N,double Min,double Max,DummyInt Counter,DummyDouble CMin,DummyDouble CMax) ///< GLOBAL
 {
   CMin.val=FLOAT_MAX;
   CMax.val=-FLOAT_MAX;
@@ -74,15 +71,13 @@ int[] makeHistogramOfA(Agent[][] Ags,
 
 /// @brief Version for a two-dimensional array of agents.
 /// @param Ags - One-dimensional "world" of agents - a simple array.
-int[] makeHistogramOfA(Agent[] Ags,   
-                       int N,
-                       double Min,
-                       double Max,
-                       DummyInt Counter,
-                       DummyDouble CMin,
-                       DummyDouble CMax
-                       )
-
+/// @param N   - Number of buckets in the histogram.
+/// @param Min - Possibility to give the minimum known from other calculations.
+/// @param Max - Possibility to give the maximum known from other calculations.
+/// @param Counter - [out] How many values counted in this statistic.
+/// @param CMin    - [out] MIN calculated - for reference.
+/// @param CMax    - [out] MAX calculated - for reference.
+int[] makeHistogramOfA(Agent[] Ags,int N,double Min,double Max,DummyInt Counter,DummyDouble CMin,DummyDouble CMax)  ///< GLOBAL
 {
   CMin.val=FLOAT_MAX;
   CMax.val=-FLOAT_MAX;
@@ -131,4 +126,5 @@ int[] makeHistogramOfA(Agent[] Ags,
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////

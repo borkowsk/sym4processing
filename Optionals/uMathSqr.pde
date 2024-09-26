@@ -1,7 +1,11 @@
 /// @file
 /// @brief Functions for easy and READABLE in squaring expressions ("uMathSqr.pde")
-/// @date 2023.03.12 (Last modification)
+/// @date 2024-09-26 (Last modification)
 //*////////////////////////////////////////////////////////////////////////////////
+
+/// @defgroup General math tools and functions
+/// @{
+//*///////////////////////////////////////////
 
 /// A square of an int number.
 int sqra(int a)  ///< @note GLOBAL
@@ -25,4 +29,5 @@ double sqra(double a)  ///< @note GLOBAL
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////

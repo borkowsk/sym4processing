@@ -1,8 +1,15 @@
+/// @file
+/// @brief Class for discovering clustering and calculating its statistical parameters.
+/// @date 2024-09-26 (last modification)
+
+/// @defgroup Statistic tools and functions
+/// @{
+//*////////////////////////////////////////
+
 /// @brief Klasa służąca do odnajdywania klasteringu i obliczania jego parametrów statystycznych.
-/// @date 2024-08-06 (last modification)
 class Clustering
 {
-  /*EXTERN*/ float S=10; //Side of the cell
+  /*_extern*/ float CellSide=10; //!< Side of the cell
   
   // Parametry sterujące wizualizacją badań klastrów:
   //*////////////////////////////////////////////////
@@ -95,7 +102,7 @@ class Clustering
   /// Constructing a cluster observation tool.
   Clustering(Agent[][] arrayOfAgents)
   {
-    Bak=arrayOfAgents;               // Zapamiętaj gdzie jest tablica źródłowa agentów. //<>//
+    Bak=arrayOfAgents;               // Zapamiętaj gdzie jest tablica źródłowa agentów. //<>// //<>//
     N=arrayOfAgents.length;
     M=arrayOfAgents[0].length;
     
@@ -107,16 +114,18 @@ class Clustering
     println("Clustering calculator for "+N+"x"+M+" is ready.");
   }
 
+  /// It simply cleans cell registry. 
   void ResetRegistry()
   {
     LastClusterSize=0;
     LastClBorderReg=0;
   }
        
+  /// Registry particular cell into a cluster.     
   void RegistryCell(int x, int y,int col,boolean eight)
   {      
     boolean border=false;
-    LastClusterSize++;
+    LastClusterSize++; //TODO HERE???
     
     if(Allien((x-1+N)%N,   y ,col)
     || Allien( x  ,(y-1+M)%M ,col)
@@ -183,7 +192,7 @@ class Clustering
     //println(LastClBorderReg);
     for(int i=0;i<LastClBorderReg;i++)
     {
-      rect(RegX[i]*S,RegY[i]*S,S,S);
+      rect(RegX[i]*CellSide,RegY[i]*CellSide,CellSide,CellSide);
     }
     stroke(0,255);
   }
@@ -242,8 +251,8 @@ class Clustering
       else
        { stroke(0,0,0); fill(0,0,0);}
       //println("D:"+max+" X:"+X+" Y:"+Y+" T:"+ThrTorus);
-      line(RegX[imax]*S+S/2,RegY[imax]*S+S/2,RegX[jmax]*S+S/2,RegY[jmax]*S+S/2);
-      text("d="+max,int(RegX[imax]*S+RegX[jmax]*S)/2,int(RegY[imax]*S+RegY[jmax]*S)/2);
+      line(RegX[imax]*CellSide+CellSide/2,RegY[imax]*CellSide+CellSide/2,RegX[jmax]*CellSide+CellSide/2,RegY[jmax]*CellSide+CellSide/2);
+      text("d="+max,int(RegX[imax]*CellSide+RegX[jmax]*CellSide)/2,int(RegY[imax]*CellSide+RegY[jmax]*CellSide)/2);
     }
     
     fill(0,0,0); 
@@ -327,11 +336,12 @@ class Clustering
       {
          int pom=-K[i][j];
          fill(pom & 0x000000FF, (pom & 0x0000FF00)>>8, (pom & 0x00FF0000)>>16,128);
-         rect(i*S,j*S,S,S);
+         rect(i*CellSide,j*CellSide,CellSide,CellSide);
       }
   }
 }
 
-//********************************************************************************
-// 2013,2017,2022 (c) Wojciech Tomasz Borkowski  http://borkowski.iss.uw.edu.pl
-//********************************************************************************
+//*////////////////////////////////////////////////////////////////////////////////
+//* 2013,2017,2022 (c) Wojciech Tomasz Borkowski  http://borkowski.iss.uw.edu.pl
+/// @}
+//*////////////////////////////////////////////////////////////////////////////////

@@ -2,7 +2,7 @@
 /// @brief Classes for making an object from a simple types as 
 ///       `int`, `boolean`, `float` & `double`. ("aDummyTypes.pde")
 /// @note They are useful, when you need a REFERENCE to a value of such types.
-/// @date 2023-04-28 (Last modification)
+/// @date 2024-09-26 (Last modification)
 //*/////////////////////////////////////////////////////////////////////////////
 /// @details
 /// In Processing as hell :-) I can't find how to pass something other than an 
@@ -11,6 +11,10 @@
 /// They will behave like constants!!!
 /// And sometimes such an opportunity for REFERENCE parameter is needed!
 //*/////////////////////////////////////////////////////////////////////////////
+
+/// @defgroup Generally usable classes & functions
+/// @{
+//*///////////////////////////////////////////////
 
 /// A class for taking an object from a simple logic variable (true-false). 
 /// Needed for common configuration values or to pass to functions by reference.
@@ -36,4 +40,5 @@ class DummyDouble
 //*  -> "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" 
 //*   - OPTIONAL TOOLS: FUNCTIONS & CLASSES
 //*  -> "https://github.com/borkowsk/sym4processing"
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////

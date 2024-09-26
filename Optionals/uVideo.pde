@@ -1,7 +1,13 @@
 /// @file
-/// @date Tool for made video from simulation ( "rtmVideo.pde" )
-/// @date 2023.03.12 (Last modification)
+/// @brief Tool for made video from simulation ( "rtmVideo.pde" )
+/// @note This optional source file could be copied or linked from OPTIONALS directory.
+/// @date 2024-09-26 (Last modification)
 //*////////////////////////////////////////////////////////////////////////////////////
+
+/// @defgroup Generally usable functions
+/// @{
+//*/////////////////////////////////////
+
 //* PL: Narzędzie do tworzenia wideo z symulacji
 //*////////////////////////////////////////////////////////////////////////////////////
 /// See: http://funprogramming.org/VideoExport-for-Processing/examples/basic/basic.pde
@@ -109,4 +115,5 @@ void CloseVideo()
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////

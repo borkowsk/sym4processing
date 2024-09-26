@@ -1,11 +1,15 @@
 /// @file
 /// @brief "Active rectangles" - proprietary application interface module in Processing ( "uGRectAreas.pde" )
-/// @date 2024-08-06 (Last modification)
+/// @date 2024-09-26 (Last modification)
 /// @author Wojciech Borkowski
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
 // if you need translate the code into C++ (--> Processing2C )
+
+/// @defgroup Generally usable graphix
+/// @{
+//*///////////////////////////////////
 
 ArrayList<RectArea>   allAreas = new ArrayList<RectArea>();     ///< Global list of areas to be displayed.
 ArrayList<TextButton> allButtons = new ArrayList<TextButton>(); ///< Global button list.
@@ -372,4 +376,5 @@ class WrUniqTextButton extends UniqTextButton
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////

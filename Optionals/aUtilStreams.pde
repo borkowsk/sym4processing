@@ -1,9 +1,10 @@
 /** @file  
  *  @brief ..... ("aUtilStreams.pde" )
- *  @defgroup StreamUtils Functions & classes for checking streams
- *  @date 2024.03.12 (Last modification)                        @author borkowsk
- *  @{                                             
- */ ////////////////////////////////////////////////////////////////////////////
+ *  @date 2024-09-26 (Last modification)                        @author borkowsk
+ */
+/// @defgroup StreamUtils Functions & classes for streams & files
+/// @{                                                         
+//*//////////////////////////////////////////////////////////////
 
 /*_OnlyProcessingBlockBegin*/
 import java.io.InputStreamReader;
@@ -87,8 +88,8 @@ int system(String cmd)				                                  ///< GLOBAL!
 }
 /*_OnlyProcessingBlockEnd*/
 
-//******************************************************************************
+//*/////////////////////////////////////////////////////////////////////////////
 /// See: "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" 
 //* USEFUL COMMON CODES - HANDY FUNCTIONS & CLASSES
 /// @}
-//******************************************************************************        
+//*/////////////////////////////////////////////////////////////////////////////        

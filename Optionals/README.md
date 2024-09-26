@@ -1,13 +1,14 @@
 Additional functionalities for simulation application templates
 ================================================================
+### @date 2024-09-26 (last modification)
+
+   *   _Optionals.pde_  :  File forcing all "optionales" to be loaded from this folder 
 
    *   _aDummyTypes.pde_  :  Classes for making an object from a simple types as `int`, `boolean`, `float` & `double`.
 
    *   _aInterfaces.pde_  :  Common INTERFACES like `iNamed`, `iDescribable`, `iColorable`, `iPositioned` & `Function2D`
 
    *   _aPair.pde_  :  `Pair` is one of the very COMMONLY used and usable TEMPLATE.
-
-   *   _Optionals.pde_  :  File forcing all "optionales" to be loaded from this folder 
 
    *   _rtmCmdLine.pde_  :  Example of function handling of program call parameters, if available.
 
@@ -20,8 +21,6 @@ Additional functionalities for simulation application templates
    *   _rtmMenu.pde_  :  Example of the function that allows to construct the window menu in the setup. 
 
    *   _rtmMouse.pde_  :  Examples for handling mouse events
-
-   *   _rtmVideo.pde_  :  Tool for made video from simulation 
 
    *   _uCharts.pde_  :  Functions & classes useable for making charts.
 
@@ -57,5 +56,11 @@ Additional functionalities for simulation application templates
 
    *   _uStatOfAgents.pde_  :  A template of making a histogram from an example agent with "A" field
    
+   *   _uVideo.pde_  :  Tool for made video from simulation 
+   
+   
+   ![](./more_docs/*.PNG)
+
+
    
 

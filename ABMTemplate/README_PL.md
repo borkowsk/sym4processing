@@ -1,4 +1,5 @@
 # Szablon aplikacji symulacyjnej typu ABM (Agent Base Model)
+### @date 2024-09-26 (last modification)
 
 Do użycia przy geometri dyskretnej 1 lub 2 wymiarowej kwadratowej.
 * Alokuje agentów

@@ -1,12 +1,20 @@
 /// @file 
 /// @brief `draw()` example with possibility of non-visible window. ("rtmDraw.pde")
-/// @date 2023.03.04 (Last modification)
-//*////////////////////////////////////////////////////////////////////////////////////
+/// @date 2024-09-26 (Last modification)
+/// @note This file shoud be COPIED into the project directory and modified when needed.
+//*/////////////////////////////////////////////////////////////////////////////////////
+
+/// @defgroup Generally usable classes & functions
+/// @{
+//*///////////////////////////////////////////////
+
+/// @brief Dummy mandatory `draw()` with possibility of non-visible window.
 /// @details 
 /// Console only apps. is possible when draw() function set window visibility to false, 
 /// then can do anything but drawing :-D
 /// Need extern definition of:
 ///  final boolean WINDOW_INVISIBLE=true; ///< ... is used in template draw() for swith on window invisibility.
+
 void draw() 
 {
   if(WINDOW_INVISIBLE && frameCount==1)
@@ -21,4 +29,5 @@ void draw()
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////

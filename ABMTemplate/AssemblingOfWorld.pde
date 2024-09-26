@@ -1,7 +1,7 @@
 /// @file 
 /// @brief World is a one of two central class of each ABM model.
 //*        ABM: WORLD OF AGENTS FOR FILL UP
-/// @date 2024-03-12
+/// @date 2024-09-26 (last modification)
 //*/////////////////////////////////////////////////////////////
 
 int StepCounter=0; ///< Counter of real simulation steps.
@@ -23,8 +23,9 @@ class World
   }
 } //ENDofCLASS
 
+/// @note
 /// More alaborated functionalities are defined as stand-alone functions,
-/// not as methods because of not enought flexible syntax of Processing
+/// not as methods because of not enought flexible syntax of Processing.
 //*/////////////////////////////////////////////////////////////////////////
 
 /// Initialisation of simulated world.

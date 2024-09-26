@@ -1,15 +1,19 @@
 /** @file 
  *  @brief .... ("aUtilCData.pde")
- *  @date 2024-09-09 (last modification)                       @author borkowsk
+ *  @date 2024-09-26 (last modification)                       @author borkowsk
+ *  @note This modules could be typically just linked from "Optionals/"
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
- *  @defgroup Data collection classes for statistics & chart making 
- *  @{
- */ ////////////////////////////////////////////////////////////////////////////
+ */
+ 
+/// @defgroup Statistic tools and functions
+/// @{
+//*////////////////////////////////////////
  
 // @brief "NO DATA" marker. Needed somewhere else.
 float INF_NOT_EXIST=Float.MAX_VALUE;                                            ///< @note Global!
 int   INVALID_INDEX=-1;                                                         ///< @note Global!
+int   debug_utils=0;                                                            ///< Debug level for UtilCData & UtilCharts etc.
 
 /// Logarithm on base2 needed f.e. to Shannon's entropy calculation from floats
 float log2(float v) ///< GLOBAL
@@ -805,7 +809,7 @@ class Frequencies extends NamedData implements iFlag,iDataSample,iColor
         
         inside++;
     } else {
-      outsideHig++; println("Frequencies:",index,"is out of bound, for value=",value);
+      outsideHig++; if(debug_utils>0) println("class `Frequencies`:",index,"is out of bound, for value=",value);
     }
 
   }
@@ -845,9 +849,9 @@ class Frequencies extends NamedData implements iFlag,iDataSample,iColor
 
 } //_endOfClass Frequencies
 
-//******************************************************************************
+//*/////////////////////////////////////////////////////////////////////////////
 /// See: "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI"
 /// See: "https://github.com/borkowsk/sym4processing"
 //* USEFUL COMMON CODES - HANDY FUNCTIONS & CLASSES
 /// @}
-//******************************************************************************        
+//*/////////////////////////////////////////////////////////////////////////////        

@@ -1,7 +1,12 @@
 /// @file 
 /// @brief Example of function handling of program call parameters, if available. ("rtmCmdLine.pde")
-/// @date 2023.03.12 (last modification)
+/// @date 2024-09-26 (last modification)
+/// @note This file shoud be COPIED into the project directory and modified when needed.
 //*//////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// @defgroup Generally usable classes & functions
+/// @{
+//*///////////////////////////////////////////////
 
 /// Parsing command line, if available.
 void checkCommandLine()   ///< @note GLOBAL!
@@ -58,9 +63,9 @@ void checkCommandLine()   ///< @note GLOBAL!
       else
       /* if(list[0].equals("PARAMETER"))
       {
-        //*_extern* int           parameter;//=20;/// Side of area
-        //*_extern* int           fromParam1;//=40; /// Min & max...
-        //*_extern* int           fromParam2;//=40; /// random number
+        //*_extern* int           parameter;  //=20; /// Side of area
+        //*_extern* int           fromParam1; //=40; /// Min & max...
+        //*_extern* int           fromParam2; //=40; /// random number
         parameter=int(list[1]);
         fromParam1=parameter*-2;
         fromParam2=parameter*2;
@@ -79,4 +84,5 @@ void checkCommandLine()   ///< @note GLOBAL!
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////

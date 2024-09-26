@@ -1,11 +1,15 @@
 /// @file 
 /// @brief Different ways to calculate Euclid distances in 2D ("uMDistances.pde", flat and torus).
-/// @date 2024-09-09 (Last modification)                        @author borkowsk 
+/// @date 2024-09-26 (Last modification)                        @author borkowsk 
 /// @details ...
 //*////////////////////////////////////////////////////////////////////////////////////////////////
 
-final float fNaN = 2.1f % 0.0f;  ///< `float` not a number !
-final double NaN = 2.1 % 0.0;    ///< `double` not a number !
+/// @defgroup General math tools and functions
+/// @{
+//*///////////////////////////////////////////
+
+final float fNaN = 2.1f / 0.0f;  ///< `float` not a number ! (in C++ `%` for `float` is forbiden!)
+final double NaN = 2.1 / 0.0;    ///< `double` not a number ! (in C++ `%` for `double` is forbiden!)
 
 /// @brief Shortcuts for square value.
 /// @note Comment they out, if defined elsewhere.
@@ -139,4 +143,5 @@ double distance(double X1,double X2,double Y1,double Y2)
 //*  -> "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" 
 //*   - OPTIONAL TOOLS: FUNCTIONS & CLASSES
 //*  -> "https://github.com/borkowsk/sym4processing"
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////

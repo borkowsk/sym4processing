@@ -1,7 +1,7 @@
 /// @file 
 /// @brief Supports agent search on a mouse click, and possible inspection.
 //*        ABM: MOUSE EVENTS TEMPLATE
-/// @date 2024-03-12
+/// @date 2024-09-26 (last modification)
 //*////////////////////////////////////////////////////////////////////////
 
 // Last read mouse data

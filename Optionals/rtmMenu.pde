@@ -1,8 +1,13 @@
 /// @file
 /// @brief Example of the function that allows to construct the window menu in the setup. ( "rtmMenu.pde" )
 /// @note Unfortunately, this breaks the calculation of the built-in variable height in Processing!
-/// @date 2023.03.04 (Last modification)
+/// @date 2024-09-26 (Last modification)
+/// @note This file shoud be COPIED into the project directory and modified when needed.
 //*/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// @defgroup Generally usable classes & functions
+/// @{
+//*///////////////////////////////////////////////
 
 import java.awt.MenuBar;
 import java.awt.Menu;
@@ -25,7 +30,7 @@ void setupMenu() ///< Configure menu
   MenuItem closeItem=new MenuItem("Close");
   closeItem.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent ev) {
-                exit();//Local exit function
+                exit(); //Local exit function
             }
           } 
         );
@@ -40,6 +45,7 @@ void setupMenu() ///< Configure menu
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////
 
  

@@ -1,7 +1,11 @@
 /// @file
 /// @brief Handy logarithms and around ("uMathLog.pde")
-/// @date 2024-08-27 (last modification)
+/// @date 2024-09-26 (last modification)
 //*////////////////////////////////////////////////////
+
+/// @defgroup General math tools and functions
+/// @{
+//*///////////////////////////////////////////
 
 // /// Calculates the base-10 logarithm of a number.
 // float log10 (float x)  ///< @note GLOBAL
@@ -31,4 +35,5 @@ double log10 (double x)   ///< @note GLOBAL
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////

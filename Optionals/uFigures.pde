@@ -1,8 +1,12 @@
 /// @file 
 /// @brief Various shapes drawing procedures ("uFigures.pde")
-/// @date 2024-09-03 (last modification)                        @author borkowsk
+/// @date 2024-09-26 (last modification)                        @author borkowsk
 /// @details ...
 //*/////////////////////////////////////////////////////////////////////////////
+
+/// @defgroup Generally usable graphix
+/// @{
+//*///////////////////////////////////
 
 //color BALDHEAD_NOSE_COLOR=0xff000011;
 float BALDHEAD_MUN_ANGLE=PI/10;   ///< ...
@@ -241,4 +245,5 @@ void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)          ///< @
 //*  -> "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" 
 //*   - OPTIONAL TOOLS: FUNCTIONS & CLASSES
 //*  -> "https://github.com/borkowsk/sym4processing"
+/// @}
 //*////////////////////////////////////////////////////////////////////////////

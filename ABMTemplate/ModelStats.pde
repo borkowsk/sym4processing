@@ -1,12 +1,12 @@
 /// @file 
 /// @brief Simulation have to collect and write down statistics from every step.
-//* ABM: STATISTICS LOG TEMPLATE
-/// @date 2024-03-12
+//*        ABM: STATISTICS LOG TEMPLATE
+/// @date 2024-09-26 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////
 
 PrintWriter outstat;         ///< Handle to the text file with the record of model statistics
 
-/// @brief Initilise statistic log file. @details
+/// @brief Initialise statistic log file. @details
 /// It prepares a unique statistics file name, opens the file 
 /// and writes the header line.
 void initializeStats()      ///< GLOBAL!
@@ -18,13 +18,13 @@ void initializeStats()      ///< GLOBAL!
   outstat.println("$STEP\tAlive\t....."); //<-- complete the header fields!
 }
 
-float meanDummy=0;         ///< average value for the dummy field
-int   liveCount=0;         ///< number of living agents
+float meanDummy=0;         ///< average value for the dummy field.
+int   liveCount=0;         ///< number of living agents.
 
 /// @brief Every step statistics. @details
 /// The function calculates all world statistics after the simulation step.
-/// NOTE: For the sake of performance, it may be called not every step 
-/// but every ten 10 steps or even less often. 
+/// @note For the sake of performance, it may be called not every step 
+///       but every ten 10 steps or even less often. 
 void doStatistics(World world) ///< GLOBAL!
 {
   doStatisticsOnAgents(world.agents);

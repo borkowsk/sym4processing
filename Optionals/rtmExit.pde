@@ -1,7 +1,12 @@
 /// @file
 /// @brief Example of a handling of exit from aplication  - mainly closing open files! ("rtmExit.pde") 
-/// @date 2023.03.04 (last modification)
+/// @date 2024-09-26 (last modification)
+/// @note This file shoud be COPIED into the project directory and modified when needed.
 //*///////////////////////////////////////////////////////////////////////////////////////////////////
+
+/// @defgroup Generally usable classes & functions
+/// @{
+//*///////////////////////////////////////////////
 
 /// It is called whenever a window is closed. 
 void exit()          
@@ -24,4 +29,5 @@ void exit()
 //*/////////////////////////////////////////////////////////////////////////////////////
 //*  https://github.com/borkowsk/sym4processing
 //*  See: "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" - EXIT from TEMPLATE
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////////////

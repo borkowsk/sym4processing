@@ -1,11 +1,15 @@
 /// @file
 /// @brief Various simple statistics for one-dimensional arrays ("uStatistics.pde")
-/// @date 2024-08-09 (Last modification)
+/// @date 2024-09-26 (Last modification)
 ///
 //*  PL: Różne proste statystyki dla tablic jednowymiarowych
 //*/////////////////////////////////////////////////////////////////////////////////
 
-/// Arithmetic mean of the float data.
+/// @defgroup Statistic tools and functions
+/// @{
+//*////////////////////////////////////////
+
+/// Arithmetic mean of the `float` data.
 //* PL: Średnia arytmetyczna z danych typu float
 /// See: https://en.wikipedia.org/wiki/Arithmetic_mean
 float meanArithmetic(float data[],int offset,int limit)    ///< @note GLOBAL
@@ -154,4 +158,5 @@ double entropyFromHist(int[] histogram)      ///< @note GLOBAL
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////

@@ -1,10 +1,14 @@
 /// @file 
 /// @brief `Pair` is one of the very COMMONLY used and usable TEMPLATE. ("aPair.pde")
-/// @date 2023.03.12 (last modification)
+/// @date 2024-09-26 (last modification)
 //*///////////////////////////////////////////////////////////////////////////////////
 
 // USE /*_interfunc*/ &  /*_forcebody*/ for interchangeable function 
 // if you need translate the code into C++ (--> Processing2C )
+
+/// @defgroup Generally usable classes & functions
+/// @{
+//*///////////////////////////////////////////////
 
 /// Simple version of Pair template useable for returning a pair of values.
 
@@ -47,4 +51,5 @@ class Pair<A,B> {
 //*  -> "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" 
 //*   - OPTIONAL TOOLS: FUNCTIONS & CLASSES
 //*  -> "https://github.com/borkowsk/sym4processing"
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////

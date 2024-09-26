@@ -1,7 +1,12 @@
 /// @file 
 /// @brief Examples for handling mouse events ("rtmMouse.pde")
-/// @date 2023.03.12 (Last modification)
+/// @date 2024-09-26 (Last modification)
+/// @note This file shoud be COPIED into the project directory and modified when needed.
 //*/////////////////////////////////////////////////////////////////////////
+
+/// @defgroup Generally usable classes & functions
+/// @{
+//*///////////////////////////////////////////////
 
 /// Mouse movement support. It shouldn't be too time consuming.
 /// see: //https://processing.org/reference/mouseMoved_.html
@@ -28,4 +33,5 @@ void mouseReleased()
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////

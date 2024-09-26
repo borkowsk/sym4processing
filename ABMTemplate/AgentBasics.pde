@@ -1,8 +1,7 @@
 /// @file 
-/// @brief Agent is a one of two central class of each ABM model
+/// @brief Agents need to be initialised & they need logic of change. 
 //*        ABM: BASIC INITIALISATION & EVERY STEP CHANGE
-/// @date 2024-03-12 @details
-/// Agents need to be initialised & they need logic of change. 
+/// @date 2024-09-26 (last modification)
 //*//////////////////////////////////////////////////////////////
 
 /// Initialization of agents (2D version).

@@ -1,11 +1,14 @@
 /// @file
 /// @brief Various helpful drawing procedures, like crosses, polygons & bar3D ("uGraphix.pde")
-/// @date 2024-03-12 (last modification)
+/// @date 2024-09-26 (last modification)
 //*///////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief A class to represent two-dimensional points.
- */
+/// @defgroup Generally usable graphix
+/// @{
+//*///////////////////////////////////
+
+
+/// @brief A class to represent two-dimensional points.
 class pointxy 
 {
   float x,y;
@@ -45,9 +48,8 @@ void cross(int x,int y,int cross_width)                        ///< @note Global
   line(x,y-cross_width,x,y+cross_width);
 }
 
-//*
-/// POLYGONS:
-//*//////////
+// POLYGONS:
+//*/////////
 
 /// @brief A regular polygon with a given radius and number of vertices.
 void regularpoly(float x, float y, float radius, int npoints)  ///< @note Global namespace!
@@ -89,9 +91,9 @@ void polygon(pointxy[] lst/*+1*/,int N)                        ///< @note Global
   endShape(CLOSE);
 }
 
-//*
-//* Visualisation of BAR3D:
-//*////////////////////////
+
+// Visualisation of BAR3D:
+//*///////////////////////
 
 /// @brief Configuration set of BAR3D visualisation.
 class settings_bar3d
@@ -155,4 +157,5 @@ void bar3dRGB(float x,float y,float h,int R,int G,int B,int Shad)    ///< @note 
 //*  -> "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" 
 //*   - OPTIONAL TOOLS: FUNCTIONS & CLASSES
 //*  -> "https://github.com/borkowsk/sym4processing"
+/// @}
 //*////////////////////////////////////////////////////////////////////////////

@@ -1,10 +1,14 @@
 /// @file 
 /// @brief Some math basics: sign, upToTresh(-hold) & whichIsMax ("uMathBasic.pde")
-/// @date 2023.03.04 (Last modification)
+/// @date 2024-09-26 (Last modification)
 //*/////////////////////////////////////////////////////////////////////////////////
 
-/// Some of my older programs show the constant FLOAT_MAX.
-/// while MAX_FLOAT is currently available.
+/// @defgroup General math tools and functions
+/// @{
+//*///////////////////////////////////////////
+
+/// Some of my older programs use the constant FLOAT_MAX,
+/// while MAX_FLOAT is currently available in Processing.
 final float FLOAT_MAX=MAX_FLOAT; ///< 3.40282347E+38;
 
 /// Function for determining the sign of a integer number.
@@ -31,14 +35,14 @@ int sign(double val)  ///< @note GLOBAL
   else return -1;
 }
 
-/// Function for increasing no more than up to a certain threshold value
+/// Function for increasing a value no more than up to a certain threshold.
 float upToTresh(float val,float incr,float tresh)  ///< @note GLOBAL
 {
     val+=incr;
     return val<tresh?val:tresh;
 }
 
-/// Function to find which of the three values is the largest?
+/// Function to find which of the three values is the largest.
 int whichIsMax(float v0,float v1,float v2)  ///< @note GLOBAL
 {
   if(v0 > v1 && v0 > v2) return 0;
@@ -51,4 +55,5 @@ int whichIsMax(float v0,float v1,float v2)  ///< @note GLOBAL
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////

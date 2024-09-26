@@ -1,7 +1,11 @@
 /// @file
 /// @brief Function for drawing dashed lines. ( "uGDashedLine.pde" )
-/// @date 2023.03.12 (Last modification)
+/// @date 2024-09-26 (Last modification)
 //*//////////////////////////////////////////////////////////////////
+
+/// @defgroup Generally usable graphix
+/// @{
+//*///////////////////////////////////
 
 ///  Draw a dashed line with given set of dashes and gap lengths. 
 ///  @param x0 starting x-coordinate of line. 
@@ -109,6 +113,7 @@ void dashedline(float x0, float y0, float x1, float y1, float[ ] spacing)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*/////////////////////////////////////////////////////////////////////////////
 
 

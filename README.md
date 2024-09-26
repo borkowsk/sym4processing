@@ -1,13 +1,17 @@
 # sym4processing - various simulation resources in processing
+## @date 2024-09-26 (last modification)
 
 Processing files supporting various simulation applications and giving them 
 selected possibilities and properties:
 
-* __Cellular Automata__ application design template
-* Design template for an __ABM__ simulation application with the possibility of 
-  expanding with a network structure, suitable for many purposes
-* IP-network game template for **one server - many clients** games
-* Additional optional tool codes for working with application templates 
+* A design template for __CA__ ( __Cellular Automata__ ) applications.
+* A design template for __ABM__( __Agent Base Modeling)  simulations with the 
+  possibility of expanding with a network structure, suitable for many purposes.
+* IP-network game template for **one server - many clients** simulational games.
+* Additional optional source code modules for working with application 
+  templates. This set includes tools for generating artificial complex networks 
+  (not necessarily neural), collecting simulation data, calculating their 
+  statistics and visualizing them during the simulation.
 * Sample simulations written using these templates
 * As a submodule, it imports a repository with materials for the course 
   "Processing in education and simulation" (**bookProcessingPL**)

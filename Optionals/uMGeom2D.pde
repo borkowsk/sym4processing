@@ -1,17 +1,20 @@
 /// @file
 /// @brief Some 2D Geometry calculations: nearestPoints and so on ( "uMGeom2D.pde" )
-/// @date 2023.03.12 (Last modification)
+/// @date 2024-09-26 (Last modification)
 //*/////////////////////////////////////////////////////////////////////////////////
-
 /// @note Required uPair &
 ///       Required pointxy from uGraphix.
 
+/// @defgroup General math tools and functions
+/// @{
+//*///////////////////////////////////////////
+
+/*_OnlyProcessingBlockBegin*/
 /// Nearest points of two polygons.
 /// @param listA - first polygon as a list of points
 /// @param listB - second polygon as a list of points
 /// @note Templates are currently not supported in Processing2C++ !
-/*_OnlyProcessingBlockBegin*/
-Pair<pointxy,pointxy> nearestPoints(final pointxy[] listA,final pointxy[] listB )  ///< @note global?
+Pair<pointxy,pointxy> nearestPoints(final pointxy[] listA,final pointxy[] listB )  ///< @note GLOBAL
 {                                                         
                                     assert(listA.length>0);
                                     assert(listB.length>0);
@@ -39,4 +42,5 @@ Pair<pointxy,pointxy> nearestPoints(final pointxy[] listA,final pointxy[] listB 
 //*  -> "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" 
 //*   - OPTIONAL TOOLS: FUNCTIONS & CLASSES
 //*  -> "https://github.com/borkowsk/sym4processing"
+/// @}
 //*////////////////////////////////////////////////////////////////////////////

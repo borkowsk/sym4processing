@@ -1,10 +1,13 @@
 ///   @file 
 ///   @brief AGENT BASE MODEL template. It utilizes 1D or 2D discrete geometry. 
+///          ABM: MAIN FILE.
 ///   Designed by:
-///   @author  Wojciech Borkowski @date 2024-03-12
+///   @author  Wojciech Borkowski 
+///   @date 2024-09-26 (last modification)
 //*///////////////////////////////////////////////////////////////////////////////////////
 
-// Model parameters
+// Model parameters:
+//*/////////////////
 String modelName="ABMTemplate"; ///< Name of the model is used for log files.
 int side=75;                    ///< side of "world" main table.
 float density=0.75;             ///< initial density of agents.
@@ -12,6 +15,7 @@ float density=0.75;             ///< initial density of agents.
 World TheWorld=new World(side); ///< Main "chessboard". It will be initialised inside 'setup()'
 
 // Parameters of visualisation etc...
+//*//////////////////////////////////
 int EMPTYGRAY=128;  ///< Shade of gray for background of "chessboard".
 int cwidth=15;      ///< requested size of cells.
 int cstroke=1;      ///< border of cells.
@@ -21,7 +25,7 @@ int FRAMEFREQ=10;   ///< how many model steps per second.
 
 boolean WITH_VIDEO=false;   ///< Make a movie?
 
-boolean simulationRun=true; ///< Start/stop flag
+boolean simulationRun=true; ///< Start/stop flag.
 
 /// @brief Main function called only once. @details
 /// This function encloses things, that should be done at the beginning of run.

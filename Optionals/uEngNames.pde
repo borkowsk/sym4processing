@@ -1,8 +1,12 @@
 /// @file
 /// @brief Tables of English names popular in 1880 ( "uEngNames.pde" )
 /// @details "https://www.ssa.gov/oact/babynames/decades/names1880s.html"
-/// @date 2024-09-03 (Last modification)
+/// @date 2024-09-26 (Last modification)
 //*//////////////////////////////////////////////////////////////////////
+
+/// @defgroup More simulation resources
+/// @{
+//*////////////////////////////////////
 
 /// @brief Few popular, Male & Female fifty-fifty, alphabetic names.
 final String[] EnglishNamesShort =   ///< @note Global namespace!
@@ -708,4 +712,5 @@ final String[] EnglishInsults = ///< @note Global namespace!
 //*  ->"https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" 
 //*   - OPTIONAL TOOLS: DATA
 //*  ->"https://github.com/borkowsk/sym4processing"
+/// @}
 //*/////////////////////////////////////////////////////////////////////
