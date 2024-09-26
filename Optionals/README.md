@@ -58,8 +58,8 @@ Additional functionalities for simulation application templates
    
    *   _uVideo.pde_  :  Tool for made video from simulation 
    
+   ![image](more_docs/screen000987,00000.PNG)
    
-   ![](./more_docs/*.PNG)
 
 
    
