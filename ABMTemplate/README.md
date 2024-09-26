@@ -15,9 +15,9 @@ and modify the agent display routines.
 
 See illustrations and movies below:
 
-![](./more_doc/ABMTemplate_2024-09-26.png)
+![image](./more_doc/ABMTemplate_2024-09-26.png)
 
-![](./more_doc/ABMTemplate_2024.09.26.12.54.26.87.mp4)
+![video](./more_doc/ABMTemplate_2024.09.26.12.54.26.87.mp4)
 
 Press play to see the video.
 
