@@ -70,6 +70,7 @@ and EU grants: __HumanAI__ & __GuestXR__
 * https://www.humane-ai.eu/
 * https://guestxr.eu/
 
+![image](CATemplate/more_docs/CATemplate.000094,00000.PNG)
 
 
 
