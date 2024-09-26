@@ -1,0 +1,78 @@
+//  @date 2024-09-26 (release) 
+{
+    "@context": "https://w3id.org/codemeta/3.0",
+    "type":  "SoftwareSourceCode",
+    "applicationCategory": "simulations",
+    "author": [
+        {
+            "id": "https://orcid.org/0000-0002-5793-688",
+            "type": "Person",
+            "affiliation": {
+                "type": "Organization",
+                "name": "ISS UW, CSRA UW"
+            },
+            "email": "wborkowsk@gmail.com",
+            "familyName": "Borkowski",
+            "givenName": "Wojciech"
+        },
+        {
+            "type": "Role",
+            "schema:author": "https://orcid.org/0000-0002-5793-688",
+            "roleName": "Developer"
+        }
+    ],
+    "codeRepository": "https://github.com/borkowsk/sym4processing",
+    "contributor": [
+        {
+            "id": "_:contributor_1",
+            "type": "Person",
+            "affiliation": {
+                "type": "Organization",
+                "name": "ISS UW"
+            },
+            "familyName": "Nowak",
+            "givenName": "Andrzej"
+        },
+        {
+            "type": "Role",
+            "contributor": "_:contributor_1",
+            "roleName": "Supervisor",
+            "startDate": "2020-01-10"
+        }
+    ],
+    "dateCreated": "2021-03-18",
+    "dateModified": "2024-09-26",
+    "datePublished": "2023-02-19",
+    "description": "Simulation 4 Processing - various simulation resources in processing",
+    "downloadUrl": "https://github.com/borkowsk/sym4processing/tags",
+    "funder": {
+        "type": "Organization",
+        "name": "UE, University of Warsaw"
+    },
+    "keywords": [
+        "ABM",
+        "CA",
+        "Complex Networks",
+        "Intranet Games"
+    ],
+    "license": "https://spdx.org/licenses/AFL-3.0",
+    "name": "sym4processing",
+    "operatingSystem": [
+        "Linux",
+        "Windows",
+        "MacOS"
+    ],
+    "programmingLanguage": "Processing",
+    "runtimePlatform": [
+        "Processing",
+        "JAVA"
+    ],
+    "softwareRequirements": [
+        "hamoid video library,",
+        "ffmpeg"
+    ],
+    "version": "1.1.0",
+    "developmentStatus": "active",
+    "funding": "HumanAI, GuestXR, Centre For Systemic Risk Analysis",
+    "isSourceCodeOf": "Template applications and source code optional modules"
+}
