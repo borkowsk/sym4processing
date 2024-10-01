@@ -1,6 +1,5 @@
-![image](more_docs/CSRA.PNG.png)
 # sym4processing - various simulation resources in processing
-## @date 2024-09-26 (last modification)
+## @date 2024-10-01 (last modification)
 
 Processing files supporting various simulation applications and giving them 
 selected possibilities and properties:
@@ -19,6 +18,8 @@ selected possibilities and properties:
 
 More documentation is in the source files, prepared to generate documentation 
 in the Doxygen format. Just use *docs/_make_docs.sh* and then see *doxDocs/* .
+
+![image](CATemplate/more_docs/CATemplate.000094,00000.PNG)
 
 ## REPOSITORY CLONING
 
@@ -71,7 +72,7 @@ and EU grants: __HumanAI__ & __GuestXR__
 * https://www.humane-ai.eu/
 * https://guestxr.eu/
 
-![image](CATemplate/more_docs/CATemplate.000094,00000.PNG)
+![image](more_docs/Logo-ISS-CBRS-UW.png)
 
 
 
