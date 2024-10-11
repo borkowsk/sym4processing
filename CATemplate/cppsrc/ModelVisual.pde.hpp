@@ -5,10 +5,10 @@
 //*//////////////////////////////////////////////////////////////////////////
 
 /// Visualization of cells (Two-dimensional version). NOTE: Not efficient for cwidth==1 !
-void visualizeCells(int[][] cells)  ///< GLOBAL!
+void visualizeCells(smatrix<int> cells)  ///< GLOBAL!
 {
-  for(int a=0;a<cells.length;a++)
-   for(int b=0;b<cells[a].length;b++)
+  for(int a=0;a<cells->length;a++)
+   for(int b=0;b<cells[a]->length;b++)
    {
     //Colorisation
     switch(cells[a][b]){
@@ -30,9 +30,9 @@ void visualizeCells(int[][] cells)  ///< GLOBAL!
 //OR
 
 /// Visualization of cells (One-dimensional version). @note Not efficient for cwidth==1 !
-void visualizeCells(int[] cells)  ///< GLOBAL!
+void visualizeCells(sarray<int> cells)  ///< GLOBAL!
 {
-   for(int a=0;a<cells.length;a++)
+   for(int a=0;a<cells->length;a++)
    {
     //Colorisation
     switch(cells[a]){
@@ -53,6 +53,8 @@ void visualizeCells(int[] cells)  ///< GLOBAL!
 }
 
 //*//////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - CA (Cellular Automaton) TEMPLATE
-//*  https://github.com/borkowsk/sym4processing
+//*  https://www->researchgate->net/profile/WOJCIECH_BORKOWSKI - CA (Cellular Automaton) TEMPLATE
+//*  https://github->com/borkowsk/sym4processing
 //*//////////////////////////////////////////////////////////////////////////////////////////////
+//NOTE! /data/wb/SCC/public/Processing2C/scripts did it 2024-10-11 17:07:02
+

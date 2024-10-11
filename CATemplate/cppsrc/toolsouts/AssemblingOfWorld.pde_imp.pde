@@ -9,8 +9,7 @@ int StepCounter=0; ///< Global variable for caunting real simulation steps.
 
 
 /// The main class of simulation. World is a central class any simulation model.
-class World
-{
+class World {
   //int[] cells;    //> One dimensional array of cells
   //int[] newcells; //> Secondary array for synchronic mode
   //OR

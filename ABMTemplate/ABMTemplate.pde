@@ -1,9 +1,9 @@
-///   @file 
-///   @brief AGENT BASE MODEL template. It utilizes 1D or 2D discrete geometry. 
+/// @file 
+/// @brief AGENT BASE MODEL template. It utilizes 1D or 2D discrete geometry. 
 ///          ABM: MAIN FILE.
-///   Designed by:
-///   @author  Wojciech Borkowski 
-///   @date 2024-10-11 (last modification)
+/// Designed by:
+/// @author  Wojciech Borkowski 
+/// @date 2024-10-11 (last modification)
 //*///////////////////////////////////////////////////////////////////////////////////////
 
 // Model parameters:

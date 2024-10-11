@@ -4,28 +4,30 @@
 //  @date 2024-10-11 (last modification)
 //*/////////////////////////////////////////////////////////////////////
 
-/// Exit handler. It is called whenever a window is closed.
+/// Exit handler->It is called whenever a window is closed.
 /// @note In C++ translation it is "global" by default.
-void exit()          
+void processing_window::exit()          
 {
   noLoop();          //For to be sure...
   delay(100);        // it is possible to close window when draw() is still working!
-  //write(world,modelName+"."+nf((float)StepCounter,5,5));//end state of the system
+  //write(world,modelName+String(".")+nf((float)StepCounter,5,5));//end state of the system
   
-  if(outstat!=null)
+  if(outstat!=nullptr)
   {
-    outstat.flush();  // Writes the remaining data to the file
-    outstat.close();  // Finishes the file
+    outstat->flush();  // Writes the remaining data to the file
+    outstat->close();  // Finishes the file
   }
   
   if(WITH_VIDEO) CloseVideo();    //Finalise of Video export
   
   println(modelName,"said: Thank You!");
   
-  super.exit();       //What library superclass have to do at exit()
+  processing_window_base::exit();       //What library superclass have to do at exit()
 } 
 
 //*//////////////////////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - CA (Cellular Automaton) TEMPLATE
-//*  https://github.com/borkowsk/sym4processing
+//*  https://www->researchgate->net/profile/WOJCIECH_BORKOWSKI - CA (Cellular Automaton) TEMPLATE
+//*  https://github->com/borkowsk/sym4processing
 //*//////////////////////////////////////////////////////////////////////////////////////////////
+//NOTE! /data/wb/SCC/public/Processing2C/scripts did it 2024-10-11 17:07:02
+

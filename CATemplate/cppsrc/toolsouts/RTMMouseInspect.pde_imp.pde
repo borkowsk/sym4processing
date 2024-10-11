@@ -14,8 +14,7 @@ int selectedX=-1; ///< Converted into "world" indices, the agent's horizontal co
 int selectedY=-1; ///< Converted into "world" indices, the agent's vertical coordinate.
 
 /// Pair of integers. Simple version of Pair containing a pair of integers.
-class PairOfInt
-{
+class PairOfInt {
     int a;
     int b;
 
