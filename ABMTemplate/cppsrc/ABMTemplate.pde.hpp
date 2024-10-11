@@ -1,5 +1,5 @@
 ///   @file 
-///   @brief AGENT BASE MODEL template. It utilizes 1D or 2D discrete geometry. 
+///   @brief AGENT BASE MODEL template->It utilizes 1D or 2D discrete geometry. 
 ///          ABM: MAIN FILE.
 ///   Designed by:
 ///   @author  Wojciech Borkowski 
@@ -12,7 +12,7 @@ String modelName="ABMTemplate"; ///< Name of the model is used for log files.
 int side=75;                    ///< side of "world" main table.
 float density=0.75;             ///< initial density of agents.
 
-World TheWorld=new World(side); ///< Main "chessboard". It will be initialised inside 'setup()'
+pWorld TheWorld=new World(side); ///< Main "chessboard". It will be initialised inside 'setup()'
 
 // Parameters of visualisation etc...
 //*//////////////////////////////////
@@ -23,19 +23,19 @@ int STATUSHEIGH=40; ///< height of status bar.
 int STEPSperVIS=1;  ///< how many model steps beetwen visualisations. 
 int FRAMEFREQ=10;   ///< how many model steps per second.
 
-boolean WITH_VIDEO=false;   ///< Make a movie?
+bool    WITH_VIDEO=false;   ///< Make a movie?
 
-boolean simulationRun=true; ///< Start/stop flag.
+bool    simulationRun=true; ///< Start/stop flag.
 
 /// @brief Main function called only once. @details
 /// This function encloses things, that should be done at the beginning of run.
 /// At least setup() or draw() must be present in animation program
 /// @note In C++ translation it is "global" by default.
-void setup()
+void processing_window::setup()
 {
   //Graphics
   size(750,790);
-  frameRate(FRAMEFREQ);
+  setFrameRate(FRAMEFREQ);
   background(255,255,200);
   
   if(cstroke>0)
@@ -49,7 +49,7 @@ void setup()
   doStatistics(TheWorld);
   
   //Window 
-  println("REQUIRED SIZE OF PAINTING AREA IS "+(cwidth*side)+"x"+(cwidth*side+STATUSHEIGH));
+  println(String("REQUIRED SIZE OF PAINTING AREA IS ")+(cwidth*side)+String("x")+(cwidth*side+STATUSHEIGH));
   cwidth=(height-STATUSHEIGH) / side;
     
   //Optionals:
@@ -57,12 +57,12 @@ void setup()
   //...
   if(WITH_VIDEO) 
   {
-    initVideoExport(this,modelName+".mp4",FRAMEFREQ);
+    initVideoExport(SAFE_THIS,modelName+ String(".mp4"),FRAMEFREQ);
     FirstVideoFrame();
   }
   
   //Finishing setup stage
-  println("CURRENT SIZE OF PAINTING AREA IS "+width+"x"+height); //-myMenu.bounds.height???
+  println(String("CURRENT SIZE OF PAINTING AREA IS ")+width+String("x")+height); //-myMenu->bounds->height???
   visualizeModel(TheWorld); //First time visualisation
   if(!simulationRun)
     println("PRESS 'r' or 'ESC' to start simulation");
@@ -72,10 +72,10 @@ void setup()
 }
 
 /// @brief Main function called in loop. @details 
-/// It means, in will be called many times, to the end of app. run or 'noLoop()' call.
+/// It means, in will be called many times, to the end of app->run or 'noLoop()' call.
 /// At least setup() or draw() must be present in animation program.
 /// @note In C++ translation it is "global" by default.
-void draw()
+void processing_window::draw()
 {
   // Back to default settings, if needed:
   //if(cstroke>0) strokeWeight(cstroke); else noStroke(); //<>//
@@ -96,7 +96,7 @@ void draw()
   }
 }
 
-/// Make all content of status bar. Function designed to fill the status 
+/// Make all content of status bar->Function designed to fill the status 
 /// line/lines, typically with simulation statistics.
 void writeStatusLine() ///< Must be predeclared!
 {
@@ -105,13 +105,15 @@ void writeStatusLine() ///< Must be predeclared!
   rect(0,side*cwidth,width,STATUSHEIGH);
   fill(0);
   textAlign(LEFT, TOP);
-  text(meanDummy+"  "+liveCount,0,side*cwidth);
+  text(meanDummy+String("  ")+liveCount,0,side*cwidth);
   textAlign(LEFT, BOTTOM);
-  text(StepCounter+")  Fps:"+ frameRate,0,side*cwidth+STATUSHEIGH-2);
+  text(StepCounter+String(")  Fps:")+ frameRate,0,side*cwidth+STATUSHEIGH-2);
 }
 
 //*////////////////////////////////////////////////////////////////////////////////////////////
-//*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE
-//*  https://github.com/borkowsk/sym4processing
+//*  Partly sponsored by the EU project "GuestXR" (https://guestxr->eu/)
+//*  https://www->researchgate->net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE
+//*  https://github->com/borkowsk/sym4processing
 //*////////////////////////////////////////////////////////////////////////////////////////////
+//NOTE! /data/wb/SCC/public/Processing2C/scripts did it 2024-10-11 16:48:39
+

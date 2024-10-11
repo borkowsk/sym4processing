@@ -15,8 +15,7 @@ int selectedY=-1;      ///< Converted into "world" indices, the agent's vertical
 Agent selected=null;   ///< Most recently selected agent.
 
 /// Pair of integers. Simple version of Pair containing a pair of integers.
-class PairOfInt
-{
+class PairOfInt {
     int a; //!< The first component.
     int b; //!< The second component.
 

@@ -1,7 +1,7 @@
 /// @file
 /// @brief Tool for made video from simulation ( "rtmVideo.pde" )
 /// @note This optional source file could be copied or linked from OPTIONALS directory.
-/// @date 2024-09-26 (Last modification)
+/// @date 2024-10-11 (Last modification)
 //*////////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Generally usable functions
@@ -14,8 +14,10 @@
 //*
 /// USAGE: Apart from the "hamoid" library, you also need to install 
 /// the ffmpeg program to make it work !!! 
-///
-import com.hamoid.*;//!< Here we import the necessary library containing the VideoExport class
+
+/*_onlyProcessingBlockBegin*/
+import com.hamoid.*; //!< Here we import the necessary library containing the `VideoExport` class
+/*_onlyProcessingBlockEnd*/
 
 /// USAGE
 //* UŻYCIE:
@@ -44,30 +46,36 @@ import com.hamoid.*;//!< Here we import the necessary library containing the Vid
 //*                // Najlepiej w exit()
 ///
 
-VideoExport        videoExport;              ///< Obiekt KLASY z dodatkowej biblioteki - trzeba zainstalować
+/*_OnlyProcessingBlockBegin*/
+VideoExport        videoExport;              //* Obiekt KLASY z dodatkowej biblioteki - trzeba zainstalować (NIE MA GO W C++)
+/*_onlyProcessingBlockEnd*/
                                              //*  CLASS object from additional library - must be installed
 static int         videoFramesFreq=0;        ///< How many frames per second for the movie. It doesn't have to be the same as in frameRate!
                                              //*  Ile klatek w sekundzie filmu. Nie musi być to samo co w frameRate!   
 static boolean     videoExportEnabled=false; ///< Has film making been initiated?
                                              //*   Czy tworzenie filmu zostało zainicjowane?
 String copyrightNote="(c) W.Borkowski @ ISS University of Warsaw"; ///< Change it to your copyright. Best in setup().
+                                       
                                                                    //*  To zmień na swój copyright. Najlepiej w setup().  
+
 /// The beginning of the movie file
 //*  Początek pliku filmowego
-void initVideoExport(processing.core.PApplet parent, String Name,int Frames)
-{
+void initVideoExport(processing.core.PApplet parent, String Name,int Frames) {   ///< @note GLOBAL dummy in C++
+  /*_OnlyProcessingBlockBegin*/
   videoFramesFreq=Frames;
   videoExport = new VideoExport(parent,Name); //Klasa VideoExport musi mieć dostep do obiektu aplikacji Processingu
   videoExport.setFrameRate(Frames); //Nie za szybko
   videoExport.startMovie();
   fill(0,128,255);text(Name,1,20);
   videoExportEnabled=true;
+  /*_onlyProcessingBlockEnd*/
 }
+
                 
 /// Initial second sequence for title and copyright
 //* Początkowa sekundowa sekwencja na tytuł i copyright
-void FirstVideoFrame()
-{
+void FirstVideoFrame()                                                          ///< @note GLOBAL dummy in C++
+{ /*_OnlyProcessingBlockBegin*/
   if(videoExportEnabled)
   {  
      fill(0,128,255);text(copyrightNote,1,height); 
@@ -76,14 +84,16 @@ void FirstVideoFrame()
      for(int i=0;i<videoFramesFreq;i++) //Musi trwać sekundę czy coś...
        videoExport.saveFrame(); //Video frame
   }
+  /*_onlyProcessingBlockEnd*/
 }
 
 /// Each subsequent frame of the movie
 //* Każda kolejna klatka filmu
-void NextVideoFrame()
-{  
+void NextVideoFrame()                                                           ///< @note GLOBAL dummy in C++
+{  /*_OnlyProcessingBlockBegin*/
    if(videoExportEnabled)
-     videoExport.saveFrame();//Video frame
+     videoExport.saveFrame(); //Video frame
+   /*_onlyProcessingBlockEnd*/  
 }
                      
 /// This is what we call when we want to close the movie file.
@@ -96,8 +106,8 @@ void NextVideoFrame()
 //* UWAGA: powinno być jakieś "force screen update", ale nie znalazłem
 //* Jeśli kliknięcie x okna nastąpi w trakcie rysowania to ostatnia klatka
 //* będzie prawdopodobnie niekompletna.
-void CloseVideo() 
-{
+void CloseVideo()                                                               ///< @note GLOBAL dummy in C++
+{ /*_OnlyProcessingBlockBegin*/
   if(videoExport!=null)
   { 
    fill(0);
@@ -109,6 +119,7 @@ void CloseVideo()
    videoExport.saveFrame(); //Video frame - LAST
    videoExport.endMovie();  //Koniec filma
   }
+  /*_onlyProcessingBlockEnd*/
 }
 
 //*/////////////////////////////////////////////////////////////////////////////

@@ -8,8 +8,7 @@ int StepCounter=0; ///< Counter of real simulation steps.
                    ///< Value may differ from frameCount.
 
 /// The main class of simulation. World is a one of two central class of each ABM model.
-class World
-{
+class World {
   //Agent[] agents; //!< One dimensional array of agents
   //OR
   Agent[][] agents; //!< Two dimensional array of agents
