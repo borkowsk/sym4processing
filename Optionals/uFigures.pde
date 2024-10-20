@@ -1,7 +1,5 @@
-/// @file 
-/// @brief Various shapes drawing procedures ("uFigures.pde")
-/// @date 2024-09-26 (last modification)                        @author borkowsk
-/// @details ...
+/// Various shapes drawing procedures. ("uFigures.pde")
+/// @date 2024-10-20 (last modification)                        @author borkowsk
 //*/////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Generally usable graphix
@@ -9,16 +7,16 @@
 //*///////////////////////////////////
 
 //color BALDHEAD_NOSE_COLOR=0xff000011;
-float BALDHEAD_MUN_ANGLE=PI/10;   ///< ...
-float BALDHEAD_NOSE_DIVIDER=5;    ///< ...
-float BALDHEAD_NOSE_RADIUS=1;     ///< as ratio of maximal R
-float BALDHEAD_EARS_DIVIDER=4;    ///< ...
+float BALDHEAD_MUN_ANGLE=PI/10;   ///< Baldhead draving GLOBAL parameter.
+float BALDHEAD_NOSE_DIVIDER=5;    ///< Baldhead draving GLOBAL parameter.
+float BALDHEAD_NOSE_RADIUS=1;     ///< Baldhead nose-lenght as ratio of maximal R
+float BALDHEAD_EARS_DIVIDER=4;    ///< Baldhead draving GLOBAL parameter.
 
-float BALDHEAD_EYES_RADIUS=0.75;  ///< as ratio of maximal R
-float BALDHEAD_PUPIL_RADIUS=0.83; ///< as ratio of maximal R
-color BALDHEAD_EYES_COLOR=color(0,100,150);    ///< ...
-float BALDHEAD_PUPIL_DIV=14;      ///< ...
-int   BALDHEAD_HAIRS_DENS=10;     ///< How many hairs
+float BALDHEAD_EYES_RADIUS=0.75;  ///< Baldhead eyes size as ratio of maximal R
+float BALDHEAD_PUPIL_RADIUS=0.83; ///< Baldhead pupil size as ratio of maximal R
+color BALDHEAD_EYES_COLOR=color(0,100,150);    ///< Baldhead draving GLOBAL parameter.
+float BALDHEAD_PUPIL_DIV=14;      ///< Baldhead draving GLOBAL parameter.
+int   BALDHEAD_HAIRS_DENS=10;     ///< Baldhead - How many hairs
 float BALDHEAD_HAIRS_START=0.2;   ///< Range 0..0.5
 float BALDHEAD_HAIRS_END=0.8;     ///< Range BALDHEAD_HAIRS_START..0.99
 color BALDHEAD_HAIRS_COLOR=color(111,50,50); ///< As you wish. It is used in `stroke()` function.

@@ -1,7 +1,7 @@
 /// @file 
 /// @brief Simulation have to collect and write down statistics from every step.
 //*        ABM: STATISTICS LOG TEMPLATE
-/// @date 2024-10-11 (last modification)
+/// @date 2024-10-20 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////
 
 PrintWriter outstat;         ///< Handle to the text file with the record of model statistics
@@ -90,5 +90,5 @@ void doStatisticsOnAgents(smatrix<pAgent> agents) ///< GLOBAL!
 //*  https://www->researchgate->net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE
 //*  https://github->com/borkowsk/sym4processing
 //*////////////////////////////////////////////////////////////////////////////////////////////
-//NOTE! /data/wb/SCC/public/Processing2C/scripts did it 2024-10-11 16:48:39
+//MADE NOTE: /data/wb/SCC/public/Processing2C/scripts did it 2024-10-20 19:45:02 !
 

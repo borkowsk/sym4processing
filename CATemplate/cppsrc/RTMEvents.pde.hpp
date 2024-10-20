@@ -2,7 +2,7 @@
 /// @brief Model-specific event handler. 
 ///        Of course, the creator of a specific application has to match actions.
 //*        CA: KEYBOARD EVENTS HANDLING
-//  @date 2024-10-11 (last modification)
+//  @date 2024-10-20 (last modification)
 //*///////////////////////////////////////////////////////////////////////
 
 /// Keyboard click handler->Automatically run by Processing 
@@ -50,5 +50,5 @@ void processing_window::onKeyPressed()
 //*  https://www->researchgate->net/profile/WOJCIECH_BORKOWSKI - CA (Cellular Automaton) TEMPLATE
 //*  https://github->com/borkowsk/sym4processing
 //*//////////////////////////////////////////////////////////////////////////////////////////////
-//NOTE! /data/wb/SCC/public/Processing2C/scripts did it 2024-10-11 17:07:02
+//MADE NOTE: /data/wb/SCC/public/Processing2C/scripts did it 2024-10-20 19:47:09 !
 

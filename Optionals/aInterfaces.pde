@@ -1,6 +1,5 @@
-/// @file
-/// @brief Common INTERFACES like `iNamed`, iDescribable, iColorable, iPositioned ("aInterfaces.pde")
-/// @date 2024-09-26 (last modification)                       @author borkowsk
+/// Common INTERFACES like `iNamed`, iDescribable, iColorable, iPositioned. ("aInterfaces.pde")
+/// @date 2024-10-20 (last modification)                       @author borkowsk
 /// @note General interfaces for "optional" modules could be typically just linked from "Optionals/"
 //*/////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -1,33 +1,31 @@
-/// @file 
-/// @brief Different ways to calculate Euclid distances in 2D ("uMDistances.pde", flat and torus).
-/// @date 2024-09-26 (Last modification)                        @author borkowsk 
-/// @details ...
+/// Different ways to calculate Euclid distances in flat 2D or torus. ("uMDistances.pde")
+/// @date 2024-10-20 (Last modification)                        @author borkowsk 
 //*////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup General math tools and functions
 /// @{
 //*///////////////////////////////////////////
 
-final float fNaN = 2.1f / 0.0f;  ///< `float` not a number ! (in C++ `%` for `float` is forbiden!)
-final double NaN = 2.1 / 0.0;    ///< `double` not a number ! (in C++ `%` for `double` is forbiden!)
 
-/// @brief Shortcuts for square value.
-/// @note Comment they out, if defined elsewhere.
+/// @brief Shortcuts for square value of `int`s.
 int     sqr(int x)       ///< @note GLOBAL!
 { return x*x; }
 
-/// @copybrief 
+/// @brief Shortcuts for square value of `floats`s.
 float   sqr(float x)     ///< @note GLOBAL!  
 { return x*x; }
 
-/// @copybrief 
+/// @brief Shortcuts for square value of `doubles`s.
 double  sqr(double x)    ///< @note GLOBAL! 
 { return x*x; }
+
+final float fNaN = 2.1f / 0.0f;  ///< `float` not a number ! (in C++ operator `%` for `float` is forbiden!)
+final double NaN = 2.1 / 0.0;    ///< `double` not a number ! (in C++ operator `%` for `double` is forbiden!)
 
 /// @brief Default Euclidean distance on float numbers.
 /// @details Often needed in simulation programs.
 ///          Actually similar as `dist()` already shipped in Processing 3.xx. but slower.
-/// @note Parameter order is different than in Processing::dist()!
+/// @note Parameter order is different than in Processing::dist()!!!
 float distance(float X1,float X2,float Y1,float Y2)                             ///< @note Global namespace!  
 {
   float dX=X2-X1;
@@ -44,7 +42,7 @@ float distance(float X1,float X2,float Y1,float Y2)                             
 /// @brief 2D Euclidean distance on float numbers.
 /// @details Often needed in simulation programs.
 ///          Version with `float` parameters.
-/// @note Parameter order is different than in Processing::dist()!
+/// @note Parameter order is different than in Processing::dist()!!!
 float distanceEucl(float X1,float X2,float Y1,float Y2)                         ///< @note Global namespace!  
 {
   float dX=X2-X1;
@@ -58,7 +56,7 @@ float distanceEucl(float X1,float X2,float Y1,float Y2)                         
 /// @brief 2D Euclidean distance on double numbers.
 /// @details Sometimes needed in simulation programs.
 ///          Version with `double` parameters.
-/// @note Parameter order is different than in Processing::dist()!
+/// @note Parameter order is different than in Processing::dist()!!!
 double distanceEucl(double X1,double X2,double Y1,double Y2)                    ///< @note Global namespace!  
 {
   double dX=X2-X1;
@@ -74,7 +72,7 @@ double distanceEucl(double X1,double X2,double Y1,double Y2)                    
 /// @details Sometimes needed in simulation programs.
 ///          Version with `float` parameters.
 /// @param Xdd & @param Ydd are the horizontal and vertical perimeter of the torus
-/// @note Parameter order is different than in Processing::dist()!
+/// @note Parameter order is different than in Processing::dist()!!!
 float distanceTorus(float X1,float X2,float Y1,float Y2,float Xdd,float Ydd)    ///< @note Global namespace!  
 { //println("float torus dist");
   float dX=abs(X2-X1);
@@ -91,7 +89,7 @@ float distanceTorus(float X1,float X2,float Y1,float Y2,float Xdd,float Ydd)    
 /// @details Sometimes needed in simulation programs.
 ///          Version with `double` parameters.
 /// @param Xdd & @param Ydd are the horizontal and vertical perimeter of the torus.
-/// @note Parameter order is different than in Processing::dist()!
+/// @note Parameter order is different than in Processing::dist()!!!
 double distanceTorus(double X1,double X2,double Y1,double Y2,double Xdd,double Ydd) ///< @note Global namespace!  
 { //println("double torus dist");
   double dX=Math.abs(X2-X1);
@@ -108,7 +106,7 @@ double distanceTorus(double X1,double X2,double Y1,double Y2,double Xdd,double Y
 /// @details Sometimes needed in simulation programs.
 ///          Version with `int` parameters.
 /// @param Xdd & @param Ydd are the horizontal and vertical perimeter of the torus.
-/// @note Parameter order is different than in Processing::dist()!
+/// @note Parameter order is different than in Processing::dist()!!!
 double distanceTorusInt(int X1,int X2,int Y1,int Y2,int Xdd,int Ydd)            ///< @note Global namespace!  
 { //println("int torus dist");
   int dX=abs(X2-X1);

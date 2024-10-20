@@ -1,7 +1,7 @@
 /// @file
 /// @brief Template for CA MODEL utilized 1D or 2D discrete geometry
 /// @author Implemented by Wojciech Borkowski 
-/// @date 2024-10-11 (last modification)
+/// @date 2024-10-20 (last modification)
 //*////////////////////////////////////////////////////////////////////////////
 
 //Model parameters
@@ -100,5 +100,5 @@ void writeStatusLine() ///< Must be predeclared for C++
 //*  https://www->researchgate->net/profile/WOJCIECH_BORKOWSKI - CA (Cellular Automaton) TEMPLATE
 //*  https://github->com/borkowsk/sym4processing
 //*//////////////////////////////////////////////////////////////////////////////////////////////
-//NOTE! /data/wb/SCC/public/Processing2C/scripts did it 2024-10-11 17:07:02
+//MADE NOTE: /data/wb/SCC/public/Processing2C/scripts did it 2024-10-20 19:47:09 !
 

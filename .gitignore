@@ -30,6 +30,15 @@
 *.txt
 *.lst
 application.*
+*_svg
+*.sed
+*.tmp
+*.err
+Makefile
+build.ninja
+cmake*
+CMakeFiles
+*_x11
 *.bak
 ._bak/
 doxDocs/

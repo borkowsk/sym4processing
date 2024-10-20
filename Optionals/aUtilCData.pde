@@ -1,6 +1,5 @@
-/** @file 
- *  @brief .... ("aUtilCData.pde")
- *  @date 2024-09-26 (last modification)                       @author borkowsk
+/** Classes for statistics data representations. ("aUtilCData.pde")
+ *  @date 2024-10-20 (last modification)                       @author borkowsk
  *  @note This modules could be typically just linked from "Optionals/"
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"

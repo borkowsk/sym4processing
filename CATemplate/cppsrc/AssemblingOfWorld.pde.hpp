@@ -1,7 +1,7 @@
 /// @file
 /// @brief World is a one of two central class of each CA model
 //*        CA: WORLD OF CELLS FOR FILL UP
-//  @date 2024-10-11 (last modification)
+//  @date 2024-10-20 (last modification)
 //*/////////////////////////////////////////////////////////////
 
 int StepCounter=0; ///< Global variable for caunting real simulation steps.
@@ -110,5 +110,5 @@ void modelStep(pWorld world) ///< GLOBAL!
 //*  https://www->researchgate->net/profile/WOJCIECH_BORKOWSKI - CA (Cellular Automaton) TEMPLATE
 //*  https://github->com/borkowsk/sym4processing
 //*//////////////////////////////////////////////////////////////////////////////////////////////
-//NOTE! /data/wb/SCC/public/Processing2C/scripts did it 2024-10-11 17:07:02
+//MADE NOTE: /data/wb/SCC/public/Processing2C/scripts did it 2024-10-20 19:47:09 !
 

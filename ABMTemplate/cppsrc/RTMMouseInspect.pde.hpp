@@ -1,7 +1,7 @@
 /// @file 
 /// @brief Supports agent search on a mouse click, and possible inspection.
 //*        ABM: MOUSE EVENTS TEMPLATE
-/// @date 2024-10-11 (last modification)
+/// @date 2024-10-20 (last modification)
 //*////////////////////////////////////////////////////////////////////////
 
 // Last read mouse data
@@ -77,5 +77,5 @@ pPairOfInt findCell(smatrix<pAgent> agents)  ///< Must be predeclared!
 //*  https://www->researchgate->net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE
 //*  https://github->com/borkowsk/sym4processing
 //*////////////////////////////////////////////////////////////////////////////////////////////
-//NOTE! /data/wb/SCC/public/Processing2C/scripts did it 2024-10-11 16:48:39
+//MADE NOTE: /data/wb/SCC/public/Processing2C/scripts did it 2024-10-20 19:45:02 !
 

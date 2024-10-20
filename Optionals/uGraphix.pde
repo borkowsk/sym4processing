@@ -1,6 +1,5 @@
-/// @file
-/// @brief Various helpful drawing procedures, like crosses, polygons & bar3D ("uGraphix.pde")
-/// @date 2024-09-26 (last modification)
+/// Various helpful drawing procedures, like crosses, polygons & bar3D. ("uGraphix.pde")
+/// @date 2024-10-20 (last modification)
 //*///////////////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Generally usable graphix

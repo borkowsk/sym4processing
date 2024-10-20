@@ -1,7 +1,7 @@
 /// @file
 /// @brief Everything that needs to be done when the application is terminated.
 //*        CA: EXIT TEMPLATE
-//  @date 2024-10-11 (last modification)
+//  @date 2024-10-20 (last modification)
 //*/////////////////////////////////////////////////////////////////////
 
 /// Exit handler->It is called whenever a window is closed.
@@ -29,5 +29,5 @@ void processing_window::exit()
 //*  https://www->researchgate->net/profile/WOJCIECH_BORKOWSKI - CA (Cellular Automaton) TEMPLATE
 //*  https://github->com/borkowsk/sym4processing
 //*//////////////////////////////////////////////////////////////////////////////////////////////
-//NOTE! /data/wb/SCC/public/Processing2C/scripts did it 2024-10-11 17:07:02
+//MADE NOTE: /data/wb/SCC/public/Processing2C/scripts did it 2024-10-20 19:47:09 !
 

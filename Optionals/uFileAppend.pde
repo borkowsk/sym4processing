@@ -1,11 +1,5 @@
-/// @file 
-/// @brief Tools for CSV files ("uFileAppend.pde")
-/// @date 2024-09-26 (Last modification)
-//*//////////////////////////////////////////////////////////////////////////////
-/// @details
-///   C++ translation is disabled because this is almost pure JAVA.
-///   The exported function: `void appendTextToFile(String filename, String text)`
-///   must have specialised, efficient C++ version. 
+/// Tools for CSV files. ("uFileAppend.pde")
+/// @date 2024-10-20 (Last modification)
 //*//////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup StreamUtils Functions & classes for streams & files
@@ -17,19 +11,10 @@ import java.io.BufferedWriter; // Here we import the necessary library component
 import java.io.FileWriter;     // Here we import the necessary library component.
 /*_OnlyProcessingBlockEnd*/
 
-/*_OnlyProcessingBlockBegin*/
-/// Creates a new file including all subfolders in the path.
-void createFile(File f)
-{
-  File parentDir = f.getParentFile();
-  try{
-    parentDir.mkdirs(); 
-    f.createNewFile();
-  }catch(Exception e){
-    e.printStackTrace();
-  }
-}    
-/*_OnlyProcessingBlockEnd*/
+/// @details
+///   C++ translation is disabled because this is almost pure JAVA.
+///   The exported function: `void appendTextToFile(String filename, String text)`
+///   must have specialised, efficient C++ version. 
 
 /*_OnlyProcessingBlockBegin*/
 /// Appends text to the end of a text file located in the data directory. 
@@ -52,8 +37,18 @@ void appendTextToFile(String filename, String text) ///< GLOBAL
   }
 }
 
+/// Creates a new file including all subfolders in the path.
+void createFile(File f)
+{
+  File parentDir = f.getParentFile();
+  try{
+    parentDir.mkdirs(); 
+    f.createNewFile();
+  }catch(Exception e){
+    e.printStackTrace();
+  }
+}    
 /*_OnlyProcessingBlockEnd*/
-
 
 //*/////////////////////////////////////////////////////////////////////////////
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 

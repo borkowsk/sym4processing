@@ -1,7 +1,7 @@
 /// @file
 /// @brief Tool for made video from simulation ( "rtmVideo.pde" )
 /// @note This optional source file could be copied or linked from OPTIONALS directory.
-/// @date 2024-10-11 (Last modification)
+/// @date 2024-10-20 (Last modification)
 //*////////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Generally usable functions
@@ -128,5 +128,5 @@ void CloseVideo()                                                               
 //*  https://github->com/borkowsk/sym4processing
 /// @}
 //*/////////////////////////////////////////////////////////////////////////////
-//NOTE! /data/wb/SCC/public/Processing2C/scripts did it 2024-10-11 16:48:39
+//MADE NOTE: /data/wb/SCC/public/Processing2C/scripts did it 2024-10-20 19:45:02 !
 

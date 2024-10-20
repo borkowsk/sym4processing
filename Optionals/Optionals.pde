@@ -1,7 +1,7 @@
 /// @file
 /// @brief This file forcing all "optionales" to be loaded from this folder ( "Optionals.pde" )
 /// @details It could be threated as EXAMPLE for using some of this optional features.
-/// @date 2024-09-26 (Last modification)
+/// @date 2024-10-20 (Last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -24,7 +24,31 @@ final boolean WINDOW_INVISIBLE=false; ///< used in template draw for swith on
                                       ///< window invisibility.
 
 /// Dummy class of Agent needed atleast for `makeHistogramOfA()`
-class Agent { float A; }
+class Agent implements iAttributable
+{ 
+  float X,Y;
+  float A;  //!< example value of Agent 
+  
+  Agent(float iX,float iY,float iA) { X=iX;Y=iY;A=iA; }
+  
+  /// It reads a particular attribute. @return attribute value.
+  /*_interfunc*/ double   getAttribute(String name) 
+  {
+      if(name.equals("A")) return A;
+      else return NaN;
+  }
+  
+  /// It sets a particular attribute. @return previous attribute value.
+  /*_interfunc*/ double   setAttribute(String name,double value) 
+  {
+    if(name.equals("A")){
+      double old=A;
+      A=(float)(value);
+      return old;
+    }
+    else return NaN;
+  }
+}
 
 /// Demonstration class for ranges data.
 class ValuesInRanges implements iFloatRangesWithValueContainer,iRangesDataSample 
@@ -71,11 +95,17 @@ class DiscreteMapper implements iColorMapper
 } //_EndOfClass
  
 DiscreteMapper mapper=new DiscreteMapper();
+SimpleAttributeManager objectAttributes=new SimpleAttributeManager();
+
 
 /// Dummy setup - Usage of some modules are demonstrated here.
 void setup()
 {
   size(500,500);
+  
+  objectAttributes.register("agentA",new Agent(10,10,-1));
+  objectAttributes.register("agentB",new Agent(10,10,-1));
+  
   rdata.add( new ValueInRange( -1,-5.0,-1.7) )
        .add( new ValueInRange( 0,-2.0,-1.5) )
        .add( new ValueInRange( 1,-1.0,+1.0) )
@@ -90,7 +120,11 @@ void setup()
   
   viewAsRanges(rdata,-3,+3,
                0.0,height/2,width,height/2,false,mapper); ///< @NOTE GLOBAL.
-
+               
+  objectAttributes.setAttribute("agentA.A", random(-3,3) );         
+  objectAttributes.setAttribute("agentB.A", random(-3,3) );  
+  println("agentA.A=",objectAttributes.getAttribute("agentA.A"));
+  println("agentB.A=",objectAttributes.getAttribute("agentB.A"));
 }
 
 //*/////////////////////////////////////////////////////////////////////////////

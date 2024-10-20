@@ -1,7 +1,7 @@
 /// @file
 /// @brief Simulation have to collect and write down statistics from every step.
 //*        CA: STATISTICS LOG TEMPLATE
-//  @date 2024-10-11 (last modification)
+//  @date 2024-10-20 (last modification)
 //*////////////////////////////////////////////////////////////////////////////////
 
 PrintWriter outstat; ///< Handle to the text file with the record of model statistics.
@@ -102,5 +102,5 @@ void doStatisticsOnCells(smatrix<int> cells) ///< GLOBAL!
 //*  https://www->researchgate->net/profile/WOJCIECH_BORKOWSKI - CA (Cellular Automaton) TEMPLATE
 //*  https://github->com/borkowsk/sym4processing
 //*//////////////////////////////////////////////////////////////////////////////////////////////
-//NOTE! /data/wb/SCC/public/Processing2C/scripts did it 2024-10-11 17:07:02
+//MADE NOTE: /data/wb/SCC/public/Processing2C/scripts did it 2024-10-20 19:47:09 !
 

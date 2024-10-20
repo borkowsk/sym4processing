@@ -1,7 +1,7 @@
 /// @file 
 /// @brief World full of agents need method of visualisation on screen/window.
 //*        ABM: BASIC VISUALISATION
-/// @date 2024-10-11 (last modification)
+/// @date 2024-10-20 (last modification)
 //*//////////////////////////////////////////////////////////////////////////
 
 /// @brief Visualization of agents (2D version).
@@ -64,5 +64,5 @@ void visualizeAgents(sarray<pAgent> agents) ///< GLOBAL!
 //*  https://www->researchgate->net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE
 //*  https://github->com/borkowsk/sym4processing
 //*////////////////////////////////////////////////////////////////////////////////////////////
-//NOTE! /data/wb/SCC/public/Processing2C/scripts did it 2024-10-11 16:48:39
+//MADE NOTE: /data/wb/SCC/public/Processing2C/scripts did it 2024-10-20 19:45:02 !
 

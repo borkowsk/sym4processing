@@ -1,7 +1,6 @@
-/// @file
-/// @brief Tables of English names popular in 1880 ( "uEngNames.pde" )
+/// Tables of English names popular in 1880. ( "uEngNames.pde" )
+/// @date 2024-10-20 (Last modification)
 /// @details "https://www.ssa.gov/oact/babynames/decades/names1880s.html"
-/// @date 2024-09-26 (Last modification)
 //*//////////////////////////////////////////////////////////////////////
 
 /// @defgroup More simulation resources
@@ -11,9 +10,9 @@
 /// @brief Few popular, Male & Female fifty-fifty, alphabetic names.
 final String[] EnglishNamesShort =   ///< @note Global namespace!
 {
-  "Arthur", "Blanche","Charles","Diana" , "Elmer",
-  "Fannie", "George", "Helen",  "Irene" , "John",
-  "Kathie", "Louis",  "Mary",   "Norman", "Olive"
+  "Arthur", "Blanche","Charles","Diana" , "Elmer", "Fannie", 
+  "George", "Helen",  "Irene" , "John", "Kathie", "Louis",  
+  "Mary",   "Norman", "Olive" , "Peter", "Rose", "Samuel"
 };
 
 /// @brief Male & Female english names from USA Census 1880.

@@ -2,7 +2,7 @@
 /// @brief Model-specific event handler. 
 ///        Of course, the creator of a specific application has to match actions.
 //*        ABM: EVENTS TEMPLATE
-/// @date 2024-10-11 (last modification)
+/// @date 2024-10-20 (last modification)
 //*///////////////////////////////////////////////////////////////////////
 
 /// @brief Keyboard click handler. @details 
@@ -52,5 +52,5 @@ void processing_window::onKeyPressed()
 //*  https://www->researchgate->net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE
 //*  https://github->com/borkowsk/sym4processing
 //*////////////////////////////////////////////////////////////////////////////////////////////
-//NOTE! /data/wb/SCC/public/Processing2C/scripts did it 2024-10-11 16:48:39
+//MADE NOTE: /data/wb/SCC/public/Processing2C/scripts did it 2024-10-20 19:45:02 !
 

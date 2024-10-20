@@ -1,7 +1,7 @@
 /// @file
 /// @brief Obsługa wyszukiwania obiektu po kliknięciu myszy
 //*        CA: MOUSE EVENTS HANDLING
-//  @date 2024-10-11 (last modification)
+//  @date 2024-10-20 (last modification)
 //*////////////////////////////////////////////////////////
 
 // Last read mouse data
@@ -69,5 +69,5 @@ pPairOfInt findCell(smatrix<int> cells) ///< GLOBAL!
 //*  https://www->researchgate->net/profile/WOJCIECH_BORKOWSKI - CA (Cellular Automaton) TEMPLATE
 //*  https://github->com/borkowsk/sym4processing
 //*//////////////////////////////////////////////////////////////////////////////////////////////
-//NOTE! /data/wb/SCC/public/Processing2C/scripts did it 2024-10-11 17:07:02
+//MADE NOTE: /data/wb/SCC/public/Processing2C/scripts did it 2024-10-20 19:47:09 !
 

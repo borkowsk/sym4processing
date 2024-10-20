@@ -1,7 +1,7 @@
 /// @file 
 /// @brief World is a one of two central class of each ABM model.
 //*        ABM: WORLD OF AGENTS FOR FILL UP
-/// @date 2024-10-11 (last modification)
+/// @date 2024-10-20 (last modification)
 //*/////////////////////////////////////////////////////////////
 
 int StepCounter=0; ///< Counter of real simulation steps.
@@ -67,5 +67,5 @@ void modelStep(pWorld world) ///< GLOBAL!
 //*  https://www->researchgate->net/profile/WOJCIECH_BORKOWSKI - ABM (Agent Base Model) TEMPLATE
 //*  https://github->com/borkowsk/sym4processing
 //*////////////////////////////////////////////////////////////////////////////////////////////
-//NOTE! /data/wb/SCC/public/Processing2C/scripts did it 2024-10-11 16:48:39
+//MADE NOTE: /data/wb/SCC/public/Processing2C/scripts did it 2024-10-20 19:45:02 !
 
