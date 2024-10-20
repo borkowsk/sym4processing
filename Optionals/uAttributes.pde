@@ -27,7 +27,7 @@ interface iAttributeManager extends iAttributable {
   /// It sets a level separator, if possible.
   /*_interfunc*/ boolean  setAttrSeparator(String newSep) /*_forcebody*/;
   /// The function registers objects that provide attributes.
-  /*_interfunc*/ boolean  register(String name,iAttributable object) /*_forcebody*/;
+  /*_interfunc*/ boolean  registerObject(String name,iAttributable object) /*_forcebody*/;
   /// Provides access to registered attributables.
   /*_interfunc*/ iAttributable get(String name);
 } //_EofCl
@@ -64,7 +64,7 @@ class SimpleAttributeManager implements iAttributeManager
   }
   
   /// The function registers objects that provide attributes.
-  boolean  register(String name,iAttributable object)
+  boolean  registerObject(String name,iAttributable object)
   { // BETTER USE: putIfAbsent(K key, V value) --> If the specified key is not already associated with a value (or is mapped to null) associates it with the given value and returns null, else returns the current value.
     // https://docs.oracle.com/javase/8/docs/api/java/util/HashMap.html
     if(objects.containsKey(name)) return false; // There already is such a name!

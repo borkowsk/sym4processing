@@ -86,6 +86,7 @@ interface iAgent extends iNamed, /*_pvi*/ iDescribable {
   /*_interfunc*/ int        getIntAttribute(String attrName ) /*_forcebody*/;
   /*_interfunc*/ float    getFloatAttribute(String attrName ) /*_forcebody*/;
   /*_interfunc*/ String  getStringAttribute(String attrName ) /*_forcebody*/;
+  /*_interfunc*/ String      printableState() /*_forcebody*/;
 } //_EofCl
 
 /** @brief Model time measuring interface */
