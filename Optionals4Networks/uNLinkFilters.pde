@@ -1,6 +1,5 @@
-/// @file uNLinkFilters.pde
-/// @date 2024.04.08 (last modification)
-/// @brief Different filters of links and other link tools for a (social) network
+/// Different filters of links and other link tools for a (social) network.
+/// @date 2024-10-21 (last modification)
 //*///////////////////////////////////////////////////////////////////////////////
 
 /// @details
@@ -19,19 +18,22 @@ class AllLinks extends LinkFilter
   boolean meetsTheAssumptions(iLink l) { return true;}
 } //EndOfClass
 
-final AllLinks allLinks=new AllLinks();  ///< Such type of filter is used very frequently.
+
+final AllLinks allLinks=new AllLinks();  // Such type of filter is used very frequently, but such kind of definition does not work with Processing2C++
+
+//_extern final AllLinks allLinks; ///< Wymuszenie globalnej deklaracji zapowiadającej w Processing2C++
 
 /**
 * @brief Special type of filter for efficient visualisation.
 */
 class TypeAndAbsHighPassFilter  extends LinkFilter
 {
-  int ltype;
-  float treshold;
-  TypeAndAbsHighPassFilter(){ ltype=-1;treshold=0;}
-  TypeAndAbsHighPassFilter(int t,float tres) { ltype=t;treshold=tres;}
-  TypeAndAbsHighPassFilter reset(int t,float tres) { ltype=t;treshold=tres;return this;}
-  boolean meetsTheAssumptions(iLink l) { return l.getTypeMarker()==ltype && abs(l.getWeight())>treshold;}
+  int   lType;
+  float threshold;
+  TypeAndAbsHighPassFilter(){ lType=-1;threshold=0;}
+  TypeAndAbsHighPassFilter(int t,float tres) { lType=t;threshold=tres;}
+  TypeAndAbsHighPassFilter reset(int t,float tres) { lType=t;threshold=tres;return this;}
+  boolean meetsTheAssumptions(iLink l) { return l.getTypeMarker()==lType && abs(l.getWeight())>threshold;}
 } //EndOfClass
 
 /**
@@ -81,9 +83,9 @@ class TypeFilter extends LinkFilter
 */
 class LowPassFilter extends LinkFilter
 {
-  float treshold;
-  LowPassFilter(float tres) { treshold=tres;}
-  boolean meetsTheAssumptions(Link l) { return l.weight<treshold;}
+  float threshold;
+  LowPassFilter(float tres) { threshold=tres;}
+  boolean meetsTheAssumptions(Link l) { return l.weight<threshold;}
 } //EndOfClass
 
 /**
@@ -92,9 +94,9 @@ class LowPassFilter extends LinkFilter
 */
 class HighPassFilter extends LinkFilter
 {
-  float treshold;
-  HighPassFilter(float tres) { treshold=tres;}
-  boolean meetsTheAssumptions(iLink l) { return l.getWeight()>treshold;}
+  float threshold;
+  HighPassFilter(float tres) { threshold=tres;}
+  boolean meetsTheAssumptions(iLink l) { return l.getWeight()>threshold;}
 } //EndOfClass
 
 /**
@@ -103,9 +105,9 @@ class HighPassFilter extends LinkFilter
 */
 class AbsLowPassFilter extends LinkFilter
 {
-  float treshold;
-  AbsLowPassFilter(float tres) { treshold=abs(tres);}
-  boolean meetsTheAssumptions(iLink l) { return abs(l.getWeight())<treshold;}
+  float threshold;
+  AbsLowPassFilter(float tres) { threshold=abs(tres);}
+  boolean meetsTheAssumptions(iLink l) { return abs(l.getWeight())<threshold;}
 } //EndOfClass
 
 /**
@@ -114,9 +116,9 @@ class AbsLowPassFilter extends LinkFilter
 */
 class AbsHighPassFilter extends LinkFilter
 {
-  float treshold;
-  AbsHighPassFilter(float tres) { treshold=abs(tres);}
-  boolean meetsTheAssumptions(iLink l) { return abs(l.getWeight())>treshold;}
+  float threshold;
+  AbsHighPassFilter(float tres) { threshold=abs(tres);}
+  boolean meetsTheAssumptions(iLink l) { return abs(l.getWeight())>threshold;}
 } //EndOfClass
 
 //*////////////////////////////////////////////////////////////////////////////

@@ -1,7 +1,8 @@
-/// @file 
-/// @brief Generic (social) network classes ("aNetwork.pde")
-/// @date 2024-09-03 (last modification)
+/// Generic (social) network classes. ("aNetwork.pde")
+/// @date 2024-10-21 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////
+
+import java.util.Map;
 
 /// @details
 ///
@@ -39,9 +40,7 @@
 ///   - `void makeImSmWorldNet(Node[] nodes,LinkFactory links,int neighborhood,float probability, boolean reciprocal)`
 ///
 
-import java.util.Map;
-
-/// int NET_DEBUG_LEV=1;  ///< DEBUG level for network. Should be defined autside this file!
+/*_extern*/ int NET_DEBUG_LEV=1;  ///< DEBUG level for network. Should be defined outside this file!
 
 ///  ABSTRACT BASE CLASSES:
 //*////////////////////////
@@ -55,7 +54,7 @@ abstract class LinkFilter implements iLinkFilter {
 } //_EndOfClass LinkFilter
 
 /**
-* @brief Abstraction of link factory class. Forcing `makeLink()` and `makeSalfLink()` methods.
+* @brief Abstraction of link factory class. Forcing `makeLink()` and `makeSelfLink()` methods.
 */
 abstract class LinkFactory implements iLinkFactory {
   /*_interfunc*/ iLink  makeLink(iNode Source,iNode Target)
@@ -74,7 +73,7 @@ abstract class Named implements iNamed {
 /**
 * @brief Abstraction for any colorable object. Only for visualisation.
 */
-abstract class Colorable extends Named implements iColorable {
+abstract class Colorable extends Named implements iColorizer {
   /*_interfunc*/ void   applyFill(float modifier) {assert false : "Pure abstract   `applyFill()` called";}
   /*_interfunc*/ void applyStroke(float modifier) {assert false : "Pure abstract `applyStroke()` called";}
 } //EndOfClass Colorable
@@ -109,7 +108,7 @@ abstract class Node extends Positioned implements iNode {
 * @brief Real link implementation. This class is available for user modifications.
 */
 class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
-  Node  target;  //!< targetet node.
+  Node  target;  //!< targeted node.
   float weight;  //!< importance/trust
   int   ltype;   //!< "color"
   
@@ -118,13 +117,13 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
   /// Constructor.
   Link(Node targ,float we,int ty){ target=targ;weight=we;ltype=ty;}
   
-  /// Text formated data from the object.
+  /// Text formatted data from the object.
   String fullInfo(String fieldSeparator)
   {
     return "W:"+weight+fieldSeparator+"Tp:"+ltype+fieldSeparator+"->"+target;
   }
   
-  /// For sorting. Much weighted link should be at the begining of the array!
+  /// For sorting. Much weighted link should be at the beginning of the array!
   /// Compares this object with the specified object for order.
   int  compareTo(Link o) 
   {
@@ -145,14 +144,14 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
   iNode getTarget() { return target;}
 
   /// Provide target casted on visualisable node.
-  iVisNode  getVisTarget() { return (iVisNode)target;}
+  iVisNode  getVisTarget() { return /*_downcast*/(iVisNode)(target);}
   
-  void  setTarget(iNode tar) { target=(Node)(tar); }
+  void  setTarget(iNode tar) { target=/*_downcast*/(Node)(tar); }
   
-  /// 
+  /// Marker for type of link.
   int   getTypeMarker() { return ltype; }
   
-  /// How object should be collored.
+  /// How object should be colored.
   color     defColor()
   {
      switch ( ltype )
@@ -182,7 +181,7 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
   }
   
   /// @note Use maximal `strokeWidth()` for links. 
-  /// @todo Zerowe znikają w grafice SVG!
+  /// @todo Zerowe znikają w grafice SVG!!! A także X11 !!!
   void applyStroke(float weight,float MaxIntensity)
   {  //float   MAX_LINK_WEIGHT=2;   
      strokeWeight(1+abs(weight)*MAX_LINK_WEIGHT); 
@@ -202,24 +201,24 @@ class Link extends Colorable implements iLink,iVisLink,Comparable<Link> {
 * @brief Simplest link factory creates identical links except for the targets.
 * @note It also serves as an example of designing factories.
 */
-class basicLinkFactory extends LinkFactory
+class BasicLinkFactory extends LinkFactory
 {
   float default_weight;
   int   default_type;
   
-  basicLinkFactory(float def_weight,int def_type){ default_weight=def_weight;default_type=def_type;}
+  BasicLinkFactory(float def_weight,int def_type){ default_weight=def_weight;default_type=def_type;}
   
-  Link  makeLink(Node Source,Node Target)
+  Link  makeLink(Node source,Node target)
   {
-    return new Link(Target,default_weight,default_type);
+    return new Link(target,default_weight,default_type);
   }
 } //_EndOfClass
 
-///   IMPLEMENTATIONS:
-//*///////////////////
+//  IMPLEMENTATIONS:
+//*/////////////////
 
 /// Ring network.
-void makeRingNet(iNode[] nodes,iLinkFactory linkfac,int neighborhood)  ///< Global namespace.
+void makeRingNet(iNode[] nodes,iLinkFactory linkFact,int neighborhood)  ///< Global namespace.
 {
   int n=nodes.length;
   for(int i=0;i<n;i++)
@@ -238,13 +237,13 @@ void makeRingNet(iNode[] nodes,iLinkFactory linkfac,int neighborhood)  ///< Glob
         if(nodes[g]!=null)
         {
           if(NET_DEBUG>2) print("i="+i,"g="+g,' ');
-          Source.addConn( linkfac.makeLink(Source,nodes[g]) );
+          Source.addConn( linkFact.makeLink(Source,nodes[g]) );
         }
         
         if(nodes[h]!=null)
         {
           if(NET_DEBUG>2) print("i="+i,"h="+h,' ');
-          Source.addConn( linkfac.makeLink(Source,nodes[h]) );
+          Source.addConn( linkFact.makeLink(Source,nodes[h]) );
         }    
         
         if(NET_DEBUG>2) println();
@@ -260,7 +259,7 @@ void makeTorusNet(iNode[] nodes,iLinkFactory links,int neighborhood)      ///< G
 }
 
 /// Torus lattice 2D.
-void makeTorusNet(iNode[][] nodes,iLinkFactory linkfac,int neighborhood)  ///< Global namespace.
+void makeTorusNet(iNode[][] nodes,iLinkFactory linkFact,int neighborhood)  ///< Global namespace.
 {
   int s=nodes.length;   
   for(int i=0;i<s;i++)
@@ -287,7 +286,7 @@ void makeTorusNet(iNode[][] nodes,iLinkFactory linkfac,int neighborhood)  ///< G
             if((Target=nodes[vert][hor])!=null && Target!=Source)
             {
               if(NET_DEBUG>2) print("Vert="+vert,"Hor="+hor,' ');
-              Source.addConn( linkfac.makeLink(Source,Target) );
+              Source.addConn( linkFact.makeLink(Source,Target) );
             }
   
             if(NET_DEBUG>2) println();
@@ -327,7 +326,7 @@ void rewireLinksRandomly(iNode[] nodes,float probability, boolean reciprocal)  /
         iLink r=l.getTarget().getConn(Source);
         if(r!=null) 
         {
-          l.getTarget().delConn(r); //Usunięcie zwrotnego linku jesli był
+          l.getTarget().delConn(r); //Usunięcie zwrotnego linku jeśli był
           r.setTarget(Source); //Poprawienie linku
           Target.addConn(r); //Dodanie nowego zwrotnego linku w Targecie
         }  
@@ -370,7 +369,7 @@ void rewireLinksRandomly(iNode[][] nodes,float probability, boolean reciprocal) 
         iLink r=l.getTarget().getConn(Source);
         if(r!=null) 
         {
-          l.getTarget().delConn(r); //Usunięcie zwrotnego linku jesli był
+          l.getTarget().delConn(r); //Usunięcie zwrotnego linku jeśli był
           r.setTarget(Source); //Poprawienie linku
           Target.addConn(r); //Dodanie nowego zwrotnego linku w Targecie
         }  
@@ -424,7 +423,7 @@ void makeImSmWorldNet(iNode[] nodes,iLinkFactory links,int neighborhood,float pr
 }
 
 /// Scale Free 1D.
-void makeScaleFree(iNode[] nodes,iLinkFactory linkfac,int sizeOfFirstCluster,int numberOfNewLinkPerNode, boolean reciprocal)  ///< Global namespace.
+void makeScaleFree(iNode[] nodes,iLinkFactory linkFact,int sizeOfFirstCluster,int numberOfNewLinkPerNode, boolean reciprocal)  ///< Global namespace.
 {
   if(NET_DEBUG>1) println("MAKING SCALE FREE",sizeOfFirstCluster,numberOfNewLinkPerNode,reciprocal);
   iNode[] cluster=new iNode[sizeOfFirstCluster]; //if(debug_level>3) println("Initial:",(Node[])cluster);//Nodes for initial cluster
@@ -439,7 +438,7 @@ void makeScaleFree(iNode[] nodes,iLinkFactory linkfac,int sizeOfFirstCluster,int
     i++;
   }
   
-  makeFullNet(cluster,linkfac); //Linking of initial cluster
+  makeFullNet(cluster,linkFact); //Linking of initial cluster
   
   float numberOfLinks=0;
   for(iNode nod:nodes )
@@ -456,7 +455,7 @@ void makeScaleFree(iNode[] nodes,iLinkFactory linkfac,int sizeOfFirstCluster,int
         if(source==null)
             continue;
             
-        float where=EPS+random(1.0);                      assert(where>0.0f); //"where" okresli do którego węzła się przyłączymy
+        float where=EPS+random(1.0);                      assert(where>0.0f); //"where" określi, do którego węzła się przyłączymy
         float start=0;                                    if(NET_DEBUG>2) print(j,where,"->");
         for(int k=0;k<nodes.length;k++)
         {
@@ -470,14 +469,14 @@ void makeScaleFree(iNode[] nodes,iLinkFactory linkfac,int sizeOfFirstCluster,int
                                                           if(NET_DEBUG>2) print(k,"!");
             if(source!=target)
             {
-              int success=source.addConn( linkfac.makeLink(source,target) );
+              int success=source.addConn( linkFact.makeLink(source,target) );
               if( success==1 ) //TYLKO GDY NOWY LINK!
               {
                 numberOfLinks++;
                 if(reciprocal)
-                  if(target.addConn( linkfac.makeLink(target,source) )==1) //OK TYLKO GDY NOWY LINK
+                  if(target.addConn( linkFact.makeLink(target,source) )==1) //OK TYLKO GDY NOWY LINK
                       numberOfLinks++;
-                j++; //Można przejść do podłączania nastepnego agenta
+                j++; //Można przejść do podłączania następnego agenta
               }
             }
             
@@ -493,7 +492,7 @@ void makeScaleFree(iNode[] nodes,iLinkFactory linkfac,int sizeOfFirstCluster,int
 }
 
 /// Full connected network 1D.
-void makeFullNet(iNode[] nodes,iLinkFactory linkfac)         ///< Global namespace.
+void makeFullNet(iNode[] nodes,iLinkFactory linkFact)         ///< Global namespace.
 {
   int n=nodes.length;
   for(int i=0;i<n;i++)
@@ -505,7 +504,7 @@ void makeFullNet(iNode[] nodes,iLinkFactory linkfac)         ///< Global namespa
         {
           if(NET_DEBUG>4) print("i="+i,"j="+j);
           
-          Source.addConn( linkfac.makeLink(Source,nodes[j]) );
+          Source.addConn( linkFact.makeLink(Source,nodes[j]) );
           
           if(NET_DEBUG>4) println();
         }
@@ -513,7 +512,7 @@ void makeFullNet(iNode[] nodes,iLinkFactory linkfac)         ///< Global namespa
 }
 
 /// Full connected network 2D.
-void makeFullNet(iNode[][] nodes,iLinkFactory linkfac)      ///< Global namespace.
+void makeFullNet(iNode[][] nodes,iLinkFactory linkFact)      ///< Global namespace.
 {
   for(int i=0;i<nodes.length;i++)
   for(int g=0;g<nodes[i].length;g++)
@@ -530,7 +529,7 @@ void makeFullNet(iNode[][] nodes,iLinkFactory linkfac)      ///< Global namespac
         {
           if(NET_DEBUG>4) print("i="+i,"g="+g,"j="+j,"h="+h);
           
-          Source.addConn( linkfac.makeLink(Source,Target) );
+          Source.addConn( linkFact.makeLink(Source,Target) );
           
           if(NET_DEBUG>4) println();
         }
@@ -539,7 +538,7 @@ void makeFullNet(iNode[][] nodes,iLinkFactory linkfac)      ///< Global namespac
 }
 
 /// Randomly connected network 1D.
-void makeRandomNet(iNode[] nodes,iLinkFactory linkfac,float probability, boolean reciprocal)  ///< Global namespace.
+void makeRandomNet(iNode[] nodes,iLinkFactory linkFact,float probability, boolean reciprocal)  ///< Global namespace.
 {  
   //NO ERROR!: rings in visualisation are because agents may have sometimes exactly same position!!!
   int n=nodes.length;
@@ -558,9 +557,9 @@ void makeRandomNet(iNode[] nodes,iLinkFactory linkfac,float probability, boolean
         {
           if(NET_DEBUG>2) print("i="+i,"j="+j);
                                                                 
-          int success=Source.addConn( linkfac.makeLink( Source, Target ) );
+          int success=Source.addConn( linkFact.makeLink( Source, Target ) );
           if(success==1)
-            Target.addConn( linkfac.makeLink( Target, Source ) );
+            Target.addConn( linkFact.makeLink( Target, Source ) );
           
           if(NET_DEBUG>2) println();
         }
@@ -576,7 +575,7 @@ void makeRandomNet(iNode[] nodes,iLinkFactory linkfac,float probability, boolean
           if(NET_DEBUG>2) print("i="+i,"j="+j);
                                                                 
           //int success=
-          Source.addConn( linkfac.makeLink( Source, Target ) );
+          Source.addConn( linkFact.makeLink( Source, Target ) );
           
           if(NET_DEBUG>2) println();
         }
@@ -586,7 +585,7 @@ void makeRandomNet(iNode[] nodes,iLinkFactory linkfac,float probability, boolean
 }
 
 /// Connect all orphaned nodes with at least one link.
-void makeOrphansAdoption(iNode[] nodes,iLinkFactory linkfac, boolean reciprocal)    ///< Global namespace.
+void makeOrphansAdoption(iNode[] nodes,iLinkFactory linkFact, boolean reciprocal)    ///< Global namespace.
 {
   int n=nodes.length;
   for(int i=0;i<n;i++)
@@ -598,21 +597,21 @@ void makeOrphansAdoption(iNode[] nodes,iLinkFactory linkfac, boolean reciprocal)
     //Only if exists and is orphaned
                                                                       if(NET_DEBUG>0) print("Orphan",nf(i,3),":");
     iNode Target=null;
-    int Ntry=n;
+    int NofAttempts=n;
     while(Target==null) //Searching for foster parent
     {
       int t=(int)random(n);
       if( t==i                //candidate is not self
       ||  nodes[t]==null      //is not empty 
       ||  (nodes[t].numOfConn()==0 //is not other orphan
-           && Ntry-- > 0  )   //but not when all are orphans!
+           && NofAttempts-- > 0  )   //but not when all are orphans!
       ) continue;
                                                                        
       Target=nodes[t]; //Candidate ok
-                                                                      if(NET_DEBUG>0) print("(",Ntry,")",nf(t,3),"is a chosen one ", Target.name() ); 
+                                                                      if(NET_DEBUG>0) print("(",NofAttempts,")",nf(t,3),"is a chosen one ", Target.name() ); 
     }
                                                                       //if(debug_level>1) print(" S has ", Source.numOfConn() ," links");
-    int success=Source.addConn( linkfac.makeLink( Source, Target ) ); 
+    int success=Source.addConn( linkFact.makeLink( Source, Target ) ); 
                                                                       //if(debug_level>1) print(" Now S has ", Source.numOfConn() ," ");
     if(success!=1)
     {
@@ -621,7 +620,7 @@ void makeOrphansAdoption(iNode[] nodes,iLinkFactory linkfac, boolean reciprocal)
     else
     if(reciprocal)
     {                                                                 //if(debug_level>1) print(" T has", Target.numOfConn() ," links");
-       success=Target.addConn( linkfac.makeLink( Target, Source ) );
+       success=Target.addConn( linkFact.makeLink( Target, Source ) );
                                                                       //if(debug_level>1) print(" Now T has", Target.numOfConn() ," ");
     }
     
@@ -632,7 +631,7 @@ void makeOrphansAdoption(iNode[] nodes,iLinkFactory linkfac, boolean reciprocal)
 }
 
 /// Randomly connected network 2D.
-void makeRandomNet(iNode[][] nodes,iLinkFactory linkfac,float probability, boolean reciprocal)  ///< Global namespace.
+void makeRandomNet(iNode[][] nodes,iLinkFactory linkFact,float probability, boolean reciprocal)  ///< Global namespace.
 {
   for(int i=0;i<nodes.length;i++)
   for(int g=0;g<nodes[i].length;g++)
@@ -653,9 +652,9 @@ void makeRandomNet(iNode[][] nodes,iLinkFactory linkfac,float probability, boole
         {
           if(NET_DEBUG>2) print("i="+i,"g="+g,"j="+j,"h="+h);
                                                                
-          int success=Source.addConn( linkfac.makeLink(Source,Target) );
+          int success=Source.addConn( linkFact.makeLink(Source,Target) );
           if(success==1)
-            Target.addConn( linkfac.makeLink(Target,Source) );
+            Target.addConn( linkFact.makeLink(Target,Source) );
             
           if(NET_DEBUG>2) println();
         }
@@ -673,7 +672,7 @@ void makeRandomNet(iNode[][] nodes,iLinkFactory linkfac,float probability, boole
           if(NET_DEBUG>2) print("i="+i,"g="+g,"j="+j,"h="+h);
                                                                
           //int success=
-          Source.addConn( linkfac.makeLink(Source,Target) );
+          Source.addConn( linkFact.makeLink(Source,Target) );
             
           if(NET_DEBUG>2) println();
         }
@@ -789,7 +788,7 @@ class NodeAsList extends Node  implements iVisNode {
 * @internal "https://docs.oracle.com/javase/6/docs/api/java/util/HashMap.html"
 */
 class NodeAsMap extends Node implements iVisNode {  
-  //HashMap<Integer,Link> connections; //TODO using Object.hashCode(). Could be a bit faster than String
+  //HashMap<Integer,Link> connections; //@todo Maybe using Object.hashCode(). Could be a bit faster than String
   HashMap<String,Link> connections; 
   
   NodeAsMap()

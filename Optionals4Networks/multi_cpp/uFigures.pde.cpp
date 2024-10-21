@@ -1,27 +1,44 @@
+/// @file
+/// @note Automatically made from _uFigures.pde_ by __Processing to C++__ converter (/data/wb/SCC/public/Processing2C/scripts/procesing2cpp.sh).
+/// @date 2024-10-21 19:06:46 (translation)
+//
+#include "processing_consts.hpp"
+#include "processing_templates.hpp"
+#include "processing_library.hpp"
+#include "processing_window.hpp"
+#ifndef _NO_INLINE
+#include "processing_inlines.hpp" //...is optional.
+#endif // _NO_INLINE
+#include "processing_console.hpp"   //...is optional. Should be deleted when not needed.
+using namespace Processing;
+#include "local.h" //???.
+#include <iostream>
+//================================================================
+
 /// Various shapes drawing procedures. ("uFigures.pde")
-/// @date 2024-10-21 (last modification)                        @author borkowsk
+/// @date 2024-10-20 (last modification)                        @author borkowsk
 //*/////////////////////////////////////////////////////////////////////////////
 
-/// @defgroup Generally usable graphic
+/// @defgroup Generally usable graphix
 /// @{
 //*///////////////////////////////////
 
 //color BALDHEAD_NOSE_COLOR=0xff000011;
-float BALDHEAD_MUN_ANGLE=PI/10;   ///< Baldhead drawing GLOBAL parameter.
-float BALDHEAD_NOSE_DIVIDER=5;    ///< Baldhead drawing GLOBAL parameter.
-float BALDHEAD_NOSE_RADIUS=1;     ///< Baldhead nose-length as ratio of maximal R
-float BALDHEAD_EARS_DIVIDER=4;    ///< Baldhead drawing GLOBAL parameter.
+float BALDHEAD_MUN_ANGLE=PI/10;   ///< Baldhead draving GLOBAL parameter.
+float BALDHEAD_NOSE_DIVIDER=5;    ///< Baldhead draving GLOBAL parameter.
+float BALDHEAD_NOSE_RADIUS=1;     ///< Baldhead nose-lenght as ratio of maximal R
+float BALDHEAD_EARS_DIVIDER=4;    ///< Baldhead draving GLOBAL parameter.
 
 float BALDHEAD_EYES_RADIUS=0.75;  ///< Baldhead eyes size as ratio of maximal R
 float BALDHEAD_PUPIL_RADIUS=0.83; ///< Baldhead pupil size as ratio of maximal R
-color BALDHEAD_EYES_COLOR=color(0,100,150);    ///< Baldhead drawing GLOBAL parameter.
-float BALDHEAD_PUPIL_DIV=14;      ///< Baldhead drawing GLOBAL parameter.
+color BALDHEAD_EYES_COLOR=color(0,100,150);    ///< Baldhead draving GLOBAL parameter.
+float BALDHEAD_PUPIL_DIV=14;      ///< Baldhead draving GLOBAL parameter.
 int   BALDHEAD_HAIRS_DENS=10;     ///< Baldhead - How many hairs
 float BALDHEAD_HAIRS_START=0.2;   ///< Range 0..0.5
 float BALDHEAD_HAIRS_END=0.8;     ///< Range BALDHEAD_HAIRS_START..0.99
-color BALDHEAD_HAIRS_COLOR=color(111,50,50); ///< As you wish. It is used in `stroke()` function.
+color BALDHEAD_HAIRS_COLOR=color(111,50,50); ///< As you wish->It is used in `stroke()` function.
 
-/// Horizontal view of a bald head of a man seen from above.
+/// @brief Horizontal view of a bald head of a man seen from above.
 void baldhead_hor(float x,float y,float r,float direction)         ///< @note Global namespace!
 {
   float xn,yn,D=2*r; //średnica głowy
@@ -82,12 +99,12 @@ void baldhead_hor(float x,float y,float r,float direction)         ///< @note Gl
   }
 }
 
-/// Vertical view on agave (!) plant.
-void agave_ver(float x,float y,float visual_size,float num_of_leafs)    ///< @note Global namespace!
+/// @brief Vertical view on agave plant.
+void agava_ver(float x,float y,float visual_size,float num_of_leafs)    ///< @note Global namespace!
 {
-  float lStep=PI/(num_of_leafs);
+  float lstep=PI/(num_of_leafs);
   
-  for(float angle=PI+lStep/2;angle<2*PI;angle+=lStep)
+  for(float angle=PI+lstep/2;angle<2*PI;angle+=lstep)
   {
     float x2=x+cos(angle)*visual_size/2;
     float y2=y+sin(angle)*visual_size/2;
@@ -99,12 +116,12 @@ void agave_ver(float x,float y,float visual_size,float num_of_leafs)    ///< @no
 }
 
 /// @brief Horizontal view on agave plant.
-void agave_hor(float x,float y,float visual_size,float num_of_leafs)      ///< @note Global namespace!
+void agava_hor(float x,float y,float visual_size,float num_of_leafs)      ///< @note Global namespace!
 {
-  float lStep=(2*PI) / min(num_of_leafs,3)+PI/5;
-  float maxan=lStep*num_of_leafs;
+  float lstep=(2*PI) / min(num_of_leafs,3)+PI/5;
+  float maxan=lstep*num_of_leafs;
   
-  for(float angle=lStep/2;angle<=maxan;angle+=lStep)
+  for(float angle=lstep/2;angle<=maxan;angle+=lstep)
   {
     visual_size*=0.966;
     float x0=x+cos(angle+PI/2)*visual_size/8;
@@ -186,16 +203,17 @@ void gas_bottle_droid_ver(float x,float y,float visual_size,float direction)    
   }
   else //Tył
   {
-    float rotX0=x+cos(direction+PI)*visual_size/4;
-    float rotS=visual_size/8.*sin(direction+PI);
+    float rotx0=x+cos(direction+PI)*visual_size/4;
+    float rots=visual_size/8.*sin(direction+PI);
     fill(128);
-    triangle(rotX0-rotS/2,y,rotX0+rotS/2,y,rotX0,y-visual_size/10+1);  // granica stóp
+    triangle(rotx0-rots/2,y,rotx0+rots/2,y,rotx0,y-visual_size/10+1);  // granica stóp
   }
   
 }
 
-// ARROW IN ANY DIRECTION:
-//*///////////////////////
+//*
+/// ARROW IN ANY DIRECTION:
+//*////////////////////////
 
 float def_arrow_size=15;                   ///< Default size of arrows heads
 float def_arrow_theta=PI/6.0+PI;           ///< Default arrowhead spacing //3.6651914291881
@@ -206,7 +224,7 @@ void arrow(float x1,float y1,float x2,float y2)                          ///< @n
   arrow_d(int(x1),int(y1),int(x2),int(y2),def_arrow_size,def_arrow_theta);
 }
 
-/// Function that draws an arrow with changeable settings.
+/// @brief Function that draws an arrow with changeable settings.
 void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)          ///< @note Global namespace!
 {
   // CALCULATION METHOD FROM ROTATION OF THE ARROW AXIS
@@ -225,9 +243,9 @@ void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)          ///< @
     return;
   }
                                             assert(!(poY==0 && poX==0));
-  float alfa=atan2(poY,poX);                if(abs(alfa)>PI+0.0000001)
+  float alfa=atan2(poY,poX);                if(std::abs(alfa)>PI+0.0000001)
                                                  println("Alfa=%e\n",alfa);
-                                          //assert(fabs(alfa)<=M_PI); //cerr<<alfa<<endl;
+                                          //assert(fstd::abs(alfa)<=M_PI); //cerr<<alfa<<endl;
   float xo1=A*cos(theta+alfa);
   float yo1=A*sin(theta+alfa);
   float xo2=A*cos(alfa-theta);
@@ -239,8 +257,10 @@ void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)          ///< @
 }
 
 //*////////////////////////////////////////////////////////////////////////////
-//*  -> "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" 
+//*  -> "https://www->researchgate.net/profile/WOJCIECH_BORKOWSKI" 
 //*   - OPTIONAL TOOLS: FUNCTIONS & CLASSES
 //*  -> "https://github.com/borkowsk/sym4processing"
 /// @}
 //*////////////////////////////////////////////////////////////////////////////
+//MADE NOTE: /data/wb/SCC/public/Processing2C/scripts did it 2024-10-21 19:06:46 !
+

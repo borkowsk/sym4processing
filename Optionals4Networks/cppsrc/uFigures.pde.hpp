@@ -19,7 +19,7 @@ float BALDHEAD_PUPIL_DIV=14;      ///< Baldhead drawing GLOBAL parameter.
 int   BALDHEAD_HAIRS_DENS=10;     ///< Baldhead - How many hairs
 float BALDHEAD_HAIRS_START=0.2;   ///< Range 0..0.5
 float BALDHEAD_HAIRS_END=0.8;     ///< Range BALDHEAD_HAIRS_START..0.99
-color BALDHEAD_HAIRS_COLOR=color(111,50,50); ///< As you wish. It is used in `stroke()` function.
+color BALDHEAD_HAIRS_COLOR=color(111,50,50); ///< As you wish->It is used in `stroke()` function.
 
 /// Horizontal view of a bald head of a man seen from above.
 void baldhead_hor(float x,float y,float r,float direction)         ///< @note Global namespace!
@@ -225,9 +225,9 @@ void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)          ///< @
     return;
   }
                                             assert(!(poY==0 && poX==0));
-  float alfa=atan2(poY,poX);                if(abs(alfa)>PI+0.0000001)
+  float alfa=atan2(poY,poX);                if(std::abs(alfa)>PI+0.0000001)
                                                  println("Alfa=%e\n",alfa);
-                                          //assert(fabs(alfa)<=M_PI); //cerr<<alfa<<endl;
+                                          //assert(fstd::abs(alfa)<=M_PI); //cerr<<alfa<<endl;
   float xo1=A*cos(theta+alfa);
   float yo1=A*sin(theta+alfa);
   float xo2=A*cos(alfa-theta);
@@ -239,8 +239,10 @@ void arrow_d(int x1,int y1,int x2,int y2,float size,float theta)          ///< @
 }
 
 //*////////////////////////////////////////////////////////////////////////////
-//*  -> "https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI" 
+//*  -> "https://www->researchgate.net/profile/WOJCIECH_BORKOWSKI" 
 //*   - OPTIONAL TOOLS: FUNCTIONS & CLASSES
 //*  -> "https://github.com/borkowsk/sym4processing"
 /// @}
 //*////////////////////////////////////////////////////////////////////////////
+//MADE NOTE: /data/wb/SCC/public/Processing2C/scripts did it 2024-10-21 21:30:14 !
+

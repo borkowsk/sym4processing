@@ -6,8 +6,8 @@
 * @brief Random link factory.
 *        It creates links with random weights.
 */
-class randomWeightLinkFactory implements iLinkFactory
-{
+class randomWeightLinkFactory : public virtual iLinkFactory , public virtual Object{
+  public:
   float min_weight,max_weight;
   int   default_type;
   
@@ -21,21 +21,24 @@ class randomWeightLinkFactory implements iLinkFactory
   /// @brief Real factory product: "to `Target` link".
   /// @param `Source` is ignored here, but is required by interface for other usage.
   /// @param `Target` - mandatory! 
-  Link  makeLink(iNode Source,iNode Target)
+  pLink  makeLink(piNode Source,piNode Target)
   {
     return new Link((Node)Target,random(min_weight,max_weight),default_type);
   }
   
   /// @brief Special factory product - self link.
-  Link  makeSelfLink(iNode Self)
+  pLink  makeSelfLink(piNode Self)
   {
     return new Link((Node)Self,random(min_weight,max_weight),default_type);
   }
   
-} //EndOfClass randomWeightLinkFactory
+} ; //_EndOfClass
+
 
 //*////////////////////////////////////////////////////////////////////////////
-//*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
+//*  https://www->researchgate->net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES  - NETWORKS TOOLBOX
-//*  https://github.com/borkowsk/sym4processing
+//*  https://github->com/borkowsk/sym4processing
 //*////////////////////////////////////////////////////////////////////////////
+//MADE NOTE: /data/wb/SCC/public/Processing2C/scripts did it 2024-10-21 21:30:14 !
+

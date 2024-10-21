@@ -1,7 +1,7 @@
 /// @file
 /// @brief This file forcing all "optionales" to be loaded from this folder ( "Optionals.pde" )
 /// @details It could be threated as EXAMPLE for using some of this optional features.
-/// @date 2024-10-20 (Last modification)
+/// @date 2024-10-21 (Last modification)
 //*/////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -103,8 +103,8 @@ void setup()
 {
   size(500,500);
   
-  objectAttributes.register("agentA",new Agent(10,10,-1));
-  objectAttributes.register("agentB",new Agent(10,10,-1));
+  objectAttributes.registerObject("agentA",new Agent(10,10,-1));
+  objectAttributes.registerObject("agentB",new Agent(10,10,-1));
   
   rdata.add( new ValueInRange( -1,-5.0,-1.7) )
        .add( new ValueInRange( 0,-2.0,-1.5) )
