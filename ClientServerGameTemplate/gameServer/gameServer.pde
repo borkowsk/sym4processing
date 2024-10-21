@@ -1,18 +1,20 @@
-/// Server for gameClients - MAIN SOURCE FILE (setup() & draw() defined here)
-//*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @file
+/// Server for gameClients - MAIN SOURCE FILE (setup() & draw() defined here).
+/// @date 2024-10-21 (last modification)
+//*///////////////////////////////////////////////////////////////////////////
 //
 /// Loosely base on example code for a server with multiple clients communicating to only one at a time.
 /// (see: https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html)
 //
-import processing.net.*;   //Needed for network communication
-//import processing.pdf.*; //WARNING! It acts as a server, but the PDF file is empty
+import processing.net.*;   //Needed for network communication.
+//import processing.pdf.*; //WARNING! It acts as a server, but the PDF file is empty.
 import processing.svg.*;   //No-window server!
 
-static int DEBUG=0;       ///< Level of debug logging (have to be static because of use inside static functions)
+static int DEBUG=0;       ///< Level of debug logging. (have to be static because of use inside static functions)
 
-Server mainServer; ///< Object representing server's TCP/IP COMMUNICATION
+Server mainServer;        ///< Object representing server's TCP/IP COMMUNICATION.
 
-Player[] players= new Player[0]; ///< The array of clients (players)
+Player[] players= new Player[0]; ///< The array of clients (players).
 
 /// Startup of a game server. 
 /// It initialises window (if required) and TCP/IP port.
@@ -49,7 +51,7 @@ void draw()
   text(nf(frameRate,2,2)+"fps",0,height);
 }
 
-/// Waiting view placeholder ;-)
+/// Waiting view placeholder.
 void serverWaitingDraw()
 {
   background(128);
@@ -60,7 +62,7 @@ void serverWaitingDraw()
   text("Waiting for clients\n"+avatars[1]+plants[1]+avatars[2],width/2,height/2);
 }
 
-/// Confirm client registration and send correct current name
+/// Confirm client registration and send correct current name.
 void confirmClient(Client newClient,Player player)
 {
   if(DEBUG>1) print("Server confirms the client's registration: ");
@@ -84,8 +86,7 @@ void confirmClient(Client newClient,Player player)
   mainServer.write(msg);
 }
 
-/// This is stuff that should be done,  
-/// when new client was connected
+/// This is stuff that should be done, when new client was connected.
 void whenClientConnected(Client newClient,String playerName)
 {
   for(int i=0;i<players.length;i++)
@@ -129,4 +130,3 @@ void whenClientConnected(Client newClient,String playerName)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
-

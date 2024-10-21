@@ -1,6 +1,5 @@
-/// @file 
-/// @brief `draw()` example with possibility of non-visible window. ("rtmDraw.pde")
-/// @date 2024-09-26 (Last modification)
+/// Example of mandatory `draw()` with possibility of non-visible window. ("rtmDraw.pde")
+/// @date 2024-10-21 (Last modification)
 /// @note This file shoud be COPIED into the project directory and modified when needed.
 //*/////////////////////////////////////////////////////////////////////////////////////
 

@@ -1,6 +1,5 @@
-/// @file 
-/// @brief Example of function handling of program call parameters, if available. ("rtmCmdLine.pde")
-/// @date 2024-09-26 (last modification)
+/// Example of function handling of program call parameters, if available. ("rtmCmdLine.pde")
+/// @date 2024-10-21 (last modification)
 /// @note This file shoud be COPIED into the project directory and modified when needed.
 //*//////////////////////////////////////////////////////////////////////////////////////////////////
 

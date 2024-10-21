@@ -1,7 +1,6 @@
-/// @file
-/// @brief Everything that needs to be done when the application is terminated.
+/// Everything that needs to be done when the application is terminated.
 //*        CA: EXIT TEMPLATE
-//  @date 2024-10-11 (last modification)
+//  @date 2024-10-21 (last modification)
 //*/////////////////////////////////////////////////////////////////////
 
 /// Exit handler. It is called whenever a window is closed.

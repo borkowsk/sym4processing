@@ -1,8 +1,6 @@
-/// @file
-/// @brief Various simple statistics for one-dimensional arrays ("uStatistics.pde")
-/// @date 2024-09-26 (Last modification)
-///
-//*  PL: Różne proste statystyki dla tablic jednowymiarowych
+/// Various simple statistics for one-dimensional arrays ("uStatistics.pde")
+/// @date 2024-10-21 (Last modification)
+//* PL: Różne proste statystyki dla tablic jednowymiarowych
 //*/////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Statistic tools and functions

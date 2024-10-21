@@ -1,4 +1,5 @@
-/// gameServer (dummy) keyboard input & other asynchronic events
+/// gameServer (dummy) keyboard input & other asynchronic events.
+/// @date 2024-10-21 (last modification)
 //*///////////////////////////////////////////////////////////////////// 
 
 /// Keyboard handler for the server.
@@ -14,7 +15,7 @@ void keyPressed()
   }
 }
 
-/// Event handler called when a client connects to server
+/// Event handler called when a client connects to server.
 void serverEvent(Server me,Client newClient)
 {
   noLoop(); //KIND OF CRITICAL SECTION!!!
@@ -36,7 +37,7 @@ void serverEvent(Server me,Client newClient)
 }
 
 /// ClientEvent message is generated 
-/// when a client disconnects from server
+/// when a client disconnects from server.
 void disconnectEvent(Client someClient) 
 {
   if(DEBUG>2) println("Disconnect event happened on server.");
@@ -73,4 +74,3 @@ void disconnectEvent(Client someClient)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
-

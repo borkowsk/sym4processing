@@ -1,7 +1,8 @@
-///  gameClient - keyboard input & other asynchronous events
+/// gameClient - keyboard input & other asynchronous events
+/// @date 2024-10-21 (last modification)
 //*//////////////////////////////////////////////////////////// 
 
-/// Keyboard events - mostly control of the avatar
+/// Keyboard events - mostly control of the avatar.
 void keyPressed()
 {
   if(DEBUG>2) println("KEY:",key,int(key));
@@ -61,7 +62,7 @@ void disconnectEvent(Client client)
   frameRate(1);
 }
 
-/// Event handler called on server when a client connects to server
+/// Event handler called on server when a client connects to server.
 void serverEvent(Server server,Client client)
 {
   println(playerName,"got unexpected serverEvent()"); 
@@ -83,4 +84,3 @@ void serverEvent(Server server,Client client)
 //*  https://github.com/borkowsk/sym4processing
 //*  Partly sponsored by the EU project "GuestXR" (https://guestxr.eu/)
 //*/////////////////////////////////////////////////////////////////////////////////////////
-

@@ -1,6 +1,5 @@
-/// @file
-/// @brief Functions for easy and READABLE in squaring expressions ("uMathSqr.pde")
-/// @date 2024-09-26 (Last modification)
+/// Functions for easy and READABLE do squaring expressions. ("uMathSqr.pde")
+/// @date 2024-10-21 (Last modification)
 //*////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup General math tools and functions

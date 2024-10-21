@@ -1,15 +1,20 @@
-/// @file
-/// @brief Class for discovering clustering and calculating its statistical parameters.
-/// @date 2024-09-26 (last modification)
+/// Class for discovering clustering and calculating its statistical parameters. (rtmClustering.pde)
+/// @date 2024-10-21 (last modification)
+/// @note This file shoud be COPIED into the project directory and modified when needed.
+//*/////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Statistic tools and functions
 /// @{
 //*////////////////////////////////////////
 
 /// @brief Klasa służąca do odnajdywania klasteringu i obliczania jego parametrów statystycznych.
+/// @details Zakładamy że agent ma pole `A` które okresla jego przynalezność.
+///          Zrobienie tego bardziej ogólnie jest oczywiście możliwe, ale trzeba by użyć intefejsu
+///          z funkcją, którego wywołanie kosztuje, lub jakiegoś zaawansowanej konstrukcji szablonu
+///          języka JAVA.
 class Clustering
 {
-  /*_extern*/ float CellSide=10; //!< Side of the cell
+  /*_extern*/ float CellSide=10; //!< Side of the cell nedde for clustering vizualisation.
   
   // Parametry sterujące wizualizacją badań klastrów:
   //*////////////////////////////////////////////////

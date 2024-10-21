@@ -1,7 +1,6 @@
-/// @file
-/// @brief Simulation have to collect and write down statistics from every step.
+/// Simulation have to collect and write down statistics from every step.
 //*        CA: STATISTICS LOG TEMPLATE
-//  @date 2024-10-11 (last modification)
+//  @date 2024-10-21 (last modification)
 //*////////////////////////////////////////////////////////////////////////////////
 
 PrintWriter outstat; ///< Handle to the text file with the record of model statistics.

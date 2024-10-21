@@ -1,7 +1,6 @@
-/// @file
-/// @brief Obsługa wyszukiwania obiektu po kliknięciu myszy
+/// Obsługa wyszukiwania obiektu po kliknięciu myszy.
 //*        CA: MOUSE EVENTS HANDLING
-//  @date 2024-10-11 (last modification)
+//  @date 2024-10-21 (last modification)
 //*////////////////////////////////////////////////////////
 
 // Last read mouse data

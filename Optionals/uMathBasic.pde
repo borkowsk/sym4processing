@@ -1,6 +1,5 @@
-/// @file 
-/// @brief Some math basics: sign, upToTresh(-hold) & whichIsMax ("uMathBasic.pde")
-/// @date 2024-09-26 (Last modification)
+/// Some math basics: `sign`, `upToTresh`(-hold) & `whichIsMax`. ("uMathBasic.pde")
+/// @date 2024-10-21 (Last modification)
 //*/////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup General math tools and functions
@@ -36,10 +35,10 @@ int sign(double val)  ///< @note GLOBAL
 }
 
 /// Function for increasing a value no more than up to a certain threshold.
-float upToTresh(float val,float incr,float tresh)  ///< @note GLOBAL
+float upToThresh(float val,float incr,float threshold)  ///< @note GLOBAL
 {
     val+=incr;
-    return val<tresh?val:tresh;
+    return val<threshold?val:threshold;
 }
 
 /// Function to find which of the three values is the largest.

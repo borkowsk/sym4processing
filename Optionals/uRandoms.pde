@@ -1,6 +1,5 @@
-/// @file
-/// @brief Functions that improve the use of pseudo-random numbers ("uRandoms.pde")
-/// @date 2024-09-26 (Last modification)
+/// unctions that improve the use of pseudo-random numbers. ("uRandoms.pde")
+/// @date 2024-10-21 (Last modification)
 ///*////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup More simulation resources
@@ -31,21 +30,21 @@ float randomGaussPareto(int Dist)  ///< @note GLOBAL
 // XOR SHIFT RANDOM:
 //*/////////////////
 
-static long   xl=123456789L;                           ///< seed for xorshift randomizer
-final double denominator=(double)9223372036854775807L; ///< denominator for xorshift randomizer (why double?)
-//final  long   denominator=9223372036854775807L;      /// 9,223,372,036,854,775,807 <--- max long 
+static long     xorShiftRandSeed=123456789L;                   ///< seed for xorshift randomizer
+final double xorShiftDenominator=(double)9223372036854775807L; ///< denominator for xorshift randomizer (why double?)
+//final  long   denominator=9223372036854775807L;              /// 9,223,372,036,854,775,807 <--- max long 
 
-/// Function which generates xorshift random value.
+/// Function which generates "xorshift" random value.
 /// XOR SHIFT random number generator with flat distribution
 /// Apart from the function, it also needs a variable for storing the grain 
 /// and a constant for storing the denominator.
 /// See: http://www.javamex.com/tutorials/random_numbers/xorshift.shtml#.WT6NEzekKXI
 double RandomXorShift()   ///< @note GLOBAL
 {
-  xl ^= (xl << 21);
-  xl ^= (xl >>> 35);
-  xl ^= (xl << 4);
-  return (Math.abs(xl)/denominator);//Is the result of abs() automatically promoted to double? Looks like...
+  xorShiftRandSeed ^= (xorShiftRandSeed << 21);
+  xorShiftRandSeed ^= (xorShiftRandSeed >>> 35);
+  xorShiftRandSeed ^= (xorShiftRandSeed << 4);
+  return (Math.abs(xorShiftRandSeed)/xorShiftDenominator);//Is the result of abs() automatically promoted to double? Looks like...
 }
 
 /// @Function RandomPareto().

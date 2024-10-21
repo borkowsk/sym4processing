@@ -1,4 +1,5 @@
-///  gameClient - more communication logic 
+/// gameClient - more communication logic.
+/// @date 2024-10-21 (last modification)
 //*/////////////////////////////////////////////// 
 
 StringDict inventory=new StringDict();
@@ -18,7 +19,7 @@ void implementObjectManagement(String[] cmd) ///< global?
   println(playerName,"UNKNOWN object management command:",cmd[0]);
 }
 
-/// Very simple placeholder for use types dictionary 
+/// Very simple placeholder for use types dictionary.
 GameObject makeGameObject(String name,float X,float Y,float Z,float R)
 {
   String type=inventory.get(name); 
@@ -45,7 +46,7 @@ void visualisationChanged(GameObject[] table,String name,String visual_repr) ///
   gameWorld[pos].visual=visual_repr;
 }
 
-/// Handle changes in colors of any game object
+/// Handle changes in colors of any game object.
 void colorChanged(GameObject[] table,String name,String hexColor)
 {
   color newColor=unhex(hexColor);
@@ -60,7 +61,7 @@ void colorChanged(GameObject[] table,String name,String hexColor)
   gameWorld[pos].foreground=newColor;
 }
 
-/// Handle changes in position of any game object
+/// Handle changes in position of any game object.
 void positionChanged(GameObject[] table,String name,float[] inpos)
 {
   int pos=(name.equals(OpCd.sYOU)?indexOfMe:localiseByName(table,name));
@@ -81,7 +82,7 @@ void positionChanged(GameObject[] table,String name,float[] inpos)
   }
 }
 
-/// Handle changes in states of agents/objects
+/// Handle changes in states of agents/objects.
 void stateChanged(GameObject[] table,String objectName,String field,String val)
 {
   int pos=localiseByName(table,objectName);
@@ -148,7 +149,8 @@ void finishInteraction(GameObject[] table,String objectName)
   }
 }
 
-// Arrays for decoding more complicated messages
+// Arrays for decoding more complicated messages:
+//*//////////////////////////////////////////////
 float[]  inPar1=new  float[1]; ///< global?
 float[]  inPar2=new  float[2]; ///< global?
 float[]  inPar3=new  float[3]; ///< global?
@@ -156,7 +158,7 @@ String[] inStr1=new String[1]; ///< global?
 String[] inStr2=new String[2]; ///< global?
 String[] inStr3=new String[3]; ///< global?
 
-/// Handling interpretation of messages from server (on client side)
+/// Handling interpretation of messages from server (on client side).
 void interpretMessage(String msg)
 {
   switch(msg.charAt(0)){
@@ -232,7 +234,7 @@ void interpretMessage(String msg)
   } //END OF MESSAGE TYPES SWITCH
 }
 
-/// This function performs communication with server & visualisation of the game world 
+/// This function performs communication with server & visualisation of the game world. 
 void clientGameDraw()
 {          
     //Visualisation:
@@ -267,4 +269,3 @@ void clientGameDraw()
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
-

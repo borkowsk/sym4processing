@@ -1,6 +1,5 @@
-/// @file
-/// @brief Example of a handling of exit from aplication  - mainly closing open files! ("rtmExit.pde") 
-/// @date 2024-09-26 (last modification)
+/// Example of a handling of exit from aplication.  Mainly for closing the open files! ("rtmExit.pde") 
+/// @date 2024-10-21 (last modification)
 /// @note This file shoud be COPIED into the project directory and modified when needed.
 //*///////////////////////////////////////////////////////////////////////////////////////////////////
 

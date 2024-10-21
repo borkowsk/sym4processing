@@ -1,6 +1,5 @@
-/// @file
-/// @brief Handy logarithms and around ("uMathLog.pde")
-/// @date 2024-09-26 (last modification)
+/// Handy logarithms and around. ("uMathLog.pde")
+/// @date 2024-10-21 (last modification)
 //*////////////////////////////////////////////////////
 
 /// @defgroup General math tools and functions

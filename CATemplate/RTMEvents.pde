@@ -1,9 +1,8 @@
-/// @file
-/// @brief Model-specific event handler. 
-///        Of course, the creator of a specific application has to match actions.
+/// Model-specific event handler. 
+///        Of course, the creator of a specific application has to match the actions.
 //*        CA: KEYBOARD EVENTS HANDLING
-//  @date 2024-10-11 (last modification)
-//*///////////////////////////////////////////////////////////////////////
+//  @date 2024-10-21 (last modification)
+//*//////////////////////////////////////////////////////////////////////////////////
 
 /// Keyboard click handler. Automatically run by Processing 
 /// when any key on the keyboard is pressed. 

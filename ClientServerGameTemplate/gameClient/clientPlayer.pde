@@ -1,18 +1,22 @@
 /// Representation of Client side Player
+/// @date 2024-10-21 (last modification)
+//*//////////////////////////////////////
+
+
 class Player extends ActiveGameObject
 {
-  float  score=0;  //!< Result
-  Client netLink;  //!< Network connection to client application
+  float  score=0;  //!< Result.
+  Client netLink;  //!< Network connection to client application.
   
-  int    indexInGameWorld=-1;//!< Index/shortcut to game board array/container
+  int    indexInGameWorld=-1; //!< Index/shortcut to game board array/container.
 
-  ///constructor
+  ///constructor.
   Player(Client iniClient,String iniName,float iniX,float iniY,float iniZ,float iniRadius){ super(iniName,iniX,iniY,iniZ,iniRadius);
     netLink=iniClient;
   }
   
   /// Interface for changing the state of the game object 
-  /// over the network (mostly)
+  /// over the network. (mostly)
   /// @return: true if field is found
   /*_interfunc*/ boolean  setState(String field,String val)
   {
@@ -25,7 +29,7 @@ class Player extends ActiveGameObject
   }
   
   /// The function creates a message block from those object 
-  /// state elements that have change flags (for network streaming)
+  /// state elements that have change flags. (for network streaming)
   /// @return: Ready to send list of all changes made on object (based on flags)
   /*_interfunc*/ String sayState()
   {

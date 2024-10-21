@@ -1,32 +1,34 @@
-/// Game classes and its basic behaviours
+/// Game classes and its basic behaviours.
+/// @date 2024-10-21 (last modification)
 //* Use link_commons.sh script for make symbolic connections to gameServer & gameClient directories
 //*/////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Game board attributes
-int initialSizeOfMainArray=30;  ///< Initial number of @GameObjects in @gameWorld
-float initialMaxX=100;          ///< Initial horizontal size of game "board" 
-float initialMaxY=100;          ///< Initial vertical size of game "board" 
-int     indexOfMe=-1;           ///< Index of object visualising the client or the server supervisor
+// Game board attributes:
+//*//////////////////////
+int initialSizeOfMainArray=30;  ///< Initial number of @GameObjects in @gameWorld.
+float initialMaxX=100;          ///< Initial horizontal size of game "board" .
+float initialMaxY=100;          ///< Initial vertical size of game "board" .
+int     indexOfMe=-1;           ///< Index of object visualising the client or the server supervisor.
 
 // For very basic visualisation
 String[] plants= {"_","O","...\nI","_\\|/_\nI ","|/",":","☘️"}; ///< plants... 
 String[] avatars={".","^v^" ,"o^o","@","&","😃","😐"}; ///< peoples...
 
-static abstract class Masks { //Changes of GameObject attributes (rather specific for server side)
-static final int VISSWITH   = unbinary("000000001"); ///< object is invisible (but in info level name is visible)
-static final int MOVED  = unbinary("000000010"); ///< object was moved (0x1)
-static final int VISUAL = unbinary("000000100"); ///< object changed its type of view
-static final int COLOR  = unbinary("000001000"); ///< object changed its colors
-static final int HPOINT = unbinary("000010000"); ///< object changed its hp state (most frequently changed state)
-static final int SCORE  = unbinary("000100000"); ///< object changed its score (for players it is most frequently changed state)
-static final int PASRAD = unbinary("001000000"); ///< object changed its passive radius (ex. grow);
-static final int ACTRAD = unbinary("010000000"); ///< object changed its radius of activity (ex. go to sleep);
+static abstract class Masks { //Changes of GameObject attributes (rather specific for server side).
+static final int VISSWITH   = unbinary("000000001"); ///< object is invisible (but in info level name is visible).
+static final int MOVED  = unbinary("000000010"); ///< object was moved (0x1).
+static final int VISUAL = unbinary("000000100"); ///< object changed its type of view.
+static final int COLOR  = unbinary("000001000"); ///< object changed its colors.
+static final int HPOINT = unbinary("000010000"); ///< object changed its hp state (most frequently changed state).
+static final int SCORE  = unbinary("000100000"); ///< object changed its score (for players it is most frequently changed state).
+static final int PASRAD = unbinary("001000000"); ///< object changed its passive radius (ex. grow);.
+static final int ACTRAD = unbinary("010000000"); ///< object changed its radius of activity (ex. go to sleep);.
 //....any more?
-/// To visualize the interaction between background objects
+/// To visualize the interaction between background objects.
 static final int TOUCHED= unbinary("1000000000000000"); ///<16bits
 // Composed masks below:
-static final int ALL_STATES  = HPOINT | SCORE | PASRAD | ACTRAD ;     ///< Object changed any of its states
-static final int ALL_CHANGED = MOVED | VISUAL | COLOR | ALL_STATES ;  ///< All initial changes
+static final int ALL_STATES  = HPOINT | SCORE | PASRAD | ACTRAD ;     ///< Object changed any of its states.
+static final int ALL_CHANGED = MOVED | VISUAL | COLOR | ALL_STATES ;  ///< All initial changes.
 } //EndOfClass Masks
 
 // Options for visualisation 
@@ -34,9 +36,8 @@ int     INFO_LEVEL =1 | Masks.SCORE; ///< Visualisation with information about o
 boolean VIS_MIN_MAX=true;    ///< Visualisation with min/max value
 boolean KEEP_ASPECT=true;    ///< Visualisation with proportional aspect ratio
 
-/// Server side implementation part of any game object
-/// needs modification flags, but client side are free to use 
-/// this parts.
+/// Server side implementation part of any game object.
+/// It needs modification flags, but client side are free to use this parts.
 abstract class implNeeded 
 { 
   int flags=0; //!< Masks. allowed here
@@ -51,7 +52,7 @@ abstract class implNeeded
   }
 } //EndOfClass implNeeded
 
-/// Representation of 3D position in the game world
+/// Representation of 3D position in the game world.
 /// However, the value of Z is not always used.
 abstract class Position extends implNeeded
 {
@@ -76,7 +77,7 @@ abstract class Position extends implNeeded
   }
 } //EndOfClass Position
 
-/// Representation of simple game object
+/// Representation of simple game object.
 class GameObject extends Position
 {
   String name;       //!< Each object has an individual identifier necessary for communication. Better short.
@@ -121,8 +122,8 @@ class GameObject extends Position
     return false;
   }
   
-   /// The function creates a message list (for network streaming) 
-   /// from those object state elements that have change flag sets
+   /// The function creates a message list (for network streaming).
+   /// Of course take info from those object state elements that have change flag sets.
    /// @return: Ready to send list of all changes made on object (based on flags)
    /*_interfunc*/ String sayState()
    {
@@ -178,7 +179,7 @@ class ActiveGameObject extends GameObject
   }
   
   /// The function creates a message block from those object 
-  /// state elements that have change flags (for network streaming)
+  /// state elements that have change flags. (for network streaming)
   /// @return: Ready to send list of all changes made on object (based on flags)
   /*_interfunc*/ String sayState()
   {

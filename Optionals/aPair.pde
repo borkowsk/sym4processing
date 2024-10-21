@@ -1,6 +1,5 @@
-/// @file 
-/// @brief `Pair` is one of the very COMMONLY used and usable TEMPLATE. ("aPair.pde")
-/// @date 2024-09-26 (last modification)
+/// `Pair` is one of the very COMMONLY used and usable TEMPLATE. ("aPair.pde")
+/// @date 2024-10-21 (last modification)
 //*///////////////////////////////////////////////////////////////////////////////////
 
 // USE /*_interfunc*/ &  /*_forcebody*/ for interchangeable function 

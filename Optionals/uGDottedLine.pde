@@ -1,6 +1,5 @@
-/// @file 
-/// @brief Functions for drawing dotted lines. ("uGDottedLine.pde")
-/// @date 2024-09-26 (Last modification)
+/// Functions for drawing dotted lines. ("uGDottedLine.pde")
+/// @date 2024-10-21 (Last modification)
 //*////////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Generally usable graphix

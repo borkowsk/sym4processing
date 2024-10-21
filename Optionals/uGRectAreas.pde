@@ -1,8 +1,7 @@
-/// @file
-/// @brief "Active rectangles" - proprietary application interface module in Processing ( "uGRectAreas.pde" )
-/// @date 2024-09-26 (Last modification)
+/// "Active rectangles" - proprietary application interface module in Processing. ( "uGRectAreas.pde" )
+/// @date 2024-10-21 (Last modification)
 /// @author Wojciech Borkowski
-//*/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//*////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
 // if you need translate the code into C++ (--> Processing2C )

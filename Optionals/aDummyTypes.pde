@@ -1,15 +1,15 @@
-/// @file 
-/// @brief Classes for making an object from a simple types as 
-///       `int`, `boolean`, `float` & `double`. ("aDummyTypes.pde")
+/// Classes for making an object from a simple types. 
+///   ... as `int`, `boolean`, `float` & `double`. ("aDummyTypes.pde")
+/// @date 2024-10-21 (Last modification)
 /// @note They are useful, when you need a REFERENCE to a value of such types.
-/// @date 2024-09-26 (Last modification)
 //*/////////////////////////////////////////////////////////////////////////////
+
 /// @details
 /// In Processing as hell :-) I can't find how to pass something other than an 
 /// object by reference. However, the existing Integer or Float classes are not 
 /// suitable for this because they are "final". 
 /// They will behave like constants!!!
-/// And sometimes such an opportunity for REFERENCE parameter is needed!
+/// But sometimes such an opportunity for REFERENCE parameter is needed!
 //*/////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Generally usable classes & functions

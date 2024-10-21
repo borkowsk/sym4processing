@@ -1,11 +1,12 @@
-/// gameServer - more communication & game logic 
+/// gameServer - more communication & game logic.
+/// @date 2024-10-21 (last modification)
 //*//////////////////////////////////////////////////// 
 
-int   x_margin=0;                   ///< Left margin of server screen (status column)
+int   x_margin=0;                   ///< Left margin of server screen (status column).
 boolean wholeUpdateRequested=false; ///< Information about a client requesting information about the entire scene.
-                                    ///< In such a case, it is sent to all clients (in this template of the server)
+                                    ///< In such a case, it is sent to all clients (in this template of the server).
 
-/// This function sends a full game board update to all clients
+/// This function sends a full game board update to all clients.
 void sendWholeUpdate()
 {
   noLoop(); //KIND OF CRITICAL SECTION!?!?!
@@ -51,7 +52,7 @@ void sendUpdateOfChangedAgents()
   loop(); //END of CRITICAL SECTION ;-)
 }
 
-/// It reads pending messages from all players
+/// It reads pending messages from all players.
 void readMessagesFromPlayers()
 {
   for(int i = 0; i < players.length; i++) // Always in the same order! REIMPLEMENT WHEN IT MAY BE IMPORTANT!
@@ -76,7 +77,7 @@ void readMessagesFromPlayers()
   }
 }
 
-/// initialisation of game world
+/// initialisation of game world.
 void initialiseGame()
 {
   gameWorld=new GameObject[initialSizeOfMainArray];
@@ -91,7 +92,7 @@ void initialiseGame()
   }
 }
 
-/// Do in game world all, what is independent of players actions
+/// Do in game world all, what is independent of players actions.
 void stepOfGameMechanics()
 {
   for (int i = 0; i < players.length; i++)
@@ -108,8 +109,8 @@ void stepOfGameMechanics()
   }
 }
 
-/// Checks for collisions and sends information about them to clients
-/// In the example game, only the players move, so only they can cause collisions
+/// Checks for collisions and sends information about them to clients.
+/// In the example game, only the players move, so only they can cause collisions.
 void checkCollisions()
 {
   for(int i=0;i<players.length;i++)
@@ -157,7 +158,8 @@ void checkCollisions()
   }
 }
 
-/// Server real jobs during game:
+/// Server real jobs during game.
+/// @details
 /// - Displays how many clients have connected to the server
 /// - Visualises the current state of the game
 /// - Does what players decided to do (if doable)
@@ -187,7 +189,7 @@ void serverGameDraw()
   checkCollisions(); // checks for collisions and sends information about them to clients
 }
 
-/// This function interprets message from a particular player
+/// This function interprets message from a particular player.
 void interpretMessage(String msg,Player player)
 {
   switch(msg.charAt(0)){
@@ -221,4 +223,3 @@ void interpretMessage(String msg,Player player)
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
-

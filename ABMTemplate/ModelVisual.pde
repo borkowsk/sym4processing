@@ -1,7 +1,6 @@
-/// @file 
-/// @brief World full of agents need method of visualisation on screen/window.
+/// World full of agents need method of visualisation on screen/window.
 //*        ABM: BASIC VISUALISATION
-/// @date 2024-09-26 (last modification)
+/// @date 2024-10-21 (last modification)
 //*//////////////////////////////////////////////////////////////////////////
 
 /// @brief Visualization of agents (2D version).

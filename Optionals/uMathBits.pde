@@ -1,7 +1,6 @@
-/// @file 
-/// @brief Bit tools. ("uMathBits.pde")
-/// @date 2024-09-26 (Last modification)
-//*////////////////////////////////////////
+/// Bit tools - changes & counting bits of int. ("uMathBits.pde")
+/// @date 2024-10-21 (Last modification)
+//*//////////////////////////////////////////////////////////////
 
 /// @defgroup General math tools and functions
 /// @{
@@ -11,11 +10,12 @@
 /// Flip-flop the bit at the given position.
 int switchbit(int sou,int pos)  ///< @note GLOBAL
 {
-  if(pos>=MASKBITS)//Define MASKBITS somewhere
-  {
-    println("!!! Mutation autside BITMASK");
-    return sou;
-  }
+  final int MAX_POS=32;
+  //if(pos & MASK_BITS???) //Define MASK_BITS somewhere
+  //{
+  //  println("!!! Required bit autside BITMASK");
+  //  return sou;
+  //}
   
   int bit=0x1<<pos; // There is a correct position
   
@@ -28,7 +28,7 @@ int switchbit(int sou,int pos)  ///< @note GLOBAL
 /// @note Assuming that integer is 32bits.
 int countbits(int u)  ///< @note GLOBAL
 {
-  final int BITSPERINT=32;    assert( Integer.BYTES==4 );
+  final int BITSPERINT=32;    //assert( Integer.BYTES==4 );
   
   int sum=0;
   for(int i=0;i<BITSPERINT;i++)

@@ -1,9 +1,8 @@
-/// @file
-/// @brief Example of the function that allows to construct the window menu in the setup. ( "rtmMenu.pde" )
-/// @note Unfortunately, this breaks the calculation of the built-in variable height in Processing!
-/// @date 2024-09-26 (Last modification)
+/// Example of the function that allows to construct the window menu in the setup. ( "rtmMenu.pde" )
+/// @note Unfortunately, this breaks the calculation of the built-in variable `height` in Processing!
+/// @date 2024-10-21 (Last modification)
 /// @note This file shoud be COPIED into the project directory and modified when needed.
-//*/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//*//////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Generally usable classes & functions
 /// @{

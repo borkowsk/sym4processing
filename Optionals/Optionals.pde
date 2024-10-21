@@ -9,16 +9,14 @@
 //*/////////////////////////////////////////////////////////////
 
 int          RANDSEED=0;          ///< For initialisation of pseudo-random.
-                                  ///< numbers generator.
-                                  
+                                  ///< numbers generator                              
 int          FRAMEFREQ=10;        ///< application speed.
 int          VISFREQ=1;           ///< how often full visualisation is performed.
-
-int          DEBUG_LEVEL=0;       ///< or DEBUG or DEBUG_LEVEL ???
+int      DEBUG_LEVEL=0;           ///< or DEBUG or DEBUG_LEVEL ???
 
 final int    LINK_INTENSITY=2;    ///< For network visualisation.
 final float  MAX_LINK_WEIGHT=1.0; ///< Also for network visualisation.
-final int    MASKBITS=0xffffffff; ///< Redefine, when smaller width is required.
+final int    MASK_BITS=0xffffffff; ///< Redefine, when smaller width is required.
 
 final boolean WINDOW_INVISIBLE=false; ///< used in template draw for swith on 
                                       ///< window invisibility.

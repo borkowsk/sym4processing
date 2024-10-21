@@ -1,7 +1,6 @@
-/// @file
-/// @brief World full of cells need method of visualisation on screen/window
+/// World full of cells need method of visualisation on screen/window.
 //*        CA: BASIC VISUALISATION
-//  @date 2024-10-11 (last modification)
+//  @date 2024-10-21 (last modification)
 //*//////////////////////////////////////////////////////////////////////////
 
 /// Visualization of cells (Two-dimensional version). NOTE: Not efficient for cwidth==1 !

@@ -1,20 +1,22 @@
-///  Client for gameServer - MAIN SOURCE FILE (setup() & draw() defined here)
-//*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// @file
+/// Client for gameServer. MAIN SOURCE FILE (setup() & draw() defined here)
+/// @date 2024-10-21 (last modification)
+//*////////////////////////////////////////////////////////////////////////
 //
 /// Loosely based on Processing example:
 /// --> https://forum.processing.org/one/topic/how-do-i-send-data-to-only-one-client-using-the-network-library.html
 //
 import processing.net.*;
 
-static int DEBUG=0;    ///< Level of debug logging (have to be static because of use inside static functions)
+static int DEBUG=0;    ///< Level of debug logging (have to be static because of use inside static functions).
 
-int VIEW_MSG=0;        ///< Game protocol message tracing level
+int VIEW_MSG=0;        ///< Game protocol message tracing level.
 int INTRO_FRAMES=3;    ///< How long the intro lasts?
-int DEF_FRAME_RATE=60; ///< Desired frame rate during game
+int DEF_FRAME_RATE=60; ///< Desired frame rate during game.
 
 String  playerName=""; ///< ASCII IDENTIFIER OF THE PLAYER. It is from "player.txt" file.
 
-Client  myClient=null; ///< Network client object representing connection to the server
+Client  myClient=null; ///< Network client object representing connection to the server.
     
 /// Startup of a game client. Still not connected after that.
 void setup() 
@@ -24,10 +26,10 @@ void setup()
   println("PLAYER:",playerName);
   println("Expected server IP:",serverIP,"\nExpected server PORT:",servPORT);
   frameRate(1);      //Only for intro (->INTRO_FRAMES) and establishing connection time.
-  VIS_MIN_MAX=false; //Option for visualisation - with min/max value
-  KEEP_ASPECT=true;  //Option for visualisation - with proportional aspect ratio
+  VIS_MIN_MAX=false; //Option for visualisation - with min/max value.
+  KEEP_ASPECT=true;  //Option for visualisation - with proportional aspect ratio.
   INFO_LEVEL=Masks.SCORE;    //Information about objects (-1 - no information printed)
-  //textSize(16);    //... not work well with default font :-(
+  //textSize(16);    //... not work well with default font. :-(
 }
 
 /// A function that is triggered many times per second, 
@@ -143,4 +145,3 @@ void loadSettings()
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - TCP/IP GAME TEMPLATE
 //*  https://github.com/borkowsk/sym4processing
 //*/////////////////////////////////////////////////////////////////////////////////////////
-

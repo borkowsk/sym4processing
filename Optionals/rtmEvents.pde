@@ -1,6 +1,5 @@
-/// @file 
-/// @brief Example of a keyboard event handling. ("rtmEvents.pde")
-/// @date 2024-09-26 (Last modification)
+/// Example of a keyboard event handling. ("rtmEvents.pde")
+/// @date 2024-10-21 (Last modification)
 /// @note This file shoud be COPIED into the project directory and modified when needed.
 //*/////////////////////////////////////////////////////////////////////////////////////
 

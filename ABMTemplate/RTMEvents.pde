@@ -1,9 +1,8 @@
-/// @file 
-/// @brief Model-specific event handler. 
-///        Of course, the creator of a specific application has to match actions.
+/// Model-specific event handler. 
+///        Of course, the creator of a specific application has to match the actions.
 //*        ABM: EVENTS TEMPLATE
-/// @date 2024-09-26 (last modification)
-//*///////////////////////////////////////////////////////////////////////
+/// @date 2024-10-21 (last modification)
+//*//////////////////////////////////////////////////////////////////////////////////
 
 /// @brief Keyboard click handler. @details 
 /// Automatically run by Processing when any key on the keyboard is pressed. 

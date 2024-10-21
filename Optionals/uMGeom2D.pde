@@ -1,6 +1,5 @@
-/// @file
-/// @brief Some 2D Geometry calculations: nearestPoints and so on ( "uMGeom2D.pde" )
-/// @date 2024-09-26 (Last modification)
+/// Some 2D Geometry calculations - nearestPoints and so on. ( "uMGeom2D.pde" )
+/// @date 2024-10-21 (Last modification)
 //*/////////////////////////////////////////////////////////////////////////////////
 /// @note Required uPair &
 ///       Required pointxy from uGraphix.
@@ -13,8 +12,8 @@
 /// Nearest points of two polygons.
 /// @param listA - first polygon as a list of points
 /// @param listB - second polygon as a list of points
-/// @note Templates are currently not supported in Processing2C++ !
-Pair<pointxy,pointxy> nearestPoints(final pointxy[] listA,final pointxy[] listB )  ///< @note GLOBAL
+/// @note Templates translation are currently not supported in Processing2C++ !
+Pair<pointXY,pointXY> nearestPoints(final pointXY[] listA,final pointXY[] listB )  //<< @note GLOBAL???
 {                                                         
                                     assert(listA.length>0);
                                     assert(listB.length>0);
@@ -34,7 +33,7 @@ Pair<pointxy,pointxy> nearestPoints(final pointxy[] listA,final pointxy[] listB 
       }
     }
     
-  return new Pair<pointxy,pointxy>(listA[minA],listB[minB]);
+  return new Pair<pointXY,pointXY>(listA[minA],listB[minB]);
 }
 /*_OnlyProcessingBlockEnd*/
 

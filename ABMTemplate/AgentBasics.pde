@@ -1,7 +1,6 @@
-/// @file 
-/// @brief Agents need to be initialised & they need logic of change. 
+/// Agents need to be initialised & they need logic of change. 
 //*        ABM: BASIC INITIALISATION & EVERY STEP CHANGE
-/// @date 2024-09-26 (last modification)
+/// @date 2024-10-21 (last modification)
 //*//////////////////////////////////////////////////////////////
 
 /// Initialization of agents (2D version).

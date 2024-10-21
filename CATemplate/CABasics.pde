@@ -1,7 +1,6 @@
-/// @file
-/// @brief Cell is a one of two central types (typicaly char or int) of each CA model
+/// Cell is a one of two central types (typicaly char or int) of each CA model.
 /// @details Cells need to be initialised & they need rules of change
-//  @date 2024-10-11 (last modification)
+//  @date 2024-10-21 (last modification)
 //*////////////////////////////////////////////////////////////////////////////////
 
 /// Initialization of cells (2D version).
