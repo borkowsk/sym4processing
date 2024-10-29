@@ -24,14 +24,14 @@ wc -l processing_dirs.lst
 echo -e $COLOR1"\n\tLooks like you have Processing."
 echo -e $COLOR2"\tRemember to run 'install' in its main directory."$NORMCO
 
-echo -e $COLOR2"\nVideo library..."$NORMCO
+echo -e $COLOR2"\n'hamoid' video library installed in Processing... "$NORMCO
 find ~/ -name "hamoid"  -print > hamoid_dirs.lst
 grep --color "hamoid" hamoid_dirs.lst
 wc -l hamoid_dirs.lst
 
 echo -e $COLOR1"\n\tLooks like you have Hamoid Video Library."
 
-echo -e $COLOR2"\nffmpeg tool..."$COLOR1
+echo -e $COLOR2"\nffmpeg tool installed in your system... (if not, try 'sudo apt  install ffmpeg')"$COLOR1
 ffmpeg -version | grep --color "ffmpeg.*version"
 echo -e $COLOR1"\n\tLooks like you have ffmpeg tool instaled\n"
 
