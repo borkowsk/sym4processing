@@ -1,7 +1,10 @@
 /// Others factories for fabrication of links for a (social) network. ("uNLinkFilters.pde")
-/// @date 2024-10-21 (last modification)
+/// @date 2024-11-22 (last modification)
 //*///////////////////////////////////////////////////////////////////////////////////////////////
 
+/// @defgroup Complex Networks support
+/// @{
+//*/////////////////////////////////////
 /**
 * @brief Random link factory.
 *        It creates links with random weights.
@@ -38,4 +41,5 @@ class randomWeightLinkFactory implements iLinkFactory
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES  - NETWORKS TOOLBOX
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*////////////////////////////////////////////////////////////////////////////

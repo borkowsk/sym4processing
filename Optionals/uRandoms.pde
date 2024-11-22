@@ -1,10 +1,10 @@
-/// unctions that improve the use of pseudo-random numbers. ("uRandoms.pde")
-/// @date 2024-10-21 (Last modification)
-///*////////////////////////////////////////////////////////////////////////////////
+/// Functions that improve the use of pseudo-random numbers. ("uRandoms.pde")
+/// @date 2024-11-22 (Last modification)
+///-////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup More simulation resources
 /// @{
-//*////////////////////////////////////
+//-////////////////////////////////////
 
 /// Function generates pseudo random number with non-flat distribution.
 /// When @p Dist is negative, it is Pareto-like, 

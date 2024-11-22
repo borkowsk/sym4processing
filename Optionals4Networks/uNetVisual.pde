@@ -1,6 +1,10 @@
 /// Generic visualisations of a (social) network. ("uNetVisual.pde")
-/// @date 2024-10-21 (last modification)
+/// @date 2024-11-22 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////
+
+/// @defgroup Complex Networks support
+/// @{
+//*/////////////////////////////////////
 
 /// @details
 ///
@@ -236,4 +240,5 @@ void visualiseLinks(iVisNode[][] nodes,LinkFilter filter,float defX,float defY,f
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES  - NETWORKS TOOLBOX
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*////////////////////////////////////////////////////////////////////////////

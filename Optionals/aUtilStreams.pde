@@ -1,9 +1,10 @@
-/** Stream tools. ("aUtilStreams.pde" )
- *  @date 2024-10-21 (Last modification)                        @author borkowsk
- */
+/// Stream tools. ("aUtilStreams.pde" )
+/// @date 2024-11-22 (Last modification)                        @author borkowsk
+///-/////////////////////////////////////////////////////////////////////////////
+
 /// @defgroup StreamUtils Functions & classes for streams & files
 /// @{                                                         
-//*//////////////////////////////////////////////////////////////
+//-//////////////////////////////////////////////////////////////////////////////
 
 /*_OnlyProcessingBlockBegin*/
 import java.io.InputStreamReader;

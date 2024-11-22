@@ -1,11 +1,11 @@
 /// Tables of English names popular in 1880. ( "uEngNames.pde" )
-/// @date 2024-10-20 (Last modification)
+/// @date 2024-11-22 (Last modification)
 /// @details "https://www.ssa.gov/oact/babynames/decades/names1880s.html"
-//*//////////////////////////////////////////////////////////////////////
+//-//////////////////////////////////////////////////////////////////////
 
 /// @defgroup More simulation resources
 /// @{
-//*////////////////////////////////////
+//-////////////////////////////////////
 
 /// @brief Few popular, Male & Female fifty-fifty, alphabetic names.
 final String[] EnglishNamesShort =   ///< @note Global namespace!

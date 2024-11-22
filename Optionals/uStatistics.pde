@@ -1,14 +1,14 @@
 /// Various simple statistics for one-dimensional arrays ("uStatistics.pde")
-/// @date 2024-10-21 (Last modification)
-//* PL: Różne proste statystyki dla tablic jednowymiarowych
-//*/////////////////////////////////////////////////////////////////////////////////
+/// @date 2024-11-22 (Last modification)
+//: PL: Różne proste statystyki dla tablic jednowymiarowych
+//-/////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Statistic tools and functions
 /// @{
 //*////////////////////////////////////////
 
 /// Arithmetic mean of the `float` data.
-//* PL: Średnia arytmetyczna z danych typu float
+//: PL: Średnia arytmetyczna z danych typu float
 /// See: https://en.wikipedia.org/wiki/Arithmetic_mean
 float meanArithmetic(float data[],int offset,int limit)    ///< @note GLOBAL
 {                       
@@ -25,7 +25,7 @@ float meanArithmetic(float data[],int offset,int limit)    ///< @note GLOBAL
 }
 
 /// Arithmetic mean of the "double" precision data.
-//* PL: Średnia arytmetyczna z danych o "podwójnej" precyzji
+//: PL: Średnia arytmetyczna z danych o "podwójnej" precyzji
 /// See: https://en.wikipedia.org/wiki/Arithmetic_mean
 double meanArithmetic(double data[],int offset,int limit)  ///< @note GLOBAL
 {                       
@@ -42,7 +42,7 @@ double meanArithmetic(double data[],int offset,int limit)  ///< @note GLOBAL
 }
 
 /// Pearson's correlation.
-//* PL: Korelacja Pearsona
+//: PL: Korelacja Pearsona
 /// https://pl.wikipedia.org/wiki/Wsp%C3%B3%C5%82czynnik_korelacji_Pearsona
 double correlation(float data1[],float data2[],int offset1,int offset2,int limit)  ///< @note GLOBAL
 {
@@ -100,9 +100,9 @@ double correlation(float data1[],float data2[],int offset1,int offset2,int limit
 /// Mean of the correlations using Z.
 /// One need to change the correlations to Z to be able to legally add them.
 /// Unfortunately, the = 1 and = -1 correlations are not transformable, so we cheat a bit
-//* Średnia z korelacji za pomocą Z
-//* Trzeba zmienić korelacje na Z, żeby móc je legalnie dodawać. 
-//* Niestety korelacje =1 i =-1 są nietransformowalne więc trochę oszukujemy
+//: Średnia z korelacji za pomocą Z
+//: Trzeba zmienić korelacje na Z, żeby móc je legalnie dodawać. 
+//: Niestety korelacje =1 i =-1 są nietransformowalne więc trochę oszukujemy
 double meanCorrelations(double data[],int offset,int limit)    ///< @note GLOBAL
 {
                                                            assert(offset<limit);
@@ -132,7 +132,7 @@ double meanCorrelations(double data[],int offset,int limit)    ///< @note GLOBAL
 }
 
 /// Informational entropy from the histogram.
-//* PL: Entropia informacyjna z histogramu
+//: PL: Entropia informacyjna z histogramu
 double entropyFromHist(int[] histogram)      ///< @note GLOBAL
 {
   double sum=0; //Ile przypadków. 

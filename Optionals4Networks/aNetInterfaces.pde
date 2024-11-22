@@ -1,6 +1,10 @@
 /// Network Only Interfaces. ("aNetInterfaces.pde")
-/// @date 2024-10-21 (last modification)
+/// @date 2024-11-22 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////
+
+/// @defgroup Complex Networks support
+/// @{
+//*/////////////////////////////////////
 
 /// @details
 ///   INTERFACES:
@@ -12,8 +16,8 @@
 /** @brief Network connection/link interface. */
 interface iLink
 {
+  /*_interfunc*/ int   getTypeMarker() /*_forcebody*/;  //!< Do porównywania czy ten sam typ czy nie.
   /*_interfunc*/ float     getWeight() /*_forcebody*/;
-  /*_interfunc*/ int   getTypeMarker() /*_forcebody*/;
   /*_interfunc*/ iNode     getTarget() /*_forcebody*/;
   /*_interfunc*/ void      setTarget(iNode tar) /*_forcebody*/;
 } //_EndOfClass 
@@ -31,7 +35,8 @@ interface iLinkFilter
 */
 interface iNode extends iNamed
 {
-  /*_interfunc*/ int      numOfConn()         /*_forcebody*/;
+  /*_interfunc*/ int        getTypeMarker()   /*_forcebody*/; //!< Do porównywania czy ten sam typ czy nie.
+  /*_interfunc*/ int        numOfConn()       /*_forcebody*/;
   /*_interfunc*/ int        addConn(iLink  l) /*_forcebody*/;
   /*_interfunc*/ int        delConn(iLink  l) /*_forcebody*/;
 
@@ -66,4 +71,5 @@ interface  iLinkFactory
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES  - NETWORKS INTERFACES
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*////////////////////////////////////////////////////////////////////////////

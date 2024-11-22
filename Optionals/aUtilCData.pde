@@ -1,5 +1,5 @@
 /** Classes for statistics data representations. ("aUtilCData.pde")
- *  @date 2024-10-20 (last modification)                       @author borkowsk
+ *  @date 2024-11-22 (last modification)                       @author borkowsk
  *  @note This modules could be typically just linked from "Optionals/"
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
@@ -7,14 +7,14 @@
  
 /// @defgroup Statistic tools and functions
 /// @{
-//*////////////////////////////////////////
+//-////////////////////////////////////////
  
 // @brief "NO DATA" marker. Needed somewhere else.
 float INF_NOT_EXIST=Float.MAX_VALUE;                                            ///< @note Global!
 int   INVALID_INDEX=-1;                                                         ///< @note Global!
 int   debug_utils=0;                                                            ///< Debug level for UtilCData & UtilCharts etc.
 
-/// Logarithm on base2 needed f.e. to Shannon's entropy calculation from floats
+/// Logarithm on base2 needed f.e. to Shannon's entropy calculation from floats.
 float log2(float v) ///< GLOBAL
 {
   return log(v) / log(2.0); // (v > 0)  
@@ -26,7 +26,7 @@ class ViewSwitch implements iFlag
 {
   boolean _val; //!< current value.
 
-  /// @brief Sole constructor
+  /// @brief Sole constructor.
   ViewSwitch(boolean isEnabled){ _val=isEnabled; }
 
   /// @brief Change the value to the opposite.
@@ -37,6 +37,7 @@ class ViewSwitch implements iFlag
   
 } //_endOfClass ViewSwitch
 
+/// A float range without any name.
 class NonameRange implements iFloatRange
 {
   float minimum=+Float.MAX_VALUE; //!< Current minimal value
@@ -417,7 +418,7 @@ class Sample  extends NamedData implements iDataSample, /*_vpi*/ iFloatRange, /*
   /// @brief Replacing the most recently added value with another one.
   void replaceLastValue(float value) {
     
-    sum-=dataList.get(dataList.size()-1);     //<>//
+    sum-=dataList.get(dataList.size()-1);    
 
     dataList.set(dataList.size()-1,value);
     

@@ -1,11 +1,11 @@
 /// Class for discovering clustering and calculating its statistical parameters. (rtmClustering.pde)
-/// @date 2024-10-21 (last modification)
+/// @date 2024-11-22 (last modification)
 /// @note This file shoud be COPIED into the project directory and modified when needed.
-//*/////////////////////////////////////////////////////////////////////////////////////////////////
+//-/////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Statistic tools and functions
 /// @{
-//*////////////////////////////////////////
+//-////////////////////////////////////////
 
 /// @brief Klasa służąca do odnajdywania klasteringu i obliczania jego parametrów statystycznych.
 /// @details Zakładamy że agent ma pole `A` które okresla jego przynalezność.

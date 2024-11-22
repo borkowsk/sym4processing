@@ -1,14 +1,14 @@
 /// "Active rectangles" - proprietary application interface module in Processing. ( "uGRectAreas.pde" )
-/// @date 2024-10-21 (Last modification)
+/// @date 2024-11-22 (Last modification)
 /// @author Wojciech Borkowski
-//*////////////////////////////////////////////////////////////////////////////////////////////////////
+//-////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // USE /*_interfunc*/ &  /*_forcbody*/ for interchangeable function 
 // if you need translate the code into C++ (--> Processing2C )
 
 /// @defgroup Generally usable graphix
 /// @{
-//*///////////////////////////////////
+//-///////////////////////////////////
 
 ArrayList<RectArea>   allAreas = new ArrayList<RectArea>();     ///< Global list of areas to be displayed.
 ArrayList<TextButton> allButtons = new ArrayList<TextButton>(); ///< Global button list.

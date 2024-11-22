@@ -1,11 +1,11 @@
 /// Examples for handling mouse events. ("rtmMouse.pde")
-/// @date 2024-10-21 (Last modification)
+/// @date 2024-11-22 (Last modification)
 /// @note This file shoud be COPIED into the project directory and modified when needed.
-//*/////////////////////////////////////////////////////////////////////////
+//-/////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Generally usable classes & functions
 /// @{
-//*///////////////////////////////////////////////
+//-///////////////////////////////////////////////
 
 /// Mouse movement support. It shouldn't be too time consuming.
 /// see: //https://processing.org/reference/mouseMoved_.html

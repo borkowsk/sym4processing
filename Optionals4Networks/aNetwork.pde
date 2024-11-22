@@ -1,6 +1,10 @@
 /// Generic (social) network classes. ("aNetwork.pde")
-/// @date 2024-10-21 (last modification)
+/// @date 2024-11-22 (last modification)
 //*/////////////////////////////////////////////////////////////////////////////
+
+/// @defgroup Complex Networks support
+/// @{
+//*/////////////////////////////////////
 
 import java.util.Map;
 
@@ -693,6 +697,8 @@ class NodeAsList extends Node  implements iVisNode {
     connections=new ArrayList<Link>();
   }
   
+  int        getTypeMarker()  { return 111; }  //!< Do porównywania czy ten sam typ czy nie.
+  
   int     numOfConn()  //!< By interface required.    
   { return connections.size(); }
   
@@ -775,7 +781,7 @@ class NodeAsList extends Node  implements iVisNode {
   
   // REMAINING INTERFACES REQUIREMENTS:
   //*//////////////////////////////////
-  color defColor() { return color(0,128); }
+  color defColor() { return color(0,0,128); }
   float     getX() { return posX(); }
   float     getY() { return posY(); }
   float     getZ() { return 0; }
@@ -795,6 +801,8 @@ class NodeAsMap extends Node implements iVisNode {
   {
     connections=new HashMap<String,Link>(); 
   }
+  
+  int        getTypeMarker()  { return 222; }  //!< Do porównywania czy ten sam typ czy nie.
   
   int     numOfConn()      { return connections.size();}
   
@@ -880,4 +888,5 @@ class NodeAsMap extends Node implements iVisNode {
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES  - NETWORKS TOOLBOX
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*////////////////////////////////////////////////////////////////////////////

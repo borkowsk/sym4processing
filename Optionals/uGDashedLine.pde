@@ -1,10 +1,10 @@
 /// Function for drawing dashed lines. ( "uGDashedLine.pde" )
-/// @date 2024-10-21 (Last modification)
-//*//////////////////////////////////////////////////////////////////
+/// @date 2024-11-22 (Last modification)
+//-//////////////////////////////////////////////////////////////////
 
 /// @defgroup Generally usable graphix
 /// @{
-//*///////////////////////////////////
+//-///////////////////////////////////
 
 ///  Draw a dashed line with given set of dashes and gap lengths. 
 ///  @param x0 starting x-coordinate of line. 

@@ -1,11 +1,11 @@
 /// Example of a keyboard event handling. ("rtmEvents.pde")
-/// @date 2024-10-21 (Last modification)
+/// @date 2024-11-22 (Last modification)
 /// @note This file shoud be COPIED into the project directory and modified when needed.
-//*/////////////////////////////////////////////////////////////////////////////////////
+//-/////////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Generally usable classes & functions
 /// @{
-//*///////////////////////////////////////////////
+//-///////////////////////////////////////////////
 
 /// The handler called every time when keyboard key is pressed.
 /// You can use 'key' and 'keyCode' Processing variable inside. 

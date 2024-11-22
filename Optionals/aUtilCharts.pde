@@ -1,5 +1,5 @@
 /** Function for statistocs visualisation. ("uCharts.pde")
- *  @date 2024-10-20 (last modification)                     @author borkowsk
+ *  @date 2024-11-22 (last modification)                     @author borkowsk
  *  @note This modules could be typically just linked from "Optionals/"
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
@@ -7,7 +7,7 @@
  
 /// @defgroup Statistic tools and functions
 /// @{
-//*////////////////////////////////////////
+//-////////////////////////////////////////
 
 // Masks for Sample options:
 //*/////////////////////////

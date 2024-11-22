@@ -1,13 +1,13 @@
 /// `Pair` is one of the very COMMONLY used and usable TEMPLATE. ("aPair.pde")
-/// @date 2024-10-21 (last modification)
-//*///////////////////////////////////////////////////////////////////////////////////
+/// @date 2024-11-22 (last modification)
+//-///////////////////////////////////////////////////////////////////////////////////
 
 // USE /*_interfunc*/ &  /*_forcebody*/ for interchangeable function 
 // if you need translate the code into C++ (--> Processing2C )
 
 /// @defgroup Generally usable classes & functions
 /// @{
-//*///////////////////////////////////////////////
+//-///////////////////////////////////////////////
 
 /// Simple version of Pair template useable for returning a pair of values.
 

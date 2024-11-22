@@ -1,10 +1,10 @@
 /// Various shapes drawing procedures. ("uFigures.pde")
-/// @date 2024-10-21 (last modification)                        @author borkowsk
-//*/////////////////////////////////////////////////////////////////////////////
+/// @date 2024-11-22 (last modification)                        @author borkowsk
+//-/////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Generally usable graphic
 /// @{
-//*///////////////////////////////////
+//-///////////////////////////////////
 
 //color BALDHEAD_NOSE_COLOR=0xff000011;
 float BALDHEAD_MUN_ANGLE=PI/10;   ///< Baldhead drawing GLOBAL parameter.

@@ -1,7 +1,7 @@
 /// Common INTERFACES like `iNamed`, iDescribable, iColorable, iPositioned. ("aInterfaces.pde")
-/// @date 2024-10-21 (last modification)                       @author borkowsk
+/// @date 2024-11-22 (last modification)                       @author borkowsk
 /// @note General interfaces for "optional" modules could be typically just linked from "Optionals/"
-//*/////////////////////////////////////////////////////////////////////////////////////////////////
+//-/////////////////////////////////////////////////////////////////////////////////////////////////
 
 //* USE /*_interfunc*/ &  /*_forcebody*/ for interchangeable function 
 //* if you need translate the code into C++ (--> Processing2C )
@@ -88,18 +88,29 @@ interface iResettable
   /*_interfunc*/ void               reset() /*_forcebody*/;
 } //_EofCl
 
+/** @brief Interface for read only set of agent attributes */
+interface iAttributeGets 
+{
+  /*_interfunc*/ int         getIntAttribute(String attrName ) /*_forcebody*/;
+  /*_interfunc*/ float     getFloatAttribute(String attrName ) /*_forcebody*/;
+  /*_interfunc*/ String   getStringAttribute(String attrName ) /*_forcebody*/;
+  /*_interfunc*/ String       printableState() /*_forcebody*/;
+} //_EofCl
+
 /** @brief Any simulation agent */
-interface iAgent extends iNamed, /*_pvi*/ iDescribable
+interface iAgent extends iNamed, /*_pvi*/ iDescribable, /*_pvi*/ iAttributeGets
 {
   /// Derived methods:
   ///  *  `_interfunc String           getName() /*_forcebody*/;`
   ///  *  `_interfunc String              name() /*_forcebody*/;`
+  
   ///  *  `_interfunc String    getDescription() /*_forcebody*/;`
   ///  *  `_interfunc String       description() /*_forcebody*/;`
-  /*_interfunc*/ int        getIntAttribute(String attrName ) /*_forcebody*/;
-  /*_interfunc*/ float    getFloatAttribute(String attrName ) /*_forcebody*/;
-  /*_interfunc*/ String  getStringAttribute(String attrName ) /*_forcebody*/;
-  /*_interfunc*/ String      printableState() /*_forcebody*/;
+  
+  ///  *  `_interfunc int        getIntAttribute(String attrName ) /*_forcebody*/;`
+  ///  *  `_interfunc float    getFloatAttribute(String attrName ) /*_forcebody*/;`
+  ///  *  `_interfunc String      printableState() /*_forcebody*/;`
+  
 } //_EofCl
 
 /** @brief Model time measuring interface */

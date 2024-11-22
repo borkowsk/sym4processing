@@ -1,6 +1,10 @@
-/// Different filters of links and other link tools for a (social) network.
-/// @date 2024-10-21 (last modification)
-//*///////////////////////////////////////////////////////////////////////////////
+/// Different filters of links and other link tools for a (social) network. (uNLinkFilters.pde)
+/// @date 2024-11-22 (last modification)
+//*////////////////////////////////////////////////////////////////////////////////////////////
+
+/// @defgroup Complex Networks support
+/// @{
+//*/////////////////////////////////////
 
 /// @details
 ///   Available filters: 
@@ -125,4 +129,5 @@ class AbsHighPassFilter extends LinkFilter
 //*  https://www.researchgate.net/profile/WOJCIECH_BORKOWSKI - OPTIONAL TOOLS 
 //*  - FUNCTIONS & CLASSES
 //*  https://github.com/borkowsk/sym4processing
+/// @}
 //*////////////////////////////////////////////////////////////////////////////

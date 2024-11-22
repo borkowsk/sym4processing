@@ -1,11 +1,11 @@
 /// Example of mandatory `draw()` with possibility of non-visible window. ("rtmDraw.pde")
-/// @date 2024-10-21 (Last modification)
+/// @date 2024-11-22 (Last modification)
 /// @note This file shoud be COPIED into the project directory and modified when needed.
-//*/////////////////////////////////////////////////////////////////////////////////////
+//-/////////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Generally usable classes & functions
 /// @{
-//*///////////////////////////////////////////////
+//-///////////////////////////////////////////////
 
 /// @brief Dummy mandatory `draw()` with possibility of non-visible window.
 /// @details 
