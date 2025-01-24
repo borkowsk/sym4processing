@@ -1,5 +1,5 @@
 /** Function for statistocs visualisation. ("uCharts.pde")
- *  @date 2024-11-22 (last modification)                     @author borkowsk
+ *  @date 2025-01-24 (last modification)                     @author borkowsk
  *  @note This modules could be typically just linked from "Optionals/"
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
@@ -227,7 +227,13 @@ void viewAsPoints(iDataSample data,int startD,float startX,float startY,int widt
     Max=(logarithm?(float)Math.log10(data.getMax()+1):data.getMax()); //+1 wizualnie niewiele zmienia a gwarantuje obliczalność
   }
   
-  int     N=data.numOfElements();                                               assert startD<N-1;
+  int     N=data.numOfElements();                   
+  
+  if(startD>=N-1)
+  {
+    text("Invalid data",startX,startY+height/2);   
+  }
+  
   if(startD<0)
   {
       startD=-startD;  //It was only conventionally negative!!!
