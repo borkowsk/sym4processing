@@ -1,5 +1,5 @@
 /** Function for statistocs visualisation. ("uCharts.pde")
- *  @date 2025-01-24 (last modification)                     @author borkowsk
+ *  @date 2025-01-31 (last modification)                     @author borkowsk
  *  @note This modules could be typically just linked from "Optionals/"
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
@@ -56,7 +56,7 @@ void viewTicsH(float startX,float startY,float width,float height,float space)  
 /** @brief Visualizes the limits of the vertical scale.
 *   @note We're not drawing dashes here yet (tics)
 *   @details Function for drawing scale on Y axis.   */
-void viewScaleV(iFloatRange MinMax,int startX,int startY,int width,int height)        ///< @note GLOBAL
+void viewScaleV(iFloatRange MinMax,int startX,int startY,int width,int height)  ///< @note GLOBAL
 { 
    //,boolean logarithm) //We are not drawing tics here for now
    //float Min=(logarithm?(float)Math.log10(MinMax.min+1):MinMax.min); //+1 doesn't change much visually, but it guarantees computability
@@ -67,7 +67,7 @@ void viewScaleV(iFloatRange MinMax,int startX,int startY,int width,int height)  
 }
 
 /// @brief Visualise horisontal asymptotic straight line
-void viewHorizontalAsymptote(float val,iFloatRange MinMax,int startX,int startY,int width,int height)        ///< @note GLOBAL
+void viewHorizontalAsymptote(float val,iFloatRange MinMax,int startX,int startY,int width,int height) ///< @note GLOBAL
 {
    if( MinMax.getMin() <= 0 && 0<=MinMax.getMax() && MinMax.getMin()!=MinMax.getMax() )
    {
@@ -132,8 +132,13 @@ void viewAsPoints(iDataSample data,int startD,float startX,float startY,int widt
     }
   }
   
-  int     N=data.numOfElements();                                               assert startD<N-1;
+  int     N=data.numOfElements();
 
+  if(startD>=N-1)
+  {
+    textAlign(CENTER,CENTER); text("Invalid data, N:"+str(N),startX/2,startY+height/2); textAlign(LEFT,TOP);
+  }
+  
   if(startD<0)
   {
       startD=-startD;  //It was only conventionally negative!!!
@@ -231,7 +236,7 @@ void viewAsPoints(iDataSample data,int startD,float startX,float startY,int widt
   
   if(startD>=N-1)
   {
-    text("Invalid data",startX,startY+height/2);   
+    textAlign(CENTER,CENTER); text("Invalid data, N:"+str(N),startX/2,startY+height/2); textAlign(LEFT,TOP);
   }
   
   if(startD<0)
@@ -294,7 +299,12 @@ void viewAsPoints(iDataSample data,int startD,float startX,float startY,int widt
 void viewAsVerticals(iDataSample data,int startD,float startX,float startY,int width,int height,iColorMapper mapper) ///< @NOTE GLOBAL. For C++ translation MUST be in one line!
 {
   int     N=data.numOfElements();                                                             
-                                                                                             assert startD<N-1;
+  
+  if(startD>=N-1)
+  {
+    textAlign(CENTER,CENTER); text("Invalid data, N:"+str(N),startX/2,startY+height/2); textAlign(LEFT,TOP);
+  }
+  
   if(startD<0)
   {
       startD=-startD;  //It was only conventionally negative!!!

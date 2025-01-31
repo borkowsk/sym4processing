@@ -1,5 +1,5 @@
 /** Classes for statistics data representations. ("aUtilCData.pde")
- *  @date 2024-11-22 (last modification)                       @author borkowsk
+ *  @date 2025-01-31 (last modification)                       @author borkowsk
  *  @note This modules could be typically just linked from "Optionals/"
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
@@ -156,12 +156,12 @@ class Sample  extends NamedData implements iDataSample, /*_vpi*/ iFloatRange, /*
   // For statistics
   int    count=0;                //!< How much data has been entered (not counting INF_NOT_EXIST)
   float    Min=+Float.MAX_VALUE; //!< Current minimal value
-    int  whMin=-1;               //!< Position of the current minimal value
+  int    whMin=-1;               //!< Position of the current minimal value
   float    Max=-Float.MAX_VALUE; //!< Current maximal value
-   int   whMax=-1;               //!< Position of the current maximal value
-  double   sum=0;                //!< The current sum of values 
-  
-   int options=0;                //!< Word 32b free to use
+  int    whMax=-1;               //!< Position of the current maximal value
+  double   sum=0;                //!< The current sum of values
+  int  options=0;                //!< Word 32b, free to use
+   
   /// @brief A constructor with just a name.
   /// @note  For pr2c `super` must be in the same line with constructor name! (@todo still?)
   Sample(String iniName) { super/*NamedData*/(iniName);
@@ -469,7 +469,8 @@ class Int2 implements iIntPair {
 
 class AddersSet1D  extends NamedData implements iDataSample {
 
-  int         sizeOfData=0;
+  int         sizeOfData=0;          //!< number of buckets
+  int         consideredN=0;         //!< number of considered values
   float       _min=Float.MAX_VALUE;
   int         _whMin=-1;
   float       _max=-Float.MAX_VALUE;
@@ -480,8 +481,7 @@ class AddersSet1D  extends NamedData implements iDataSample {
   /** @brief SOLE CONSTRUCTOR */
   AddersSet1D(String iniName,int iniSize) { super/*NamedData*/(iniName); //Javowe "super" musi być w tej samej lini co otwierające {
     sizeOfData=iniSize;
-    data=new float[sizeOfData];
-                                               assert(data[0]==0);
+    data=new float[sizeOfData];             assert(data[0]==0);
   }
   
   /** @brief MinMax reset */
@@ -493,6 +493,7 @@ class AddersSet1D  extends NamedData implements iDataSample {
   /** @brief Data reset */
   void reset() {
     resetMinMax(); //Min-Max may be invalid from now!
+    consideredN=0;
     for(int i=0;i<data.length;i++) //reset data
           data[i]=0;
   }
@@ -522,6 +523,7 @@ class AddersSet1D  extends NamedData implements iDataSample {
     if(current>_max){
       _max=current; _whMax=index;
     }
+    consideredN++;
   }
   
   ///  It replaces value denoted by another triplet and updates results.
