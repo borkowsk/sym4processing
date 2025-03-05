@@ -1,5 +1,5 @@
 /** Function for statistocs visualisation. ("uCharts.pde")
- *  @date 2025-01-31 (last modification)                     @author borkowsk
+ *  @date 2025-03-05 (last modification)                     @author borkowsk
  *  @note This modules could be typically just linked from "Optionals/"
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
@@ -69,8 +69,8 @@ void viewScaleV(iFloatRange MinMax,int startX,int startY,int width,int height)  
 /// @brief Visualise horisontal asymptotic straight line
 void viewHorizontalAsymptote(float val,iFloatRange MinMax,int startX,int startY,int width,int height) ///< @note GLOBAL
 {
-   if( MinMax.getMin() <= 0 && 0<=MinMax.getMax() && MinMax.getMin()!=MinMax.getMax() )
-   {
+   if( MinMax.getMin() <= 0 && 0<=MinMax.getMax() && MinMax.getMin()!=MinMax.getMax()  )
+   {                                                              assert(MinMax.getMin()<=val && val<=MinMax.getMax());
      float mval=map(val,MinMax.getMin(),MinMax.getMax(),0,height); //@todo RENAME mval
      textAlign(LEFT,TOP);
      text(val,startX+width,startY-mval);
@@ -131,12 +131,16 @@ void viewAsPoints(iDataSample data,int startD,float startX,float startY,int widt
       //println("Range:",Min,"..",Max);
     }
   }
-  
+
   int     N=data.numOfElements();
 
-  if(startD>=N-1)
+  if(startD>=N-1 && Min<Max)
   {
-    textAlign(CENTER,CENTER); text("Invalid data, N:"+str(N),startX/2,startY+height/2); textAlign(LEFT,TOP);
+    textAlign(CENTER,CENTER); text("Invalid data, N:"+str(N)+
+                                   "Range:["+Min+
+                                   "..."+
+                                   Max+"]",
+                                   startX/2,startY+height/2); textAlign(LEFT,TOP);
   }
   
   if(startD<0)
@@ -234,9 +238,13 @@ void viewAsPoints(iDataSample data,int startD,float startX,float startY,int widt
   
   int     N=data.numOfElements();                   
   
-  if(startD>=N-1)
+  if(startD>=N-1 && Min<Max)
   {
-    textAlign(CENTER,CENTER); text("Invalid data, N:"+str(N),startX/2,startY+height/2); textAlign(LEFT,TOP);
+    textAlign(CENTER,CENTER); text("Invalid data, N:"+str(N)+
+                                   "Range:["+Min+
+                                   "..."+
+                                   Max+"]",
+                                   startX/2,startY+height/2); textAlign(LEFT,TOP);
   }
   
   if(startD<0)

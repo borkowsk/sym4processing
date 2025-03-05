@@ -1,5 +1,5 @@
 /** Classes for statistics data representations. ("aUtilCData.pde")
- *  @date 2025-01-31 (last modification)                       @author borkowsk
+ *  @date 2025-03-05 (last modification)                       @author borkowsk
  *  @note This modules could be typically just linked from "Optionals/"
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
@@ -10,7 +10,7 @@
 //-////////////////////////////////////////
  
 // @brief "NO DATA" marker. Needed somewhere else.
-float INF_NOT_EXIST=Float.MAX_VALUE;                                            ///< @note Global!
+float INF_NOT_EXIST=-Float.MIN_VALUE;                                           ///< @note Global! -1.4E-45
 int   INVALID_INDEX=-1;                                                         ///< @note Global!
 int   debug_utils=0;                                                            ///< Debug level for UtilCData & UtilCharts etc.
 
@@ -469,8 +469,9 @@ class Int2 implements iIntPair {
 
 class AddersSet1D  extends NamedData implements iDataSample {
 
-  int         sizeOfData=0;          //!< number of buckets
-  int         consideredN=0;         //!< number of considered values
+  int         sizeOfData=0;          //!< number of buckets.
+  int         consideredN=0;         //!< number of considered values.
+  double      consideredSum=0;       //!< sum of considered values.
   float       _min=Float.MAX_VALUE;
   int         _whMin=-1;
   float       _max=-Float.MAX_VALUE;
@@ -481,7 +482,8 @@ class AddersSet1D  extends NamedData implements iDataSample {
   /** @brief SOLE CONSTRUCTOR */
   AddersSet1D(String iniName,int iniSize) { super/*NamedData*/(iniName); //Javowe "super" musi być w tej samej lini co otwierające {
     sizeOfData=iniSize;
-    data=new float[sizeOfData];             assert(data[0]==0);
+    data=new float[sizeOfData];             
+    assert(data[0]==0);
   }
   
   /** @brief MinMax reset */
@@ -494,6 +496,7 @@ class AddersSet1D  extends NamedData implements iDataSample {
   void reset() {
     resetMinMax(); //Min-Max may be invalid from now!
     consideredN=0;
+    consideredSum=0;
     for(int i=0;i<data.length;i++) //reset data
           data[i]=0;
   }
@@ -524,13 +527,17 @@ class AddersSet1D  extends NamedData implements iDataSample {
       _max=current; _whMax=index;
     }
     consideredN++;
+    consideredSum+=value;
   }
   
-  ///  It replaces value denoted by another triplet and updates results.
+  ///  It replaces value denoted by another index and updates results.
   void         replaceAt(int index,float value)
   {
+    float oldValue=data[index];
+    consideredSum-=oldValue;
     data[index]=value;
-    resetMinMax(); //Min-Max may be invalid from now!
+    consideredSum+=value;
+    resetMinMax(); //Min-Max may be invalid from now! :-/
   }
   
   void   multiplyElement(int index,float multiplier) { data[index] *= multiplier; resetMinMax();}
@@ -549,11 +556,21 @@ class AddersSet1D  extends NamedData implements iDataSample {
     }
   }
   
+  int nonZeroCells()
+  {
+    int counter=0;
+    for(int i=0;i<data.length;i++)
+          if(data[i]!=0)
+             counter++;
+             
+    return counter;         
+  }
+  
   /// @brief It calculates "Gini coefficient".
   /// @details Difference algorithm from "https://en.wikipedia.org/wiki/Gini_coefficient"
   /// @note It requires copying to the table because there may be missing values in the list.
-  float getGiniCoefficient() {
-    
+  float getGiniCoefficient() 
+  {  
     // Creating temporary data
     int maxN=data.length;
 
@@ -611,14 +628,15 @@ class AddersSet1D  extends NamedData implements iDataSample {
       }
       return -S;
     } else                                     
-    return 0.000000009999; //NIE DAŁO SIĘ POLICZYĆ -  fNaN; // może lepiej?
+    return INF_NOT_EXIST; //NIE DAŁO SIĘ POLICZYĆ -  fNaN; // może lepiej?
   }
   
 } //_endOfClass Summator1D
 
 /** @brief ... */
 class AddersSet2D extends NamedData implements i2DDataSample {
-  
+  int         consideredN=0;         //!< number of considered values.
+  double      consideredSum=0;       //!< sum of considered values.
   int         _R=0;
   int         _C=0;
   float       _min=Float.MAX_VALUE;
@@ -644,7 +662,9 @@ class AddersSet2D extends NamedData implements i2DDataSample {
   
   /** @brief Data only reset */
   void reset() {
-    resetMinMax(); //Min-Max may be invalid from now!
+    resetMinMax();         //Min-Max may be invalid from now!
+    consideredN=0;         // clears number of considered values.
+    consideredSum=0;       // clears sum of considered values.
     for(int i=0;i<data.length;i++) //reset data
     for(int j=0;j<data[i].length;j++)
           data[i][j]=0;
@@ -661,13 +681,19 @@ class AddersSet2D extends NamedData implements i2DDataSample {
     if(current>_max){
       _max=current; _whMaxR=indexR; _whMaxC=indexC;
     }
+    
+    consideredN++;
+    consideredSum+=value;
   }
   
   ///  It replaces value denoted by another triplet and updates results.
   void          replaceAt(int indexR,int indexC,float value)
   {
+    float oldValue=data[indexR][indexC];
+    consideredSum-=oldValue;
     data[indexR][indexC]=value;
-    resetMinMax(); //Min-Max may be invalid from now!
+    consideredSum+=value;
+    resetMinMax(); //Min-Max may be invalid from now! :-/
   }
     
   // OTHERS REQUIRED BY INTERFACES:
@@ -686,13 +712,15 @@ class AddersSet2D extends NamedData implements i2DDataSample {
   float           getMin() { if(_whMinC==-1) _calculateMinMax(); return _min; }
   float           getMax() { if(_whMaxC==-1) _calculateMinMax(); return _max; }
   
-  void          consider(float value) { /* DOES NOTHING */ }  
+  void          consider(float value) { /* DOES NOTHING */ }
 
   void         replaceAt(int index,float val)   { replaceAt(index/_C,index%_C,val); }
+  
   float              get(int indexR,int indexC) { return data[indexR][indexC]; }
   float              get(int index)             { return get(index/_C,index%_C); }
-  float     getElementAt(int indexR,int indexC) { return data[indexR][indexC]; }
   float     getElementAt(int index)             { return get(index/_C,index%_C); }
+  float     getElementAt(int indexR,int indexC) { return data[indexR][indexC]; }
+  
 
   void  _calculateMinMax()
   {
@@ -706,6 +734,17 @@ class AddersSet2D extends NamedData implements i2DDataSample {
         _max=current; _whMaxR=r;_whMaxC=c;
       }
     }
+  }
+  
+  int nonZeroCells()
+  {
+    int counter=0;
+    for(int i=0;i<data.length;i++)
+      for(int j=0;j<data[i].length;j++)
+          if(data[i][j]!=0)
+             counter++;
+             
+    return counter;         
   }
 
   float getShannonEntropy() 
@@ -733,7 +772,7 @@ class AddersSet2D extends NamedData implements i2DDataSample {
         S+=value;
       }
       return -S;
-    } else return 0.000000009999; //NIE DAŁO SIĘ POLICZYĆ -  fNaN; // może lepiej?
+    } else return INF_NOT_EXIST; //NIE DAŁO SIĘ POLICZYĆ -  fNaN; // może lepiej?
   }
   
 } //_endOfClass Summator2D
