@@ -1,5 +1,5 @@
 /** Function for statistocs visualisation. ("uCharts.pde")
- *  @date 2025-03-05 (last modification)                     @author borkowsk
+ *  @date 2025-03-11 (last modification)                     @author borkowsk
  *  @note This modules could be typically just linked from "Optionals/"
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
@@ -71,10 +71,10 @@ void viewHorizontalAsymptote(float val,iFloatRange MinMax,int startX,int startY,
 {
    if( MinMax.getMin() <= 0 && 0<=MinMax.getMax() && MinMax.getMin()!=MinMax.getMax()  )
    {                                                              assert(MinMax.getMin()<=val && val<=MinMax.getMax());
-     float mval=map(val,MinMax.getMin(),MinMax.getMax(),0,height); //@todo RENAME mval
+     float mVal=map(val,MinMax.getMin(),MinMax.getMax(),0,height);
      textAlign(LEFT,TOP);
-     text(val,startX+width,startY-mval);
-     line(startX,startY-mval,startX+width,startY-mval);
+     text(val,startX+width,startY-mVal);
+     line(startX,startY-mVal,startX+width,startY-mVal);
    }
 }
 
