@@ -1,5 +1,5 @@
 /** Classes for statistics data representations. ("aUtilCData.pde")
- *  @date 2025-03-05 (last modification)                       @author borkowsk
+ *  @date 2025-03-17 (last modification)                       @author borkowsk
  *  @note This modules could be typically just linked from "Optionals/"
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
@@ -163,7 +163,6 @@ class Sample  extends NamedData implements iDataSample, /*_vpi*/ iFloatRange, /*
   int  options=0;                //!< Word 32b, free to use
    
   /// @brief A constructor with just a name.
-  /// @note  For pr2c `super` must be in the same line with constructor name! (@todo still?)
   Sample(String iniName) { super/*NamedData*/(iniName);
     dataList=new FloatList();
     _enabled=new ViewSwitch(true);
@@ -289,34 +288,34 @@ class Sample  extends NamedData implements iDataSample, /*_vpi*/ iFloatRange, /*
   
     if(count==0) return INF_NOT_EXIST;
     int    N=0;
-    double odwroty=0; // @todo RENAME reciprocals... Sum of reciprocals!
+    double reciprocals=0; // Sum of reciprocals!
     
     for(float val:dataList)
     if(val!=INF_NOT_EXIST && val!=0)
     {
-      odwroty+=1.0/((double)val);
+      reciprocals+=1.0/((double)val);
       N++;
     }
     
-    if(odwroty==0) return INF_NOT_EXIST;
-    else return (float)(N/odwroty);
+    if(reciprocals==0) return INF_NOT_EXIST;
+    else return (float)(N/reciprocals);
   }
   
   float getQuadMean() { //!< Current mean square
   
     if(count==0) return INF_NOT_EXIST;
     int    N=0;
-    double kwadraty=0; // @todo RENAME sum of squares
+    double squares=0; // sum of squares
     
     for(float val:dataList)
     if(val!=INF_NOT_EXIST)
     {
-      kwadraty+=sqr(val);
+      squares+=sqr(val);
       N++;
     }
     
     if(N==0) return INF_NOT_EXIST;
-    double ret=kwadraty/N;
+    double ret=squares/N;
     
     if(ret==0) return INF_NOT_EXIST;
     ret=Math.sqrt(ret);
@@ -355,18 +354,18 @@ class Sample  extends NamedData implements iDataSample, /*_vpi*/ iFloatRange, /*
     if(count==0) return INF_NOT_EXIST;
     
     int    N=0;
-    double kwadraty=0; // @todo RENAME sum of squares
+    double squares=0; // sum of squares
     double mean=getMean();
     
     for(float val:dataList)
     if(val!=INF_NOT_EXIST)
     {
-      kwadraty+=sqr(val-mean);
+      squares+=sqr(val-mean);
       N++;
     }
     
     if(N==0) return INF_NOT_EXIST;
-    else return (float)(kwadraty/N);
+    else return (float)(squares/N);
   }
   
   /// @brief Calculates the median of the entire data series.
@@ -585,19 +584,19 @@ class AddersSet1D  extends NamedData implements iDataSample {
     
     if(N>0)
     {
-      double SumOfDifs=0,SumOfVals=0; //@todo rename SumOfDiffs SumOfVars
+      double SumOfDiffs=0,SumOfVals=0;
       for(int i=0;i<N;i++)
       {
         for(int j=0;j<N;j++)
         {
-          SumOfDifs+=Math.abs(locData[i]-locData[j]);
+          SumOfDiffs+=Math.abs(locData[i]-locData[j]);
         }
         SumOfVals+=locData[i];
       }
       
       if((SumOfVals/=N)==0) return INF_NOT_EXIST; // Bo też by było dzielenie przez 0
       
-      return (float)(SumOfDifs/(2*N*N*SumOfVals));
+      return (float)(SumOfDiffs/(2*N*N*SumOfVals));
     }
     else 
     return INF_NOT_EXIST;
