@@ -1,5 +1,5 @@
 /** Function for statistocs visualisation. ("uCharts.pde")
- *  @date 2025-03-11 (last modification)                     @author borkowsk
+ *  @date 2025-03-28 (last modification)                     @author borkowsk
  *  @note This modules could be typically just linked from "Optionals/"
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
@@ -448,7 +448,7 @@ float viewAsColumns(Frequencies hist,float startX,float startY,int width,int hei
   textAlign(LEFT,BOTTOM);
   text(hist.getName()+"\n       max:"+Max
          +(logarithm ?
-           "<=" +hist.higherBucket
+           "≥" +hist.higherBucket
            +" @ "+hist.higherBucketIndex :
             " @ "+hist.higherBucketIndex),
            startX,startY-height);

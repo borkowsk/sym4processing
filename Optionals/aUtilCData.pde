@@ -1,5 +1,5 @@
 /** Classes for statistics data representations. ("aUtilCData.pde")
- *  @date 2025-03-17 (last modification)                       @author borkowsk
+ *  @date 2025-03-28 (last modification)                       @author borkowsk
  *  @note This modules could be typically just linked from "Optionals/"
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
@@ -231,7 +231,18 @@ class Sample  extends NamedData implements iDataSample, /*_vpi*/ iFloatRange, /*
   
   float getElementAt(int index) { return dataList.get(index); }
   
-  float get(int index) { return dataList.get(index); }
+  float get(int index) {
+    int size=dataList.size();
+    if(size==0) return INF_NOT_EXIST;
+    if(index<0) {
+      index=-index;
+      if(index<0) index=0;
+      return dataList.get(index);
+    } else {
+      if(index>=dataList.size()) index=dataList.size()-1;
+      return dataList.get(index);
+    }
+  }
   
   /* void addToElement(int index,float whatToAdd) { _data.add(index,whatToAdd); } */
   
