@@ -1,5 +1,5 @@
 /// Tools for CSV files. ("uFileAppend.pde")
-/// @date 2024-11-22 (Last modification)
+/// @date 2025-04-02 (Last modification)
 //-//////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup StreamUtils Functions & classes for streams & files
@@ -37,7 +37,7 @@ void appendTextToFile(String filename, String text) ///< GLOBAL
   }
 }
 
-/// Creates a new file including all subfolders in the path.
+/// Creates a new file including all sub-folders in the path.
 void createFile(File f)
 {
   File parentDir = f.getParentFile();

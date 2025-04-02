@@ -1,5 +1,5 @@
 /// Various helpful drawing procedures, like crosses, polygons & bar3D. ("uGraphix.pde")
-/// @date 2024-11-22 (last modification)
+/// @date 2025-04-02 (last modification)
 //-///////////////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Generally usable graphic
@@ -107,45 +107,45 @@ color back=color(0,0,0); //Informacja o kolorze tla
 /// @brief Default configuration set of BAR3D visualisation.
 settings_bar3d bar_3D_settings=new settings_bar3d();                       ///< Default settings of bar3d
 
-/// @brief Rhomb polygon used for draving bar3D
-pointXY[] bar_3D_romb =                                                ///< @note Global namespace!
+/// @brief The rhombus polygon used for driving `bar3D`.
+pointXY[] bar_3D_rhombus =                                                ///< @note Global namespace!
   {new pointXY(),new pointXY(),new pointXY(),new pointXY(),new pointXY(),new pointXY()};
 
-/// @brief Function which draving bar3d using current configuration.
+/// @brief Function which driving `bar3d` using current configuration.
 void bar3dRGB(float x,float y,float h,int R,int G,int B,int Shad)    ///< @note Global namespace!
 {
-                                                               /*      6 ------ 5    */
-  bar_3D_romb[0].x= x;                                         /*     /        / |   */
-  bar_3D_romb[0].y= y - h;                                     /*    1 ------ 2  |   */
-  bar_3D_romb[1].x= x + bar_3D_settings.a;                     /*    |        |  |   */
-  bar_3D_romb[1].y= bar_3D_romb[1-1].y;                        /*    |        |  |   */
-  bar_3D_romb[2].x= bar_3D_romb[2-1].x;                        /*    |        |  |   */
-  bar_3D_romb[2].y= y;                                         /*    |        |  4   */
-  bar_3D_romb[3].x= x + bar_3D_settings.a + bar_3D_settings.b; /*    |        | /  c */
-  bar_3D_romb[3].y= y - bar_3D_settings.c;                     /*  x,y ------ 3      */
-  bar_3D_romb[4].x= bar_3D_romb[4-1].x;                        /*         a      b   */
-  bar_3D_romb[4].y= y - h - bar_3D_settings.c;
-  bar_3D_romb[5].x= x + bar_3D_settings.b;
-  bar_3D_romb[5].y= bar_3D_romb[5-1].y;
+                                                                  /*      6 ------ 5    */
+  bar_3D_rhombus[0].x= x;                                         /*     /        / |   */
+  bar_3D_rhombus[0].y= y - h;                                     /*    1 ------ 2  |   */
+  bar_3D_rhombus[1].x= x + bar_3D_settings.a;                     /*    |        |  |   */
+  bar_3D_rhombus[1].y= bar_3D_rhombus[1-1].y;                     /*    |        |  |   */
+  bar_3D_rhombus[2].x= bar_3D_rhombus[2-1].x;                     /*    |        |  |   */
+  bar_3D_rhombus[2].y= y;                                         /*    |        |  4   */
+  bar_3D_rhombus[3].x= x + bar_3D_settings.a + bar_3D_settings.b; /*    |        | /  c */
+  bar_3D_rhombus[3].y= y - bar_3D_settings.c;                     /*  x,y ------ 3      */
+  bar_3D_rhombus[4].x= bar_3D_rhombus[4-1].x;                     /*         a      b   */
+  bar_3D_rhombus[4].y= y - h - bar_3D_settings.c;
+  bar_3D_rhombus[5].x= x + bar_3D_settings.b;
+  bar_3D_rhombus[5].y= bar_3D_rhombus[5-1].y;
 
   fill(R,G,B);
   rect(x,y-h,bar_3D_settings.a,h+1);         //front
 
   fill(R/Shad,G/Shad,B/Shad);
-  polygon(bar_3D_romb/*+1*/,6);              //bok i gora
+  polygon(bar_3D_rhombus/*+1*/,6);           //bok i gora
 
   stroke(bar_3D_settings.wire);
-  //rect(bar3dromb[1-1].x,bar3dromb[1-1].y,bar3dromb[2-1].x+1,bar3dromb[2-1].y+1); //gorny poziom
-  //rect(x,y,bar3dromb[3-1].x+1,bar3dromb[3-1].y+1);       //dolny poziom
+  //rect(bar_3D_rhombus[1-1].x,bar_3D_rhombus[1-1].y,bar_3D_rhombus[2-1].x+1,bar_3D_rhombus[2-1].y+1); //górny poziom
+  //rect(x,y,bar_3D_rhombus[3-1].x+1,bar_3D_rhombus[3-1].y+1);       //dolny poziom
 
-  line(bar_3D_romb[2-1].x,bar_3D_romb[2-1].y,bar_3D_romb[5-1].x,bar_3D_romb[5-1].y); //blik?
+  line(bar_3D_rhombus[2-1].x,bar_3D_rhombus[2-1].y,bar_3D_rhombus[5-1].x,bar_3D_rhombus[5-1].y); //blik?
 
-  //point(bar3dromb[5].x,bar3dromb[5].y,wire_col-1);
-  line(bar_3D_romb[1-1].x,bar_3D_romb[1-1].y,bar_3D_romb[6-1].x,bar_3D_romb[6-1].y); //lewy ukos
-  line(bar_3D_romb[2-1].x,bar_3D_romb[2-1].y,bar_3D_romb[3-1].x,bar_3D_romb[3-1].y); //prawy ukos
-  line(bar_3D_romb[3-1].x,bar_3D_romb[3-1].y,bar_3D_romb[4-1].x,bar_3D_romb[4-1].y); //dolny ukos
-  line(bar_3D_romb[4-1].x,bar_3D_romb[4-1].y,bar_3D_romb[5-1].x,bar_3D_romb[5-1].y); //tyl bok
-  line(bar_3D_romb[5-1].x,bar_3D_romb[5-1].y,bar_3D_romb[6-1].x,bar_3D_romb[6-1].y); //tyl bok
+  //point(bar_3D_rhombus[5].x,bar_3D_rhombus[5].y,wire_col-1);
+  line(bar_3D_rhombus[1-1].x,bar_3D_rhombus[1-1].y,bar_3D_rhombus[6-1].x,bar_3D_rhombus[6-1].y); //lewy ukos
+  line(bar_3D_rhombus[2-1].x,bar_3D_rhombus[2-1].y,bar_3D_rhombus[3-1].x,bar_3D_rhombus[3-1].y); //prawy ukos
+  line(bar_3D_rhombus[3-1].x,bar_3D_rhombus[3-1].y,bar_3D_rhombus[4-1].x,bar_3D_rhombus[4-1].y); //dolny ukos
+  line(bar_3D_rhombus[4-1].x,bar_3D_rhombus[4-1].y,bar_3D_rhombus[5-1].x,bar_3D_rhombus[5-1].y); //tyl bok
+  line(bar_3D_rhombus[5-1].x,bar_3D_rhombus[5-1].y,bar_3D_rhombus[6-1].x,bar_3D_rhombus[6-1].y); //tyl bok
 
  // rect(x,y-h,1,h+1,wire_col);       // the left vertical edge is additionally marked
 } /* end of bar3dRGB */

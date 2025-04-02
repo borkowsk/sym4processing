@@ -1,5 +1,5 @@
 /// Various shapes drawing procedures. ("uFigures.pde")
-/// @date 2024-11-22 (last modification)                        @author borkowsk
+/// @date 2025-04-02 (last modification)                        @author borkowsk
 //-/////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Generally usable graphic
@@ -101,10 +101,10 @@ void agave_ver(float x,float y,float visual_size,float num_of_leafs)    ///< @no
 /// @brief Horizontal view on agave plant.
 void agave_hor(float x,float y,float visual_size,float num_of_leafs)      ///< @note Global namespace!
 {
-  float lStep=(2*PI) / min(num_of_leafs,3)+PI/5;
-  float maxan=lStep*num_of_leafs;
+  float l_step=(2*PI) / min(num_of_leafs,3)+PI/5;
+  float max_angle=l_step*num_of_leafs;
   
-  for(float angle=lStep/2;angle<=maxan;angle+=lStep)
+  for(float angle=l_step/2;angle<=max_angle;angle+=l_step)
   {
     visual_size*=0.966;
     float x0=x+cos(angle+PI/2)*visual_size/8;
@@ -131,21 +131,21 @@ void gas_bottle_droid_ver(float x,float y,float visual_size,float direction)    
   
   if(-.25*PI<=direction && direction<=PI*1.25) //Przód
   {
-    float rotx=x+cos(direction)*visual_size/4.;
-    float rots=visual_size/8.*sin(direction);
+    float rot_x=x+cos(direction)*visual_size/4.;
+    float rot_s=visual_size/8.*sin(direction);
 
     fill(200);
-    arc(rotx,y-visual_size+visual_size/5.,rots,visual_size/10.,1. / 2.0*PI,6.0/4.0*PI,PIE); //nos lewo
-    arc(rotx,y-visual_size+visual_size/5.,rots,visual_size/10.,6. / 4.0*PI,2.5*PI,PIE); //nos prawo
+    arc(rot_x,y-visual_size+visual_size/5.,rot_s,visual_size/10.,1. / 2.0*PI,6.0/4.0*PI,PIE); //nos lewo
+    arc(rot_x,y-visual_size+visual_size/5.,rot_s,visual_size/10.,6. / 4.0*PI,2.5*PI,PIE); //nos prawo
         
-    float lefte=(direction - PI/4 >0  ? x+cos(direction-PI/4)*visual_size/4 : x + visual_size/4);
-    float rigte=(direction + PI/4 <PI ? x+cos(direction+PI/4)*visual_size/4 : x-visual_size/4);
+    float left_e=(direction - PI/4 >0  ? x+cos(direction-PI/4)*visual_size/4 : x + visual_size/4);
+    float rigt_e=(direction + PI/4 <PI ? x+cos(direction+PI/4)*visual_size/4 : x-visual_size/4);
     
     stroke(64,0,0);
-    line(lefte,y-visual_size+visual_size/5+visual_size/10,rigte,y-visual_size+visual_size/5+visual_size/10); //usta
+    line(left_e,y-visual_size+visual_size/5+visual_size/10,rigt_e,y-visual_size+visual_size/5+visual_size/10); //usta
     stroke(0,0,64);
-    line(lefte,y-visual_size+visual_size/16,lefte,y-visual_size+visual_size/8); //jego lewe oko
-    line(rigte,y-visual_size+visual_size/16,rigte,y-visual_size+visual_size/8); //jego prawe oko
+    line(left_e,y-visual_size+visual_size/16,left_e,y-visual_size+visual_size/8); //jego lewe oko
+    line(rigt_e,y-visual_size+visual_size/16,rigt_e,y-visual_size+visual_size/8); //jego prawe oko
     
     float lefth=(direction - PI/4 >0  ? x+cos(direction-PI/4)*visual_size/3 : x + visual_size/3);
     float lefts=(direction - PI/5 >0  ? x+cos(direction-PI/5)*visual_size/3 : x + visual_size/3);

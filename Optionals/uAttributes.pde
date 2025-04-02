@@ -1,8 +1,8 @@
 /// Interfejsy do czytani i zapisywania nazwanych stringami atrybutów obiektów.
-/// @date 2024-11-22 (last modified)
+/// @date 2025-04-02 (last modified)
 //-////////////////////////////////////////////////////////////////////////////
 
-/// @defgroup Interproces communication tools
+/// @defgroup Interprocess communication tools
 /// @{
 //-//////////////////////////////////////////
 
@@ -84,7 +84,7 @@ class SimpleAttributeManager implements iAttributeManager
     return objects.get(name);
   }
   
-  /// Helper function to split a string into path and attribute name and put it into `retpair`. 
+  /// Helper function to split a string into path and attribute name and put it into `retPair`.
   /// @note This won't work in multithreading conditions!!!
   boolean _splitNameFromPath(String name)
   {

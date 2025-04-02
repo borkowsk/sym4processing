@@ -1,5 +1,5 @@
-/** Function for statistocs visualisation. ("uCharts.pde")
- *  @date 2025-03-28 (last modification)                     @author borkowsk
+/** Function for statistics visualisation. ("uCharts.pde")
+ *  @date 2025-04-02 (last modification)                     @author borkowsk
  *  @note This modules could be typically just linked from "Optionals/"
  *  @details 
  *     It needs "uUtilCData.pde" & "uFigures.pde"
@@ -66,7 +66,7 @@ void viewScaleV(iFloatRange MinMax,int startX,int startY,int width,int height)  
    text(""+MinMax.getMax(),startX+width,startY-height);
 }
 
-/// @brief Visualise horisontal asymptotic straight line
+/// @brief Visualise horizontal asymptotic straight line
 void viewHorizontalAsymptote(float val,iFloatRange MinMax,int startX,int startY,int width,int height) ///< @note GLOBAL
 {
    if( MinMax.getMin() <= 0 && 0<=MinMax.getMax() && MinMax.getMin()!=MinMax.getMax()  )
@@ -100,7 +100,7 @@ void viewZeroArrow(iFloatRange MinMax,int startX,int startY,int width,int height
  @param  logarithm,
  @param  commMinMax,
  @param  connect : or connect points into a polyline (true/false)                              */
-void viewAsPoints(iDataSample data,int startD,float startX,float startY,int width,int height,iFloatRange commMinMax,boolean connect,boolean percent) ///<  @NOTE GLOBAL. Musi być w jednej lini dla C++
+void viewAsPoints(iDataSample data,int startD,float startX,float startY,int width,int height,iFloatRange commMinMax,boolean connect,boolean percent) ///<  @NOTE GLOBAL. Musi być w jednej linii dla C++
 {
   boolean logarithm=data.isOption(LOGARITHM_MASK);
   float Min;
@@ -155,7 +155,7 @@ void viewAsPoints(iDataSample data,int startD,float startX,float startY,int widt
   }
 
   float wid=float(width) / (N-startD);    //println(width,N,startD,wid,min,max);
-  float oldy=-Float.MIN_VALUE;
+  float old_y=-Float.MIN_VALUE;
   
   for(int t=startD;t<N;t++)
   {
@@ -163,7 +163,7 @@ void viewAsPoints(iDataSample data,int startD,float startX,float startY,int widt
     
     if(val==INF_NOT_EXIST) 
     {
-      oldy=-Float.MIN_VALUE;
+      old_y=-Float.MIN_VALUE;
       continue;
     }
     
@@ -175,9 +175,9 @@ void viewAsPoints(iDataSample data,int startD,float startX,float startY,int widt
       val=map(val,Min,Max,0,height);
     
     float x=(t-startD)*wid;
-    if(connect && oldy!=-Float.MIN_VALUE)
+    if(connect && old_y!=-Float.MIN_VALUE)
     {
-      line (startX+x-wid,startY-oldy,startX+x,startY-val); 
+      line (startX+x-wid,startY-old_y,startX+x,startY-val); 
                                                 //println(wid,x-wid,oldy,x,val);
     }
     else
@@ -187,7 +187,7 @@ void viewAsPoints(iDataSample data,int startD,float startX,float startY,int widt
       line(startX+x,startY-val+2,startX+x,startY-val-1); 
     }
     
-    if(connect) oldy=val;
+    if(connect) old_y=val;
     
     if(t==data.whereMax() || t==data.whereMin())
     {
@@ -218,7 +218,7 @@ void viewAsPoints(iDataSample data,int startD,float startX,float startY,int widt
   PL:param Sample data : Źródło danych
   PL:param int startD  : Punkt startowy wyświetlania, albo liczba od końca - gdy ujemna
   PL:param float startX,float startY,int width,int height : Położenie i rozmiar
-  PL:param boolean logaritm : CZY LOGARYTMOWAĆ DANE?
+  PL:param boolean logarithm : CZY LOGARYTMOWAĆ DANE?
   PL:param Range commMinMax : ZADANY ZAKRES y
   PL:param boolean connect  : Czy łączyć punkty linią?    */
 void viewAsPoints(iDataSample data,int startD,float startX,float startY,int width,int height,boolean logarithm,iFloatRange commMinMax,boolean connect) /// @NOTE GLOBAL
@@ -355,7 +355,7 @@ void viewAsVerticals(iDataSample data,int startD,float startX,float startY,int w
   @param startR,finR  : The range visibility window 
   @param startX,startY,width,height : Screen location and size
   @param mapper : mapping values to colors
-  @param solid  : swith beetwen solid bars versus boxes */
+  @param solid  : switch between solid bars versus boxes */
 void viewAsRanges(iRangesDataSample ranges,float startR,float finR,float startX,float startY,int width,int height,boolean solid,iColorMapper mapper) ///< @NOTE GLOBAL. For C++ translation MUST be in one line!
 {
   if(solid) noStroke(); else noFill();
@@ -415,10 +415,10 @@ float viewAsColumns(Frequencies hist,float startX,float startY,int width,int hei
   
   if(hist.outsideHig>0)
   {
-    color hfill=hist.getColor();
-    float r=red(hfill)*1.5,g=green(hfill)*1.5,b=blue(hfill)*1.5;
-    hfill=color( (r<256?r:255) , (g<256?g:255) , (b<256?b:255) , alpha(hfill) );
-    fill(hfill);
+    color hist_fill=hist.getColor();
+    float r=red(hist_fill)*1.5,g=green(hist_fill)*1.5,b=blue(hist_fill)*1.5;
+    hist_fill=color( (r<256?r:255) , (g<256?g:255) , (b<256?b:255) , alpha(hist_fill) );
+    fill(hist_fill);
     
     float hei;
     if(logarithm)
@@ -431,9 +431,9 @@ float viewAsColumns(Frequencies hist,float startX,float startY,int width,int hei
   
   if(hist.outsideLow>0)
   {
-    color hfill=hist.getColor();
-    hfill=color( red(hfill) / 2, green(hfill) / 2 , blue(hfill) / 2, alpha(hfill));
-    fill(hfill);
+    color hist_fill=hist.getColor();
+    hist_fill=color( red(hist_fill) / 2, green(hist_fill) / 2 , blue(hist_fill) / 2, alpha(hist_fill));
+    fill(hist_fill);
     
     float hei;
     if(logarithm)
@@ -458,7 +458,7 @@ float viewAsColumns(Frequencies hist,float startX,float startY,int width,int hei
   text(""+hist.upperBuck,startX+width,startY);   
            
   //Real width of histogram
-  float realWidth=(hist.buckets.length)*wid; //println(realwidth);noLoop();                                         
+  float realWidth=(hist.buckets.length)*wid; //println(realWidth); noLoop();
   return realWidth;
 }
 
@@ -468,8 +468,8 @@ void viewAsTilesRow(iDataSample data,float startX,float startY,int width,int hei
   float minimum=data.getMin();
   float maximum=data.getMax();
   int   cols=data.size();
-  float celWidth=width/cols;
-  float celHeigh=min(celWidth,height);
+  float cellWidth=width/cols;
+  float cellHigh=min(cellWidth,height);
   
   for(int c=0;c<cols;c++)
   {
@@ -482,7 +482,7 @@ void viewAsTilesRow(iDataSample data,float startX,float startY,int width,int hei
       fill(random(100),0,0);
     }
     
-    rect(startX+c*celWidth,startY,celWidth,celHeigh);
+    rect(startX+c*cellWidth,startY,cellWidth,cellHigh);
   }
 }
 

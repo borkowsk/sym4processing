@@ -1,5 +1,5 @@
 /// Different ways to calculate Euclid distances in flat 2D or torus. ("uMDistances.pde")
-/// @date 2024-11-22 (Last modification)                        @author borkowsk 
+/// @date 2025-04-02 (Last modification)                        @author borkowsk 
 //-////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup General math tools and functions
@@ -19,8 +19,8 @@ float   sqr(float x)     ///< @note GLOBAL!
 double  sqr(double x)    ///< @note GLOBAL! 
 { return x*x; }
 
-final float fNaN = 2.1f / 0.0f;  ///< `float` not a number ! (in C++ operator `%` for `float` is forbiden!)
-final double NaN = 2.1 / 0.0;    ///< `double` not a number ! (in C++ operator `%` for `double` is forbiden!)
+final float fNaN = 2.1f / 0.0f;  ///< `float` not a number ! (in C++ operator `%` for `float` is forbidden!)
+final double NaN = 2.1 / 0.0;    ///< `double` not a number ! (in C++ operator `%` for `double` is forbidden!)
 
 /// @brief Default Euclidean distance on float numbers.
 /// @details Often needed in simulation programs.

@@ -1,5 +1,5 @@
 /// Common INTERFACES like `iNamed`, iDescribable, iColorable, iPositioned. ("aInterfaces.pde")
-/// @date 2024-11-22 (last modification)                       @author borkowsk
+/// @date 2025-04-02 (last modification)                       @author borkowsk
 /// @note General interfaces for "optional" modules could be typically just linked from "Optionals/"
 //-/////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -88,30 +88,20 @@ interface iResettable
   /*_interfunc*/ void               reset() /*_forcebody*/;
 } //_EofCl
 
+/** @brief Interface for export object state in YAML format */
+interface iPrintableForYAML
+{
+    /*_interfunc*/ String       printableState() /*_forcebody*/;
+} //_EofCl
+
 /** @brief Interface for read only set of agent attributes */
 interface iAttributeGets 
 {
   /*_interfunc*/ int         getIntAttribute(String attrName ) /*_forcebody*/;
   /*_interfunc*/ float     getFloatAttribute(String attrName ) /*_forcebody*/;
   /*_interfunc*/ String   getStringAttribute(String attrName ) /*_forcebody*/;
-  /*_interfunc*/ String       printableState() /*_forcebody*/;
 } //_EofCl
 
-/** @brief Any simulation agent */
-interface iAgent extends iNamed, /*_pvi*/ iDescribable, /*_pvi*/ iAttributeGets
-{
-  /// Derived methods:
-  ///  *  `_interfunc String           getName() /*_forcebody*/;`
-  ///  *  `_interfunc String              name() /*_forcebody*/;`
-  
-  ///  *  `_interfunc String    getDescription() /*_forcebody*/;`
-  ///  *  `_interfunc String       description() /*_forcebody*/;`
-  
-  ///  *  `_interfunc int        getIntAttribute(String attrName ) /*_forcebody*/;`
-  ///  *  `_interfunc float    getFloatAttribute(String attrName ) /*_forcebody*/;`
-  ///  *  `_interfunc String      printableState() /*_forcebody*/;`
-  
-} //_EofCl
 
 /** @brief Model time measuring interface */
 interface iModelTimer

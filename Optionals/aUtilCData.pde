@@ -1,5 +1,5 @@
 /** Classes for statistics data representations. ("aUtilCData.pde")
- *  @date 2025-03-28 (last modification)                       @author borkowsk
+ *  @date 2025-04-02 (last modification)                       @author borkowsk
  *  @note This modules could be typically just linked from "Optionals/"
  *  @details 
  *      It needs "aInterfaces.pde", "uMDistances.pde"
@@ -179,7 +179,7 @@ class Sample  extends NamedData implements iDataSample, /*_vpi*/ iFloatRange, /*
     _enabled=defEnabled;
   }
   
-  /// @brief Multiparameter constructor.
+  /// @brief Multi-parameter constructor.
   /// @param   `Name` is the name of the data series
   /// @param   `defColor` is the display color
   /// @param   `defEnabled` is a reference to the display flag on which the series depends.
@@ -246,18 +246,18 @@ class Sample  extends NamedData implements iDataSample, /*_vpi*/ iFloatRange, /*
   
   /* void addToElement(int index,float whatToAdd) { _data.add(index,whatToAdd); } */
   
-  /// @brief Shortening the series to `longOfRemained` the last elements.
-  void remain(int longOfRemained)   
+  /// @brief Shortening the series to `longOfReminded` the last elements.
+  void remain(int longOfReminded)   
   {
-    if(longOfRemained>=dataList.size())
+    if(longOfReminded>=dataList.size())
           return; //Nothing to do!
-                                   //println(name(),data.size(),longOfremained);
+                                   //println(name(),data.size(),longOfReminded); 
     FloatList oldData=dataList;
     dataList=null; //We cut it off
     reset();
-    dataList=new FloatList(longOfRemained*2); //Initial capacity?
-                                //@todo RENAME println(name(),oldData.size(),longOfRemained);
-    int i=oldData.size()-longOfRemained;
+    dataList=new FloatList(longOfReminded*2); //Initial capacity?
+                                //@todo RENAME println(name(),oldData.size(),longOfReminded);
+    int i=oldData.size()-longOfReminded;
     int end=oldData.size();
     for(;i<end;i++)
       consider(oldData.get(i));
@@ -490,7 +490,7 @@ class AddersSet1D  extends NamedData implements iDataSample {
   float[]     data=null;
   
   /** @brief SOLE CONSTRUCTOR */
-  AddersSet1D(String iniName,int iniSize) { super/*NamedData*/(iniName); //Javowe "super" musi być w tej samej lini co otwierające {
+  AddersSet1D(String iniName,int iniSize) { super/*NamedData*/(iniName); //Java-owe "super" musi być w tej samej linii co otwierające {
     sizeOfData=iniSize;
     data=new float[sizeOfData];             
     assert(data[0]==0);
@@ -641,7 +641,7 @@ class AddersSet1D  extends NamedData implements iDataSample {
     return INF_NOT_EXIST; //NIE DAŁO SIĘ POLICZYĆ -  fNaN; // może lepiej?
   }
   
-} //_endOfClass Summator1D
+} //_endOfClass AddersSet1D
 
 /** @brief ... */
 class AddersSet2D extends NamedData implements i2DDataSample {
@@ -785,7 +785,7 @@ class AddersSet2D extends NamedData implements i2DDataSample {
     } else return INF_NOT_EXIST; //NIE DAŁO SIĘ POLICZYĆ -  fNaN; // może lepiej?
   }
   
-} //_endOfClass Summator2D
+} //_endOfClass AddersSet2D
 
 /// @brief   Class for representing frequencies.
 /// @details This class represents a named histogram of frequencies.
@@ -839,7 +839,7 @@ class Frequencies extends NamedData implements iFlag,iDataSample,iColor
     higherBucket=0;
   }
     
-  /// @brief It tekes the real value & updates the corresponding bucket.
+  /// @brief It takes the real value & updates the corresponding bucket.
   void consider(float value)
   {
     if(value==INF_NOT_EXIST) return;
