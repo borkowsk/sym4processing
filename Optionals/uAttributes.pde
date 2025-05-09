@@ -1,5 +1,5 @@
 /// Interfejsy do czytani i zapisywania nazwanych stringami atrybutów obiektów.
-/// @date 2025-04-02 (last modified)
+/// @date 2025-05-09 (last modified)
 //-////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Interprocess communication tools
@@ -15,11 +15,11 @@ interface iReadWriteAttributes {
   /// It reads a particular attribute. @returns attribute value or NaN if something went wrong.
   /*_interfunc*/ double   numAttribute(String name) /*_forcebody*/;
   /// It sets a particular attribute. @returns previous attribute value or NaN if something went wrong.
-  /*_interfunc*/ double   numAttribute(String name,double value) /*_forcebody*/;
+  /*_interfunc*/ double   numAttribute(String name,double new_value) /*_forcebody*/;
   /// It reads a particular string attribute. @returns attribute value or `null` if something went wrong.
   /*_interfunc*/ String   strAttribute(String name) /*_forcebody*/;
   /// It sets a particular string attribute. @returns previous attribute value or NaN if something went wrong.
-  /*_interfunc*/ String   strAttribute(String name,String value) /*_forcebody*/;
+  /*_interfunc*/ String   strAttribute(String name,String new_value) /*_forcebody*/;
 } //_EofCl
 
 /// Interface for managing object attributes. 
@@ -85,6 +85,7 @@ class SimpleAttributeManager implements iAttributeManager
   }
   
   /// Helper function to split a string into path and attribute name and put it into `retPair`.
+  /// @details Uses `SimpleAttributeManager::separator` which is "." by default, but could be almost anything.
   /// @note This won't work in multithreading conditions!!!
   boolean _splitNameFromPath(String name)
   {
@@ -108,11 +109,11 @@ class SimpleAttributeManager implements iAttributeManager
   }
 
   /// It sets a particular attribute. @returns previous attribute value.
-  double   numAttribute(String name,double value) /*_override*/
+  double   numAttribute(String name,double new_value) /*_override*/
   {
     if(_splitNameFromPath(name)){
       iReadWriteAttributes object=objects.get( retPair[0] );
-      return object.numAttribute( retPair[1] , value );
+      return object.numAttribute( retPair[1] , new_value );
     }
     else return NaN;
   }
@@ -128,11 +129,11 @@ class SimpleAttributeManager implements iAttributeManager
   }
   
   /// It sets a particular string attribute. @returns previous attribute value or NaN if something went wrong.
-  String   strAttribute(String name,String value)  /*_override*/
+  String   strAttribute(String name,String new_value)  /*_override*/
   {
     if(_splitNameFromPath(name)){
       iReadWriteAttributes object=objects.get( retPair[0] );
-      return object.strAttribute( retPair[1] , value );
+      return object.strAttribute( retPair[1] , new_value );
     }
     else return null;
   }
