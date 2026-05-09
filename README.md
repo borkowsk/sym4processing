@@ -1,5 +1,5 @@
 # sym4processing - various simulation resources in processing
-## @date 2024-10-01 (last modification)
+## @date 2026-05-09 (last modification)
 
 ![UNDER CONSTANT CONSTRUCTION](./docs/rebuilding-house.gif)
 
