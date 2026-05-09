@@ -1,6 +1,6 @@
-/// Interfejsy do czytani i zapisywania nazwanych stringami atrybutów obiektów.
-/// @date 2025-05-09 (last modified)
-//-////////////////////////////////////////////////////////////////////////////
+/// Interfejsy do czytania i zapisywania nazwanych stringami atrybutów obiektów (aAttributes.pde)
+/// @date 2026-05-09 (last modified)
+//-//////////////////////////////////////////////////////////////////////////////////////////////
 
 /// @defgroup Interprocess communication tools
 /// @{
