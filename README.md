@@ -1,6 +1,8 @@
 # sym4processing - various simulation resources in processing
 ## @date 2024-10-01 (last modification)
 
+![UNDER CONSTANT CONSTRUCTION](./docs/rebuilding-house.gif)
+
 Processing files supporting various simulation applications and giving them 
 selected possibilities and properties:
 
